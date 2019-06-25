@@ -1,0 +1,48 @@
+# Diff
+
+*.doc diff=astextplain
+*.docx diff=astextplain
+*.dot diff=astextplain
+*.pdf diff=astextplain
+*.rtf diff=astextplain
+*.cs diff=csharp
+
+# Text
+*.cs text
+*.md text
+*.adoc text
+*.textile text
+*.mustache text
+*.csv text
+*.tab text
+*.tsv text
+*.sql text
+*.svg text
+*.ps1 text
+*.xml text
+*.xaml text
+*.babel text
+*.msbuild text
+*.sln text
+*.csproj text
+*.vbproj text
+*.fsproj text
+*.dbproj text
+*.config text
+
+# Binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+
+# Merge
+# *.sln merge=union
+# *.csproj merge=union
+# *.vbproj merge=union
+# *.fsproj merge=union
+# *.dbproj merge=union
+# *.msbuild merge=union
+
+* text=crlf
