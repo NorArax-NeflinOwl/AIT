@@ -1,0 +1,198 @@
+package com.arno;
+
+import com.arno.entities.AccountEntity;
+import com.arno.hibernate.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
+
+public class AppConsole {
+
+    private static Session sessionObj;
+
+    public static void main(String[] args) {
+        while(true) {
+            main();
+        }
+    }
+
+    private static void main() {
+        System.out.println("\n\n.......Hibernate Maven Example.......\n.......Choose example medhod:........" +
+                "\n[Insert] - insert 5 examples users to db" +
+                "\n[SELECT] - select all users from db and print" +
+                "\n[DELETE] - delete one row from db by id" +
+                "\n[UPDATE] - udpate one row from db by id and new values" +
+                "\n[CLEAR] - clear table" +
+                "\nSelect [i] or [s] or [d] or [u] or [c]...");
+
+        String id;
+        Scanner scn = new Scanner(System.in);
+        switch (scn.nextLine().toLowerCase()) {
+            case "i":
+                insert5ExampleRowToDB();
+                break;
+            case "s":
+                printAllUsersFromDB();
+                break;
+            case "d":
+                System.out.print("[id] = ");
+                id = scn.nextLine();
+                deleteOneRowFromDB(id);
+                break;
+            case "u":
+                System.out.print("[id] = ");
+                id = scn.nextLine();
+                System.out.println("Choose row: 'user_name' by [n] or 'created_by' by [c] or 'created_date' by [d]");
+                String row = scn.nextLine();
+
+                System.out.print("[new value] = ");
+                String newValue = scn.nextLine();
+                updateOneRowInDB(id, row, newValue);
+                break;
+            case "c":
+                clearTable();
+                break;
+            default:
+                System.out.println("You not select [i] or [s] or [d] or [u] or [e]...\n RELOAD!");
+                break;
+        }
+    }
+
+    private static void insert5ExampleRowToDB() {
+        try {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            sessionObj.beginTransaction();
+
+            for(int i = 101; i <= 105; i++) {
+                AccountEntity userObj = new AccountEntity();
+                userObj.setLogin("Test acccount " + i);
+                userObj.setMail("Administrator@gov.com");
+                userObj.setCreateDate(new Date());
+
+                sessionObj.save(userObj);
+            }
+            System.out.println("\n.......Records Saved Successfully To The Database.......\n");
+
+            // Committing The Transactions To The Database
+            sessionObj.getTransaction().commit();
+        } catch(Exception sqlException) {
+            if(null != sessionObj.getTransaction()) {
+                System.out.println("\n.......Transaction Is Being Rolled Back.......");
+                sessionObj.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            if(sessionObj != null) {
+                sessionObj.close();
+            }
+        }
+    }
+
+    private static void printAllUsersFromDB() {
+        try {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            List<AccountEntity> users = sessionObj.createQuery("from accounts", AccountEntity.class).list();
+
+            System.out.println();
+            if(users.isEmpty())
+                System.out.println("TABLE IS EMPTY!!!");
+            else
+                users.forEach(System.out::println);
+
+        }catch (Exception sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            if(sessionObj != null) {
+                sessionObj.close();
+            }
+        }
+    }
+
+    private static void deleteOneRowFromDB(String id) {
+        try {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            sessionObj.beginTransaction();
+
+            Query query = sessionObj.createQuery("delete from users where user_id = :id");
+            query.setParameter("id", id);
+            int result = query.executeUpdate();
+
+            if(result != Integer.parseInt(id))
+                System.out.println(".......Delete successfully.......");
+            else
+                System.out.println(".......No deleted!!!.......");
+
+            sessionObj.getTransaction().commit();
+        }catch (Exception sqlException) {
+            if(sessionObj != null)
+                sessionObj.getTransaction().rollback();
+            sqlException.printStackTrace();
+        } finally {
+            if(sessionObj != null) {
+                sessionObj.close();
+            }
+        }
+    }
+
+    private static void updateOneRowInDB(String id, String row, String newValue) {
+        try {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            sessionObj.beginTransaction();
+
+            String q = "";
+            switch (row.toLowerCase()) {
+                case "n":
+                    q = "update users set user_name = :newValue where user_id = :id";
+                    break;
+                case "c":
+                    q = "update users set created_by = :newValue where user_id = :id";
+                    break;
+                case "d":
+                    q = "update users set created_date = :newValue where user_id = :id";
+                    break;
+            }
+
+            Query query = sessionObj.createQuery(q);
+
+            query.setParameter("id", id);
+            query.setParameter("newValue", newValue);
+
+            int result = query.executeUpdate();
+            if (result != Integer.parseInt(id))
+                System.out.println(".......Update successfully.......");
+            else
+                System.out.println(".......No updated!!!.......");
+
+            sessionObj.getTransaction().commit();
+        }catch (Exception sqlException) {
+            if(sessionObj != null)
+                sessionObj.getTransaction().rollback();
+            sqlException.printStackTrace();
+        } finally {
+            if(sessionObj != null) {
+                sessionObj.close();
+            }
+        }
+    }
+
+    private static void clearTable() {
+        try {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            sessionObj.beginTransaction();
+            Query query = sessionObj.createQuery("delete from users");
+            query.executeUpdate();
+            sessionObj.getTransaction().commit();
+        }catch (Exception sqlException) {
+            if(sessionObj != null)
+                sessionObj.getTransaction().rollback();
+            sqlException.printStackTrace();
+        } finally {
+            if(sessionObj != null) {
+                sessionObj.close();
+            }
+        }
+    }
+}
