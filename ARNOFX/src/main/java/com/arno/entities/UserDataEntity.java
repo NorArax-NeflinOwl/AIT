@@ -11,6 +11,7 @@ public class UserDataEntity {
     @Column(name = "ust_id")
     private int id;
 
+    @OneToOne
     @Column(name = "ust_accid")
     private int accountId;
 
@@ -29,9 +30,13 @@ public class UserDataEntity {
     @Column(name = "ust_lastupdate")
     private Date lastUpdate;
 
+    @OneToOne
+    @JoinColumn(name = "userData_account_id")
+    private AccountEntity account;
+
     public UserDataEntity() {}
 
-    public UserDataEntity(int id, int accountId, String nick, String firstName, String middleName, String lastName, Date lastUpdate) {
+    public UserDataEntity(int id, int accountId, String nick, String firstName, String middleName, String lastName, Date lastUpdate, AccountEntity account) {
         this.id = id;
         this.accountId = accountId;
         this.nick = nick;
@@ -39,6 +44,7 @@ public class UserDataEntity {
         this.middleName = middleName;
         this.lastName = lastName;
         this.lastUpdate = lastUpdate;
+        this.account = account;
     }
 
     public int getId() {
@@ -95,5 +101,13 @@ public class UserDataEntity {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountEntity account) {
+        this.account = account;
     }
 }

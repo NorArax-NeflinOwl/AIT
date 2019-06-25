@@ -29,9 +29,13 @@ public class AccountEntity {
     @Column(name = "acc_lastupdate")
     private Date lastUpdate;
 
-    public AccountEntity() {};
+    @OneToOne
+    @JoinColumn(name = "account_userDate_id")
+    private UserDataEntity userDate;
 
-    public AccountEntity(int id, String login, String password, String mail, boolean isActive, Date createDate, Date lastUpdate) {
+    public AccountEntity() {}
+
+    public AccountEntity(int id, String login, String password, String mail, boolean isActive, Date createDate, Date lastUpdate, UserDataEntity userDate) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -39,6 +43,7 @@ public class AccountEntity {
         this.isActive = isActive;
         this.createDate = createDate;
         this.lastUpdate = lastUpdate;
+        this.userDate = userDate;
     }
 
     public int getId() {
@@ -100,5 +105,13 @@ public class AccountEntity {
     @Override
     public String toString() {
         return "[" + id + "] " + login + " created " + createDate + " last modificated " + lastUpdate;
+    }
+
+    public UserDataEntity getUserDate() {
+        return userDate;
+    }
+
+    public void setUserDate(UserDataEntity userDate) {
+        this.userDate = userDate;
     }
 }
