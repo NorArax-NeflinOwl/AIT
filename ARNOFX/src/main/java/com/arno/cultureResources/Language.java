@@ -21,4 +21,8 @@ public interface Language {
     String getReqRepeatEmailPrompt();
     String getBirthdayPrompt();
     String getRegisterButtonContent();
+
+    String getFirstInfoProgress();
+    String getSecondInfoProgress();
+    String getFinishInfoProgress();
 }

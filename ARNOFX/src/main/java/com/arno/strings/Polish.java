@@ -85,4 +85,19 @@ public class Polish implements Language {
     public String getRegisterButtonContent() {
         return "Rejestruj";
     }
+
+    @Override
+    public String getFirstInfoProgress() {
+        return "Uruchamianie aplikacji...";
+    }
+
+    @Override
+    public String getSecondInfoProgress() {
+        return "Proszę czekać...";
+    }
+
+    @Override
+    public String getFinishInfoProgress() {
+        return "Finalizowanie ustawień...";
+    }
 }

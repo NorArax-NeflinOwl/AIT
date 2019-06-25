@@ -3,7 +3,6 @@ package com.arno.server;
 import com.arno.database.AitLocalDB;
 import com.arno.managers.AitLogger;
 import com.arno.managers.AitReceiverSender;
-import com.arno.resources.AitCommandTypes;
 import com.arno.structures.AitClientData;
 import com.arno.structures.AitPackageData;
 import com.google.gson.Gson;

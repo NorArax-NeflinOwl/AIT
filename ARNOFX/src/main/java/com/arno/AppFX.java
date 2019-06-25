@@ -1,11 +1,8 @@
 package com.arno;
 
-import com.arno.cultureResources.CultureManager;
 import com.arno.namespace.ArnoNamespace;
 import com.arno.namespace.BaseNamespace;
 import com.arno.namespace.Consts;
-import com.arno.namespace.LoginNamespace;
-import com.arno.strings.Polish;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -51,8 +48,6 @@ public class AppFX extends Application {
     }
 
     public static void main(String[] args) {
-        //CultureManager.getInstance().init();
-        CultureManager.getInstance().setLanguage(Polish.locale);
 
         // TODO
         //  1) connect to db

@@ -85,4 +85,19 @@ public class English implements Language {
     public String getRegisterButtonContent() {
         return "Register";
     }
+
+    @Override
+    public String getFirstInfoProgress() {
+        return "Start application...";
+    }
+
+    @Override
+    public String getSecondInfoProgress() {
+        return "Please wait...";
+    }
+
+    @Override
+    public String getFinishInfoProgress() {
+        return "Finalizing the settings...";
+    }
 }

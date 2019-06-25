@@ -1,5 +1,7 @@
 package com.arno;
 
+import com.arno.cultureResources.CultureManager;
+import com.arno.namespace.LoginNamespace;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -17,33 +19,53 @@ public class ArnoController {
     public ProgressBar progressBar;
 
     @FXML
-    public void initialize() {
-        try {
-            Task<Void> task = showInit();
-            Thread th = new Thread(task);
-            th.setDaemon(true);
-            th.start();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Thread.interrupted();
-        }
+    public void initialize() throws Exception {
+        BindableTask task = new BindableTask();
+        progressBar.progressProperty().bind(task.progressProperty());
+        arnoFirstInfo.textProperty().bind(task.messageProperty());
+
+        Initializer.getInstance().RegisterAppSettings();
+        new Thread(task).start();
+
+        arnoSecondInfo.setText(CultureManager.getInstance().getLanguage().getSecondInfoProgress());
     }
 
-    public Task<Void> showInit() throws InterruptedException {
-        progressBar.setProgress(0.0);
-        Thread.sleep(500);
-        for(int i = 0; i < 10; i++) {
-            double rand = new Random().nextDouble();
-            if(progressBar.getProgress() <= 0.9) {
-                progressBar.setProgress(progressBar.getProgress() + rand);
-            }
-            Thread.sleep(500);
+    private class BindableTask extends Task<Integer> {
+
+        @Override
+        protected Integer call() throws Exception {
+            return updateProgress();
         }
-        arnoFirstInfo.setText("Finishing...");
-        progressBar.setProgress(0.9);
-        Thread.sleep(1000);
-        progressBar.setProgress(1);
-        Thread.sleep(500);
-        return null;
+
+        @Override
+        protected void succeeded() {
+            try {
+                AppFX.setRoot(new LoginNamespace());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private Integer updateProgress() throws Exception {
+            updateMessage(CultureManager.getInstance().getLanguage().getFirstInfoProgress());
+
+            Thread.sleep(100);
+            int value = 0;
+            for(int i = 0; i <= 10 || value < 7; i++) {
+                value += new Random().nextInt(4);
+                updateProgress(value, 10);
+                Thread.sleep(200);
+                if(isCancelled()) {
+                    return i;
+                }
+            }
+
+            updateMessage(CultureManager.getInstance().getLanguage().getFinishInfoProgress());
+            Thread.sleep(1000);
+
+            updateProgress(10,10);
+            Thread.sleep(500);
+            return 10;
+        }
     }
 }

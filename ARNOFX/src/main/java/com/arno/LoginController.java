@@ -56,8 +56,8 @@ public class LoginController {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter password!", ButtonType.OK);
             alert.show();
         }
-        else {
-            // TODO login user
-        }
+        // TODO login user
+        // else {
+        // }
     }
 }
