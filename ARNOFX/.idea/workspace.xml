@@ -2,9 +2,60 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed9e5a0c-f402-4dfc-a292-2b68f6c3d5b6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ARNOFX.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-cli/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-cli/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/AppConsole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/AppFX.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/ArnoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/RegistraionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/arnoFrame.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/client/AitClient$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/client/AitClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/cultureResources/CultureManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/cultureResources/Language.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/DAOFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/GenericDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/IGenericDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/imodeldao/IAccountDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/imodeldao/IUserDataDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/modeldao/AccountDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/daos/modeldao/UserDataDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/database/AitLocalDB.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/datamodels/Account.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/datamodels/UserData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/entities/AccountEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/entities/UserDataEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/hibernate/HibernateUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/hibernate/MainContext.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/loginFrame.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/managers/AitCrypter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/managers/AitLogger$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/managers/AitLogger.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/managers/AitReceiverSender.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/namespace/ArnoNamespace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/namespace/BaseNamespace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/namespace/Consts.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/namespace/LoginNamespace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/namespace/RegistrationNamespace.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/registrationFrame.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/resources/AitCommandTypes.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/resources/AitConsoleColor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/resources/AitLoggerPriority.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/server/AitClientHandler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/server/AitClientHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/server/AitServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/strings/Consts.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/strings/English.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/strings/Polish.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/structures/AitClientData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/structures/AitMap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/arno/structures/AitPackageData.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/icons/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-cli/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-cli/inputFiles.lst" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -55,8 +106,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/arno/ArnoController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            <state relative-caret-position="309">
+              <caret line="49" selection-start-line="49" selection-end-line="49" />
             </state>
           </provider>
         </entry>
@@ -147,6 +198,12 @@
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="arnofx" type="9519ce18:MavenProjectsStructure$ProjectNode" />
           <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="arnofx" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+          <item name="clean" type="36feed69:MavenProjectsStructure$PluginNode" />
         </path>
       </expand>
       <select />
@@ -323,7 +380,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49503312" visible="true" weight="0.17449665" />
       <window_info id="Structure" order="1" sideWeight="0.5049669" side_tool="true" weight="0.16684435" />
@@ -335,7 +391,7 @@
       <window_info id="Favorites" order="7" sideWeight="0.5037037" side_tool="true" weight="0.1652452" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32796487" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32796487" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39970717" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -760,8 +816,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/arno/ArnoController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+        <state relative-caret-position="309">
+          <caret line="49" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>
