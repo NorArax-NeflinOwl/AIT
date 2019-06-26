@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- SQL Dialect -->
+        <property name="com.hbm.hibernate.dialect">org.com.hbm.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Database Connection Settings -->
+        <property name="com.hbm.hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="com.hbm.hibernate.connection.url">jdbc:mysql://localhost:3306/ait?serverTimezone=Europe/Warsaw</property>
+        <property name="com.hbm.hibernate.connection.username">root</property>
+        <property name="com.hbm.hibernate.connection.password">#_@rnn0I</property>
+        <property name="show_sql">true</property>
+        <property name="dialect">org.com.hbm.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Specifying Session Context -->
+        <property name="com.hbm.hibernate.current_session_context_class">org.com.hbm.hibernate.context.internal.ThreadLocalSessionContext</property>
+
+        <!-- Mapping With Model Class Containing Annotations -->
+        <!--
+        <mapping class="com.hbm.entities.AccountEntity" />
+        <mapping class="com.hbm.entities.UserDataEntity" />-->
+        <mapping resource="com.arno.entities/Account.hbm.xml" />
+        <mapping resource="com.arno.entities/UserData.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>
