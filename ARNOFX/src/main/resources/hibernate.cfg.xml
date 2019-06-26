@@ -22,5 +22,9 @@
         <!-- Mapping With Model Class Containing Annotations -->
         <mapping class="entities.AccountEntity" />
         <mapping class="entities.UserDataEntity" />
+        <!--
+        <mapping resource="com.arno.entities/Account.hbm.xml" />
+        <mapping resource="com.arno.entities/UserData.hbm.xml" />
+        -->
     </session-factory>
 </hibernate-configuration>

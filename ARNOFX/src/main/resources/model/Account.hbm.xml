@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.arno.entities">
+    <class name="AccountEntity" table="accounts" dynamic-update="true" dynamic-insert="true">
+        <id name="id" type="java.lang.Long">
+            <column name="acc_id" />
+            <generator class="identity" />
+        </id>
+        <property name="login" column="acc_login" type="java.lang.String" />
+        <property name="password" column="acc_pass" type="java.lang.String" />
+        <property name="email" column="acc_email" type="java.lang.String" />
+        <property name="isActive" type="java.lang.Boolean" >
+            <column name="acc_active" default="false" />
+        </property>
+        <property name="createDate" column="acc_create" type="java.util.Date" />
+        <property name="lastUpdate" column="acc_lastupdate" type="java.util.Date" />
+    </class>
+    <query name="AccountByLogin">
+        <![CDATA[
+		from AccountEntity as account
+		where account.login = :var
+	]]>
+    </query>
+    <query name="AccountByEmail">
+        <![CDATA[
+		from AccountEntity as account
+		where account.email = :var
+	]]>
+    </query>
+    <query name="AccountByPassword">
+        <![CDATA[
+		from AccountEntity as account
+		where account.password = :var
+	]]>
+    </query>
+    <query name="AccountByIsActive">
+        <![CDATA[
+		from AccountEntity as account
+		where account.isActive = :var
+	]]>
+    </query>
+</hibernate-mapping>
