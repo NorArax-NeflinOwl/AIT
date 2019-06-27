@@ -1,6 +1,7 @@
 package com.gui;
 
 import com.gui.cultureResources.CultureManager;
+import com.gui.generic.GenericController;
 import com.gui.namespace.RegistrationNamespace;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController {
+public class LoginController extends GenericController<LoginController, Integer> {
 
     @FXML
     public TextField loginBox;
@@ -29,21 +30,26 @@ public class LoginController {
 
     @FXML
     public void initialize() throws Exception {
+        logger.info("opening: LoginController.initialize()");
         loginBox.setPromptText(CultureManager.getInstance().getLanguage().getLoginPrompt());
         passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getPasswordPrompt());
         rememberCheckBox.setText(CultureManager.getInstance().getLanguage().getRementberMeQuestion());
         loginButton.setText(CultureManager.getInstance().getLanguage().getLoginButtonContent());
         registrationQuestion.setText(CultureManager.getInstance().getLanguage().getRegistrationQuestion());
         registrationButton.setText(CultureManager.getInstance().getLanguage().getRegistrationButtonContent());
+        logger.info("exiting: LoginController.initialize()");
     }
 
     @FXML
     private void openRegisterFrame() throws Exception {
+        logger.info("opening: LoginController.openRegisterFrame()");
         AppFX.setRoot(new RegistrationNamespace());
+        logger.info("exiting: LoginController.openRegisterFrame()");
     }
 
     @FXML
-    private void loginAction(ActionEvent actionEvent) {
+    private void loginAction() {
+        logger.info("opening: LoginController.loginAction()");
         String login = loginBox.getText();
         String password = passwordBox.getText();
 
@@ -58,5 +64,6 @@ public class LoginController {
         // TODO login user
         // else {
         // }
+        logger.info("exiting: LoginController.loginAction()");
     }
 }

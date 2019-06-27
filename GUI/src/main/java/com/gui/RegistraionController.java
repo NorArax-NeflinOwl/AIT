@@ -1,6 +1,7 @@
 package com.gui;
 
 import com.gui.cultureResources.CultureManager;
+import com.gui.generic.GenericController;
 import com.gui.namespace.LoginNamespace;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
 
-public class RegistraionController {
+public class RegistraionController  extends GenericController<RegistraionController, Integer> {
 
     @FXML
     public TextField loginBox;
@@ -32,6 +33,7 @@ public class RegistraionController {
 
     @FXML
     public void initialize() throws Exception {
+        logger.info("opening: RegistraionController.initialize()");
         loginBox.setPromptText(CultureManager.getInstance().getLanguage().getReqLoginPrompt());
         passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqPasswordPrompt());
         repeatPasswordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatPasswordPrompt());
@@ -39,10 +41,12 @@ public class RegistraionController {
         repeatPasswordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatEmailPrompt());
         birthdayBox.setPromptText(CultureManager.getInstance().getLanguage().getBirthdayPrompt());
         registerButton.setText(CultureManager.getInstance().getLanguage().getRegisterButtonContent());
+        logger.info("exiting: RegistraionController.initialize()");
     }
 
     @FXML
-    public void registerAction(ActionEvent actionEvent) throws Exception {
+    public void registerAction() throws Exception {
+        logger.info("opening: RegistraionController.registerAction()");
         String login = loginBox.getText();
         String password = passwordBox.getText();
         String repeatPassword= repeatPasswordBox.getText();
@@ -83,5 +87,6 @@ public class RegistraionController {
 
             AppFX.setRoot(new LoginNamespace());
         }
+        logger.info("exiting: RegistraionController.registerAction()");
     }
 }

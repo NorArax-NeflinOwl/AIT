@@ -1,6 +1,7 @@
 package com.gui;
 
 import com.gui.cultureResources.CultureManager;
+import com.gui.generic.GenericController;
 import com.gui.namespace.LoginNamespace;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -9,7 +10,7 @@ import javafx.scene.control.ProgressBar;
 
 import java.util.Random;
 
-public class ArnoController {
+public class ArnoController extends GenericController<ArnoController, Integer> {
 
     @FXML
     public Label arnoFirstInfo;
@@ -20,6 +21,7 @@ public class ArnoController {
 
     @FXML
     public void initialize() throws Exception {
+        logger.info("opening: ArnoController.initialize()");
         BindableTask task = new BindableTask();
         progressBar.progressProperty().bind(task.progressProperty());
         arnoFirstInfo.textProperty().bind(task.messageProperty());
@@ -28,6 +30,7 @@ public class ArnoController {
         new Thread(task).start();
 
         arnoSecondInfo.setText(CultureManager.getInstance().getLanguage().getSecondInfoProgress());
+        logger.info("exiting: ArnoController.initialize()");
     }
 
     private class BindableTask extends Task<Integer> {

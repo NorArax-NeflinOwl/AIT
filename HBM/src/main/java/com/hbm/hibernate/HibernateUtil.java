@@ -9,16 +9,18 @@ import java.net.UnknownHostException;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.logging.Level;
+import org.apache.log4j.Logger;
 
 public class HibernateUtil {
 
+    private static Logger logger = Logger.getLogger(HibernateUtil.class);
     private Map.Entry<String,String> account;
     private SessionFactory sessionFactory;
 
     private static HibernateUtil ourInstance = new HibernateUtil();
 
     private HibernateUtil() {
-
+        logger.info("opening: HibernateUtil.HibernateUtil()");
         try {
             String workStation = "pcppudwel";
             InetAddress addr = InetAddress.getLocalHost();
@@ -29,8 +31,9 @@ public class HibernateUtil {
                     : new AbstractMap.SimpleEntry<>("admin", "admin");
 
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            logger.error("HibernateUtil.HibernateUtil()", e);
         }
+        logger.info("exiting: HibernateUtil.HibernateUtil()");
     }
 
     public static HibernateUtil getInstance() {
@@ -38,6 +41,7 @@ public class HibernateUtil {
     }
 
     public SessionFactory getSessionFactory() {
+        logger.info("opening: HibernateUtil.getSessionFactory()");
         if (sessionFactory == null) {
             try {
                 java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
@@ -50,9 +54,10 @@ public class HibernateUtil {
 
                 sessionFactory = config.buildSessionFactory();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("HibernateUtil.getSessionFactory()", e);
             }
         }
+        logger.info("exiting: HibernateUtil.getSessionFactory()");
         return sessionFactory;
     }
 }

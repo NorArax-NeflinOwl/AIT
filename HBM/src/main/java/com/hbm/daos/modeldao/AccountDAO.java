@@ -13,6 +13,11 @@ public class AccountDAO extends GenericDAO<AccountEntity, Long> implements IAcco
 
     @Override
     public Account findAccountById(int id) {
+
+        logger.info("opening: AccountDAO.findAccountById(int)");
+
+
+        logger.info("exiting: AccountDAO.findAccountById(int)");
         return null;
     }
 }
