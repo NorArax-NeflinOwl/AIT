@@ -17,19 +17,19 @@ public class GenericDAO<T, ID extends Serializable> implements IGenericDAO<T, ID
                 .getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
-    public Session getSession() {
+    protected Session getSession() {
         if(session != null)
             return session;
         return HibernateUtil.getInstance().getSessionFactory().getCurrentSession();
     }
 
 
-    protected Class<T> getPersistentClass() {
+    private Class<T> getPersistentClass() {
         return persistentClass;
     }
 
     @Override
     public T findById(ID id) {
-        return (T) getSession().get(getPersistentClass(), id);
+        return getSession().get(getPersistentClass(), id);
     }
 }

@@ -5,5 +5,6 @@ module HBM {
     requires org.hibernate.orm.core;
     requires mysql.connector.java;
 
-    exports com.hbm.hibernate;
+    opens com.hbm to org.hibernate.orm.core;
+    exports com.hbm;
 }

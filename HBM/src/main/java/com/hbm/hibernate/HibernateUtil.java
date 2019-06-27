@@ -5,7 +5,11 @@ import com.hbm.entities.UserDataEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
+
+import java.util.Properties;
+import java.util.TimeZone;
 
 public class HibernateUtil {
 
@@ -21,11 +25,19 @@ public class HibernateUtil {
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
-                Configuration configuration = new Configuration();
-                configuration.configure("hibernate.cfg.xml");
+                Class.forName("com.mysql.cj.jdbc.Driver");
 
-                configuration.addAnnotatedClass(AccountEntity.class);
-                configuration.addAnnotatedClass(UserDataEntity.class);
+                Properties settings = new Properties();
+                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/ait?serverTimezone="
+                        + TimeZone.getDefault().getID());
+                settings.put(Environment.USER, "root");
+                settings.put(Environment.PASS, "#_@rnn0I");
+                settings.put(Environment.HBM2DDL_AUTO, "update");
+                settings.put(Environment.SHOW_SQL, "true");
+                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
+
+                Configuration configuration = new Configuration();
+                configuration.setProperties(settings);
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(configuration.getProperties()).build();

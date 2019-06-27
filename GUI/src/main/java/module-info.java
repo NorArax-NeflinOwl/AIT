@@ -3,7 +3,7 @@ module GUI {
     requires javafx.fxml;
 
     requires java.naming;
-    requires HBM;
+    //requires HBM;
 
     opens com.gui to javafx.fxml;
     exports com.gui;

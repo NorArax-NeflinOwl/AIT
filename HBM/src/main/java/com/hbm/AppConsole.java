@@ -13,6 +13,13 @@ public class AppConsole {
 
     private static Session sessionObj;
 
+    private static Session getSession(boolean createIfNotExists) {
+        if(sessionObj == null && createIfNotExists) {
+            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+        }
+        return sessionObj;
+    }
+
     public static void main(String[] args) {
         while(true) {
             main();
@@ -63,8 +70,7 @@ public class AppConsole {
 
     private static void insert5ExampleRowToDB() {
         try {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
-            sessionObj.beginTransaction();
+            getSession(true).beginTransaction();
 
             for(int i = 101; i <= 105; i++) {
                 AccountEntity userObj = new AccountEntity();
@@ -72,29 +78,28 @@ public class AppConsole {
                 userObj.setMail("Administrator@gov.com");
                 userObj.setCreateDate(new Date());
 
-                sessionObj.save(userObj);
+                getSession(true).save(userObj);
             }
             System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
             // Committing The Transactions To The Database
-            sessionObj.getTransaction().commit();
+            getSession(true).getTransaction().commit();
         } catch(Exception sqlException) {
-            if(null != sessionObj.getTransaction()) {
+            if(null != getSession(false).getTransaction()) {
                 System.out.println("\n.......Transaction Is Being Rolled Back.......");
-                sessionObj.getTransaction().rollback();
+                getSession(false).getTransaction().rollback();
             }
             sqlException.printStackTrace();
         } finally {
-            if(sessionObj != null) {
-                sessionObj.close();
+            if(getSession(false) != null) {
+                getSession(false).close();
             }
         }
     }
 
     private static void printAllUsersFromDB() {
         try {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
-            List<AccountEntity> users = sessionObj.createQuery("from accounts", AccountEntity.class).list();
+            List<AccountEntity> users = getSession(true).createQuery("from accounts", AccountEntity.class).list();
 
             System.out.println();
             if(users.isEmpty())
@@ -105,18 +110,17 @@ public class AppConsole {
         }catch (Exception sqlException) {
             sqlException.printStackTrace();
         } finally {
-            if(sessionObj != null) {
-                sessionObj.close();
+            if(getSession(false) != null) {
+                getSession(false).close();
             }
         }
     }
 
     private static void deleteOneRowFromDB(String id) {
         try {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
-            sessionObj.beginTransaction();
+            getSession(true).beginTransaction();
 
-            Query query = sessionObj.createQuery("delete from users where user_id = :id");
+            Query query = getSession(true).createQuery("delete from users where user_id = :id");
             query.setParameter("id", id);
             int result = query.executeUpdate();
 
@@ -125,22 +129,21 @@ public class AppConsole {
             else
                 System.out.println(".......No deleted!!!.......");
 
-            sessionObj.getTransaction().commit();
+            getSession(true).getTransaction().commit();
         }catch (Exception sqlException) {
-            if(sessionObj != null)
-                sessionObj.getTransaction().rollback();
+            if(getSession(false) != null)
+                getSession(false).getTransaction().rollback();
             sqlException.printStackTrace();
         } finally {
-            if(sessionObj != null) {
-                sessionObj.close();
+            if(getSession(false) != null) {
+                getSession(false).close();
             }
         }
     }
 
     private static void updateOneRowInDB(String id, String row, String newValue) {
         try {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
-            sessionObj.beginTransaction();
+            getSession(true).beginTransaction();
 
             String q = "";
             switch (row.toLowerCase()) {
@@ -155,7 +158,7 @@ public class AppConsole {
                     break;
             }
 
-            Query query = sessionObj.createQuery(q);
+            Query query = getSession(true).createQuery(q);
 
             query.setParameter("id", id);
             query.setParameter("newValue", newValue);
@@ -166,32 +169,31 @@ public class AppConsole {
             else
                 System.out.println(".......No updated!!!.......");
 
-            sessionObj.getTransaction().commit();
+            getSession(true).getTransaction().commit();
         }catch (Exception sqlException) {
-            if(sessionObj != null)
-                sessionObj.getTransaction().rollback();
+            if(getSession(false) != null)
+                getSession(false).getTransaction().rollback();
             sqlException.printStackTrace();
         } finally {
-            if(sessionObj != null) {
-                sessionObj.close();
+            if(getSession(false) != null) {
+                getSession(false).close();
             }
         }
     }
 
     private static void clearTable() {
         try {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
-            sessionObj.beginTransaction();
-            Query query = sessionObj.createQuery("delete from users");
+            getSession(true).beginTransaction();
+            Query query = getSession(true).createQuery("delete from users");
             query.executeUpdate();
-            sessionObj.getTransaction().commit();
+            getSession(true).getTransaction().commit();
         }catch (Exception sqlException) {
-            if(sessionObj != null)
-                sessionObj.getTransaction().rollback();
+            if(getSession(false) != null)
+                getSession(false).getTransaction().rollback();
             sqlException.printStackTrace();
         } finally {
-            if(sessionObj != null) {
-                sessionObj.close();
+            if(getSession(false) != null) {
+                getSession(false).close();
             }
         }
     }
