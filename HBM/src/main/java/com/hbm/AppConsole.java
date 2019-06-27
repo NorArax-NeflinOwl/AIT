@@ -14,7 +14,7 @@ public class AppConsole {
     private static Session sessionObj;
 
     private static Session getSession(boolean createIfNotExists) {
-        if(sessionObj == null && createIfNotExists) {
+        if(sessionObj == null && createIfNotExists || !sessionObj.isOpen()) {
             sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
         }
         return sessionObj;
@@ -120,7 +120,7 @@ public class AppConsole {
         try {
             getSession(true).beginTransaction();
 
-            Query query = getSession(true).createQuery("delete from users where user_id = :id");
+            Query query = getSession(true).createQuery("delete accounts users where acc_id = :id");
             query.setParameter("id", id);
             int result = query.executeUpdate();
 
@@ -148,13 +148,13 @@ public class AppConsole {
             String q = "";
             switch (row.toLowerCase()) {
                 case "n":
-                    q = "update users set user_name = :newValue where user_id = :id";
+                    q = "update accounts set user_name = :newValue where acc_id = :id";
                     break;
                 case "c":
-                    q = "update users set created_by = :newValue where user_id = :id";
+                    q = "update accounts set created_by = :newValue where acc_id = :id";
                     break;
                 case "d":
-                    q = "update users set created_date = :newValue where user_id = :id";
+                    q = "update accounts set created_date = :newValue where acc_id = :id";
                     break;
             }
 

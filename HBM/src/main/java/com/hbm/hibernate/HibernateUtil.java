@@ -1,15 +1,9 @@
 package com.hbm.hibernate;
 
-import com.hbm.entities.AccountEntity;
-import com.hbm.entities.UserDataEntity;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
-import org.hibernate.service.ServiceRegistry;
 
-import java.util.Properties;
-import java.util.TimeZone;
+import java.util.logging.Level;
 
 public class HibernateUtil {
 
@@ -25,24 +19,9 @@ public class HibernateUtil {
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
+                java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 
-                Properties settings = new Properties();
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/ait?serverTimezone="
-                        + TimeZone.getDefault().getID());
-                settings.put(Environment.USER, "root");
-                settings.put(Environment.PASS, "#_@rnn0I");
-                settings.put(Environment.HBM2DDL_AUTO, "update");
-                settings.put(Environment.SHOW_SQL, "true");
-                settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-
-                Configuration configuration = new Configuration();
-                configuration.setProperties(settings);
-
-                ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                        .applySettings(configuration.getProperties()).build();
-
-                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
             } catch (Exception e) {
                 e.printStackTrace();
             }
