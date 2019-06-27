@@ -1,9 +1,9 @@
-module com.gui {
+module GUI {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires java.logging;
     requires java.naming;
+    requires HBM;
 
     opens com.gui to javafx.fxml;
     exports com.gui;

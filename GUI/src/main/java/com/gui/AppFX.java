@@ -23,7 +23,7 @@ public class AppFX extends Application {
         initStage();
     }
 
-    public static void setRoot(BaseNamespace namespace) throws Exception {
+    static void setRoot(BaseNamespace namespace) throws Exception {
         scene.setRoot(loadFXML(namespace.getFrame()));
         stage.setTitle(namespace.getName());
         stage.setWidth(namespace.getWigth());
@@ -53,7 +53,6 @@ public class AppFX extends Application {
         //  2) connect to server and communicate to with
         //      a) own ports protocol
         //      b) webservices and used web methods
-        // Session session = HibernateUtil.getInstance().getSessionFactory().openSession();
 
         launch();
     }

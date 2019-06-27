@@ -1,5 +1,6 @@
 package client;
 
+import com.google.gson.Gson;
 import managers.AitCrypter;
 import managers.AitLogger;
 import managers.AitReceiverSender;
@@ -7,7 +8,6 @@ import resources.AitConsoleColor;
 import resources.AitLoggerPriority;
 import structures.AitClientData;
 import structures.AitPackageData;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,7 +16,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import static resources.AitCommandTypes.*;
+import static resources.AitCommandTypes.Login;
+import static resources.AitCommandTypes.LoginInvalid;
+import static resources.AitCommandTypes.LoginSuc;
+import static resources.AitCommandTypes.LogoutSuc;
+import static resources.AitCommandTypes.RejestractionInvalid;
+import static resources.AitCommandTypes.RejestractionRequest;
+import static resources.AitCommandTypes.RejestractionRespons;
+import static resources.AitCommandTypes.RejestractionSuc;
+import static resources.AitCommandTypes.StopWaiting;
+import static resources.AitCommandTypes.Wait;
 
 public class AitClient {
     private final static int ServerPort = 1234;

@@ -1,13 +1,17 @@
 package database;
 
+import com.google.gson.Gson;
 import managers.AitCrypter;
 import managers.AitLogger;
 import resources.AitLoggerPriority;
 import structures.AitClientData;
 import structures.AitMap;
-import com.google.gson.Gson;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.locks.ReentrantLock;

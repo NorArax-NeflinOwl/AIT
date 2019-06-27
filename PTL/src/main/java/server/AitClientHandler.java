@@ -1,19 +1,27 @@
 package server;
 
+import com.google.gson.Gson;
 import database.AitLocalDB;
 import managers.AitLogger;
 import managers.AitReceiverSender;
 import structures.AitClientData;
 import structures.AitPackageData;
-import com.google.gson.Gson;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-import static resources.AitCommandTypes.*;
+import static resources.AitCommandTypes.ClientInitConnection;
+import static resources.AitCommandTypes.LoginInvalid;
+import static resources.AitCommandTypes.LoginSuc;
+import static resources.AitCommandTypes.LogoutSuc;
+import static resources.AitCommandTypes.RejestractionInvalid;
+import static resources.AitCommandTypes.RejestractionRequest;
+import static resources.AitCommandTypes.RejestractionSuc;
+import static resources.AitCommandTypes.SendFrom;
 
 public class AitClientHandler implements Runnable {
     private AitClientData clientData;
@@ -106,7 +114,7 @@ public class AitClientHandler implements Runnable {
                             for (Map.Entry<String, String> entry : params.entrySet()) {
                                 for(AitClientHandler mc : AitServer.clientHandlers) {
 
-                                    if(mc.clientData.getId().equals(entry.getKey()) && canSend(mc)) {
+                                    if(mc.clientData.getId().equals(Integer.parseInt(entry.getKey())) && canSend(mc)) {
                                         sendTo(mc, entry);
                                         break;
                                     }
@@ -180,7 +188,7 @@ public class AitClientHandler implements Runnable {
     }
 
     private boolean validLogin(String login) throws Exception {
-        if(AitLocalDB.getInstance().validLogin(login)) {
+        if(Objects.requireNonNull(AitLocalDB.getInstance()).validLogin(login)) {
             return true;
         } else {
             Gson gson = new Gson();
@@ -196,14 +204,14 @@ public class AitClientHandler implements Runnable {
     }
 
     private boolean validPassword(String login, String password) {
-        return AitLocalDB.getInstance().validPass(login, password);
+        return Objects.requireNonNull(AitLocalDB.getInstance()).validPass(login, password);
     }
 
     private void createAccount(AitPackageData data) throws Exception {
         AitClientData client = data.getClient();
         Gson gson = new Gson();
         Map<String, String> params = new HashMap<>();
-        if(AitLocalDB.getInstance().canRegister(client.getLogin())){
+        if(Objects.requireNonNull(AitLocalDB.getInstance()).canRegister(client.getLogin())){
             AitLocalDB.getInstance().registerClient(client);
             clientData = client;
 

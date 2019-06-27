@@ -7,9 +7,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class HibernateUtil {
 
     private static HibernateUtil ourInstance = new HibernateUtil();
@@ -24,8 +21,8 @@ public class HibernateUtil {
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
-                Logger.getLogger("org.com.hbm.hibernate").setLevel(Level.OFF);
-                Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+                Configuration configuration = new Configuration();
+                configuration.configure("hibernate.cfg.xml");
 
                 configuration.addAnnotatedClass(AccountEntity.class);
                 configuration.addAnnotatedClass(UserDataEntity.class);

@@ -3,29 +3,23 @@ package com.hbm.daos;
 import com.hbm.daos.modeldao.AccountDAO;
 import com.hbm.daos.modeldao.UserDataDAO;
 import org.hibernate.Session;
-import org.jboss.logging.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DAOFactory {
 
-    private static Logger log = Logger.getLogger(DAOFactory.class);
-
     private Session session;
     private Map<Class<?>, GenericDAO<?,?>> createdDAOImpl;
 
     public DAOFactory(Session session) {
         this.session = session;
-        this.createdDAOImpl = new HashMap<Class<?>, GenericDAO<?,?>>();
+        this.createdDAOImpl = new HashMap<>();
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private GenericDAO instantiateDAO(Class daoClass) {
         try {
-            if(log.isDebugEnabled()) {
-                log.debug("Instantiating DAO: " + daoClass);
-            }
             GenericDAO result = createdDAOImpl.get(daoClass);
             if(result == null) {
                 result = (GenericDAO)daoClass.getConstructor(Session.class).newInstance(session);
