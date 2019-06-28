@@ -22,6 +22,6 @@ public class RegistrationNamespace implements BaseNamespace {
 
     @Override
     public double getHeight() {
-        return 280;
+        return 440;
     }
 }

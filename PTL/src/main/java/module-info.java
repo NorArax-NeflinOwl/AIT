@@ -1,5 +1,5 @@
 module PTL {
     requires gson;
 
-    exports com.ptl;
+    exports com.ptl.managers;
 }

@@ -1,5 +1,6 @@
 package com.hbm.hibernate;
 
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
@@ -8,8 +9,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.AbstractMap;
 import java.util.Map;
-import java.util.logging.Level;
-import org.apache.log4j.Logger;
 
 public class HibernateUtil {
 
@@ -44,8 +43,6 @@ public class HibernateUtil {
         logger.info("opening: HibernateUtil.getSessionFactory()");
         if (sessionFactory == null) {
             try {
-                java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
-
                 Configuration config = new Configuration();
                 config.configure("hibernate.cfg.xml");
 

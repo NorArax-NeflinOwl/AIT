@@ -1,9 +1,12 @@
 package com.hbm;
 
-import com.hbm.entities.AccountEntity;
+import com.hbm.daos.DAOFactory;
+import com.hbm.daos.modeldao.AccountDAO;
+import com.hbm.datamodels.models.Account;
+import com.hbm.datamodels.models.UserData;
 import com.hbm.hibernate.HibernateUtil;
+import com.ptl.managers.AitCrypter;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import java.util.Date;
 import java.util.List;
@@ -27,12 +30,11 @@ public class AppHBM {
     }
 
     private static void main() {
-        System.out.println("\n\n.......Hibernate Maven Example.......\n.......Choose example medhod:........" +
+        System.out.println(".......Hibernate Maven Example.......\n.......Choose example medhod:........" +
                 "\n[Insert] - insert 5 examples users to db" +
                 "\n[SELECT] - select all users from db and print" +
                 "\n[DELETE] - delete one row from db by id" +
                 "\n[UPDATE] - udpate one row from db by id and new values" +
-                "\n[CLEAR] - clear table" +
                 "\nSelect [i] or [s] or [d] or [u] or [c]...");
 
         String id;
@@ -52,15 +54,12 @@ public class AppHBM {
             case "u":
                 System.out.print("[id] = ");
                 id = scn.nextLine();
-                System.out.println("Choose row: 'user_name' by [n] or 'created_by' by [c] or 'created_date' by [d]");
+                System.out.println("Choose row: 'login' by [l] or 'pass' by [p] or 'email' by [e] or 'isActive' by [a] set 't'\n");
                 String row = scn.nextLine();
 
                 System.out.print("[new value] = ");
                 String newValue = scn.nextLine();
                 updateOneRowInDB(id, row, newValue);
-                break;
-            case "c":
-                clearTable();
                 break;
             default:
                 System.out.println("You not select [i] or [s] or [d] or [u] or [e]...\n RELOAD!");
@@ -73,12 +72,12 @@ public class AppHBM {
             getSession(true).beginTransaction();
 
             for(int i = 101; i <= 105; i++) {
-                AccountEntity userObj = new AccountEntity();
+                Account userObj = new Account(getSession(true));
                 userObj.setLogin("Test acccount " + i);
-                userObj.setMail("Administrator@gov.com");
+                userObj.setPassword(AitCrypter.generateMD5Hash(userObj.getLogin()));
                 userObj.setCreateDate(new Date());
 
-                getSession(true).save(userObj);
+                userObj.saveOrUpdate();
             }
             System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
@@ -99,7 +98,8 @@ public class AppHBM {
 
     private static void printAllUsersFromDB() {
         try {
-            List<AccountEntity> users = getSession(true).createQuery("from accounts", AccountEntity.class).list();
+            List<Account> users = new DAOFactory(getSession(true)).getAccountDAO().findAllAccount();
+            List<UserData> data = new DAOFactory(getSession(true)).getUserDataDAO().findAllUserData();
 
             System.out.println();
             if(users.isEmpty())
@@ -120,11 +120,10 @@ public class AppHBM {
         try {
             getSession(true).beginTransaction();
 
-            Query query = getSession(true).createQuery("delete accounts users where acc_id = :id");
-            query.setParameter("id", id);
-            int result = query.executeUpdate();
+            Integer lid = Integer.parseInt(id);
+            AccountDAO doa = new DAOFactory(getSession(true)).getAccountDAO();
 
-            if(result != Integer.parseInt(id))
+            if(doa.deleteById(lid))
                 System.out.println(".......Delete successfully.......");
             else
                 System.out.println(".......No deleted!!!.......");
@@ -145,49 +144,29 @@ public class AppHBM {
         try {
             getSession(true).beginTransaction();
 
-            String q = "";
+            AccountDAO dao = new DAOFactory(getSession(true)).getAccountDAO();
+            Account acc = dao.findAccountById(Integer.parseInt(id));
+
             switch (row.toLowerCase()) {
-                case "n":
-                    q = "update accounts set user_name = :newValue where acc_id = :id";
+                case "l":
+                    acc.setLogin(newValue);
                     break;
-                case "c":
-                    q = "update accounts set created_by = :newValue where acc_id = :id";
+                case "p":
+                    acc.setPassword(AitCrypter.generateMD5Hash(newValue));
                     break;
-                case "d":
-                    q = "update accounts set created_date = :newValue where acc_id = :id";
+                case "e":
+                    acc.setEmail(newValue);
+                    break;
+                case "a":
+                    acc.setActive("t".equals(newValue.toLowerCase()));
                     break;
             }
-
-            Query query = getSession(true).createQuery(q);
-
-            query.setParameter("id", id);
-            query.setParameter("newValue", newValue);
-
-            int result = query.executeUpdate();
-            if (result != Integer.parseInt(id))
-                System.out.println(".......Update successfully.......");
-            else
-                System.out.println(".......No updated!!!.......");
+            acc.saveOrUpdate();
+            System.out.println(".......Update successfully.......");
 
             getSession(true).getTransaction().commit();
         }catch (Exception sqlException) {
-            if(getSession(false) != null)
-                getSession(false).getTransaction().rollback();
-            sqlException.printStackTrace();
-        } finally {
-            if(getSession(false) != null) {
-                getSession(false).close();
-            }
-        }
-    }
-
-    private static void clearTable() {
-        try {
-            getSession(true).beginTransaction();
-            Query query = getSession(true).createQuery("delete from users");
-            query.executeUpdate();
-            getSession(true).getTransaction().commit();
-        }catch (Exception sqlException) {
+            System.out.println(".......No updated!!!.......");
             if(getSession(false) != null)
                 getSession(false).getTransaction().rollback();
             sqlException.printStackTrace();

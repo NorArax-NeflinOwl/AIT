@@ -14,11 +14,17 @@ public interface Language {
     String getLoginFrameTitle();
     String getRegistrationFrameTitle();
 
+    String getReqLabelContent();
     String getReqLoginPrompt();
     String getReqPasswordPrompt();
     String getReqRepeatPasswordPrompt();
     String getReqEmailPrompt();
     String getReqRepeatEmailPrompt();
+    String getOptionalLabelContent();
+    String getOptionalNickPrompt();
+    String getOptionalFirstNamePrompt();
+    String getOptionalMiddleNamePrompt();
+    String getOptionalLastNamePrompt();
     String getBirthdayPrompt();
     String getRegisterButtonContent();
 
