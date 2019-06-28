@@ -108,7 +108,7 @@ public class Polish implements Language {
 
     @Override
     public String getBirthdayPrompt() {
-        return "Data urodzenia";
+        return "Data urodzenia (dd.MM.yyyy)";
     }
 
     @Override

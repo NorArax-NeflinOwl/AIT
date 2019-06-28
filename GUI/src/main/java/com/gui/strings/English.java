@@ -108,7 +108,7 @@ public class English implements Language {
 
     @Override
     public String getBirthdayPrompt() {
-        return "Birthday";
+        return "Birthday (dd.MM.yyyy)";
     }
 
     @Override

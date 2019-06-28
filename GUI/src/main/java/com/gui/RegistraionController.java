@@ -4,6 +4,7 @@ import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.LoginNamespace;
+import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.hbm.datamodels.models.UserData;
 import com.hbm.entities.AccountEntity;
@@ -17,10 +18,12 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 public class RegistraionController  extends GenericController<RegistraionController, Integer> {
 
@@ -137,10 +140,21 @@ public class RegistraionController  extends GenericController<RegistraionControl
 
                 boolean createUserData = false;
                 if(nick != null) {
-                    if(nick.length() >= 8) {
+
+                    DAOFactory dao = new DAOFactory(MainContext.getSession(true));
+                    List<UserData> datas = dao.getUserDataDAO().findUserDataByNick(nick);
+
+                    if(nick.length() >= 8 && (datas.isEmpty())) {
                         createUserData = true;
                     } else if(nick.length() > 0) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Nick must be >= 8 characters!", ButtonType.OK);
+                        alert.show();
+                        nickBox.requestFocus();
+                        nickBox.clear();
+                        logger.info("exiting: RegistraionController.registerAction()");
+                        return;
+                    } else if (!datas.isEmpty()) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Nick must be unique!", ButtonType.OK);
                         alert.show();
                         nickBox.requestFocus();
                         nickBox.clear();
@@ -179,6 +193,12 @@ public class RegistraionController  extends GenericController<RegistraionControl
                 MainContext.getSession(true).getTransaction().commit();
 
                 AppGUI.setRoot(new LoginNamespace());
+
+                // TODO send activation email
+
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Account was create successfull, check your email.", ButtonType.OK);
+                alert.show();
             }
         } catch (Exception e) {
             if(MainContext.getSession(false) != null) {
@@ -190,11 +210,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
                 MainContext.getSession(false).close();
             }
         }
-        // TODO send activation email
 
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Account was create successfull, check your email.", ButtonType.OK);
-        alert.show();
         logger.info("exiting: RegistraionController.registerAction()");
     }
 }
