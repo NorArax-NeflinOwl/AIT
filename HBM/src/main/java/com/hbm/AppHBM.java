@@ -21,13 +21,14 @@ public class AppHBM {
     }
 
     public static void main(String[] args) {
+
         while(true) {
             main();
         }
     }
 
     private static void main() {
-        System.out.println("\n\n.......Hibernate Maven Example.......\n.......Choose example medhod:........" +
+        System.out.println(".......Hibernate Maven Example.......\n.......Choose example medhod:........" +
                 "\n[Insert] - insert 5 examples users to db" +
                 "\n[SELECT] - select all users from db and print" +
                 "\n[DELETE] - delete one row from db by id" +
