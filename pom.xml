@@ -13,6 +13,7 @@
         <module>HBM</module>
         <module>GUI</module>
         <module>PTL</module>
+        <module>WMS</module>
     </modules>
 
     <properties>

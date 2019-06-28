@@ -53,7 +53,7 @@
         <TextField fx:id="firstNameBox" promptText="First name" GridPane.rowIndex="8" />
         <TextField fx:id="middleNameBox" promptText="Middle name" GridPane.rowIndex="9" />
         <TextField fx:id="lastNameBox" promptText="Last name" GridPane.rowIndex="10" />
-        <DatePicker fx:id="birthdateBox" editable="false" promptText="Birthday (dd.MM.yyyy)" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
+        <DatePicker fx:id="birthdateBox" editable="false" prefHeight="31.0" prefWidth="300.0" promptText="Birthday (dd.MM.yyyy)" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
         <Button fx:id="registerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAction" text="Register" GridPane.rowIndex="12">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

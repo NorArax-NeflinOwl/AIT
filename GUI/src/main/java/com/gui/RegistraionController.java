@@ -11,17 +11,13 @@ import com.hbm.entities.AccountEntity;
 import com.hbm.entities.UserDataEntity;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.control.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -172,8 +168,22 @@ public class RegistraionController  extends GenericController<RegistraionControl
                     logger.info("exiting: RegistraionController.registerAction()");
                     return;
                 }
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.add(Calendar.YEAR, -18);
+
                 if(birthday != null) {
-                    createUserData = true;
+                    if(birthday.before(calendar.getTime())) {
+                        createUserData = true;
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "You must have over 18 year!", ButtonType.OK);
+                        alert.show();
+                        birthdateBox.requestFocus();
+                        birthdateBox.setValue(null);
+                        logger.info("exiting: RegistraionController.registerAction()");
+                        return;
+                    }
                 }
 
                 if(createUserData) {
