@@ -3,7 +3,6 @@ package com.gui;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.RegistrationNamespace;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -43,7 +42,7 @@ public class LoginController extends GenericController<LoginController, Integer>
     @FXML
     private void openRegisterFrame() throws Exception {
         logger.info("opening: LoginController.openRegisterFrame()");
-        AppFX.setRoot(new RegistrationNamespace());
+        AppGUI.setRoot(new RegistrationNamespace());
         logger.info("exiting: LoginController.openRegisterFrame()");
     }
 
