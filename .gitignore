@@ -2,4 +2,4 @@
 *.lst
 */target/*
 */.idea/*
-*/.idea/workspace.xml
+*workspace.xml
