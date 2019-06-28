@@ -52,6 +52,11 @@ public class English implements Language {
     }
 
     @Override
+    public String getReqLabelContent() {
+        return "Required fields:";
+    }
+
+    @Override
     public String getReqLoginPrompt() {
         return "*Login";
     }
@@ -74,6 +79,31 @@ public class English implements Language {
     @Override
     public String getReqRepeatEmailPrompt() {
         return "*Repeat E-mail";
+    }
+
+    @Override
+    public String getOptionalLabelContent() {
+        return "Optional fields:";
+    }
+
+    @Override
+    public String getOptionalNickPrompt() {
+        return "Nick";
+    }
+
+    @Override
+    public String getOptionalFirstNamePrompt() {
+        return "First name";
+    }
+
+    @Override
+    public String getOptionalMiddleNamePrompt() {
+        return "Middle name";
+    }
+
+    @Override
+    public String getOptionalLastNamePrompt() {
+        return "Last name";
     }
 
     @Override

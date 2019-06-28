@@ -52,6 +52,11 @@ public class Polish implements Language {
     }
 
     @Override
+    public String getReqLabelContent() {
+        return "Pola wymagane:";
+    }
+
+    @Override
     public String getReqLoginPrompt() {
         return "*Login";
     }
@@ -74,6 +79,31 @@ public class Polish implements Language {
     @Override
     public String getReqRepeatEmailPrompt() {
         return "*Powtórz E-mail";
+    }
+
+    @Override
+    public String getOptionalLabelContent() {
+        return "Pola opcjonalne:";
+    }
+
+    @Override
+    public String getOptionalNickPrompt() {
+        return "Nazwa użytkownika";
+    }
+
+    @Override
+    public String getOptionalFirstNamePrompt() {
+        return "Imię";
+    }
+
+    @Override
+    public String getOptionalMiddleNamePrompt() {
+        return "Drugie imię";
+    }
+
+    @Override
+    public String getOptionalLastNamePrompt() {
+        return "Nazwisko";
     }
 
     @Override

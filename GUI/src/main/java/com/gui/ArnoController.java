@@ -1,5 +1,6 @@
 package com.gui;
 
+import com.gui.context.Initializer;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.LoginNamespace;

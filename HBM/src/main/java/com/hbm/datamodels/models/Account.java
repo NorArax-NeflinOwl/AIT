@@ -33,7 +33,7 @@ public class Account extends GenericModel<AccountEntity> {
     }
 
     public void setUserData(UserData data) {
-        // TODO update userdata
+        data.saveOrUpdate();
     }
 
     public String getLogin() {

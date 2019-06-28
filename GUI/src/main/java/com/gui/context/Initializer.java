@@ -1,19 +1,19 @@
-package com.gui;
+package com.gui.context;
 
 import com.gui.cultureResources.CultureManager;
 import com.gui.strings.Polish;
 
-class Initializer {
+public class Initializer {
     private static Initializer ourInstance = new Initializer();
 
-    static Initializer getInstance() {
+    public static Initializer getInstance() {
         return ourInstance;
     }
 
     private Initializer() {
     }
 
-    void RegisterAppSettings() {
+    public void RegisterAppSettings() {
         CultureManager.getInstance().setLanguage(Polish.locale);
     }
 }

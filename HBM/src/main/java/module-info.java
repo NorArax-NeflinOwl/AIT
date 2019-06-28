@@ -14,4 +14,9 @@ module HBM {
 
     opens com.hbm.entities to org.hibernate.orm.core;
     exports com.hbm;
+    exports com.hbm.hibernate;
+    exports com.hbm.datamodels.models;
+    exports com.hbm.daos.modeldao;
+    exports com.hbm.daos;
+    exports com.hbm.entities;
 }

@@ -23,21 +23,23 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
     }
 
     @Override
-    public Account findAccountByLogin(String login) {
+    public List<Account> findAccountByLogin(String login) {
         logger.info("opening: AccountDAO.findAccountByLogin(String)");
 
         Query query = getSession().createQuery("from accounts where acc_login = :login", AccountEntity.class);
         query.setParameter("login", login);
 
+        List<Account> result = new ArrayList<>();
         List<AccountEntity> accounts = query.list();
         if(accounts != null && accounts.size() > 0)
         {
-            logger.info("exiting: AccountDAO.findAccountByLogin(String)");
-            return new Account(getSession(), accounts.get(0));
+            for (AccountEntity entity : accounts) {
+                result.add(new Account(getSession(), entity));
+            }
         }
 
         logger.info("exiting: AccountDAO.findAccountByLogin(String)");
-        return null;
+        return result;
     }
 
     @Override
@@ -59,21 +61,23 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
     }
 
     @Override
-    public Account findAccountByEmail(String email) {
+    public List<Account> findAccountByEmail(String email) {
         logger.info("opening: AccountDAO.findAccountByEmail(String)");
 
         Query query = getSession().createQuery("from accounts where acc_email = :email", AccountEntity.class);
         query.setParameter("email", email);
 
+        List<Account> result = new ArrayList<>();
         List<AccountEntity> accounts = query.list();
         if(accounts != null && accounts.size() > 0)
         {
-            logger.info("exiting: AccountDAO.findAccountByEmail(String)");
-            return new Account(getSession(), accounts.get(0));
+            for (AccountEntity entity : accounts) {
+                result.add(new Account(getSession(), entity));
+            }
         }
 
         logger.info("exiting: AccountDAO.findAccountByEmail(String)");
-        return null;
+        return result;
     }
 
     @Override
