@@ -1,6 +1,6 @@
 package com.hbm.daos.imodeldao;
 
-import com.hbm.datamodels.UserData;
+import com.hbm.datamodels.models.UserData;
 
 import java.util.List;
 

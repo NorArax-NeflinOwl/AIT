@@ -1,11 +1,11 @@
-package com.hbm.datamodels;
+package com.hbm.datamodels.models;
 
+import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.UserDataEntity;
 
 import java.util.Date;
 
-public class UserData {
-    private UserDataEntity entity;
+public class UserData extends GenericModel<UserDataEntity> {
 
     public UserData() {
         entity = new UserDataEntity();

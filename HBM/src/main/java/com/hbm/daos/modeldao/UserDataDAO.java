@@ -2,10 +2,10 @@ package com.hbm.daos.modeldao;
 
 import com.hbm.daos.GenericDAO;
 import com.hbm.daos.imodeldao.IUserDataDAO;
-import com.hbm.datamodels.UserData;
+import com.hbm.datamodels.models.UserData;
 import com.hbm.entities.UserDataEntity;
-import org.hibernate.query.Query;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;

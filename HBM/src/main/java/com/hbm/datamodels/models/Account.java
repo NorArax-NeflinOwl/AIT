@@ -1,14 +1,14 @@
-package com.hbm.datamodels;
+package com.hbm.datamodels.models;
 
 import com.hbm.daos.DAOFactory;
+import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.AccountEntity;
 import com.hbm.hibernate.HibernateUtil;
 import org.hibernate.Session;
 
 import java.util.Date;
 
-public class Account {
-    private AccountEntity entity;
+public class Account extends GenericModel<AccountEntity> {
 
     public Account() {
         entity = new AccountEntity();
@@ -22,8 +22,6 @@ public class Account {
         Session session = HibernateUtil.getInstance().getSessionFactory().getCurrentSession();
         return new Account(new DAOFactory(session).getAccountDAO().findById(id));
     }
-
-    public AccountEntity getEntity() { return entity; }
 
     public int getID() {
         return entity.getId();

@@ -3,7 +3,6 @@ module HBM {
     requires java.persistence;
     requires java.logging;
     requires java.sql;
-    requires java.xml.bind;
 
     requires jdk.xml.dom;
     requires net.bytebuddy;

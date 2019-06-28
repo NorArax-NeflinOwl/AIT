@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-public class GenericDAO<T, ID extends Serializable> implements IGenericDAO<T, ID> {
+public class GenericDAO<T extends Serializable, ID extends Serializable> implements IGenericDAO<T, ID> {
 
     protected static Logger logger = Logger.getLogger(GenericDAO.class);
     private Class<T> persistentClass;

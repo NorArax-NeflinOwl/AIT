@@ -2,7 +2,7 @@ package com.hbm.daos.modeldao;
 
 import com.hbm.daos.GenericDAO;
 import com.hbm.daos.imodeldao.IAccountDAO;
-import com.hbm.datamodels.Account;
+import com.hbm.datamodels.models.Account;
 import com.hbm.entities.AccountEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;

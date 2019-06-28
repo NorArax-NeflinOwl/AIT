@@ -2,13 +2,11 @@ package com.hbm;
 
 import com.hbm.daos.DAOFactory;
 import com.hbm.daos.modeldao.AccountDAO;
-import com.hbm.datamodels.Account;
-import com.hbm.datamodels.UserData;
-import com.hbm.entities.AccountEntity;
+import com.hbm.datamodels.models.Account;
+import com.hbm.datamodels.models.UserData;
 import com.hbm.hibernate.HibernateUtil;
 import com.ptl.managers.AitCrypter;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import java.util.Date;
 import java.util.List;
@@ -26,7 +24,6 @@ public class AppHBM {
     }
 
     public static void main(String[] args) {
-
         while(true) {
             main();
         }
@@ -38,7 +35,6 @@ public class AppHBM {
                 "\n[SELECT] - select all users from db and print" +
                 "\n[DELETE] - delete one row from db by id" +
                 "\n[UPDATE] - udpate one row from db by id and new values" +
-                "\n[CLEAR] - clear table" +
                 "\nSelect [i] or [s] or [d] or [u] or [c]...");
 
         String id;
@@ -81,7 +77,7 @@ public class AppHBM {
                 userObj.setPassword(AitCrypter.generateMD5Hash(userObj.getLogin()));
                 userObj.setCreateDate(new Date());
 
-                getSession(true).save(userObj.getEntity());
+                userObj.saveOrUpdate(getSession(true));
             }
             System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
@@ -165,7 +161,7 @@ public class AppHBM {
                     acc.setActive("t".equals(newValue.toLowerCase()));
                     break;
             }
-            getSession(true).saveOrUpdate(acc.getEntity());
+            acc.saveOrUpdate(getSession(true));
             System.out.println(".......Update successfully.......");
 
             getSession(true).getTransaction().commit();
