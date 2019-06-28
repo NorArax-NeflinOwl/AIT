@@ -3,7 +3,6 @@ package com.gui;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.LoginNamespace;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -85,7 +84,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
         else {
             // TODO create account
 
-            AppFX.setRoot(new LoginNamespace());
+            AppGUI.setRoot(new LoginNamespace());
         }
         logger.info("exiting: RegistraionController.registerAction()");
     }

@@ -1,4 +1,4 @@
-package resources;
+package com.ptl.resources;
 
 public enum AitLoggerPriority {
     Error,

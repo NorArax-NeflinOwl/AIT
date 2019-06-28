@@ -9,12 +9,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class AppConsole {
+public class AppHBM {
 
     private static Session sessionObj;
 
     private static Session getSession(boolean createIfNotExists) {
-        if(sessionObj == null && createIfNotExists || !sessionObj.isOpen()) {
+        if(sessionObj == null && createIfNotExists || sessionObj != null && !sessionObj.isOpen()) {
             sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
         }
         return sessionObj;

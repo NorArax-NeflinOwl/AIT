@@ -1,11 +1,11 @@
-package database;
+package com.ptl.database;
 
 import com.google.gson.Gson;
-import managers.AitCrypter;
-import managers.AitLogger;
-import resources.AitLoggerPriority;
-import structures.AitClientData;
-import structures.AitMap;
+import com.ptl.managers.AitCrypter;
+import com.ptl.managers.AitLogger;
+import com.ptl.resources.AitLoggerPriority;
+import com.ptl.structures.AitClientData;
+import com.ptl.structures.AitMap;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +21,7 @@ public class AitLocalDB {
     private static AitLocalDB m_Instance;
 
     private String dbFileExt = ".db";
-    private String dbFile = "\\gui.database\\gui.database";
+    private String dbFile = "\\gui.com.ptl.database\\gui.com.ptl.database";
     private String mainPath;
 
     private AitMap clients;
@@ -107,7 +107,7 @@ public class AitLocalDB {
     }
 
     private void createDbDir() {
-        String logDirPath = mainPath + "\\gui.database";
+        String logDirPath = mainPath + "\\gui.com.ptl.database";
         File logDir = new File(logDirPath);
 
         if(!logDir.exists()) {
@@ -126,11 +126,11 @@ public class AitLocalDB {
         File dbFile = new File(dbFilePath);
         if (!dbFile.exists()) {
             if(dbFile.createNewFile()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create gui.database file: " + timeStamp}, AitLoggerPriority.Information);
+                AitLogger.getInstance().logToConsole(new Object[]{"Create gui.com.ptl.database file: " + timeStamp}, AitLoggerPriority.Information);
             }
         }
         else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log gui.database exists: " + timeStamp}, AitLoggerPriority.Information);
+            AitLogger.getInstance().logToConsole(new Object[]{"Log gui.com.ptl.database exists: " + timeStamp}, AitLoggerPriority.Information);
         }
 
         return dbFile;

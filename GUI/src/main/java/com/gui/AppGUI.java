@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AppFX extends Application {
+public class AppGUI extends Application {
 
     private static Scene scene;
     private static Stage stage;
@@ -43,14 +43,14 @@ public class AppFX extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppFX.class.getResource(fxml + Consts.fxmlExt));
+        FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(fxml + Consts.fxmlExt));
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
         // TODO
         //  1) connect to db
-        //  2) connect to server and communicate to with
+        //  2) connect to com.ptl.server and communicate to with
         //      a) own ports protocol
         //      b) webservices and used web methods
 

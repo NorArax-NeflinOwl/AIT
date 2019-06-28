@@ -1,6 +1,6 @@
-package structures;
+package com.ptl.structures;
 
-import resources.AitCommandTypes;
+import com.ptl.resources.AitCommandTypes;
 
 import java.util.Map;
 

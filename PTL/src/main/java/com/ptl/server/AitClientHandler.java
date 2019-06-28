@@ -1,11 +1,11 @@
-package server;
+package com.ptl.server;
 
 import com.google.gson.Gson;
-import database.AitLocalDB;
-import managers.AitLogger;
-import managers.AitReceiverSender;
-import structures.AitClientData;
-import structures.AitPackageData;
+import com.ptl.database.AitLocalDB;
+import com.ptl.managers.AitLogger;
+import com.ptl.managers.AitReceiverSender;
+import com.ptl.structures.AitClientData;
+import com.ptl.structures.AitPackageData;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -14,14 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static resources.AitCommandTypes.ClientInitConnection;
-import static resources.AitCommandTypes.LoginInvalid;
-import static resources.AitCommandTypes.LoginSuc;
-import static resources.AitCommandTypes.LogoutSuc;
-import static resources.AitCommandTypes.RejestractionInvalid;
-import static resources.AitCommandTypes.RejestractionRequest;
-import static resources.AitCommandTypes.RejestractionSuc;
-import static resources.AitCommandTypes.SendFrom;
+import static com.ptl.resources.AitCommandTypes.ClientInitConnection;
+import static com.ptl.resources.AitCommandTypes.LoginInvalid;
+import static com.ptl.resources.AitCommandTypes.LoginSuc;
+import static com.ptl.resources.AitCommandTypes.LogoutSuc;
+import static com.ptl.resources.AitCommandTypes.RejestractionInvalid;
+import static com.ptl.resources.AitCommandTypes.RejestractionRequest;
+import static com.ptl.resources.AitCommandTypes.RejestractionSuc;
+import static com.ptl.resources.AitCommandTypes.SendFrom;
 
 public class AitClientHandler implements Runnable {
     private AitClientData clientData;
@@ -38,7 +38,7 @@ public class AitClientHandler implements Runnable {
     public void run() {
         try {
             AitLogger.getInstance().logToConsole(new Object[] {
-                    "client " + clientData.getId() + " connecting..." });
+                    "com/ptl/client " + clientData.getId() + " connecting..." });
         } catch (Exception e) {
             try {
                 AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
@@ -167,7 +167,7 @@ public class AitClientHandler implements Runnable {
                                     aitReceiverSender.cryptMsgAndSend(gson.toJson(data));
 
                                     AitLogger.getInstance().logToConsole(new Object[]{
-                                            "client " + clientData.getId() + " by " + clientData.getLogin() + " login success :)"});
+                                            "com/ptl/client " + clientData.getId() + " by " + clientData.getLogin() + " login success :)"});
                                 }
                             }
                             else {
@@ -175,7 +175,7 @@ public class AitClientHandler implements Runnable {
                                 data = new AitPackageData(clientData, LoginInvalid, params);
                                 aitReceiverSender.cryptMsgAndSend(gson.toJson(data));
 
-                                AitLogger.getInstance().logToConsole(new Object[] { "client " + data.getClient().getLogin() + " give wrong password!" });
+                                AitLogger.getInstance().logToConsole(new Object[] { "com/ptl/client " + data.getClient().getLogin() + " give wrong password!" });
                             }
                         }
                         break;
@@ -197,7 +197,7 @@ public class AitClientHandler implements Runnable {
             AitPackageData data = new AitPackageData(clientData, RejestractionRequest, params);
             aitReceiverSender.cryptMsgAndSend(gson.toJson(data));
 
-            AitLogger.getInstance().logToConsole(new Object[] { "client " + data.getClient().getLogin() + " must reqister!" });
+            AitLogger.getInstance().logToConsole(new Object[] { "com/ptl/client " + data.getClient().getLogin() + " must reqister!" });
 
             return false;
         }

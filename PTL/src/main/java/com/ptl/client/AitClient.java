@@ -1,13 +1,13 @@
-package client;
+package com.ptl.client;
 
 import com.google.gson.Gson;
-import managers.AitCrypter;
-import managers.AitLogger;
-import managers.AitReceiverSender;
-import resources.AitConsoleColor;
-import resources.AitLoggerPriority;
-import structures.AitClientData;
-import structures.AitPackageData;
+import com.ptl.managers.AitCrypter;
+import com.ptl.managers.AitLogger;
+import com.ptl.managers.AitReceiverSender;
+import com.ptl.resources.AitConsoleColor;
+import com.ptl.resources.AitLoggerPriority;
+import com.ptl.structures.AitClientData;
+import com.ptl.structures.AitPackageData;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,16 +16,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import static resources.AitCommandTypes.Login;
-import static resources.AitCommandTypes.LoginInvalid;
-import static resources.AitCommandTypes.LoginSuc;
-import static resources.AitCommandTypes.LogoutSuc;
-import static resources.AitCommandTypes.RejestractionInvalid;
-import static resources.AitCommandTypes.RejestractionRequest;
-import static resources.AitCommandTypes.RejestractionRespons;
-import static resources.AitCommandTypes.RejestractionSuc;
-import static resources.AitCommandTypes.StopWaiting;
-import static resources.AitCommandTypes.Wait;
+import static com.ptl.resources.AitCommandTypes.Login;
+import static com.ptl.resources.AitCommandTypes.LoginInvalid;
+import static com.ptl.resources.AitCommandTypes.LoginSuc;
+import static com.ptl.resources.AitCommandTypes.LogoutSuc;
+import static com.ptl.resources.AitCommandTypes.RejestractionInvalid;
+import static com.ptl.resources.AitCommandTypes.RejestractionRequest;
+import static com.ptl.resources.AitCommandTypes.RejestractionRespons;
+import static com.ptl.resources.AitCommandTypes.RejestractionSuc;
+import static com.ptl.resources.AitCommandTypes.StopWaiting;
+import static com.ptl.resources.AitCommandTypes.Wait;
 
 public class AitClient {
     private final static int ServerPort = 1234;
@@ -248,6 +248,6 @@ public class AitClient {
     }
 
     private void showCommand() {
-        //TODO display in console list of command to use by gui.client to communicate with another gui.client or account managment
+        //TODO display in console list of command to use by gui.com.ptl.client to communicate with another gui.com.ptl.client or account managment
     }
 }

@@ -1,10 +1,10 @@
-package resources;
+package com.ptl.resources;
 
 public enum AitCommandTypes {
     Wait,                   //Waiting...
     StopWaiting,            //Stop waitingS
-    ClientInitConnection,   //Connect gui.server to gui.client/ send id to gui.client
-    RejestractionRequest,   //gui.client is not reqister and must register self
+    ClientInitConnection,   //Connect gui.com.ptl.server to gui.com.ptl.client/ send id to gui.com.ptl.client
+    RejestractionRequest,   //gui.com.ptl.client is not reqister and must register self
     RejestractionSuc,       //Creating account success
     RejestractionInvalid,   //Creating account invalid
     RejestractionRespons,   //Creating account response

@@ -43,7 +43,7 @@ public class ArnoController extends GenericController<ArnoController, Integer> {
         @Override
         protected void succeeded() {
             try {
-                AppFX.setRoot(new LoginNamespace());
+                AppGUI.setRoot(new LoginNamespace());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,4 +1,4 @@
-package resources;
+package com.ptl.resources;
 
 public class AitConsoleColor {
     public static String ANSI_BLACK_LINE = "\u001B[30m%s \u001B[0m";

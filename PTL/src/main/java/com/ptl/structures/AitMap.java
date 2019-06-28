@@ -1,4 +1,4 @@
-package structures;
+package com.ptl.structures;
 
 import java.util.Collection;
 import java.util.HashMap;

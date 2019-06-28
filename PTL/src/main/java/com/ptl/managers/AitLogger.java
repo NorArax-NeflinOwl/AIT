@@ -1,7 +1,7 @@
-package managers;
+package com.ptl.managers;
 
-import resources.AitConsoleColor;
-import resources.AitLoggerPriority;
+import com.ptl.resources.AitConsoleColor;
+import com.ptl.resources.AitLoggerPriority;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
