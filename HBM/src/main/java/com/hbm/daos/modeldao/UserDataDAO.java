@@ -20,7 +20,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         logger.info("opening: UserDataDAO.findUserDataById(int)");
 
         logger.info("exiting: UserDataDAO.findUserDataById(int)");
-        return new UserData(findById(id));
+        return new UserData(getSession(), findById(id));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         if(usersdata != null && usersdata.size() > 0)
         {
             for (UserDataEntity entity : usersdata) {
-                result.add(new UserData(entity));
+                result.add(new UserData(getSession(), entity));
             }
         }
 
@@ -55,7 +55,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         if(usersdata != null && usersdata.size() > 0)
         {
             for (UserDataEntity entity : usersdata) {
-                result.add(new UserData(entity));
+                result.add(new UserData(getSession(), entity));
             }
         }
 
@@ -75,7 +75,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         if(usersdata != null && usersdata.size() > 0)
         {
             for (UserDataEntity entity : usersdata) {
-                result.add(new UserData(entity));
+                result.add(new UserData(getSession(), entity));
             }
         }
 
@@ -95,7 +95,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         if(usersdata != null && usersdata.size() > 0)
         {
             for (UserDataEntity entity : usersdata) {
-                result.add(new UserData(entity));
+                result.add(new UserData(getSession(), entity));
             }
         }
 
@@ -114,7 +114,7 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         if(usersdata != null && usersdata.size() > 0)
         {
             for (UserDataEntity entity : usersdata) {
-                result.add(new UserData(entity));
+                result.add(new UserData(getSession(), entity));
             }
         }
 

@@ -72,12 +72,12 @@ public class AppHBM {
             getSession(true).beginTransaction();
 
             for(int i = 101; i <= 105; i++) {
-                Account userObj = new Account();
+                Account userObj = new Account(getSession(true));
                 userObj.setLogin("Test acccount " + i);
                 userObj.setPassword(AitCrypter.generateMD5Hash(userObj.getLogin()));
                 userObj.setCreateDate(new Date());
 
-                userObj.saveOrUpdate(getSession(true));
+                userObj.saveOrUpdate();
             }
             System.out.println("\n.......Records Saved Successfully To The Database.......\n");
 
@@ -161,7 +161,7 @@ public class AppHBM {
                     acc.setActive("t".equals(newValue.toLowerCase()));
                     break;
             }
-            acc.saveOrUpdate(getSession(true));
+            acc.saveOrUpdate();
             System.out.println(".......Update successfully.......");
 
             getSession(true).getTransaction().commit();

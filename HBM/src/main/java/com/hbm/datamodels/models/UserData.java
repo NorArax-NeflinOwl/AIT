@@ -2,16 +2,19 @@ package com.hbm.datamodels.models;
 
 import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.UserDataEntity;
+import org.hibernate.Session;
 
 import java.util.Date;
 
 public class UserData extends GenericModel<UserDataEntity> {
 
-    public UserData() {
+    public UserData(Session session) {
+        super(session);
         entity = new UserDataEntity();
     }
 
-    public UserData(UserDataEntity entity) {
+    public UserData(Session session, UserDataEntity entity) {
+        super(session);
         this.entity = entity;
     }
 
@@ -24,7 +27,7 @@ public class UserData extends GenericModel<UserDataEntity> {
     }
 
     public Account getAccount() {
-        return new Account(entity.getAccount());
+        return new Account(getSession(), entity.getAccount());
     }
 
     public void setAccount(Account account) {

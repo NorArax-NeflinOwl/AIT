@@ -10,17 +10,14 @@ import java.util.Date;
 
 public class Account extends GenericModel<AccountEntity> {
 
-    public Account() {
+    public Account(Session session) {
+        super(session);
         entity = new AccountEntity();
     }
 
-    public Account(AccountEntity entity) {
+    public Account(Session session,  AccountEntity entity) {
+        super(session);
         this.entity = entity;
-    }
-
-    public static Account getAccountById(Integer id) {
-        Session session = HibernateUtil.getInstance().getSessionFactory().getCurrentSession();
-        return new Account(new DAOFactory(session).getAccountDAO().findById(id));
     }
 
     public int getID() {
@@ -32,8 +29,7 @@ public class Account extends GenericModel<AccountEntity> {
     }
 
     public UserData getUserData() {
-        Session session = HibernateUtil.getInstance().getSessionFactory().getCurrentSession();
-        return new DAOFactory(session).getUserDataDAO().findUserDataById(entity.getId());
+        return new DAOFactory(getSession()).getUserDataDAO().findUserDataById(entity.getId());
     }
 
     public void setUserData(UserData data) {

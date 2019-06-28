@@ -19,7 +19,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
     public Account findAccountById(int id) {
         logger.info("opening: AccountDAO.findAccountById(Integer)");
         logger.info("exiting: AccountDAO.findAccountById(Integer)");
-        return new Account(findById(id));
+        return new Account(getSession(), findById(id));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             logger.info("exiting: AccountDAO.findAccountByLogin(String)");
-            return new Account(accounts.get(0));
+            return new Account(getSession(), accounts.get(0));
         }
 
         logger.info("exiting: AccountDAO.findAccountByLogin(String)");
@@ -51,7 +51,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             logger.info("exiting: AccountDAO.findAccountByPass(String)");
-            return new Account(accounts.get(0));
+            return new Account(getSession(), accounts.get(0));
         }
 
         logger.info("exiting: AccountDAO.findAccountByPass(String)");
@@ -69,7 +69,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             logger.info("exiting: AccountDAO.findAccountByEmail(String)");
-            return new Account(accounts.get(0));
+            return new Account(getSession(), accounts.get(0));
         }
 
         logger.info("exiting: AccountDAO.findAccountByEmail(String)");
@@ -87,7 +87,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             for (AccountEntity entity : accounts) {
-                result.add(new Account(entity));
+                result.add(new Account(getSession(), entity));
             }
         }
 
@@ -106,7 +106,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             for (AccountEntity entity : accounts) {
-                result.add(new Account(entity));
+                result.add(new Account(getSession(), entity));
             }
         }
 
@@ -125,7 +125,7 @@ public class AccountDAO extends GenericDAO<AccountEntity, Integer> implements IA
         if(accounts != null && accounts.size() > 0)
         {
             for (AccountEntity entity : accounts) {
-                result.add(new Account(entity));
+                result.add(new Account(getSession(), entity));
             }
         }
 
