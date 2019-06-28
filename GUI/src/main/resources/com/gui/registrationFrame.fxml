@@ -33,8 +33,8 @@
         <TextField fx:id="loginBox" promptText="*Login"/>
         <PasswordField fx:id="passwordBox" promptText="*Password" GridPane.rowIndex="1"/>
         <PasswordField fx:id="repeatPasswordBox" promptText="*Repeat Password" GridPane.rowIndex="2"/>
-        <TextField fx:id="emailBox" promptText="*E-mail" GridPane.rowIndex="3"/>
-        <TextField fx:id="repeatEmailBox" promptText="*Repeat E-mail" GridPane.rowIndex="4"/>
+        <TextField fx:id="emailBox" promptText="*E-email" GridPane.rowIndex="3"/>
+        <TextField fx:id="repeatEmailBox" promptText="*Repeat E-email" GridPane.rowIndex="4"/>
         <DatePicker fx:id="birthdayBox" promptText="Birthday" GridPane.halignment="RIGHT" GridPane.rowIndex="5"/>
         <Button fx:id="registerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
                 mnemonicParsing="false" onAction="#registerAction" text="Register" GridPane.rowIndex="6">

@@ -36,4 +36,11 @@ public class GenericDAO<T, ID extends Serializable> implements IGenericDAO<T, ID
     public T findById(ID id) {
         return getSession().get(getPersistentClass(), id);
     }
+
+    @Override
+    public boolean deleteById(ID id) {
+        T obj = findById(id);
+        getSession().delete(obj);
+        return findById(id) == null;
+    }
 }

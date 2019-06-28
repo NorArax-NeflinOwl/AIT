@@ -1,10 +1,13 @@
 package com.hbm.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
 @Entity(name = "usersdata")
@@ -12,37 +15,41 @@ public class UserDataEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ust_id")
+    @Column(name = "udt_id")
     private int id;
 
-    @Column(name = "ust_accid")
-    private int accountId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="udt_accid")
+    private AccountEntity account;
 
-    @Column(name = "ust_nick")
+    @Column(name = "udt_nick")
     private String nick;
 
-    @Column(name = "ust_firstname")
+    @Column(name = "udt_firstname")
     private String firstName;
 
-    @Column(name = "ust_middlename")
+    @Column(name = "udt_middlename")
     private String middleName;
 
-    @Column(name = "ust_lastname")
+    @Column(name = "udt_lastname")
     private String lastName;
 
-    @Column(name = "ust_lastupdate")
-    private Date lastUpdate;
+    @Column(name = "udt_birthdate")
+    private Date birthdate;
 
+    @Column(name = "udt_lastupdate")
+    private Date lastUpdate;
 
     public UserDataEntity() {}
 
-    public UserDataEntity(int id, int accountId, String nick, String firstName, String middleName, String lastName, Date lastUpdate) {
+    public UserDataEntity(int id, AccountEntity account, String nick, String firstName, String middleName, String lastName, Date birthdate, Date lastUpdate) {
         this.id = id;
-        this.accountId = accountId;
+        this.account = account;
         this.nick = nick;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
+        this.birthdate = birthdate;
         this.lastUpdate = lastUpdate;
     }
 
@@ -54,12 +61,12 @@ public class UserDataEntity {
         this.id = id;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public AccountEntity getAccount() {
+        return account;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setAccount(AccountEntity account) {
+        this.account = account;
     }
 
     public String getNick() {
@@ -94,6 +101,14 @@ public class UserDataEntity {
         this.lastName = lastName;
     }
 
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
     public Date getLastUpdate() {
         return lastUpdate;
     }
@@ -101,4 +116,5 @@ public class UserDataEntity {
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
+
 }
