@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef5cdd4b-0bdb-42f3-8fdb-7a2ce082fdf7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GUI/src/main/java/com/gui/AppGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/src/main/java/com/gui/AppGUI.java" afterDir="false" />
-    </list>
+    <list default="true" id="ef5cdd4b-0bdb-42f3-8fdb-7a2ce082fdf7" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/HBM/target/" />
@@ -39,8 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/GUI/src/main/java/com/gui/AppGUI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
+            <state relative-caret-position="408">
+              <caret line="52" column="64" lean-forward="true" selection-start-line="52" selection-start-column="64" selection-end-line="52" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -175,119 +172,6 @@
               <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
               <item name="AIT" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="GUI" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="hbm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="HBM" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="PTL" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="PTL" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="PTL" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="PTL" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AIT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AIT" type="462c0819:PsiDirectoryNode" />
-              <item name="PTL" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="ptl" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -419,13 +303,21 @@
       <option name="project" value="LOCAL" />
       <updated>1561704394803</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add e-mikrofirmy and backup">
+      <created>1561707728525</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1561707728525</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49834436" visible="true" weight="0.19029851" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49834436" visible="true" weight="0.19029851" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -443,7 +335,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4989339" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5010661" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Messages" order="10" visible="true" weight="0.3288889" />
+      <window_info anchor="bottom" id="Messages" order="10" visible="true" weight="0.3288889" />
       <window_info anchor="bottom" id="GitHub Pull Requests" order="11" />
       <window_info anchor="bottom" id="Thumbnails" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -514,7 +406,8 @@
     <MESSAGE value="fix hbm successfull" />
     <MESSAGE value="add permission method autorization" />
     <MESSAGE value="add ptl madule-info" />
-    <option name="LAST_COMMIT_MESSAGE" value="add ptl madule-info" />
+    <MESSAGE value="add e-mikrofirmy and backup" />
+    <option name="LAST_COMMIT_MESSAGE" value="add e-mikrofirmy and backup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -845,8 +738,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GUI/src/main/java/com/gui/AppGUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="54" column="26" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="26" />
+        <state relative-caret-position="408">
+          <caret line="52" column="64" lean-forward="true" selection-start-line="52" selection-start-column="64" selection-end-line="52" selection-end-column="64" />
         </state>
       </provider>
     </entry>
