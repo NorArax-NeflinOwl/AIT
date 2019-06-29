@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{283C1FFD-5322-43CA-B8D6-265CC2DCC801}</ProjectGuid>
+    <ProjectGuid>{F0E863E7-A5BD-4D10-B480-3F2AE5F4066C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AIT.Tests</RootNamespace>
@@ -100,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AIT\AIT.csproj">
-      <Project>{57025C29-2C48-4B68-B22F-9E7D361DD479}</Project>
+      <Project>{8B6F3594-7934-4A83-8BD3-A961766E00FD}</Project>
       <Name>AIT</Name>
     </ProjectReference>
   </ItemGroup>
