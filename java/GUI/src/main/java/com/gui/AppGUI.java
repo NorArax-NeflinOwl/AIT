@@ -48,12 +48,6 @@ public class AppGUI extends Application {
     }
 
     public static void main(String[] args) {
-        // TODO
-        //  1) connect to com.hbm
-        //  2) connect to com.ptl.server and communicate to with
-        //      a) own ports protocol
-        //      b) create webservices and used web methods
-
         launch();
     }
 }
