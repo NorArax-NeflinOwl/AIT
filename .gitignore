@@ -6,3 +6,6 @@
 */.vs/*
 */bin/*
 */packages/*
+/csharp/AIT/.vs/AIT/v16/.suo
+/csharp/AIT/AIT.csproj
+/csharp/AIT/AIT.csproj.user
