@@ -121,4 +121,24 @@ public class UserDataDAO extends GenericDAO<UserDataEntity, Integer> implements 
         logger.info("exiting: UserDataDAO.findAllUserData()");
         return result;
     }
+
+    @Override
+    public UserData findUserDataByAccountId(int id) {
+        logger.info("opening: UserDataDAO.findUserDataByAccountId(int)");
+
+        Query query = getSession().createQuery("from usersdata where udt_accid = :id", UserDataEntity.class);
+        query.setParameter("id", id);
+
+        List<UserData> result = new ArrayList<>();
+        List<UserDataEntity> usersdata = query.list();
+        if(usersdata != null && usersdata.size() > 0)
+        {
+            for (UserDataEntity entity : usersdata) {
+                result.add(new UserData(getSession(), entity));
+            }
+        }
+
+        logger.info("exiting: UserDataDAO.findUserDataByAccountId(int)");
+        return result.isEmpty() ?  null : result.get(0);
+    }
 }

@@ -6,8 +6,11 @@ import com.gui.frames.DashboardController;
 import com.gui.frames.LoginController;
 import com.gui.frames.RegistraionController;
 import com.gui.generic.IGenericController;
+import com.gui.models.AccountSerializableModel;
 import com.gui.namespace.*;
+import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
+import com.hbm.datamodels.models.UserData;
 import com.hbm.hibernate.HibernateUtil;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
@@ -19,7 +22,7 @@ import java.util.prefs.Preferences;
 
 public class MainContext {
     private static Preferences settings = Preferences.systemNodeForPackage(MainContext.class);
-    private static Account user;
+    private static AccountSerializableModel user;
     private static Session sessionObj;
     private static Map<String, Pair<BaseNamespace, IGenericController>> frames;
     private static Logger logger = Logger.getLogger(MainContext.class);
@@ -58,23 +61,26 @@ public class MainContext {
     }
 
     public static void setUser(Account acc, boolean rememberMe) {
-        user = acc;
+        UserData data = new DAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
+        String nick = data != null ? data.getNick() : DEFAULT_RM;
+        user = new AccountSerializableModel(acc, nick);
         if(rememberMe) {
             Gson gson = new Gson();
-            //settings.put(REMEMBER_ME, gson.toJson(user)); TODO
+            settings.put(REMEMBER_ME, gson.toJson(user));
         }
     }
 
-    public static Account getUser() {
+    public static AccountSerializableModel getUser() {
         if(user == null) {
-            String acc = settings.get(REMEMBER_ME, "");
-            if(!acc.equals("")) {
+            String acc = settings.get(REMEMBER_ME, DEFAULT_RM);
+            if(!acc.equals(DEFAULT_RM)) {
                 Gson gson = new Gson();
-                user = gson.fromJson(acc, Account.class);
+                user = gson.fromJson(acc, AccountSerializableModel.class);
             }
         }
         return user;
     }
 
+    private static String DEFAULT_RM = "";
     private static String REMEMBER_ME  = "REMEMBER_ME";
 }

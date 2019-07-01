@@ -6,6 +6,7 @@ import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.generic.IGenericController;
+import com.gui.models.AccountSerializableModel;
 import com.gui.namespace.ControllersName;
 import com.hbm.datamodels.models.Account;
 import javafx.concurrent.Task;
@@ -58,8 +59,7 @@ public class ArnoController extends GenericController<ArnoController, Integer>{
         @Override
         protected void succeeded() {
             try {
-                Account user = MainContext.getUser();
-                if(user != null) {
+                if(MainContext.getUser() != null) {
                     AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);
                 } else {
                     AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);

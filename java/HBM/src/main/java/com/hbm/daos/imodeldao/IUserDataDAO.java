@@ -11,4 +11,5 @@ public interface IUserDataDAO {
     List<UserData> findUserDataByMiddleName(String middleName);
     List<UserData> findUserDataByLastName(String lastName);
     List<UserData> findAllUserData();
+    UserData findUserDataByAccountId(int id);
 }
