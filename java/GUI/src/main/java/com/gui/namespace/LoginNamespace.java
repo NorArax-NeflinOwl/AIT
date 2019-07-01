@@ -6,6 +6,11 @@ public class LoginNamespace implements BaseNamespace {
     private String name = Consts.login;
 
     @Override
+    public String getControllerName() {
+        return ControllersName.LOGIN_NAMESPACE;
+    }
+
+    @Override
     public String getName() throws Exception {
         return CultureManager.getInstance().getLanguage().getLoginFrameTitle();
     }

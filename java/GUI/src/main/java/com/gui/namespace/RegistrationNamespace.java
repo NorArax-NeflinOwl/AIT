@@ -6,6 +6,11 @@ public class RegistrationNamespace implements BaseNamespace {
     private String name = Consts.registration;
 
     @Override
+    public String getControllerName() {
+        return ControllersName.REGISTRATION_NAMESPACE;
+    }
+
+    @Override
     public String getName() throws Exception {
         return CultureManager.getInstance().getLanguage().getRegistrationFrameTitle();
     }

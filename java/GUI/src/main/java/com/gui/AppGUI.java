@@ -1,5 +1,7 @@
 package com.gui;
 
+import com.gui.context.MainContext;
+import com.gui.generic.IGenericController;
 import com.gui.namespace.ArnoNamespace;
 import com.gui.namespace.BaseNamespace;
 import com.gui.namespace.Consts;
@@ -9,22 +11,43 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
-import java.io.IOException;
+import java.util.Stack;
 
 public class AppGUI extends Application {
 
+    private static Stack<Pair<Parent, BaseNamespace>> stack = new Stack<>();
     private static Scene scene;
     private static Stage stage;
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = stage;
+        AppGUI.stage = stage;
         initStage();
     }
 
-    static void setRoot(BaseNamespace namespace) throws Exception {
-        scene.setRoot(loadFXML(namespace.getFrame()));
+    static void setRoot(String pageName, IGenericController controller) throws Exception {
+
+        MainContext.setController(pageName, controller);
+        BaseNamespace namespace = MainContext.getNamespace(pageName);
+
+        if(namespace != null) {
+            Parent parent = loadFXML(namespace);
+            setRoot(parent, namespace);
+        }
+    }
+
+    static void back() throws Exception {
+        stack.pop();
+        Pair<Parent, BaseNamespace> pair = stack.peek();
+        setRoot(pair.getKey(), pair.getValue());
+    }
+
+    private static void setRoot(Parent parent, BaseNamespace namespace) throws Exception {
+        stack.push(new Pair<>(parent, namespace));
+
+        scene.setRoot(parent);
         stage.setTitle(namespace.getName());
         stage.setWidth(namespace.getWigth());
         stage.setHeight(namespace.getHeight());
@@ -32,7 +55,7 @@ public class AppGUI extends Application {
 
     private void initStage() throws Exception {
         BaseNamespace namespace = new ArnoNamespace();
-        scene = new Scene(loadFXML(namespace.getFrame()));
+        scene = new Scene(loadFXML(namespace));
 
         Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
         stage.getIcons().add(anotherIcon);
@@ -42,12 +65,16 @@ public class AppGUI extends Application {
         stage.show();
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(fxml + Consts.fxmlExt));
+    private static Parent loadFXML(BaseNamespace namespace) throws Exception {
+        IGenericController controller = MainContext.getController(namespace.getControllerName());
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(AppGUI.class.getResource(namespace.getFrame() + Consts.fxmlExt));
+        fxmlLoader.setController(controller);
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
+        MainContext.initFrames();
         launch();
     }
 }

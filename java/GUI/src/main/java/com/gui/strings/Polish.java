@@ -57,6 +57,11 @@ public class Polish implements Language {
     }
 
     @Override
+    public String getBackButtonContent() {
+        return "<- powrót";
+    }
+
+    @Override
     public String getReqLoginPrompt() {
         return "*Login";
     }

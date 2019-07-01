@@ -11,8 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<VBox alignment="CENTER" prefHeight="440.0" prefWidth="400.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.gui.RegistraionController">
+<VBox alignment="CENTER" prefHeight="440.0" prefWidth="400.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -54,10 +53,11 @@
         <TextField fx:id="middleNameBox" promptText="Middle name" GridPane.rowIndex="9" />
         <TextField fx:id="lastNameBox" promptText="Last name" GridPane.rowIndex="10" />
         <DatePicker fx:id="birthdateBox" editable="false" prefHeight="31.0" prefWidth="300.0" promptText="Birthday (dd.MM.yyyy)" GridPane.halignment="RIGHT" GridPane.rowIndex="11" />
-        <Button fx:id="registerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registerAction" text="Register" GridPane.rowIndex="12">
+        <Button fx:id="registerButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Register" GridPane.rowIndex="12">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
         </Button>
+      <Button fx:id="backButton" mnemonicParsing="false" text="Back" GridPane.halignment="RIGHT" />
     </GridPane>
 </VBox>

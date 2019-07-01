@@ -3,7 +3,7 @@ package com.gui;
 import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
-import com.gui.namespace.RegistrationNamespace;
+import com.gui.namespace.ControllersName;
 import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.ptl.managers.AitCrypter;
@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 
 import java.util.List;
 
-public class LoginController extends GenericController<LoginController, Integer> {
+public class LoginController extends GenericController<LoginController, Integer>{
     @FXML
     public TextField loginBox;
     @FXML
@@ -33,21 +33,33 @@ public class LoginController extends GenericController<LoginController, Integer>
     public Button registrationButton;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         logger.info("opening: LoginController.initialize()");
-        loginBox.setPromptText(CultureManager.getInstance().getLanguage().getLoginPrompt());
-        passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getPasswordPrompt());
-        rememberCheckBox.setText(CultureManager.getInstance().getLanguage().getRementberMeQuestion());
-        loginButton.setText(CultureManager.getInstance().getLanguage().getLoginButtonContent());
-        registrationQuestion.setText(CultureManager.getInstance().getLanguage().getRegistrationQuestion());
-        registrationButton.setText(CultureManager.getInstance().getLanguage().getRegistrationButtonContent());
+        try {
+            loginBox.setPromptText(CultureManager.getInstance().getLanguage().getLoginPrompt());
+            passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getPasswordPrompt());
+            rememberCheckBox.setText(CultureManager.getInstance().getLanguage().getRementberMeQuestion());
+            loginButton.setText(CultureManager.getInstance().getLanguage().getLoginButtonContent());
+            loginButton.setOnAction(actionEvent -> loginAction());
+            registrationQuestion.setText(CultureManager.getInstance().getLanguage().getRegistrationQuestion());
+            registrationButton.setText(CultureManager.getInstance().getLanguage().getRegistrationButtonContent());
+            registrationButton.setOnAction(actionEvent -> {
+                try {
+                    openRegisterFrame();
+                } catch (Exception e) {
+                    logger.error("error: LoginController.setOnAction()", e);
+                }
+            });
+        } catch (Exception e) {
+            logger.error("error: LoginController.initialize()", e);
+        }
         logger.info("exiting: LoginController.initialize()");
     }
 
     @FXML
     private void openRegisterFrame() throws Exception {
         logger.info("opening: LoginController.openRegisterFrame()");
-        AppGUI.setRoot(new RegistrationNamespace());
+        AppGUI.setRoot(ControllersName.REGISTRATION_NAMESPACE, this);
         logger.info("exiting: LoginController.openRegisterFrame()");
     }
 
@@ -88,6 +100,8 @@ public class LoginController extends GenericController<LoginController, Integer>
                             }
                             else {
                                 // TODO login successfull
+                                MainContext.setUser(acc);
+                                AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, this);
 
                                 logger.info("exiting: LoginController.loginAction() Login Successfull");
                                 return;

@@ -3,7 +3,8 @@ package com.gui;
 import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
-import com.gui.namespace.LoginNamespace;
+import com.gui.generic.IGenericController;
+import com.gui.namespace.ControllersName;
 import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.hbm.datamodels.models.UserData;
@@ -11,12 +12,15 @@ import com.hbm.entities.AccountEntity;
 import com.hbm.entities.UserDataEntity;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -49,29 +53,44 @@ public class RegistraionController  extends GenericController<RegistraionControl
     public DatePicker birthdateBox;
     @FXML
     public Button registerButton;
+    @FXML
+    public Button backButton;
 
     @FXML
-    public void initialize() throws Exception {
+    public void initialize() {
         logger.info("opening: RegistraionController.initialize()");
-        reqLabel.setText(CultureManager.getInstance().getLanguage().getReqLabelContent());
-        loginBox.setPromptText(CultureManager.getInstance().getLanguage().getReqLoginPrompt());
-        passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqPasswordPrompt());
-        repeatPasswordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatPasswordPrompt());
-        emailBox.setPromptText(CultureManager.getInstance().getLanguage().getReqEmailPrompt());
-        repeatPasswordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatEmailPrompt());
-        optionalLabel.setText(CultureManager.getInstance().getLanguage().getOptionalLabelContent());
-        nickBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalNickPrompt());
-        firstNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalFirstNamePrompt());
-        middleNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalMiddleNamePrompt());
-        lastNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalLastNamePrompt());
-        birthdateBox.setPromptText(CultureManager.getInstance().getLanguage().getBirthdayPrompt());
-        registerButton.setText(CultureManager.getInstance().getLanguage().getRegisterButtonContent());
+        try {
+            reqLabel.setText(CultureManager.getInstance().getLanguage().getReqLabelContent());
+            backButton.setText(CultureManager.getInstance().getLanguage().getBackButtonContent());
+            backButton.setOnAction(actionEvent -> {
+                try {
+                    onBackAction();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            loginBox.setPromptText(CultureManager.getInstance().getLanguage().getReqLoginPrompt());
+            passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqPasswordPrompt());
+            repeatPasswordBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatPasswordPrompt());
+            emailBox.setPromptText(CultureManager.getInstance().getLanguage().getReqEmailPrompt());
+            repeatEmailBox.setPromptText(CultureManager.getInstance().getLanguage().getReqRepeatEmailPrompt());
+            optionalLabel.setText(CultureManager.getInstance().getLanguage().getOptionalLabelContent());
+            nickBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalNickPrompt());
+            firstNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalFirstNamePrompt());
+            middleNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalMiddleNamePrompt());
+            lastNameBox.setPromptText(CultureManager.getInstance().getLanguage().getOptionalLastNamePrompt());
+            birthdateBox.setPromptText(CultureManager.getInstance().getLanguage().getBirthdayPrompt());
+            registerButton.setText(CultureManager.getInstance().getLanguage().getRegisterButtonContent());
+            registerButton.setOnAction(actionEvent -> onRegisterAction());
+        } catch (Exception e) {
+            logger.error("error: RegistrationController.initialize()", e);
+        }
         logger.info("exiting: RegistraionController.initialize()");
     }
 
     @FXML
-    public void registerAction() {
-        logger.info("opening: RegistraionController.registerAction()");
+    public void onRegisterAction() {
+        logger.info("opening: RegistraionController.onRegisterAction()");
         try {
             MainContext.getSession(true).beginTransaction();
             // TODO show progress bar
@@ -147,14 +166,14 @@ public class RegistraionController  extends GenericController<RegistraionControl
                         alert.show();
                         nickBox.requestFocus();
                         nickBox.clear();
-                        logger.info("exiting: RegistraionController.registerAction()");
+                        logger.info("exiting: RegistraionController.onRegisterAction()");
                         return;
                     } else if (!datas.isEmpty()) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Nick must be unique!", ButtonType.OK);
                         alert.show();
                         nickBox.requestFocus();
                         nickBox.clear();
-                        logger.info("exiting: RegistraionController.registerAction()");
+                        logger.info("exiting: RegistraionController.onRegisterAction()");
                         return;
                     }
                 }
@@ -165,7 +184,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
                     alert.show();
                     middleNameBox.requestFocus();
                     middleNameBox.clear();
-                    logger.info("exiting: RegistraionController.registerAction()");
+                    logger.info("exiting: RegistraionController.onRegisterAction()");
                     return;
                 }
 
@@ -181,7 +200,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
                         alert.show();
                         birthdateBox.requestFocus();
                         birthdateBox.setValue(null);
-                        logger.info("exiting: RegistraionController.registerAction()");
+                        logger.info("exiting: RegistraionController.onRegisterAction()");
                         return;
                     }
                 }
@@ -202,8 +221,13 @@ public class RegistraionController  extends GenericController<RegistraionControl
 
                 MainContext.getSession(true).getTransaction().commit();
 
-                AppGUI.setRoot(new LoginNamespace());
-
+                AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, this);
+                IGenericController controller = MainContext.getController(ControllersName.LOGIN_NAMESPACE);
+                if(controller != null) {
+                    LoginController loginController = (LoginController)controller;
+                    loginController.loginBox.setText(login);
+                    loginController.passwordBox.requestFocus();
+                }
                 // TODO send activation email
 
 
@@ -214,13 +238,20 @@ public class RegistraionController  extends GenericController<RegistraionControl
             if(MainContext.getSession(false) != null) {
                 MainContext.getSession(false).getTransaction().rollback();
             }
-            logger.error("error: RegistraionController.registerAction()", e);
+            logger.error("error: RegistraionController.onRegisterAction()", e);
         } finally {
             if(MainContext.getSession(false) != null) {
                 MainContext.getSession(false).close();
             }
         }
 
-        logger.info("exiting: RegistraionController.registerAction()");
+        logger.info("exiting: RegistraionController.onRegisterAction()");
     }
+
+    public void onBackAction() throws Exception {
+        logger.info("opening: RegistraionController.onRegisterAction()");
+        AppGUI.back();
+        logger.info("exiting: RegistraionController.onRegisterAction()");
+    }
+
 }

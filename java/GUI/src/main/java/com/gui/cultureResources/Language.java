@@ -15,6 +15,7 @@ public interface Language {
     String getRegistrationFrameTitle();
 
     String getReqLabelContent();
+    String getBackButtonContent();
     String getReqLoginPrompt();
     String getReqPasswordPrompt();
     String getReqRepeatPasswordPrompt();
@@ -31,4 +32,5 @@ public interface Language {
     String getFirstInfoProgress();
     String getSecondInfoProgress();
     String getFinishInfoProgress();
+
 }

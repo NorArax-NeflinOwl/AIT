@@ -4,6 +4,11 @@ public class ArnoNamespace implements BaseNamespace {
     private String name = Consts.arno;
 
     @Override
+    public String getControllerName() {
+        return ControllersName.ARNO_NAMESPACE;
+    }
+
+    @Override
     public String getName() {
         return name;
     }

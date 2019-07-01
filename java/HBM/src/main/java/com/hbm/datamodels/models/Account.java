@@ -3,7 +3,6 @@ package com.hbm.datamodels.models;
 import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.AccountEntity;
-import com.hbm.hibernate.HibernateUtil;
 import org.hibernate.Session;
 
 import java.util.Date;

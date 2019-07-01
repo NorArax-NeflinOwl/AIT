@@ -57,6 +57,11 @@ public class English implements Language {
     }
 
     @Override
+    public String getBackButtonContent() {
+        return "<- back";
+    }
+
+    @Override
     public String getReqLoginPrompt() {
         return "*Login";
     }
