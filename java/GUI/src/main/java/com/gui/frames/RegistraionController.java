@@ -1,5 +1,6 @@
-package com.gui;
+package com.gui.frames;
 
+import com.gui.AppGUI;
 import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
@@ -12,13 +13,7 @@ import com.hbm.entities.AccountEntity;
 import com.hbm.entities.UserDataEntity;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -221,7 +216,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
 
                 MainContext.getSession(true).getTransaction().commit();
 
-                AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, this);
+                AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.REGISTRATION_NAMESPACE, this);
                 IGenericController controller = MainContext.getController(ControllersName.LOGIN_NAMESPACE);
                 if(controller != null) {
                     LoginController loginController = (LoginController)controller;
@@ -248,7 +243,7 @@ public class RegistraionController  extends GenericController<RegistraionControl
         logger.info("exiting: RegistraionController.onRegisterAction()");
     }
 
-    public void onBackAction() throws Exception {
+    public void onBackAction() {
         logger.info("opening: RegistraionController.onRegisterAction()");
         AppGUI.back();
         logger.info("exiting: RegistraionController.onRegisterAction()");

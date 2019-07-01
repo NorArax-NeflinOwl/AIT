@@ -1,5 +1,6 @@
-package com.gui;
+package com.gui.frames;
 
+import com.gui.AppGUI;
 import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
@@ -8,13 +9,9 @@ import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.util.List;
 
@@ -38,6 +35,7 @@ public class LoginController extends GenericController<LoginController, Integer>
         try {
             loginBox.setPromptText(CultureManager.getInstance().getLanguage().getLoginPrompt());
             passwordBox.setPromptText(CultureManager.getInstance().getLanguage().getPasswordPrompt());
+            passwordBox.setOnKeyReleased(this::onKeyReleased);
             rememberCheckBox.setText(CultureManager.getInstance().getLanguage().getRementberMeQuestion());
             loginButton.setText(CultureManager.getInstance().getLanguage().getLoginButtonContent());
             loginButton.setOnAction(actionEvent -> loginAction());
@@ -56,10 +54,16 @@ public class LoginController extends GenericController<LoginController, Integer>
         logger.info("exiting: LoginController.initialize()");
     }
 
+    private void onKeyReleased(KeyEvent keyEvent) {
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            loginAction();
+        }
+    }
+
     @FXML
     private void openRegisterFrame() throws Exception {
         logger.info("opening: LoginController.openRegisterFrame()");
-        AppGUI.setRoot(ControllersName.REGISTRATION_NAMESPACE, this);
+        AppGUI.setRoot(ControllersName.REGISTRATION_NAMESPACE, ControllersName.LOGIN_NAMESPACE, this);
         logger.info("exiting: LoginController.openRegisterFrame()");
     }
 
@@ -71,6 +75,7 @@ public class LoginController extends GenericController<LoginController, Integer>
 
             String login = loginBox.getText();
             String password = passwordBox.getText();
+            boolean rememberMe = rememberCheckBox.isSelected();
 
             if(login == null || login.length() == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter login!", ButtonType.OK);
@@ -99,9 +104,8 @@ public class LoginController extends GenericController<LoginController, Integer>
                                 return;
                             }
                             else {
-                                // TODO login successfull
-                                MainContext.setUser(acc);
-                                AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, this);
+                                MainContext.setUser(acc, rememberMe);
+                                AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, ControllersName.LOGIN_NAMESPACE, this);
 
                                 logger.info("exiting: LoginController.loginAction() Login Successfull");
                                 return;

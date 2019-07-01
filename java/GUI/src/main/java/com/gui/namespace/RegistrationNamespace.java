@@ -1,6 +1,7 @@
 package com.gui.namespace;
 
 import com.gui.cultureResources.CultureManager;
+import com.gui.strings.Consts;
 
 public class RegistrationNamespace implements BaseNamespace {
     private String name = Consts.registration;
@@ -11,7 +12,7 @@ public class RegistrationNamespace implements BaseNamespace {
     }
 
     @Override
-    public String getName() throws Exception {
+    public String getName() {
         return CultureManager.getInstance().getLanguage().getRegistrationFrameTitle();
     }
 

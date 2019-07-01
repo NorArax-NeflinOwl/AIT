@@ -1,16 +1,12 @@
 package com.gui.context;
 
-import com.gui.ArnoController;
-import com.gui.DashboardController;
-import com.gui.LoginController;
-import com.gui.RegistraionController;
+import com.google.gson.Gson;
+import com.gui.frames.ArnoController;
+import com.gui.frames.DashboardController;
+import com.gui.frames.LoginController;
+import com.gui.frames.RegistraionController;
 import com.gui.generic.IGenericController;
-import com.gui.namespace.ArnoNamespace;
-import com.gui.namespace.BaseNamespace;
-import com.gui.namespace.ControllersName;
-import com.gui.namespace.DashboardNamespace;
-import com.gui.namespace.LoginNamespace;
-import com.gui.namespace.RegistrationNamespace;
+import com.gui.namespace.*;
 import com.hbm.datamodels.models.Account;
 import com.hbm.hibernate.HibernateUtil;
 import javafx.util.Pair;
@@ -19,8 +15,10 @@ import org.hibernate.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class MainContext {
+    private static Preferences settings = Preferences.systemNodeForPackage(MainContext.class);
     private static Account user;
     private static Session sessionObj;
     private static Map<String, Pair<BaseNamespace, IGenericController>> frames;
@@ -59,11 +57,24 @@ public class MainContext {
         return sessionObj;
     }
 
-    public static void setUser(Account acc) {
-            user = acc;
+    public static void setUser(Account acc, boolean rememberMe) {
+        user = acc;
+        if(rememberMe) {
+            Gson gson = new Gson();
+            //settings.put(REMEMBER_ME, gson.toJson(user)); TODO
+        }
     }
 
     public static Account getUser() {
+        if(user == null) {
+            String acc = settings.get(REMEMBER_ME, "");
+            if(!acc.equals("")) {
+                Gson gson = new Gson();
+                user = gson.fromJson(acc, Account.class);
+            }
+        }
         return user;
     }
+
+    private static String REMEMBER_ME  = "REMEMBER_ME";
 }

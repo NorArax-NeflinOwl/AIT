@@ -135,4 +135,9 @@ public class English implements Language {
     public String getFinishInfoProgress() {
         return "Finalizing the settings...";
     }
+
+    @Override
+    public String getDashboardTitle() {
+        return "Dashboard";
+    }
 }

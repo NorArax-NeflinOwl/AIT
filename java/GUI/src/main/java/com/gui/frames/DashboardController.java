@@ -1,17 +1,15 @@
-package com.gui;
+package com.gui.frames;
 
+import com.gui.context.MainContext;
 import com.gui.generic.GenericController;
 import javafx.fxml.FXML;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class DashboardController extends GenericController<DashboardController, Integer>{
 
     @FXML
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         logger.info("opening: DashboardController.initialize()");
-
+        MainContext.getController("");
 
         logger.info("exiting: DashboardController.initialize()");
     }

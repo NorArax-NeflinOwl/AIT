@@ -1,10 +1,13 @@
-package com.gui;
+package com.gui.frames;
 
+import com.gui.AppGUI;
 import com.gui.context.Initializer;
+import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.generic.IGenericController;
 import com.gui.namespace.ControllersName;
+import com.hbm.datamodels.models.Account;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -55,7 +58,12 @@ public class ArnoController extends GenericController<ArnoController, Integer>{
         @Override
         protected void succeeded() {
             try {
-                AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, this.controller);
+                Account user = MainContext.getUser();
+                if(user != null) {
+                    AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);
+                } else {
+                    AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

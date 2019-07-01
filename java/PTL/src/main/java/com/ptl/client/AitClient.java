@@ -16,16 +16,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.ptl.resources.AitCommandTypes.Login;
-import static com.ptl.resources.AitCommandTypes.LoginInvalid;
-import static com.ptl.resources.AitCommandTypes.LoginSuc;
-import static com.ptl.resources.AitCommandTypes.LogoutSuc;
-import static com.ptl.resources.AitCommandTypes.RejestractionInvalid;
-import static com.ptl.resources.AitCommandTypes.RejestractionRequest;
-import static com.ptl.resources.AitCommandTypes.RejestractionRespons;
-import static com.ptl.resources.AitCommandTypes.RejestractionSuc;
-import static com.ptl.resources.AitCommandTypes.StopWaiting;
-import static com.ptl.resources.AitCommandTypes.Wait;
+import static com.ptl.resources.AitCommandTypes.*;
 
 public class AitClient {
     private final static int ServerPort = 1234;

@@ -4,12 +4,15 @@ import com.gui.context.MainContext;
 import com.gui.generic.IGenericController;
 import com.gui.namespace.ArnoNamespace;
 import com.gui.namespace.BaseNamespace;
-import com.gui.namespace.Consts;
+import com.gui.namespace.ControllersName;
+import com.gui.strings.Consts;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -27,10 +30,10 @@ public class AppGUI extends Application {
         initStage();
     }
 
-    static void setRoot(String pageName, IGenericController controller) throws Exception {
+    public static void setRoot(String from, String to, IGenericController controller) throws Exception {
 
-        MainContext.setController(pageName, controller);
-        BaseNamespace namespace = MainContext.getNamespace(pageName);
+        MainContext.setController(to, controller);
+        BaseNamespace namespace = MainContext.getNamespace(from);
 
         if(namespace != null) {
             Parent parent = loadFXML(namespace);
@@ -38,19 +41,25 @@ public class AppGUI extends Application {
         }
     }
 
-    static void back() throws Exception {
+    public static void back() {
         stack.pop();
         Pair<Parent, BaseNamespace> pair = stack.peek();
         setRoot(pair.getKey(), pair.getValue());
     }
 
-    private static void setRoot(Parent parent, BaseNamespace namespace) throws Exception {
+    private static void setRoot(Parent parent, BaseNamespace namespace) {
         stack.push(new Pair<>(parent, namespace));
 
         scene.setRoot(parent);
         stage.setTitle(namespace.getName());
         stage.setWidth(namespace.getWigth());
         stage.setHeight(namespace.getHeight());
+
+        if(namespace.getControllerName().equals(ControllersName.DASHBOARD_NAMESPACE)) {
+            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+            stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+        }
     }
 
     private void initStage() throws Exception {
@@ -66,10 +75,7 @@ public class AppGUI extends Application {
     }
 
     private static Parent loadFXML(BaseNamespace namespace) throws Exception {
-        IGenericController controller = MainContext.getController(namespace.getControllerName());
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(AppGUI.class.getResource(namespace.getFrame() + Consts.fxmlExt));
-        fxmlLoader.setController(controller);
+        FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(Consts.frameSlash + namespace.getFrame() + Consts.fxmlExt));
         return fxmlLoader.load();
     }
 

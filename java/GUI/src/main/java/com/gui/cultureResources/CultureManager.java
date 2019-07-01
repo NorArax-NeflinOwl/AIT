@@ -26,7 +26,7 @@ public class CultureManager {
     }
 
 
-    public Language getLanguage() throws Exception {
+    public Language getLanguage() {
         return language;
     }
 

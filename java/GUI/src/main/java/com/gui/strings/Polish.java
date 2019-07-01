@@ -135,4 +135,9 @@ public class Polish implements Language {
     public String getFinishInfoProgress() {
         return "Finalizowanie ustawień...";
     }
+
+    @Override
+    public String getDashboardTitle() {
+        return "Tablica";
+    }
 }

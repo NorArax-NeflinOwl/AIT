@@ -4,9 +4,10 @@ import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.UserDataEntity;
 import org.hibernate.Session;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserData extends GenericModel<UserDataEntity> {
+public class UserData extends GenericModel<UserDataEntity> implements Serializable {
 
     public UserData(Session session) {
         super(session);

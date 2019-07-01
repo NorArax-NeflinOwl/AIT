@@ -33,4 +33,5 @@ public interface Language {
     String getSecondInfoProgress();
     String getFinishInfoProgress();
 
+    String getDashboardTitle();
 }

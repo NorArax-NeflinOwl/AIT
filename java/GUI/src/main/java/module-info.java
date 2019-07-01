@@ -7,7 +7,10 @@ module GUI {
     requires HBM;
     requires PTL;
     requires org.hibernate.orm.core;
+    requires java.prefs;
+    requires gson;
 
-    opens com.gui to javafx.fxml;
+    opens com.gui.frames to javafx.fxml;
+    exports com.gui.frames;
     exports com.gui;
 }

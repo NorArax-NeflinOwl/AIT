@@ -1,5 +1,7 @@
 package com.gui.namespace;
 
+import com.gui.strings.Consts;
+
 public class ArnoNamespace implements BaseNamespace {
     private String name = Consts.arno;
 

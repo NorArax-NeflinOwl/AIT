@@ -5,9 +5,10 @@ import com.hbm.datamodels.GenericModel;
 import com.hbm.entities.AccountEntity;
 import org.hibernate.Session;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Account extends GenericModel<AccountEntity> {
+public class Account extends GenericModel<AccountEntity> implements Serializable {
 
     public Account(Session session) {
         super(session);
