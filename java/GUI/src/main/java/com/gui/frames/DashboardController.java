@@ -6,6 +6,7 @@ import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.BaseNamespace;
 import com.gui.namespace.ControllersName;
+import com.gui.namespace.DashboardNamespace;
 import com.gui.namespace.RegistrationNamespace;
 import com.gui.strings.Consts;
 import javafx.event.ActionEvent;
@@ -84,11 +85,14 @@ public class DashboardController extends GenericController<DashboardController, 
 
     private void onLogoutAction() {
         logger.info("opening: DashboardController.onLogoutAction()");
+        // TODO show progress bar
+
         try {
-            Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Do you want log out?", ButtonType.OK, ButtonType.CANCEL);
+            Alert dialog = new Alert(Alert.AlertType.WARNING, "Do you want log out?", ButtonType.YES, ButtonType.NO);
             dialog.showAndWait();
-            if(dialog.getResult() == ButtonType.OK) {
+            if(dialog.getResult() == ButtonType.YES) {
                 MainContext.setUser(null, false);
+                AppGUI.closeAllStages();
                 AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.DASHBOARD_NAMESPACE, this);
             }
         } catch (Exception e) {
@@ -98,26 +102,46 @@ public class DashboardController extends GenericController<DashboardController, 
     }
 
     private void onExitAction() {
-        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Do you want exit form application?", ButtonType.OK, ButtonType.CANCEL);
+        Alert dialog = new Alert(Alert.AlertType.WARNING, "Do you want exit form application?", ButtonType.YES, ButtonType.NO);
         dialog.showAndWait();
-        if(dialog.getResult() == ButtonType.OK) {
+        if(dialog.getResult() == ButtonType.YES) {
             AppGUI.exit();
         }
     }
 
     private void onUndoAction() {
-
+        // TODO before starting write code, change AppGUI.stage to list of stage and add id or samething like that to managment their.
     }
 
     private void onDoshboardAction() {
+        logger.info("exiting: DashboardController.onCreateAccountAction()");
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Do you want open new dashboard?", ButtonType.YES, ButtonType.NO);
+        dialog.showAndWait();
+        if(dialog.getResult() == ButtonType.YES) {
+            try {
+                Stage stage = new Stage();
+                BaseNamespace namespace = MainContext.getNamespace(ControllersName.DASHBOARD_NAMESPACE);
+                Scene scene = new Scene(AppGUI.loadFXML(namespace));
 
+                Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
+                stage.getIcons().add(anotherIcon);
+                stage.setTitle(namespace.getTitle());
+                stage.setResizable(false);
+                stage.setScene(scene);
+                stage.show();
+                AppGUI.addStage(stage);
+            } catch (Exception e) {
+                logger.error("error: DashboardController.onCreateAccountAction()",e);
+            }
+        }
+        logger.info("exiting: DashboardController.onLogoutAction()");
     }
 
     private void onCreateAccountAction() {
         logger.info("exiting: DashboardController.onCreateAccountAction()");
         try {
             Stage stage = new Stage();
-            BaseNamespace namespace = new RegistrationNamespace();
+            BaseNamespace namespace = MainContext.getNamespace(ControllersName.DASHBOARD_NAMESPACE);
             Scene scene = new Scene(AppGUI.loadFXML(namespace));
 
             Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
@@ -126,6 +150,7 @@ public class DashboardController extends GenericController<DashboardController, 
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
+            AppGUI.addStage(stage);
         } catch (Exception e) {
             logger.error("error: DashboardController.onCreateAccountAction()",e);
         }

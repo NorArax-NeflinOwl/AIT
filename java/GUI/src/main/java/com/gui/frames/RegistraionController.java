@@ -145,7 +145,6 @@ public class RegistraionController  extends GenericController<RegistraionControl
                 repeatEmailBox.clear();
             }
             else {
-                // TODO create account
                 AccountEntity entity = new AccountEntity();
                 entity.setLogin(login);
                 entity.setPassword(AitCrypter.generateMD5Hash(password));
@@ -220,19 +219,28 @@ public class RegistraionController  extends GenericController<RegistraionControl
                 }
 
                 MainContext.getSession(true).getTransaction().commit();
-
-                AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.REGISTRATION_NAMESPACE, this);
-                IGenericController controller = MainContext.getController(ControllersName.LOGIN_NAMESPACE);
-                if(controller != null) {
-                    LoginController loginController = (LoginController)controller;
-                    loginController.loginBox.setText(login);
-                    loginController.passwordBox.requestFocus();
-                }
                 // TODO send activation email
 
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Account was create successfull, check your email.", ButtonType.OK);
                 alert.show();
+
+                if(AppGUI.peekStack() != MainContext.getNamespace(ControllersName.LOGIN_NAMESPACE)) {
+                    Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, "Do you want log out and switch user?", ButtonType.YES, ButtonType.NO);
+                    dialog.showAndWait();
+                    if(dialog.getResult() == ButtonType.YES) {
+                        MainContext.setUser(null, false);
+                        AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.DASHBOARD_NAMESPACE, this);
+                    }
+                } else {
+                    AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.REGISTRATION_NAMESPACE, this);
+                    IGenericController controller = MainContext.getController(ControllersName.LOGIN_NAMESPACE);
+                    if(controller != null) {
+                        LoginController loginController = (LoginController)controller;
+                        loginController.loginBox.setText(login);
+                        loginController.passwordBox.requestFocus();
+                    }
+                }
             }
         } catch (Exception e) {
             if(MainContext.getSession(false) != null) {

@@ -16,6 +16,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Stack;
 
 public class AppGUI extends Application {
@@ -23,6 +25,7 @@ public class AppGUI extends Application {
     private static Stack<Pair<Parent, BaseNamespace>> stack = new Stack<>();
     private static Scene scene;
     private static Stage stage;
+    private static Queue<Stage> stages = new ArrayDeque<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -66,7 +69,7 @@ public class AppGUI extends Application {
     }
 
     private void initStage() throws Exception {
-        BaseNamespace namespace = new ArnoNamespace();
+        BaseNamespace namespace = MainContext.getNamespace(ControllersName.ARNO_NAMESPACE);
         scene = new Scene(loadFXML(namespace));
 
         Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
@@ -87,7 +90,21 @@ public class AppGUI extends Application {
         launch();
     }
 
+    public static void addStage(Stage stage) {
+        stages.add(stage);
+    }
+
+    public static void closeAllStages() {
+        while(!stages.isEmpty()) {
+            if(stages.peek().isShowing()) {
+                stages.peek().close();
+            }
+            stages.remove();
+        }
+    }
+
     public static void exit() {
+        closeAllStages();
         stage.close();
     }
 
