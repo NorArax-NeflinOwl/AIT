@@ -140,4 +140,69 @@ public class Polish implements Language {
     public String getDashboardTitle() {
         return "Tablica";
     }
+
+    @Override
+    public String getFileMenuContent() {
+        return "Pliki";
+    }
+
+    @Override
+    public String getEditMenuContent() {
+        return "Edytuj";
+    }
+
+    @Override
+    public String getViewMenuContent() {
+        return "Widok";
+    }
+
+    @Override
+    public String getHelpMenuContent() {
+        return "Pomoc";
+    }
+
+    @Override
+    public String getCloseAllContent() {
+        return "Zamknij wszystkie";
+    }
+
+    @Override
+    public String getSettingsContent() {
+        return "Ustawienia";
+    }
+
+    @Override
+    public String getLogoutContent() {
+        return "Wyloguj";
+    }
+
+    @Override
+    public String getExitContent() {
+        return "Wyjscie";
+    }
+
+    @Override
+    public String getUndoContent() {
+        return "Cofnij";
+    }
+
+    @Override
+    public String getRedoContent() {
+        return "Naprzód";
+    }
+
+    @Override
+    public String getCreateAccountContent() {
+        return "Utworz konto";
+    }
+
+    @Override
+    public String getRegisterProductContent() {
+        return "Zarejestruj produkt";
+    }
+
+    @Override
+    public String getAboutContent() {
+        return "Info";
+    }
 }

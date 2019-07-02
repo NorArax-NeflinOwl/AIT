@@ -12,8 +12,13 @@ public class RegistrationNamespace implements BaseNamespace {
     }
 
     @Override
-    public String getName() {
+    public String getTitle() {
         return CultureManager.getInstance().getLanguage().getRegistrationFrameTitle();
+    }
+
+    @Override
+    public void setTitle(String title) {
+
     }
 
     @Override

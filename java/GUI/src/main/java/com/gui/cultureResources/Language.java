@@ -34,4 +34,18 @@ public interface Language {
     String getFinishInfoProgress();
 
     String getDashboardTitle();
+
+    String getFileMenuContent();
+    String getEditMenuContent();
+    String getViewMenuContent();
+    String getHelpMenuContent();
+    String getCloseAllContent();
+    String getSettingsContent();
+    String getLogoutContent();
+    String getExitContent();
+    String getUndoContent();
+    String getRedoContent();
+    String getCreateAccountContent();
+    String getRegisterProductContent();
+    String getAboutContent();
 }

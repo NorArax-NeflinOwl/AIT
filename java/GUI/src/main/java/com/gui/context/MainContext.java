@@ -41,6 +41,12 @@ public class MainContext {
         return frames != null && frames.containsKey(key) ? frames.get(key).getKey() : null;
     }
 
+    public static void setNamespaceTitle(String key, String title) {
+        if(frames != null && frames.containsKey(key)) {
+            frames.get(key).getKey().setTitle(title);
+        }
+    }
+
     public static IGenericController getController(String key) {
         return frames != null && frames.containsKey(key) ? frames.get(key).getValue() : null;
     }
@@ -61,17 +67,24 @@ public class MainContext {
     }
 
     public static void setUser(Account acc, boolean rememberMe) {
-        UserData data = new DAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
-        String nick = data != null ? data.getNick() : DEFAULT_RM;
-        user = new AccountSerializableModel(acc, nick);
+        if(acc != null) {
+            UserData data = new DAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
+            String nick = data != null ? data.getNick() : DEFAULT_RM;
+            user = new AccountSerializableModel(acc, nick);
+        } else {
+            user = null;
+        }
         if(rememberMe) {
             Gson gson = new Gson();
             settings.put(REMEMBER_ME, gson.toJson(user));
+        } else {
+            settings.put(REMEMBER_ME, DEFAULT_RM);
         }
     }
 
     public static AccountSerializableModel getUser() {
         if(user == null) {
+            // if WARNING then RUN PROJECT AS administrator;
             String acc = settings.get(REMEMBER_ME, DEFAULT_RM);
             if(!acc.equals(DEFAULT_RM)) {
                 Gson gson = new Gson();

@@ -11,8 +11,13 @@ public class ArnoNamespace implements BaseNamespace {
     }
 
     @Override
-    public String getName() {
+    public String getTitle() {
         return name;
+    }
+
+    @Override
+    public void setTitle(String title) {
+
     }
 
     @Override

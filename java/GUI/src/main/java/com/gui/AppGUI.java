@@ -30,10 +30,10 @@ public class AppGUI extends Application {
         initStage();
     }
 
-    public static void setRoot(String from, String to, IGenericController controller) throws Exception {
+    public static void setRoot(String to, String from, IGenericController controller) throws Exception {
 
-        MainContext.setController(to, controller);
-        BaseNamespace namespace = MainContext.getNamespace(from);
+        MainContext.setController(from, controller);
+        BaseNamespace namespace = MainContext.getNamespace(to);
 
         if(namespace != null) {
             Parent parent = loadFXML(namespace);
@@ -51,14 +51,14 @@ public class AppGUI extends Application {
         stack.push(new Pair<>(parent, namespace));
 
         scene.setRoot(parent);
-        stage.setTitle(namespace.getName());
+        stage.setTitle(namespace.getTitle());
         stage.setWidth(namespace.getWigth());
         stage.setHeight(namespace.getHeight());
 
+        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
         if(namespace.getControllerName().equals(ControllersName.DASHBOARD_NAMESPACE)) {
-            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-            stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
             stage.setResizable(true);
         } else {
             stage.setResizable(false);
@@ -71,13 +71,13 @@ public class AppGUI extends Application {
 
         Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
         stage.getIcons().add(anotherIcon);
-        stage.setTitle(namespace.getName());
+        stage.setTitle(namespace.getTitle());
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
 
-    private static Parent loadFXML(BaseNamespace namespace) throws Exception {
+    public static Parent loadFXML(BaseNamespace namespace) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(Consts.frameSlash + namespace.getFrame() + Consts.fxmlExt));
         return fxmlLoader.load();
     }
@@ -85,5 +85,13 @@ public class AppGUI extends Application {
     public static void main(String[] args) {
         MainContext.initFrames();
         launch();
+    }
+
+    public static void exit() {
+        stage.close();
+    }
+
+    public static BaseNamespace peekStack() {
+        return !stack.empty() ? stack.peek().getValue() : null;
     }
 }

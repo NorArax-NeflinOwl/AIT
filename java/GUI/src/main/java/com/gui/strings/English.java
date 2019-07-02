@@ -140,4 +140,69 @@ public class English implements Language {
     public String getDashboardTitle() {
         return "Dashboard";
     }
+
+    @Override
+    public String getFileMenuContent() {
+        return "File";
+    }
+
+    @Override
+    public String getEditMenuContent() {
+        return "Edit";
+    }
+
+    @Override
+    public String getViewMenuContent() {
+        return "View";
+    }
+
+    @Override
+    public String getHelpMenuContent() {
+        return "Help";
+    }
+
+    @Override
+    public String getCloseAllContent() {
+        return "Close All";
+    }
+
+    @Override
+    public String getSettingsContent() {
+        return "Settings";
+    }
+
+    @Override
+    public String getLogoutContent() {
+        return "Log Out";
+    }
+
+    @Override
+    public String getExitContent() {
+        return "Exit";
+    }
+
+    @Override
+    public String getUndoContent() {
+        return "Undo";
+    }
+
+    @Override
+    public String getRedoContent() {
+        return "Redo";
+    }
+
+    @Override
+    public String getCreateAccountContent() {
+        return "Create Account";
+    }
+
+    @Override
+    public String getRegisterProductContent() {
+        return "Register Product";
+    }
+
+    @Override
+    public String getAboutContent() {
+        return "About";
+    }
 }

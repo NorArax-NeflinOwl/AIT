@@ -12,8 +12,13 @@ public class LoginNamespace implements BaseNamespace {
     }
 
     @Override
-    public String getName() {
+    public String getTitle() {
         return CultureManager.getInstance().getLanguage().getLoginFrameTitle();
+    }
+
+    @Override
+    public void setTitle(String title) {
+
     }
 
     @Override

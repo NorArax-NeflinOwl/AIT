@@ -77,6 +77,11 @@ public class RegistraionController  extends GenericController<RegistraionControl
             birthdateBox.setPromptText(CultureManager.getInstance().getLanguage().getBirthdayPrompt());
             registerButton.setText(CultureManager.getInstance().getLanguage().getRegisterButtonContent());
             registerButton.setOnAction(actionEvent -> onRegisterAction());
+
+            if(AppGUI.peekStack() != MainContext.getNamespace(ControllersName.LOGIN_NAMESPACE)) {
+                backButton.setVisible(false);
+            }
+
         } catch (Exception e) {
             logger.error("error: RegistrationController.initialize()", e);
         }
