@@ -2,7 +2,6 @@ package com.gui;
 
 import com.gui.context.MainContext;
 import com.gui.generic.IGenericController;
-import com.gui.namespace.ArnoNamespace;
 import com.gui.namespace.BaseNamespace;
 import com.gui.namespace.ControllersName;
 import com.gui.strings.Consts;
@@ -11,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -78,6 +79,19 @@ public class AppGUI extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> {
+                    windowEvent.consume();
+
+                    // FIXME
+                    onClose(stage);
+                });
+    }
+
+    private void onClose(Stage s) {
+        Alert alert = new Alert(Alert.AlertType.NONE, "Do you want exit form application?", ButtonType.YES, ButtonType.NO);
+        if (alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES) {
+            s.close();
+        }
     }
 
     public static Parent loadFXML(BaseNamespace namespace) throws Exception {

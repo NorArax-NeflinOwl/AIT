@@ -45,7 +45,9 @@ public interface Language {
     String getExitContent();
     String getUndoContent();
     String getRedoContent();
+    String getDashboardContent();
     String getCreateAccountContent();
     String getRegisterProductContent();
     String getAboutContent();
+
 }

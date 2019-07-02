@@ -178,7 +178,7 @@ public class Polish implements Language {
 
     @Override
     public String getExitContent() {
-        return "Wyjscie";
+        return "Wyjście";
     }
 
     @Override
@@ -192,13 +192,18 @@ public class Polish implements Language {
     }
 
     @Override
+    public String getDashboardContent() {
+        return "Nowa Tablica";
+    }
+
+    @Override
     public String getCreateAccountContent() {
-        return "Utworz konto";
+        return "Utwórz Konto";
     }
 
     @Override
     public String getRegisterProductContent() {
-        return "Zarejestruj produkt";
+        return "Zarejestruj Produkt";
     }
 
     @Override

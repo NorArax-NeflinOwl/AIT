@@ -14,7 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.ptl.resources.AitCommandTypes.*;
+import static com.ptl.resources.AitCommandTypes.ClientInitConnection;
+import static com.ptl.resources.AitCommandTypes.LoginInvalid;
+import static com.ptl.resources.AitCommandTypes.LoginSuc;
+import static com.ptl.resources.AitCommandTypes.LogoutSuc;
+import static com.ptl.resources.AitCommandTypes.RejestractionInvalid;
+import static com.ptl.resources.AitCommandTypes.RejestractionRequest;
+import static com.ptl.resources.AitCommandTypes.RejestractionSuc;
+import static com.ptl.resources.AitCommandTypes.SendFrom;
 
 public class AitClientHandler implements Runnable {
     private AitClientData clientData;

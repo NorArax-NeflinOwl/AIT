@@ -9,7 +9,13 @@ import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -104,7 +110,15 @@ public class LoginController extends GenericController<LoginController, Integer>
                                 return;
                             }
                             else {
-                                MainContext.setUser(acc, rememberMe);
+                                try {
+                                    MainContext.setUser(acc, rememberMe);
+                                } catch (Exception se) {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
+                                    alert.showAndWait();
+                                    if(alert.getResult() == ButtonType.OK) {
+                                        AppGUI.exit();
+                                    }
+                                }
                                 AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, ControllersName.LOGIN_NAMESPACE, this);
 
                                 logger.info("exiting: LoginController.loginAction() Login Successfull");

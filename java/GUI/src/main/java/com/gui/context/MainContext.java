@@ -7,7 +7,12 @@ import com.gui.frames.LoginController;
 import com.gui.frames.RegistraionController;
 import com.gui.generic.IGenericController;
 import com.gui.models.AccountSerializableModel;
-import com.gui.namespace.*;
+import com.gui.namespace.ArnoNamespace;
+import com.gui.namespace.BaseNamespace;
+import com.gui.namespace.ControllersName;
+import com.gui.namespace.DashboardNamespace;
+import com.gui.namespace.LoginNamespace;
+import com.gui.namespace.RegistrationNamespace;
 import com.hbm.daos.DAOFactory;
 import com.hbm.datamodels.models.Account;
 import com.hbm.datamodels.models.UserData;
@@ -66,7 +71,7 @@ public class MainContext {
         return sessionObj;
     }
 
-    public static void setUser(Account acc, boolean rememberMe) {
+    public static void setUser(Account acc, boolean rememberMe) throws SecurityException {
         if(acc != null) {
             UserData data = new DAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
             String nick = data != null ? data.getNick() : DEFAULT_RM;
@@ -82,7 +87,7 @@ public class MainContext {
         }
     }
 
-    public static AccountSerializableModel getUser() {
+    public static AccountSerializableModel getUser() throws SecurityException {
         if(user == null) {
             // if WARNING then RUN PROJECT AS administrator;
             String acc = settings.get(REMEMBER_ME, DEFAULT_RM);

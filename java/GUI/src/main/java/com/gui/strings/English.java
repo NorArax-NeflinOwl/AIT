@@ -192,6 +192,11 @@ public class English implements Language {
     }
 
     @Override
+    public String getDashboardContent() {
+        return "New Dashboard";
+    }
+
+    @Override
     public String getCreateAccountContent() {
         return "Create Account";
     }

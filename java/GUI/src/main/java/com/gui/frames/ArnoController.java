@@ -6,11 +6,11 @@ import com.gui.context.MainContext;
 import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.generic.IGenericController;
-import com.gui.models.AccountSerializableModel;
 import com.gui.namespace.ControllersName;
-import com.hbm.datamodels.models.Account;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -59,11 +59,15 @@ public class ArnoController extends GenericController<ArnoController, Integer>{
         @Override
         protected void succeeded() {
             try {
-                if(MainContext.getUser() != null) {
+                if (MainContext.getUser() != null) {
                     AppGUI.setRoot(ControllersName.DASHBOARD_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);
                 } else {
                     AppGUI.setRoot(ControllersName.LOGIN_NAMESPACE, ControllersName.ARNO_NAMESPACE, controller);
                 }
+            } catch (SecurityException se) {
+                logger.error("eror: ArnoControllerBandableTask.succeeded()", se);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
+                alert.show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

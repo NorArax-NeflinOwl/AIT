@@ -6,10 +6,7 @@ import com.gui.cultureResources.CultureManager;
 import com.gui.generic.GenericController;
 import com.gui.namespace.BaseNamespace;
 import com.gui.namespace.ControllersName;
-import com.gui.namespace.DashboardNamespace;
-import com.gui.namespace.RegistrationNamespace;
 import com.gui.strings.Consts;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -63,7 +60,7 @@ public class DashboardController extends GenericController<DashboardController, 
         redoItem.setText(CultureManager.getInstance().getLanguage().getRedoContent());
         redoItem.setDisable(true);
 
-        dashboardItem.setText(CultureManager.getInstance().getLanguage().getDashboardTitle());
+        dashboardItem.setText(CultureManager.getInstance().getLanguage().getDashboardContent());
         dashboardItem.setOnAction(actionEvent -> onDoshboardAction());
 
         createAccountItem.setText(CultureManager.getInstance().getLanguage().getCreateAccountContent());
