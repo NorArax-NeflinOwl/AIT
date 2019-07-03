@@ -1,8 +1,8 @@
 package com.hbm.models;
 
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.generics.AitGenericModel;
 import com.hbm.entities.AitAccountEntity;
+import com.hbm.generics.AitGenericModel;
 import org.hibernate.Session;
 
 import java.io.Serializable;

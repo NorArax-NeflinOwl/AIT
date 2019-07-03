@@ -1,7 +1,7 @@
 package com.hbm.generics;
 
-import com.hbm.interfaces.AitGenericDAOInterface;
 import com.hbm.hibernate.AitHibernateUtil;
+import com.hbm.interfaces.AitGenericDAOInterface;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 

@@ -1,8 +1,8 @@
 package com.gui.namespace;
 
 import com.gui.interfaces.AitNamespaceInterface;
-import com.gui.strings.AitFramesStrings;
 import com.gui.strings.AitControllersNameConstStrings;
+import com.gui.strings.AitFramesStrings;
 
 public class AitArnoNamespace implements AitNamespaceInterface {
     private String name = AitFramesStrings.arno;

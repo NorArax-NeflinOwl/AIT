@@ -1,11 +1,11 @@
 package com.gui.frames;
 
 import com.gui.AppGUI;
+import com.gui.abstracts.AitGenericController;
 import com.gui.context.AitInitializer;
 import com.gui.context.AitMainContext;
-import com.gui.managers.AitCultureManager;
-import com.gui.abstracts.AitGenericController;
 import com.gui.interfaces.AitGenericControllerInterface;
+import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

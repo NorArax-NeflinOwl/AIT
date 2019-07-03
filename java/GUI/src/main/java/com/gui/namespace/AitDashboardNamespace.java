@@ -1,9 +1,9 @@
 package com.gui.namespace;
 
-import com.gui.managers.AitCultureManager;
 import com.gui.interfaces.AitNamespaceInterface;
-import com.gui.strings.AitFramesStrings;
+import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
+import com.gui.strings.AitFramesStrings;
 
 public class AitDashboardNamespace implements AitNamespaceInterface {
     private String name = AitFramesStrings.dashboard;

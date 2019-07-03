@@ -2,9 +2,9 @@ package com.hbm;
 
 import com.hbm.daos.AitDAOFactory;
 import com.hbm.daos.models.AitAccountDAO;
+import com.hbm.hibernate.AitHibernateUtil;
 import com.hbm.models.AitAccount;
 import com.hbm.models.AitUserData;
-import com.hbm.hibernate.AitHibernateUtil;
 import com.ptl.managers.AitCrypter;
 import org.hibernate.Session;
 

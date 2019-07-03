@@ -1,7 +1,7 @@
 package com.hbm.generics;
 
-import com.hbm.interfaces.AitGenericModelInterface;
 import com.hbm.hibernate.AitMainContext;
+import com.hbm.interfaces.AitGenericModelInterface;
 import org.hibernate.Session;
 
 import java.io.Serializable;

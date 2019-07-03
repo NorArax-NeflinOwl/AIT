@@ -1,7 +1,7 @@
 package com.hbm.models;
 
-import com.hbm.generics.AitGenericModel;
 import com.hbm.entities.AitUserDataEntity;
+import com.hbm.generics.AitGenericModel;
 import org.hibernate.Session;
 
 import java.io.Serializable;

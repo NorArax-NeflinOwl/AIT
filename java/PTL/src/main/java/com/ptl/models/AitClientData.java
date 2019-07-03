@@ -1,4 +1,4 @@
-package com.ptl.structures;
+package com.ptl.models;
 
 public class AitClientData {
     private Integer id;

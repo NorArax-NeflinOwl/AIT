@@ -1,16 +1,16 @@
 package com.gui.frames;
 
 import com.gui.AppGUI;
-import com.gui.context.AitMainContext;
-import com.gui.managers.AitCultureManager;
 import com.gui.abstracts.AitGenericController;
+import com.gui.context.AitMainContext;
 import com.gui.interfaces.AitGenericControllerInterface;
+import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.models.AitAccount;
-import com.hbm.models.AitUserData;
 import com.hbm.entities.AitAccountEntity;
 import com.hbm.entities.AitUserDataEntity;
+import com.hbm.models.AitAccount;
+import com.hbm.models.AitUserData;
 import com.ptl.managers.AitCrypter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

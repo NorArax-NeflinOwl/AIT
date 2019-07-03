@@ -1,6 +1,6 @@
 module PTL {
     requires gson;
-    requires javaee.api;
+    requires org.jsoup;
 
     exports com.ptl;
     exports com.ptl.managers;

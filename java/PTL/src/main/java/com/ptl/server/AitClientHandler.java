@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import com.ptl.database.AitLocalDB;
 import com.ptl.managers.AitLogger;
 import com.ptl.managers.AitReceiverSender;
-import com.ptl.structures.AitClientData;
-import com.ptl.structures.AitPackageData;
+import com.ptl.models.AitClientData;
+import com.ptl.models.AitPackageData;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

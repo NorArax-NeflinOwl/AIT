@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.ptl.managers.AitCrypter;
 import com.ptl.managers.AitLogger;
 import com.ptl.managers.AitReceiverSender;
+import com.ptl.models.AitClientData;
+import com.ptl.models.AitPackageData;
 import com.ptl.resources.AitConsoleColor;
 import com.ptl.resources.AitLoggerPriority;
-import com.ptl.structures.AitClientData;
-import com.ptl.structures.AitPackageData;
 
 import java.io.IOException;
 import java.net.InetAddress;

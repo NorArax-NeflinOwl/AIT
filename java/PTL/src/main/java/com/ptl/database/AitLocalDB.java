@@ -3,9 +3,9 @@ package com.ptl.database;
 import com.google.gson.Gson;
 import com.ptl.managers.AitCrypter;
 import com.ptl.managers.AitLogger;
+import com.ptl.models.AitClientData;
+import com.ptl.models.AitMap;
 import com.ptl.resources.AitLoggerPriority;
-import com.ptl.structures.AitClientData;
-import com.ptl.structures.AitMap;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
