@@ -1,10 +1,10 @@
 package com.gui;
 
-import com.gui.context.MainContext;
-import com.gui.generic.IGenericController;
-import com.gui.namespace.BaseNamespace;
-import com.gui.namespace.ControllersName;
-import com.gui.strings.Consts;
+import com.gui.context.AitMainContext;
+import com.gui.interfaces.AitGenericControllerInterface;
+import com.gui.interfaces.AitNamespaceInterface;
+import com.gui.strings.AitControllersNameConstStrings;
+import com.gui.strings.AitFramesStrings;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -23,7 +23,7 @@ import java.util.Stack;
 
 public class AppGUI extends Application {
 
-    private static Stack<Pair<Parent, BaseNamespace>> stack = new Stack<>();
+    private static Stack<Pair<Parent, AitNamespaceInterface>> stack = new Stack<>();
     private static Scene scene;
     private static Stage stage;
     private static Queue<Stage> stages = new ArrayDeque<>();
@@ -34,10 +34,10 @@ public class AppGUI extends Application {
         initStage();
     }
 
-    public static void setRoot(String to, String from, IGenericController controller) throws Exception {
+    public static void setRoot(String to, String from, AitGenericControllerInterface controller) throws Exception {
 
-        MainContext.setController(from, controller);
-        BaseNamespace namespace = MainContext.getNamespace(to);
+        AitMainContext.setController(from, controller);
+        AitNamespaceInterface namespace = AitMainContext.getNamespace(to);
 
         if(namespace != null) {
             Parent parent = loadFXML(namespace);
@@ -47,11 +47,11 @@ public class AppGUI extends Application {
 
     public static void back() {
         stack.pop();
-        Pair<Parent, BaseNamespace> pair = stack.peek();
+        Pair<Parent, AitNamespaceInterface> pair = stack.peek();
         setRoot(pair.getKey(), pair.getValue());
     }
 
-    private static void setRoot(Parent parent, BaseNamespace namespace) {
+    private static void setRoot(Parent parent, AitNamespaceInterface namespace) {
         stack.push(new Pair<>(parent, namespace));
 
         scene.setRoot(parent);
@@ -62,7 +62,7 @@ public class AppGUI extends Application {
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
-        if(namespace.getControllerName().equals(ControllersName.DASHBOARD_NAMESPACE)) {
+        if(namespace.getControllerName().equals(AitControllersNameConstStrings.DASHBOARD_NAMESPACE)) {
             stage.setResizable(true);
         } else {
             stage.setResizable(false);
@@ -70,10 +70,10 @@ public class AppGUI extends Application {
     }
 
     private void initStage() throws Exception {
-        BaseNamespace namespace = MainContext.getNamespace(ControllersName.ARNO_NAMESPACE);
+        AitNamespaceInterface namespace = AitMainContext.getNamespace(AitControllersNameConstStrings.ARNO_NAMESPACE);
         scene = new Scene(loadFXML(namespace));
 
-        Image anotherIcon = new Image(getClass().getResource(Consts.logiPath).toExternalForm());
+        Image anotherIcon = new Image(getClass().getResource(AitFramesStrings.logiPath).toExternalForm());
         stage.getIcons().add(anotherIcon);
         stage.setTitle(namespace.getTitle());
         stage.setResizable(false);
@@ -94,13 +94,13 @@ public class AppGUI extends Application {
         }
     }
 
-    public static Parent loadFXML(BaseNamespace namespace) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(Consts.frameSlash + namespace.getFrame() + Consts.fxmlExt));
+    public static Parent loadFXML(AitNamespaceInterface namespace) throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(AitFramesStrings.frameSlash + namespace.getFrame() + AitFramesStrings.fxmlExt));
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
-        MainContext.initFrames();
+        AitMainContext.initFrames();
         launch();
     }
 
@@ -122,7 +122,7 @@ public class AppGUI extends Application {
         stage.close();
     }
 
-    public static BaseNamespace peekStack() {
+    public static AitNamespaceInterface peekStack() {
         return !stack.empty() ? stack.peek().getValue() : null;
     }
 }

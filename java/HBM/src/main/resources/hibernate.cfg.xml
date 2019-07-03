@@ -17,10 +17,10 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="com.hbm.entities.AccountEntity" />
-        <mapping class="com.hbm.entities.UserDataEntity" />
+        <mapping class="com.hbm.entities.AitAccountEntity" />
+        <mapping class="com.hbm.entities.AitUserDataEntity" />
 
-        <!--<mapping resource="com.arno.entities/Account.hbm.xml" />
-        <mapping resource="com.arno.entities/UserData.hbm.xml" />-->
+        <!--<mapping resource="com.arno.entities/AitAccount.hbm.xml" />
+        <mapping resource="com.arno.entities/AitUserData.hbm.xml" />-->
     </session-factory>
 </hibernate-configuration>

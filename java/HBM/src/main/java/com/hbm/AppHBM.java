@@ -1,10 +1,10 @@
 package com.hbm;
 
-import com.hbm.daos.DAOFactory;
-import com.hbm.daos.modeldao.AccountDAO;
-import com.hbm.datamodels.models.Account;
-import com.hbm.datamodels.models.UserData;
-import com.hbm.hibernate.HibernateUtil;
+import com.hbm.daos.AitDAOFactory;
+import com.hbm.daos.models.AitAccountDAO;
+import com.hbm.models.AitAccount;
+import com.hbm.models.AitUserData;
+import com.hbm.hibernate.AitHibernateUtil;
 import com.ptl.managers.AitCrypter;
 import org.hibernate.Session;
 
@@ -18,7 +18,7 @@ public class AppHBM {
 
     private static Session getSession(boolean createIfNotExists) {
         if(sessionObj == null && createIfNotExists || sessionObj != null && !sessionObj.isOpen()) {
-            sessionObj = HibernateUtil.getInstance().getSessionFactory().openSession();
+            sessionObj = AitHibernateUtil.getInstance().getSessionFactory().openSession();
         }
         return sessionObj;
     }
@@ -72,7 +72,7 @@ public class AppHBM {
             getSession(true).beginTransaction();
 
             for(int i = 101; i <= 105; i++) {
-                Account userObj = new Account(getSession(true));
+                AitAccount userObj = new AitAccount(getSession(true));
                 userObj.setLogin("Test acccount " + i);
                 userObj.setPassword(AitCrypter.generateMD5Hash(userObj.getLogin()));
                 userObj.setCreateDate(new Date());
@@ -98,8 +98,8 @@ public class AppHBM {
 
     private static void printAllUsersFromDB() {
         try {
-            List<Account> users = new DAOFactory(getSession(true)).getAccountDAO().findAllAccount();
-            List<UserData> data = new DAOFactory(getSession(true)).getUserDataDAO().findAllUserData();
+            List<AitAccount> users = new AitDAOFactory(getSession(true)).getAccountDAO().findAllAccount();
+            List<AitUserData> data = new AitDAOFactory(getSession(true)).getUserDataDAO().findAllUserData();
 
             System.out.println();
             if(users.isEmpty())
@@ -121,7 +121,7 @@ public class AppHBM {
             getSession(true).beginTransaction();
 
             Integer lid = Integer.parseInt(id);
-            AccountDAO doa = new DAOFactory(getSession(true)).getAccountDAO();
+            AitAccountDAO doa = new AitDAOFactory(getSession(true)).getAccountDAO();
 
             if(doa.deleteById(lid))
                 System.out.println(".......Delete successfully.......");
@@ -144,8 +144,8 @@ public class AppHBM {
         try {
             getSession(true).beginTransaction();
 
-            AccountDAO dao = new DAOFactory(getSession(true)).getAccountDAO();
-            Account acc = dao.findAccountById(Integer.parseInt(id));
+            AitAccountDAO dao = new AitDAOFactory(getSession(true)).getAccountDAO();
+            AitAccount acc = dao.findAccountById(Integer.parseInt(id));
 
             switch (row.toLowerCase()) {
                 case "l":

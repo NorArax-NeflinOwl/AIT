@@ -2,16 +2,18 @@ module GUI {
     requires javafx.controls;
     requires javafx.fxml;
 
+    requires java.prefs;
     requires java.naming;
-    requires log4j;
+    requires org.hibernate.orm.core;
     requires HBM;
     requires PTL;
-    requires org.hibernate.orm.core;
-    requires java.prefs;
+    requires log4j;
     requires gson;
 
     opens com.gui.frames to javafx.fxml;
     opens com.gui.models to gson;
-    exports com.gui.frames;
+
     exports com.gui;
+    exports com.gui.strings;
+    exports com.gui.interfaces;
 }
