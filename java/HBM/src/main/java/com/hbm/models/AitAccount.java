@@ -1,7 +1,7 @@
 package com.hbm.models;
 
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.entities.AitAccountEntity;
+import com.hbm.models.entities.AitAccountEntity;
 import com.hbm.generics.AitGenericModel;
 import org.hibernate.Session;
 

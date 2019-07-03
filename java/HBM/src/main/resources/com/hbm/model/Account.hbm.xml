@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.hbm.entities">
+<hibernate-mapping package="com.hbm.models.entities">
     <class name="AccountEntity" table="accounts" dynamic-update="true" dynamic-insert="true">
         <id name="id" type="java.lang.Long">
             <column name="acc_id" />

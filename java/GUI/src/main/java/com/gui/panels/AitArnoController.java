@@ -1,4 +1,4 @@
-package com.gui.frames;
+package com.gui.panels;
 
 import com.gui.AppGUI;
 import com.gui.abstracts.AitGenericController;
@@ -6,6 +6,7 @@ import com.gui.context.AitInitializer;
 import com.gui.context.AitMainContext;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.managers.AitCultureManager;
+import com.gui.models.AitAccountSerializableModel;
 import com.gui.strings.AitControllersNameConstStrings;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -59,11 +60,16 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
         @Override
         protected void succeeded() {
             try {
-                if (AitMainContext.getUser() != null) {
+                AitAccountSerializableModel account = AitMainContext.getUser();
+
+                if (account != null) {
                     AppGUI.setRoot(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, AitControllersNameConstStrings.ARNO_NAMESPACE, controller);
                 } else {
                     AppGUI.setRoot(AitControllersNameConstStrings.LOGIN_NAMESPACE, AitControllersNameConstStrings.ARNO_NAMESPACE, controller);
                 }
+
+                updateProgress(10,10);
+                Thread.sleep(200);
             } catch (SecurityException se) {
                 logger.error("eror: ArnoControllerBandableTask.succeeded()", se);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
@@ -88,9 +94,6 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
             }
 
             updateMessage(AitCultureManager.getInstance().getLanguage().getFinishInfoProgress());
-            Thread.sleep(1000);
-
-            updateProgress(10,10);
             Thread.sleep(500);
             return 10;
         }

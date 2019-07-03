@@ -1,6 +1,6 @@
 package com.hbm.models;
 
-import com.hbm.entities.AitUserDataEntity;
+import com.hbm.models.entities.AitUserDataEntity;
 import com.hbm.generics.AitGenericModel;
 import org.hibernate.Session;
 

@@ -4,7 +4,7 @@ public interface AitNamespaceInterface {
     String getControllerName();
     String getTitle();
     void setTitle(String title);
-    String getFrame();
+    String getPanel();
 
     double getWigth();
     double getHeight();

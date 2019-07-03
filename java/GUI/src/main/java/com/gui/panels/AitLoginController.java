@@ -1,4 +1,4 @@
-package com.gui.frames;
+package com.gui.panels;
 
 import com.gui.AppGUI;
 import com.gui.abstracts.AitGenericController;
@@ -119,7 +119,7 @@ public class AitLoginController extends AitGenericController<AitLoginController,
                                         AppGUI.exit();
                                     }
                                 }
-                                AppGUI.setRoot(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, AitControllersNameConstStrings.LOGIN_NAMESPACE, this);
+                                AppGUI.setRoot(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, AitControllersNameConstStrings.LOGIN_NAMESPACE, this, true);
 
                                 logger.info("exiting: AitLoginController.loginAction() Login Successfull");
                                 return;

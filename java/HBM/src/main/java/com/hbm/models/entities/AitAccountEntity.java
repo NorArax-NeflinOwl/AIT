@@ -1,4 +1,4 @@
-package com.hbm.entities;
+package com.hbm.models.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

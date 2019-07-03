@@ -12,12 +12,12 @@ module HBM {
     requires log4j;
     requires PTL;
 
-    opens com.hbm.entities to org.hibernate.orm.core;
+    opens com.hbm.models.entities to org.hibernate.orm.core;
 
     exports com.hbm;
     exports com.hbm.daos;
     exports com.hbm.models;
     exports com.hbm.daos.models;
     exports com.hbm.hibernate;
-    exports com.hbm.entities;
+    exports com.hbm.models.entities;
 }

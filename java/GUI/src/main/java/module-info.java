@@ -10,7 +10,7 @@ module GUI {
     requires log4j;
     requires gson;
 
-    opens com.gui.frames to javafx.fxml;
+    opens com.gui.panels to javafx.fxml;
     opens com.gui.models to gson;
 
     exports com.gui;

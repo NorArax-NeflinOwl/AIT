@@ -1,10 +1,10 @@
 package com.gui.context;
 
 import com.google.gson.Gson;
-import com.gui.frames.AitArnoController;
-import com.gui.frames.AitDashboardController;
-import com.gui.frames.AitLoginController;
-import com.gui.frames.AitRegistraionController;
+import com.gui.panels.AitArnoController;
+import com.gui.panels.AitDashboardController;
+import com.gui.panels.AitLoginController;
+import com.gui.panels.AitRegistraionController;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.interfaces.AitNamespaceInterface;
 import com.gui.models.AitAccountSerializableModel;
@@ -94,6 +94,8 @@ public class AitMainContext {
             if(!acc.equals(DEFAULT_RM)) {
                 Gson gson = new Gson();
                 user = gson.fromJson(acc, AitAccountSerializableModel.class);
+                AitAccount account = new AitAccount(getSession(true), new AitDAOFactory(getSession(true)).getAccountDAO().findById(user.getId()));
+                return account.getEntity() != null ? user : null;
             }
         }
         return user;

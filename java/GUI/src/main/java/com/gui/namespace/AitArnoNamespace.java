@@ -23,8 +23,8 @@ public class AitArnoNamespace implements AitNamespaceInterface {
     }
 
     @Override
-    public String getFrame() {
-        return AitFramesStrings.ait.toLowerCase() + name + AitFramesStrings.frame;
+    public String getPanel() {
+        return AitFramesStrings.ait.toLowerCase() + name + AitFramesStrings.panel;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.gui.frames;
+package com.gui.panels;
 
 import com.gui.AppGUI;
 import com.gui.abstracts.AitGenericController;

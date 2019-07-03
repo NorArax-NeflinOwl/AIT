@@ -17,8 +17,8 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="com.hbm.entities.AitAccountEntity" />
-        <mapping class="com.hbm.entities.AitUserDataEntity" />
+        <mapping class="com.hbm.models.entities.AitAccountEntity" />
+        <mapping class="com.hbm.models.entities.AitUserDataEntity" />
 
         <!--<mapping resource="com.arno.entities/AitAccount.hbm.xml" />
         <mapping resource="com.arno.entities/AitUserData.hbm.xml" />-->

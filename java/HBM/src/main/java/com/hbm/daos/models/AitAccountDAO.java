@@ -1,6 +1,6 @@
 package com.hbm.daos.models;
 
-import com.hbm.entities.AitAccountEntity;
+import com.hbm.models.entities.AitAccountEntity;
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitAccountDAOInterface;
 import com.hbm.models.AitAccount;

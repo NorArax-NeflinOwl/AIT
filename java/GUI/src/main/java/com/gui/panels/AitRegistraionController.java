@@ -1,4 +1,4 @@
-package com.gui.frames;
+package com.gui.panels;
 
 import com.gui.AppGUI;
 import com.gui.abstracts.AitGenericController;
@@ -7,8 +7,8 @@ import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.entities.AitAccountEntity;
-import com.hbm.entities.AitUserDataEntity;
+import com.hbm.models.entities.AitAccountEntity;
+import com.hbm.models.entities.AitUserDataEntity;
 import com.hbm.models.AitAccount;
 import com.hbm.models.AitUserData;
 import com.ptl.managers.AitCrypter;
