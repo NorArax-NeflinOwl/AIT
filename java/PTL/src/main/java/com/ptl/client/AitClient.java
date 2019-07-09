@@ -168,7 +168,7 @@ public class AitClient {
                         break;
                     case RejestractionRequest:
                         msg = data.getParams().get(RejestractionRequest.toString());
-                        AitLogger.getInstance().logToConsole(new Object[] { msg }, AitLoggerPriority.Warting);
+                        AitLogger.getInstance().logToConsole(new Object[] { msg }, AitLoggerPriority.WARNING);
                         createClient();
                         break;
                     case RejestractionSuc:
@@ -234,7 +234,7 @@ public class AitClient {
         String rpass = scn.nextLine();
 
         if(!pass.equals(rpass)) {
-            AitLogger.getInstance().logToConsole(new Object[] { "Passwords is not equals! Try again" }, AitLoggerPriority.Warting);
+            AitLogger.getInstance().logToConsole(new Object[] { "Passwords is not equals! Try again" }, AitLoggerPriority.WARNING);
             createClient();
         } else {
             pass = AitCrypter.generateMD5Hash(pass);

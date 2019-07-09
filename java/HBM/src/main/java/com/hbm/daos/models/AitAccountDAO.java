@@ -1,9 +1,9 @@
 package com.hbm.daos.models;
 
-import com.hbm.models.entities.AitAccountEntity;
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitAccountDAOInterface;
 import com.hbm.models.AitAccount;
+import com.hbm.models.entities.AitAccountEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

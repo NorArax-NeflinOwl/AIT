@@ -1,6 +1,7 @@
 package com.hbm.daos;
 
 import com.hbm.daos.models.AitAccountDAO;
+import com.hbm.daos.models.AitSettingsDAO;
 import com.hbm.daos.models.AitUserDataDAO;
 import com.hbm.generics.AitGenericDAO;
 import org.apache.log4j.Logger;
@@ -42,4 +43,6 @@ public class AitDAOFactory {
     public AitAccountDAO getAccountDAO() { return (AitAccountDAO) instantiateDAO(AitAccountDAO.class); }
 
     public AitUserDataDAO getUserDataDAO() { return (AitUserDataDAO) instantiateDAO(AitUserDataDAO.class); }
+
+    public AitSettingsDAO getSettingsDAO() { return (AitSettingsDAO) instantiateDAO(AitSettingsDAO.class); }
 }

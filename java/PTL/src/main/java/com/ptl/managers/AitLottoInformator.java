@@ -12,18 +12,6 @@ public class AitLottoInformator {
     private static String searchString = "4,6,17,21,24,34";
     private static int intervalDay = 3;
 
-    public static void main(String[] args) {
-        try {
-            if(new AitLottoInformator().checkLottoLastResult()) {
-                System.out.println("SUCCESS!!!");
-            } else {
-                System.out.println("Meaby next time :/");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void run() {
         Runnable r = () -> {
             try {
@@ -41,7 +29,7 @@ public class AitLottoInformator {
         new Thread(r).start();
     }
 
-    private boolean checkLottoLastResult() throws Exception {
+    public boolean checkLottoLastResult() throws Exception {
         String result = Jsoup.connect(link).get().body().html();
         List<String> results = new ArrayList<>(Arrays.asList(result.split(" ")));
 
@@ -51,7 +39,7 @@ public class AitLottoInformator {
 
             return lastResult.bingo(searchResult);
         } else {
-            throw new Exception("Error durling website download and parsing");
+            throw new Exception("ERROR durling website download and parsing");
         }
     }
 }

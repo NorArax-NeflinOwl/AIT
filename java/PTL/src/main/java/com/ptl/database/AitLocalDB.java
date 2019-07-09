@@ -112,11 +112,11 @@ public class AitLocalDB {
 
         if(!logDir.exists()) {
             if(logDir.mkdir()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create Log directory"}, AitLoggerPriority.Information);
+                AitLogger.getInstance().logToConsole(new Object[]{"Create Log directory"}, AitLoggerPriority.INFORMATION);
             }
         }
         else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log directory exists"}, AitLoggerPriority.Information);
+            AitLogger.getInstance().logToConsole(new Object[]{"Log directory exists"}, AitLoggerPriority.INFORMATION);
         }
     }
 
@@ -126,11 +126,11 @@ public class AitLocalDB {
         File dbFile = new File(dbFilePath);
         if (!dbFile.exists()) {
             if(dbFile.createNewFile()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create gui.com.ptl.database file: " + timeStamp}, AitLoggerPriority.Information);
+                AitLogger.getInstance().logToConsole(new Object[]{"Create gui.com.ptl.database file: " + timeStamp}, AitLoggerPriority.INFORMATION);
             }
         }
         else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log gui.com.ptl.database exists: " + timeStamp}, AitLoggerPriority.Information);
+            AitLogger.getInstance().logToConsole(new Object[]{"Log gui.com.ptl.database exists: " + timeStamp}, AitLoggerPriority.INFORMATION);
         }
 
         return dbFile;

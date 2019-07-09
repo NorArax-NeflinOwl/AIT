@@ -1,9 +1,9 @@
 package com.hbm.daos.models;
 
-import com.hbm.models.entities.AitUserDataEntity;
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitUserDataDAOInterface;
 import com.hbm.models.AitUserData;
+import com.hbm.models.entities.AitUserDataEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

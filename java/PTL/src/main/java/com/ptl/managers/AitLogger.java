@@ -31,8 +31,16 @@ public class AitLogger {
         }
     }
 
+    public void logToConsole(String generateId) {
+        logToConsole(new Object[]{generateId});
+    }
+
     public void logToConsole(Object[] params) {
-        logToConsole(params, AitLoggerPriority.Information);
+        logToConsole(params, AitLoggerPriority.INFORMATION);
+    }
+
+    public void logToConsole(String generateId, AitLoggerPriority priority) {
+        logToConsole(new Object[]{generateId}, priority);
     }
 
     public void logToConsole(Object[] params, AitLoggerPriority priority)  {
@@ -43,7 +51,7 @@ public class AitLogger {
     }
 
     public void logToFile(Object[] params, String title) throws Exception {
-        logToFile(params, title, AitLoggerPriority.Error);
+        logToFile(params, title, AitLoggerPriority.ERROR);
     }
 
     private void logToFile(Object[] params, String title, AitLoggerPriority priority) throws Exception  {
@@ -87,11 +95,11 @@ public class AitLogger {
 
     private String convertPriorityToColor(AitLoggerPriority priority) {
         switch (priority) {
-            case Error:
+            case ERROR:
                 return AitConsoleColor.ANSI_RED_LINE;
-            case Warting:
+            case WARNING:
                 return AitConsoleColor.ANSI_PURPLE_LINE;
-            case Information:
+            case INFORMATION:
                 return AitConsoleColor.ANSI_GREEN_LINE;
             default:
                 return AitConsoleColor.ANSI_WHITE_LINE;
@@ -100,11 +108,11 @@ public class AitLogger {
 
     private String convertPiorityToString(AitLoggerPriority priority) {
         switch (priority) {
-            case Error:
+            case ERROR:
                 return "[ERR]: %s";
-            case Warting:
+            case WARNING:
                 return "[WAR]: %s";
-            case Information:
+            case INFORMATION:
                 return "[INF]: %s";
             default:
                 return "%s";
@@ -117,11 +125,11 @@ public class AitLogger {
 
         if(!logDir.exists()) {
             if(logDir.mkdir()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create Log directory"}, AitLoggerPriority.Information);
+                AitLogger.getInstance().logToConsole(new Object[]{"Create Log directory"}, AitLoggerPriority.INFORMATION);
             }
         }
         else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log directory exists"}, AitLoggerPriority.Information);
+            AitLogger.getInstance().logToConsole(new Object[]{"Log directory exists"}, AitLoggerPriority.INFORMATION);
         }
     }
 
@@ -132,11 +140,11 @@ public class AitLogger {
         File logFile = new File(logFilePath);
         if (!logFile.exists()) {
             if(logFile.createNewFile()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create Log file: " + timeStamp}, AitLoggerPriority.Information);
+                AitLogger.getInstance().logToConsole(new Object[]{"Create Log file: " + timeStamp}, AitLoggerPriority.INFORMATION);
             }
         }
         else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log file exists: " + timeStamp}, AitLoggerPriority.Information);
+            AitLogger.getInstance().logToConsole(new Object[]{"Log file exists: " + timeStamp}, AitLoggerPriority.INFORMATION);
         }
 
         return logFile;

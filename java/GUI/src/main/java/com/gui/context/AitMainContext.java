@@ -1,10 +1,6 @@
 package com.gui.context;
 
 import com.google.gson.Gson;
-import com.gui.panels.AitArnoController;
-import com.gui.panels.AitDashboardController;
-import com.gui.panels.AitLoginController;
-import com.gui.panels.AitRegistraionController;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.interfaces.AitNamespaceInterface;
 import com.gui.models.AitAccountSerializableModel;
@@ -12,6 +8,10 @@ import com.gui.namespace.AitArnoNamespace;
 import com.gui.namespace.AitDashboardNamespace;
 import com.gui.namespace.AitLoginNamespace;
 import com.gui.namespace.AitRegistrationNamespace;
+import com.gui.panels.AitArnoController;
+import com.gui.panels.AitDashboardController;
+import com.gui.panels.AitLoginController;
+import com.gui.panels.AitRegistraionController;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
 import com.hbm.hibernate.AitHibernateUtil;
@@ -33,13 +33,13 @@ public class AitMainContext {
     private static Logger logger = Logger.getLogger(AitMainContext.class);
 
     public static void initFrames() {
-        logger.info("opening: AitMainContext.initFrames()");
+        logger.info("opening: AitIdManager.initFrames()");
         frames = new HashMap<>();
         frames.put(AitControllersNameConstStrings.ARNO_NAMESPACE, new Pair<>(new AitArnoNamespace(), new AitArnoController()));
         frames.put(AitControllersNameConstStrings.LOGIN_NAMESPACE, new Pair<>(new AitLoginNamespace(), new AitLoginController()));
         frames.put(AitControllersNameConstStrings.REGISTRATION_NAMESPACE, new Pair<>(new AitRegistrationNamespace(), new AitRegistraionController()));
         frames.put(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, new Pair<>(new AitDashboardNamespace(), new AitDashboardController()));
-        logger.info("exiting: AitMainContext.initFrames()");
+        logger.info("exiting: AitIdManager.initFrames()");
     }
 
     public static AitNamespaceInterface getNamespace(String key) {
@@ -74,7 +74,7 @@ public class AitMainContext {
     public static void setUser(AitAccount acc, boolean rememberMe) throws SecurityException {
         if(acc != null) {
             AitUserData data = new AitDAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
-            String nick = data != null ? data.getNick() : DEFAULT_RM;
+            String nick = data != null ? data.getNick() : DEFAULT;
             user = new AitAccountSerializableModel(acc, nick);
         } else {
             user = null;
@@ -83,15 +83,15 @@ public class AitMainContext {
             Gson gson = new Gson();
             settings.put(REMEMBER_ME, gson.toJson(user));
         } else {
-            settings.put(REMEMBER_ME, DEFAULT_RM);
+            settings.put(REMEMBER_ME, DEFAULT);
         }
     }
 
     public static AitAccountSerializableModel getUser() throws SecurityException {
         if(user == null) {
             // if WARNING then RUN PROJECT AS administrator;
-            String acc = settings.get(REMEMBER_ME, DEFAULT_RM);
-            if(!acc.equals(DEFAULT_RM)) {
+            String acc = settings.get(REMEMBER_ME, DEFAULT);
+            if(!acc.equals(DEFAULT)) {
                 Gson gson = new Gson();
                 user = gson.fromJson(acc, AitAccountSerializableModel.class);
                 AitAccount account = new AitAccount(getSession(true), new AitDAOFactory(getSession(true)).getAccountDAO().findById(user.getId()));
@@ -101,6 +101,6 @@ public class AitMainContext {
         return user;
     }
 
-    private static String DEFAULT_RM = "";
+    private static String DEFAULT = "";
     private static String REMEMBER_ME  = "REMEMBER_ME";
 }
