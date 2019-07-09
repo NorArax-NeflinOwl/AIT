@@ -11,6 +11,7 @@ module HBM {
     requires mysql.connector.java;
     requires log4j;
     requires PTL;
+    requires maven.model;
 
     opens com.hbm.models.entities to org.hibernate.orm.core;
 

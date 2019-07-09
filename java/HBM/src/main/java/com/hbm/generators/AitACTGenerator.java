@@ -2,8 +2,8 @@ package com.hbm.generators;
 
 import com.hbm.managers.AitIdManager;
 import com.ptl.managers.AitLogger;
-import com.ptl.resources.Inerfix;
-import com.ptl.resources.Prefix;
+import com.ptl.resources.AitInerfix;
+import com.ptl.resources.AitPrefix;
 
 public class AitACTGenerator {
     public static void main(String[] args) {
@@ -19,18 +19,18 @@ public class AitACTGenerator {
     }
 
     public static String createSimpleACK() {
-        return AitIdManager.getInstance().generateId(Prefix.ACK);
+        return AitIdManager.getInstance().generateId(AitPrefix.ACK);
     }
 
     public static String createACK2CR() {
-        return AitIdManager.getInstance().generateId(Prefix.ACK, Inerfix.CR);
+        return AitIdManager.getInstance().generateId(AitPrefix.ACK, AitInerfix.CR);
     }
 
     public static String createACK2CK() {
-        return AitIdManager.getInstance().generateId(Prefix.ACK, Inerfix.CK);
+        return AitIdManager.getInstance().generateId(AitPrefix.ACK, AitInerfix.CK);
     }
 
     public static String createACK2FIX() {
-        return AitIdManager.getInstance().generateId(Prefix.ACK, Inerfix.FIX);
+        return AitIdManager.getInstance().generateId(AitPrefix.ACK, AitInerfix.FIX);
     }
 }

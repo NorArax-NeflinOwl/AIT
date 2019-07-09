@@ -1,6 +1,6 @@
 package com.ptl.resources;
 
-public enum Inerfix {
+public enum AitInerfix {
     AIT,            // AIT project
     FIX,            // fix me
     CK,             // check me

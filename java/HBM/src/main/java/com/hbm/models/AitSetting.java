@@ -5,6 +5,7 @@ import com.hbm.models.entities.AitSettingEntity;
 import org.hibernate.Session;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class AitSetting extends AitGenericModel<AitSettingEntity> implements Serializable {
 
@@ -35,5 +36,13 @@ public class AitSetting extends AitGenericModel<AitSettingEntity> implements Ser
 
     public void setValue(int value) {
         entity.setValue(value);
+    }
+
+    public Date getLastUpdate() {
+        return entity.getLastUpdate();
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        entity.setLastUpdate(lastUpdate);
     }
 }

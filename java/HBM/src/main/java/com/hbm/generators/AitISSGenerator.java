@@ -2,8 +2,8 @@ package com.hbm.generators;
 
 import com.hbm.managers.AitIdManager;
 import com.ptl.managers.AitLogger;
-import com.ptl.resources.Inerfix;
-import com.ptl.resources.Prefix;
+import com.ptl.resources.AitInerfix;
+import com.ptl.resources.AitPrefix;
 
 public class AitISSGenerator {
     public static void main(String[] args) {
@@ -17,14 +17,14 @@ public class AitISSGenerator {
     }
 
     public static String createSimpleISS() {
-        return AitIdManager.getInstance().generateId(Prefix.ISS);
+        return AitIdManager.getInstance().generateId(AitPrefix.ISS);
     }
 
     public static String createISS2CK() {
-        return AitIdManager.getInstance().generateId(Prefix.ISS, Inerfix.CK);
+        return AitIdManager.getInstance().generateId(AitPrefix.ISS, AitInerfix.CK);
     }
 
     public static String createISS2FIX() {
-        return AitIdManager.getInstance().generateId(Prefix.ISS, Inerfix.FIX);
+        return AitIdManager.getInstance().generateId(AitPrefix.ISS, AitInerfix.FIX);
     }
 }

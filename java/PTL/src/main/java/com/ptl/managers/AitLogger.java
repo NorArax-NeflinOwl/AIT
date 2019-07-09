@@ -39,14 +39,14 @@ public class AitLogger {
         logToConsole(params, AitLoggerPriority.INFORMATION);
     }
 
-    public void logToConsole(String generateId, AitLoggerPriority priority) {
-        logToConsole(new Object[]{generateId}, priority);
-    }
-
     public void logToConsole(Object[] params, AitLoggerPriority priority)  {
-        for (Object arg : params) {
-            String color = convertPriorityToColor(priority);
-            System.out.println(String.format(color, convertDateTimeToString() + "[LOG MSG]: " + arg.toString()));
+        if(params != null) {
+            for (Object arg : params) {
+                if(arg != null) {
+                    String color = convertPriorityToColor(priority);
+                    System.out.println(String.format(color, convertDateTimeToString() + "[LOG MSG]: " + arg.toString()));
+                }
+            }
         }
     }
 

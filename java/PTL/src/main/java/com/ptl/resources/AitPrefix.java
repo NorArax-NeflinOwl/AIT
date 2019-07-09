@@ -1,6 +1,6 @@
 package com.ptl.resources;
 
-public enum Prefix {
+public enum AitPrefix {
     CR,             // commit request
     ACK,            // activity
     ISS             // issue

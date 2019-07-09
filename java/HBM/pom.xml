@@ -5,12 +5,12 @@
     <parent>
         <artifactId>AIT</artifactId>
         <groupId>com.ait</groupId>
-        <version>1.0.0</version>
+        <version>1.0.4</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>HBM</artifactId>
-
 
     <dependencies>
         <dependency>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.ait</groupId>
             <artifactId>PTL</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.4</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

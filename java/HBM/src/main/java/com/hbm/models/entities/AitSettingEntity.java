@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.sql.Date;
 
 @Entity(name = "settings")
 public class AitSettingEntity implements Serializable {
@@ -21,12 +22,16 @@ public class AitSettingEntity implements Serializable {
     @Column(name = "set_value")
     private int value;
 
+    @Column(name = "set_lastupdate")
+    private Date lastUpdate;
+
     public AitSettingEntity() {}
 
-    public AitSettingEntity(int id, String name, int value) {
+    public AitSettingEntity(int id, String name, int value, Date lastUpdate) {
         this.id = id;
         this.name = name;
         this.value = value;
+        this.lastUpdate = lastUpdate;
     }
 
     public int getId() {
@@ -51,5 +56,13 @@ public class AitSettingEntity implements Serializable {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 }
