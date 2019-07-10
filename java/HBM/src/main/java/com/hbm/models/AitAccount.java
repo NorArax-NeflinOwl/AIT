@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class AitAccount extends AitGenericModel<AitAccountEntity> implements Serializable {
 
+    private AitUserData userData;
+
     public AitAccount(Session session) {
         super(session);
         entity = new AitAccountEntity();
@@ -29,11 +31,15 @@ public class AitAccount extends AitGenericModel<AitAccountEntity> implements Ser
     }
 
     public AitUserData getUserData() {
-        return new AitDAOFactory(getSession()).getUserDataDAO().findUserDataById(entity.getId());
+        if(userData == null) {
+            userData =  new AitDAOFactory(getSession()).getUserDataDAO().findUserDataById(entity.getId());
+        }
+        return userData;
     }
 
     public void setUserData(AitUserData data) {
-        data.saveOrUpdate();
+        userData = data;
+        userData.saveOrUpdate();
     }
 
     public String getLogin() {

@@ -6,14 +6,13 @@ import com.hbm.hibernate.AitHibernateUtil;
 import com.hbm.models.AitSetting;
 import com.hbm.models.entities.AitSettingEntity;
 import com.ptl.managers.AitLogger;
-import com.ptl.resources.AitLoggerPriority;
 import com.ptl.resources.AitInerfix;
+import com.ptl.resources.AitLoggerPriority;
 import com.ptl.resources.AitPostfix;
 import com.ptl.resources.AitPrefix;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.hibernate.Session;
-import org.hibernate.boot.jaxb.internal.stax.JpaOrmXmlEventReader;
 
 import java.io.FileReader;
 import java.util.Arrays;
@@ -23,6 +22,9 @@ public class AitIdManager {
     private AitIdManager(){}
     private static Session sessionObj;
     private static AitIdManager instance = new AitIdManager();
+
+    private static final String OK = "<OK>";
+    private static final String ERROR = "<ERROR>";
 
     public static AitIdManager getInstance() {
         return instance;
@@ -55,7 +57,7 @@ public class AitIdManager {
                 i = set.getValue() + 1;
 
                 String version = checkVersionNumber(i);
-                if(AitPrefix.CR.equals(prefix) && "<OK>".equals(version) == false) {
+                if(AitPrefix.CR.equals(prefix) && !OK.equals(version)) {
                     throw new Exception("You must increase version mumber to " + version + " and try again!");
                 }
             } else {
@@ -87,14 +89,14 @@ public class AitIdManager {
             int fVer = Integer.parseInt(version.get(0)) * 100 != 100 ? Integer.parseInt(version.get(0)) * 100 : 0;
             int versionNumber = fVer + Integer.parseInt(version.get(1)) * 10 + Integer.parseInt(version.get(2));
             if(versionNumber == v){
-                return "<OK>";
+                return OK;
             } else {
                 return (v/100) > 0 ? String.valueOf(v/100) : "1" + "." + (v/10)%10 + "." + v%10;
             }
         } catch (Exception ex) {
             AitLogger.getInstance().logToConsole(new Object[] { ex }, AitLoggerPriority.ERROR);
         }
-        return "<ERROR>";
+        return ERROR;
     }
 
     private static Session getSession(boolean createIfNotExists) {
