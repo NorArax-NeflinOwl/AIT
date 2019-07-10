@@ -21,7 +21,7 @@ public class AitISSGenerator {
     }
 
     public static String createISS2CK() {
-        return AitIdManager.getInstance().generateId(AitPrefix.ISS, AitInerfix.CK);
+        return AitIdManager.getInstance().generateId(AitPrefix.ISS, AitInerfix.ANL);
     }
 
     public static String createISS2FIX() {

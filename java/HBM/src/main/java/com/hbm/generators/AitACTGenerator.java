@@ -27,7 +27,7 @@ public class AitACTGenerator {
     }
 
     public static String createACK2CK() {
-        return AitIdManager.getInstance().generateId(AitPrefix.ACK, AitInerfix.CK);
+        return AitIdManager.getInstance().generateId(AitPrefix.ACK, AitInerfix.ANL);
     }
 
     public static String createACK2FIX() {

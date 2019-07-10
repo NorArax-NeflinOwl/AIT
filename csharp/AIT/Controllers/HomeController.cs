@@ -9,7 +9,7 @@ namespace AIT.Controllers
     {
         public ActionResult Index()
         {
-            mailSender("ppudi7368@gmail.com", "http://warofclicks.com/User/Activation/1380e538-9a29-4773-bfd5-37152da18d53");
+            //mailSender("ppudi7368@gmail.com", "http://warofclicks.com/User/Activation/1380e538-9a29-4773-bfd5-37152da18d53");
             return View();
         }
 

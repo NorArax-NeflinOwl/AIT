@@ -55,11 +55,7 @@ public class AitIdManager {
 
             if(set != null) {
                 i = set.getValue() + 1;
-
-                String version = checkVersionNumber(i);
-                if(AitPrefix.CR.equals(prefix) && !OK.equals(version)) {
-                    throw new Exception("You must increase version mumber to " + version + " and try again!");
-                }
+                checkVersionNumber(i, prefix);
             } else {
                 AitSettingEntity entity = new AitSettingEntity();
                 entity.setName(key);
@@ -80,23 +76,29 @@ public class AitIdManager {
         return null;
     }
 
-    private String checkVersionNumber(int v) {
+    private void checkVersionNumber(int v, AitPrefix prefix) {
         try {
+            boolean error = false;
             MavenXpp3Reader reader = new MavenXpp3Reader();
             Model model = reader.read(new FileReader("pom.xml"));
             String verStr = model.getVersion();
-            List<String> version = Arrays.asList(verStr.replace('.',',').split(","));
-            int fVer = Integer.parseInt(version.get(0)) * 100 != 100 ? Integer.parseInt(version.get(0)) * 100 : 0;
-            int versionNumber = fVer + Integer.parseInt(version.get(1)) * 10 + Integer.parseInt(version.get(2));
-            if(versionNumber == v){
-                return OK;
-            } else {
-                return (v/100) > 0 ? String.valueOf(v/100) : "1" + "." + (v/10)%10 + "." + v%10;
+            List<String> versionTab = Arrays.asList(verStr.replace('.',',').split(","));
+
+            int version = Integer.parseInt(versionTab.get(0));
+            int reqVer = Integer.parseInt(versionTab.get(1));
+            int crVer = Integer.parseInt(versionTab.get(2));
+
+            if((AitPrefix.REQ.equals(prefix) && reqVer != v) ||
+               (AitPrefix.CR.equals(prefix) && crVer != v)) {
+                error = true;
+            }
+
+            if(error) {
+                throw new Exception("You must increase version mumber to " + version + "." + reqVer + "." + crVer + " and try again!");
             }
         } catch (Exception ex) {
             AitLogger.getInstance().logToConsole(new Object[] { ex }, AitLoggerPriority.ERROR);
         }
-        return ERROR;
     }
 
     private static Session getSession(boolean createIfNotExists) {
