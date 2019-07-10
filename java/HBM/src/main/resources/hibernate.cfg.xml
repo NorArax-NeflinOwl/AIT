@@ -20,6 +20,8 @@
         <mapping class="com.hbm.models.entities.AitAccountEntity" />
         <mapping class="com.hbm.models.entities.AitUserDataEntity" />
         <mapping class="com.hbm.models.entities.AitSettingEntity" />
+        <mapping class="com.hbm.models.entities.AitNoteEntity" />
+        <mapping class="com.hbm.models.entities.AitUserHostsEntity" />
 
         <!--<mapping resource="com.arno.entities/AitAccount.hbm.xml" />
         <mapping resource="com.arno.entities/AitUserData.hbm.xml" />-->
