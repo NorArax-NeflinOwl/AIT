@@ -5,12 +5,14 @@
     <parent>
         <artifactId>AIT</artifactId>
         <groupId>com.ait</groupId>
-        <version>1.0.6</version>
+        <version>@{global.version}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>GUI</artifactId>
+    <groupId>com.ait.gui</groupId>
+    <version>1.0.0</version>
 
     <build>
         <plugins>
@@ -39,9 +41,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ait</groupId>
+            <groupId>com.ait.hbm</groupId>
             <artifactId>HBM</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

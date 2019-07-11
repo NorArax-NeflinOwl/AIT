@@ -7,35 +7,35 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.sql.Date;
 
-@Entity(name = "notes")
-public class AitNoteEntity implements Serializable {
+@Entity(name = "usershosts")
+public class AitUserHostEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "nts_id")
+    @Column(name = "uhs_id")
     private int id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="nts_accid")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="uhs_accid")
     private AitAccountEntity account;
 
-    @Column(name = "nts_title")
-    private String name;
+    @Column(name = "uhs_hostname")
+    private String hostName;
 
-    @Column(name = "nts_content")
+    @Column(name = "uhs_active")
     private boolean isActive;
+
+    @Column(name = "uhs_actualloggedin")
+    private boolean isActualLoggedIn;
 
     @Column(name = "uhs_create")
     private Date createDate;
 
-    @Column(name = "nts_lastupdate")
-    private Date lastUpdate;
-
-    public AitNoteEntity() {}
+    public AitUserHostEntity() {}
 
     public int getId() {
         return id;
@@ -53,12 +53,12 @@ public class AitNoteEntity implements Serializable {
         this.account = account;
     }
 
-    public String getName() {
-        return name;
+    public String getHostName() {
+        return hostName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
     public boolean isActive() {
@@ -69,19 +69,19 @@ public class AitNoteEntity implements Serializable {
         isActive = active;
     }
 
+    public boolean isActualLoggedIn() {
+        return isActualLoggedIn;
+    }
+
+    public void setActualLoggedIn(boolean actualLoggedIn) {
+        isActualLoggedIn = actualLoggedIn;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
-    }
-
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
     }
 }

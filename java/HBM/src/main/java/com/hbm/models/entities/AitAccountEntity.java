@@ -36,16 +36,6 @@ public class AitAccountEntity implements Serializable {
 
     public AitAccountEntity() {}
 
-    public AitAccountEntity(int id, String login, String password, String email, boolean isActive, Date createDate, Date lastUpdate) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.isActive = isActive;
-        this.createDate = createDate;
-        this.lastUpdate = lastUpdate;
-    }
-
     public int getId() {
         return id;
     }

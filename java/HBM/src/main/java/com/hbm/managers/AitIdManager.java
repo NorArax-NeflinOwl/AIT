@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 public class AitIdManager {
     private AitIdManager(){}
@@ -53,43 +54,46 @@ public class AitIdManager {
             AitSettingsDAO dao = new AitDAOFactory(getSession(true)).getSettingsDAO();
             AitSetting set = dao.findSettingByName(key);
 
-            if(set != null) {
+            boolean canCommit = true;
+            if (set != null) {
                 i = set.getValue() + 1;
-                checkVersionNumber(i, prefix);
+                canCommit = checkVersionNumber(i, prefix);
             } else {
                 AitSettingEntity entity = new AitSettingEntity();
                 entity.setName(key);
                 set = new AitSetting(getSession(true), entity);
             }
-            set.setValue(i);
-            set.saveOrUpdate();
-            getSession(true).getTransaction().commit();
 
-            return key + separator + i + postfix.toString();
+            if (canCommit) {
+                set.setValue(i);
+                set.saveOrUpdate();
+                return key + separator + i + postfix.toString();
+            }
         } catch (Exception ex) {
             AitLogger.getInstance().logToConsole(new Object[] { ex }, AitLoggerPriority.ERROR);
-            if(null != getSession(false).getTransaction()) {
-                AitLogger.getInstance().logToConsole(".......Transaction Is Being Rolled Back.......");
-                getSession(false).getTransaction().rollback();
-            }
         }
         return null;
     }
 
-    private void checkVersionNumber(int v, AitPrefix prefix) {
+    private boolean checkVersionNumber(int v, AitPrefix prefix) {
+        boolean error = false;
         try {
-            boolean error = false;
             MavenXpp3Reader reader = new MavenXpp3Reader();
             Model model = reader.read(new FileReader("pom.xml"));
-            String verStr = model.getVersion();
+            Properties properties = model.getProperties();
+            String verStr = properties.getProperty("global.version");
             List<String> versionTab = Arrays.asList(verStr.replace('.',',').split(","));
 
             int version = Integer.parseInt(versionTab.get(0));
             int reqVer = Integer.parseInt(versionTab.get(1));
             int crVer = Integer.parseInt(versionTab.get(2));
 
-            if((AitPrefix.REQ.equals(prefix) && reqVer != v) ||
-               (AitPrefix.CR.equals(prefix) && crVer != v)) {
+            if(AitPrefix.REQ.equals(prefix) && reqVer != v) {
+                reqVer = v;
+                error = true;
+            }
+            if(AitPrefix.CR.equals(prefix) && crVer != v){
+                crVer = v;
                 error = true;
             }
 
@@ -99,6 +103,7 @@ public class AitIdManager {
         } catch (Exception ex) {
             AitLogger.getInstance().logToConsole(new Object[] { ex }, AitLoggerPriority.ERROR);
         }
+        return !error;
     }
 
     private static Session getSession(boolean createIfNotExists) {

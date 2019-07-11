@@ -6,6 +6,14 @@ public class AitMailSender {
     private static final String aitMail = "ait.wms.nano@gmail.com";
     private static final String aitPassword = "#_@rnn0I";
 
+    public static void sentTo(String adress) {
+
+    }
+
+    public static void sentMsgTo(String adress, String title, String content) {
+
+    }
+
     public void send() {
         // FIXME (check c# code ..\csharp\AIT\Controllers\HomeController.cs)
         Properties props = System.getProperties();

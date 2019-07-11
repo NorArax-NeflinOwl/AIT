@@ -7,6 +7,9 @@ import com.gui.interfaces.AitNamespaceInterface;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.gui.strings.AitFramesStrings;
+import com.hbm.daos.AitDAOFactory;
+import com.hbm.models.AitAccount;
+import com.hbm.models.AitUserData;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,6 +18,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.net.UnknownHostException;
 
 public class AitDashboardController extends AitGenericController<AitDashboardController, Integer> {
 
@@ -72,9 +77,13 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
         aboutItem.setText(AitCultureManager.getInstance().getLanguage().getAboutContent());
         aboutItem.setDisable(true);
 
-        String nick = AitMainContext.getUser().getNick();
-        if(nick != null && nick != "") {
-            AitMainContext.setNamespaceTitle(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, nick);
+        try {
+            AitAccount account = AitMainContext.getAccount();
+            if(account != null) {
+                AitMainContext.setNamespaceTitle(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, account.getUserData().getNick());
+            }
+        } catch (UnknownHostException e) {
+            logger.error("error: AitDashboardController.initialize()", e);
         }
 
         logger.info("exiting: AitDashboardController.initialize()");
@@ -88,7 +97,7 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
             Alert dialog = new Alert(Alert.AlertType.NONE, "Do you want log out?", ButtonType.YES, ButtonType.NO);
             dialog.showAndWait();
             if(dialog.getResult() == ButtonType.YES) {
-                AitMainContext.setUser(null, false);
+                AitMainContext.setAccount(null, false);
                 AppGUI.closeAllStages();
                 AppGUI.setRoot(AitControllersNameConstStrings.LOGIN_NAMESPACE, AitControllersNameConstStrings.DASHBOARD_NAMESPACE, this);
             }

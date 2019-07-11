@@ -6,8 +6,8 @@ import com.gui.context.AitInitializer;
 import com.gui.context.AitMainContext;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.managers.AitCultureManager;
-import com.gui.models.AitAccountSerializableModel;
 import com.gui.strings.AitControllersNameConstStrings;
+import com.hbm.models.AitAccount;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -60,7 +60,7 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
         @Override
         protected void succeeded() {
             try {
-                AitAccountSerializableModel account = AitMainContext.getUser();
+                AitAccount account = AitMainContext.getAccount();
 
                 if (account != null) {
                     AppGUI.setRoot(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, AitControllersNameConstStrings.ARNO_NAMESPACE, controller);

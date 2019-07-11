@@ -111,7 +111,7 @@ public class AitLoginController extends AitGenericController<AitLoginController,
                             }
                             else {
                                 try {
-                                    AitMainContext.setUser(acc, rememberMe);
+                                    AitMainContext.setAccount(acc, rememberMe);
                                 } catch (Exception se) {
                                     Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
                                     alert.showAndWait();
@@ -142,10 +142,6 @@ public class AitLoginController extends AitGenericController<AitLoginController,
             }
         } catch (Exception e) {
             logger.error("error: AitLoginController.loginAction()", e);
-        } finally {
-            if(AitMainContext.getSession(false) != null) {
-                AitMainContext.getSession(false).close();
-            }
         }
         logger.info("exiting: AitLoginController.loginAction()");
     }

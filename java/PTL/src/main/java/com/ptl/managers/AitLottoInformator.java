@@ -18,6 +18,7 @@ public class AitLottoInformator {
                 while(true) {
                     if(checkLottoLastResult()) {
                         //FIXME return true;
+                        //create notification like alarm, showing on screen and send email
                     }
                     Thread.sleep(3600000 * 24 * intervalDay);
                 }

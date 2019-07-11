@@ -1,9 +1,7 @@
 package com.gui.context;
 
-import com.google.gson.Gson;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.interfaces.AitNamespaceInterface;
-import com.gui.models.AitAccountSerializableModel;
 import com.gui.namespace.AitArnoNamespace;
 import com.gui.namespace.AitDashboardNamespace;
 import com.gui.namespace.AitLoginNamespace;
@@ -17,17 +15,20 @@ import com.hbm.daos.AitDAOFactory;
 import com.hbm.hibernate.AitHibernateUtil;
 import com.hbm.models.AitAccount;
 import com.hbm.models.AitUserData;
+import com.hbm.models.AitUserHost;
+import com.hbm.models.entities.AitUserHostEntity;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 public class AitMainContext {
-    private static Preferences settings = Preferences.systemNodeForPackage(AitMainContext.class);
-    private static AitAccountSerializableModel user;
+    private static AitAccount user;
     private static Session sessionObj;
     private static Map<String, Pair<AitNamespaceInterface, AitGenericControllerInterface>> frames;
     private static Logger logger = Logger.getLogger(AitMainContext.class);
@@ -71,36 +72,72 @@ public class AitMainContext {
         return sessionObj;
     }
 
-    public static void setUser(AitAccount acc, boolean rememberMe) throws SecurityException {
+    public static void setAccount(AitAccount acc, boolean rememberMe) throws UnknownHostException {
+        // TODO valide multiple account on one machine by new column (look getAccount())
+
+        InetAddress addr = InetAddress.getLocalHost();
+        String hostname = addr.getHostName();
         if(acc != null) {
-            AitUserData data = new AitDAOFactory(getSession(true)).getUserDataDAO().findUserDataByAccountId(acc.getID());
-            String nick = data != null ? data.getNick() : DEFAULT;
-            user = new AitAccountSerializableModel(acc, nick);
+            user = acc;
+            List<AitUserHost> userHosts = user.getUserHosts();
+            if(userHosts.isEmpty()) {
+                try {
+                    getSession(true).beginTransaction();
+
+                    AitUserHostEntity entity = new AitUserHostEntity();
+                    entity.setHostName(hostname);
+                    entity.setActive(true);
+                    entity.setActualLoggedIn(rememberMe);
+
+                    AitUserHost userHost = new AitUserHost(getSession(true), entity);
+                    userHost.setAccount(acc);
+
+                    userHost.saveOrUpdate();
+                } catch (Exception e) {
+                    logger.error("error: AitMainContext.setAccount(AitAccount, boolean)", e);
+                }
+            } else {
+                for (AitUserHost host : userHosts) {
+                    if(host.getHostName().equals(hostname) && host.isActive()) {
+                        host.setActualLoggedIn(rememberMe);
+                        host.saveOrUpdate();
+                    }
+                }
+            }
         } else {
             user = null;
-        }
-        if(rememberMe) {
-            Gson gson = new Gson();
-            settings.put(REMEMBER_ME, gson.toJson(user));
-        } else {
-            settings.put(REMEMBER_ME, DEFAULT);
+            List<AitUserHost> userHosts = new AitDAOFactory(getSession(true)).getUserHostDAO().findUserHostsByHostName(hostname);
+            if(!userHosts.isEmpty()) {
+                for (AitUserHost host : userHosts) {
+                    if(host.getHostName().equals(hostname) && host.isActive()) {
+                        host.setActualLoggedIn(rememberMe);
+                        host.saveOrUpdate();
+                    }
+                }
+            }
         }
     }
 
-    public static AitAccountSerializableModel getUser() throws SecurityException {
+    public static AitAccount getAccount() throws UnknownHostException {
         if(user == null) {
-            // if WARNING then RUN PROJECT AS administrator;
-            String acc = settings.get(REMEMBER_ME, DEFAULT);
-            if(!acc.equals(DEFAULT)) {
-                Gson gson = new Gson();
-                user = gson.fromJson(acc, AitAccountSerializableModel.class);
-                AitAccount account = new AitAccount(getSession(true), new AitDAOFactory(getSession(true)).getAccountDAO().findById(user.getId()));
-                return account.getEntity() != null ? user : null;
+            InetAddress addr = InetAddress.getLocalHost();
+            String hostname = addr.getHostName();
+            List<AitUserHost> userHosts = new AitDAOFactory(getSession(true)).getUserHostDAO().findUserHostsByHostName(hostname);
+
+            // If actual log in user is more that one in the same computer that must log out all that user
+            if(userHosts.size() > 1) {
+                // TODO add new column with error about multiple login in one machine name is the same in db more that ones
+                userHosts.forEach(q -> {
+                    if(q.isActive()) {
+                        q.setActualLoggedIn(false);
+                        q.saveOrUpdate();
+                    }
+                });
+            }
+            if(userHosts.size() == 1 && userHosts.get(0).isActive() && userHosts.get(0).isActualLoggedIn()) {
+                user = userHosts.get(0).getAccount();
             }
         }
         return user;
     }
-
-    private static String DEFAULT = "";
-    private static String REMEMBER_ME  = "REMEMBER_ME";
 }

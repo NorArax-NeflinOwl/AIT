@@ -1,5 +1,6 @@
 package com.gui;
 
+import com.gui.context.AitInitializer;
 import com.gui.context.AitMainContext;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.interfaces.AitNamespaceInterface;
@@ -35,7 +36,11 @@ public class AppGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         AppGUI.stage = stage;
-        initStage();
+        if(AitInitializer.getInstance().testDBConnection()) {
+            initStage();
+        } else {
+            AppGUI.exit();
+        }
     }
     //</editor-fold>
 
@@ -129,6 +134,7 @@ public class AppGUI extends Application {
             windowEvent.consume();
 
             // FIXME
+            // analize problem and write what is going on :/
             onClose(stage);
         });
     }

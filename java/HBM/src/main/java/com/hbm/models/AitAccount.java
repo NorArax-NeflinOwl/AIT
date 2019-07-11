@@ -7,10 +7,13 @@ import org.hibernate.Session;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class AitAccount extends AitGenericModel<AitAccountEntity> implements Serializable {
 
     private AitUserData userData;
+    private List<AitNote> notes;
+    private List<AitUserHost> userHosts;
 
     public AitAccount(Session session) {
         super(session);
@@ -32,14 +35,35 @@ public class AitAccount extends AitGenericModel<AitAccountEntity> implements Ser
 
     public AitUserData getUserData() {
         if(userData == null) {
-            userData =  new AitDAOFactory(getSession()).getUserDataDAO().findUserDataById(entity.getId());
+            userData =  new AitDAOFactory(getSession()).getUserDataDAO().findUserDataByAccountId(entity.getId());
         }
         return userData;
     }
 
     public void setUserData(AitUserData data) {
         userData = data;
-        userData.saveOrUpdate();
+    }
+
+    public List<AitNote> getNotes() {
+        if(notes == null) {
+            notes =  new AitDAOFactory(getSession()).getNotesDAO().findNotesByAccountId(entity.getId());
+        }
+        return notes;
+    }
+
+    public void setNotes(List<AitNote> data) {
+        notes = data;
+    }
+
+    public List<AitUserHost> getUserHosts() {
+        if(userHosts == null) {
+            userHosts =  new AitDAOFactory(getSession()).getUserHostDAO().findUserHostsByAccountId(entity.getId());
+        }
+        return userHosts;
+    }
+
+    public void setUserHosts(List<AitUserHost> data) {
+        userHosts = data;
     }
 
     public String getLogin() {

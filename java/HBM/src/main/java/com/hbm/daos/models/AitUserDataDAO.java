@@ -124,7 +124,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
 
     @Override
     public AitUserData findUserDataByAccountId(int id) {
-        logger.info("opening: AitUserDataDAO.findUserDataByAccountId(int)");
+        logger.info("opening: AitUserDataDAO.findUserHostsByAccountId(int)");
 
         Query query = getSession().createQuery("from usersdata where udt_accid = :id", AitUserDataEntity.class);
         query.setParameter("id", id);
@@ -138,7 +138,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserDataByAccountId(int)");
+        logger.info("exiting: AitUserDataDAO.findUserHostsByAccountId(int)");
         return result.isEmpty() ?  null : result.get(0);
     }
 }

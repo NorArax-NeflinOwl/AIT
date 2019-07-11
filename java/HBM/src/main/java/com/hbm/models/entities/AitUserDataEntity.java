@@ -43,17 +43,6 @@ public class AitUserDataEntity implements Serializable {
 
     public AitUserDataEntity() {}
 
-    public AitUserDataEntity(int id, AitAccountEntity account, String nick, String firstName, String middleName, String lastName, Date birthdate, Date lastUpdate) {
-        this.id = id;
-        this.account = account;
-        this.nick = nick;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.birthdate = birthdate;
-        this.lastUpdate = lastUpdate;
-    }
-
     public int getId() {
         return id;
     }

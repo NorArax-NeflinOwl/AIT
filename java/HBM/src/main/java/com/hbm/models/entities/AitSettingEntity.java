@@ -27,13 +27,6 @@ public class AitSettingEntity implements Serializable {
 
     public AitSettingEntity() {}
 
-    public AitSettingEntity(int id, String name, int value, Date lastUpdate) {
-        this.id = id;
-        this.name = name;
-        this.value = value;
-        this.lastUpdate = lastUpdate;
-    }
-
     public int getId() {
         return id;
     }

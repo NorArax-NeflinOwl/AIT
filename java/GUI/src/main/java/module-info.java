@@ -11,7 +11,6 @@ module GUI {
     requires gson;
 
     opens com.gui.panels to javafx.fxml;
-    opens com.gui.models to gson;
 
     exports com.gui;
     exports com.gui.strings;

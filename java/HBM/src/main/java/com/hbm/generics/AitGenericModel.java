@@ -18,6 +18,17 @@ public class AitGenericModel<T extends Serializable> extends AitMainContext impl
     @Override
     public void saveOrUpdate() {
         getSession().saveOrUpdate(entity);
+        try {
+            if(!getSession().isOpen()) {
+                getSession().beginTransaction();
+            }
+            getSession().getTransaction().commit();
+        } catch (Exception ex) {
+            if(getSession() != null) {
+                getSession().getTransaction().rollback();
+            }
+            throw ex;
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.hbm.models.AitUserData;
 import com.hbm.models.entities.AitAccountEntity;
 import com.hbm.models.entities.AitUserDataEntity;
 import com.ptl.managers.AitCrypter;
+import com.ptl.managers.AitMailSender;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -224,9 +225,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                     account.saveOrUpdate();
                 }
 
-                AitMainContext.getSession(true).getTransaction().commit();
-                // TODO send activation email
-
+                AitMailSender.sentTo(account.getEmail());
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "AitAccount was create successfull, check your email.", ButtonType.OK);
                 alert.show();
@@ -235,7 +234,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                     Alert dialog = new Alert(Alert.AlertType.NONE, "Do you want log out and switch user?", ButtonType.YES, ButtonType.NO);
                     dialog.showAndWait();
                     if(dialog.getResult() == ButtonType.YES) {
-                        AitMainContext.setUser(null, false);
+                        AitMainContext.setAccount(null, false);
                         AppGUI.setRoot(AitControllersNameConstStrings.LOGIN_NAMESPACE, AitControllersNameConstStrings.DASHBOARD_NAMESPACE, this);
                     }
                 } else {
@@ -249,14 +248,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                 }
             }
         } catch (Exception e) {
-            if(AitMainContext.getSession(false) != null) {
-                AitMainContext.getSession(false).getTransaction().rollback();
-            }
             logger.error("error: AitRegistraionController.onRegisterAction()", e);
-        } finally {
-            if(AitMainContext.getSession(false) != null) {
-                AitMainContext.getSession(false).close();
-            }
         }
 
         logger.info("exiting: AitRegistraionController.onRegisterAction()");
