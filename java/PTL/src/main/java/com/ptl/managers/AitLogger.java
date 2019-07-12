@@ -149,7 +149,7 @@ public class AitLogger {
         String logFilePath = m_MainPath + "\\Log\\" + timeStamp + m_LogFileExt;
         File logFile = new File(logFilePath);
         if (!logFile.exists() && logFile.createNewFile()) {
-            AitLogger.getInstance().logToConsole(new Object[]{"Create '" + dicName + "\\" + timeStamp + m_LogFileExt + "' file: " + timeStamp}, AitLoggerPriority.INFORMATION);
+            AitLogger.getInstance().logToConsole(new Object[]{"Create '" + dicName + "\\" + timeStamp + fileExt + "' file: " + timeStamp}, AitLoggerPriority.INFORMATION);
         }
 
         return logFile;

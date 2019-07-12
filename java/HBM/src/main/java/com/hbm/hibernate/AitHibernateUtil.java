@@ -13,7 +13,6 @@ import java.util.Map;
 
 public class AitHibernateUtil {
 
-    private static Logger logger = Logger.getLogger(AitHibernateUtil.class);
     private Map.Entry<String,String> account;
     private SessionFactory sessionFactory;
 
