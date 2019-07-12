@@ -102,6 +102,7 @@ public class AitIdManager {
             }
         } catch (Exception ex) {
             AitLogger.getInstance().logToConsole(new Object[] { ex }, AitLoggerPriority.ERROR);
+            AitLogger.getInstance().logErrorToFile(ex);
         }
         return !error;
     }

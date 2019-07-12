@@ -12,6 +12,7 @@ module HBM {
     requires log4j;
     requires PTL;
     requires maven.model;
+    requires log4j;
 
     opens com.hbm.models.entities to org.hibernate.orm.core;
 

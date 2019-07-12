@@ -8,6 +8,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,7 +22,7 @@ public class AitLogger {
     private String m_MainPath;
 
     private AitLogger() {
-        m_MainPath = new File("").getAbsolutePath();
+        m_MainPath = new File("").getAbsolutePath() + "\\_log_files";
     }
 
     public static AitLogger getInstance() {
@@ -37,6 +40,18 @@ public class AitLogger {
 
     public void logToConsole(Object[] params) {
         logToConsole(params, AitLoggerPriority.INFORMATION);
+    }
+
+    public void logToConsole(Object[] params, String title, AitLoggerPriority priority) {
+        String color = convertPriorityToColor(priority);
+        System.out.println(String.format(color, convertDateTimeToString() + "[LOG MSG]: " + title));
+
+        for (Object arg : params) {
+            if(arg != null) {
+                color = convertPriorityToColor(priority);
+                System.out.println(String.format(color, convertDateTimeToString() + "[LOG MSG]: " + arg.toString()));
+            }
+        }
     }
 
     public void logToConsole(Object[] params, AitLoggerPriority priority)  {
@@ -123,13 +138,8 @@ public class AitLogger {
         String logDirPath = m_MainPath + "\\Log";
         File logDir = new File(logDirPath);
 
-        if(!logDir.exists()) {
-            if(logDir.mkdir()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create Log directory"}, AitLoggerPriority.INFORMATION);
-            }
-        }
-        else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log directory exists"}, AitLoggerPriority.INFORMATION);
+        if(!logDir.exists() && logDir.mkdir()) {
+            AitLogger.getInstance().logToConsole(new Object[]{"Create '" + dicName + "' directory"}, AitLoggerPriority.INFORMATION);
         }
     }
 
@@ -138,13 +148,8 @@ public class AitLogger {
         String m_LogFileExt = ".log";
         String logFilePath = m_MainPath + "\\Log\\" + timeStamp + m_LogFileExt;
         File logFile = new File(logFilePath);
-        if (!logFile.exists()) {
-            if(logFile.createNewFile()) {
-                AitLogger.getInstance().logToConsole(new Object[]{"Create Log file: " + timeStamp}, AitLoggerPriority.INFORMATION);
-            }
-        }
-        else {
-            AitLogger.getInstance().logToConsole(new Object[]{"Log file exists: " + timeStamp}, AitLoggerPriority.INFORMATION);
+        if (!logFile.exists() && logFile.createNewFile()) {
+            AitLogger.getInstance().logToConsole(new Object[]{"Create '" + dicName + "\\" + timeStamp + m_LogFileExt + "' file: " + timeStamp}, AitLoggerPriority.INFORMATION);
         }
 
         return logFile;

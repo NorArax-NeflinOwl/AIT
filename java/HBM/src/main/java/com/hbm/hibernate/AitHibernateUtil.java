@@ -1,5 +1,6 @@
 package com.hbm.hibernate;
 
+import com.ptl.managers.AitLogger;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,7 +20,7 @@ public class AitHibernateUtil {
     private static AitHibernateUtil ourInstance = new AitHibernateUtil();
 
     private AitHibernateUtil() {
-        logger.info("opening: AitHibernateUtil.AitHibernateUtil()");
+        AitLogger.getInstance().logInfoToFile("opening: AitHibernateUtil.AitHibernateUtil()");
         try {
             String workStation = "pcppudwel";
             InetAddress addr = InetAddress.getLocalHost();
@@ -30,9 +31,9 @@ public class AitHibernateUtil {
                     : new AbstractMap.SimpleEntry<>("admin", "admin");
 
         } catch (UnknownHostException e) {
-            logger.error("AitHibernateUtil.AitHibernateUtil()", e);
+            AitLogger.getInstance().logErrorToFile("AitHibernateUtil.AitHibernateUtil()", e);
         }
-        logger.info("exiting: AitHibernateUtil.AitHibernateUtil()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitHibernateUtil.AitHibernateUtil()");
     }
 
     public static AitHibernateUtil getInstance() {
@@ -40,7 +41,7 @@ public class AitHibernateUtil {
     }
 
     public SessionFactory getSessionFactory() {
-        logger.info("opening: AitHibernateUtil.getSessionFactory()");
+        AitLogger.getInstance().logInfoToFile("opening: AitHibernateUtil.getSessionFactory()");
         if (sessionFactory == null) {
             try {
                 Configuration config = new Configuration();
@@ -51,10 +52,10 @@ public class AitHibernateUtil {
 
                 sessionFactory = config.buildSessionFactory();
             } catch (Exception e) {
-                logger.error("AitHibernateUtil.getSessionFactory()", e);
+                AitLogger.getInstance().logErrorToFile("AitHibernateUtil.getSessionFactory()", e);
             }
         }
-        logger.info("exiting: AitHibernateUtil.getSessionFactory()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitHibernateUtil.getSessionFactory()");
         return sessionFactory;
     }
 }
