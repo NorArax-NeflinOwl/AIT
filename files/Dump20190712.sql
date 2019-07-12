@@ -257,12 +257,12 @@ DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `set_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `set_name` varchar(45) NOT NULL,
-  `set_value` int(11) DEFAULT '0',
+  `set_value` varchar(45) DEFAULT NULL,
   `set_lastupdate` datetime DEFAULT NULL,
   PRIMARY KEY (`set_id`),
   UNIQUE KEY `idnew_table_UNIQUE` (`set_id`),
   UNIQUE KEY `set_name_UNIQUE` (`set_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +271,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES (1,'SQL_DEBUG_MODE',0,NULL),(2,'CR-AIT',9,'2019-07-12 10:33:53'),(3,'ISS-AIT',4,'2019-07-10 12:01:41'),(4,'ACK-AIT',0,NULL),(5,'REQ-AIT',3,'2019-07-11 11:47:03');
+INSERT INTO `settings` VALUES (1,'SQL_DEBUG_MODE','0',NULL),(2,'CR-AIT','9','2019-07-12 10:33:53'),(3,'ISS-AIT','4','2019-07-10 12:01:41'),(4,'ACK-AIT','0',NULL),(5,'REQ-AIT','3','2019-07-11 11:47:03'),(6,'AIT_MAIL_ADDRESS','ait.wms.nano@gmail.com',NULL),(7,'AIT_MAIL_PASSWORD','NIJdkE+HyTr75zeR9vepuw==',NULL);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -329,6 +329,32 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `tasks`
+--
+
+DROP TABLE IF EXISTS `tasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tasks` (
+  `tks_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tks_taskcode` varchar(45) NOT NULL,
+  `tks_tasklive` datetime DEFAULT NULL,
+  `tks_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`tks_id`),
+  UNIQUE KEY `tks_id_UNIQUE` (`tks_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tasks`
+--
+
+LOCK TABLES `tasks` WRITE;
+/*!40000 ALTER TABLE `tasks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tasks` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `updates`
@@ -454,4 +480,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-12 10:56:41
+-- Dump completed on 2019-07-12 15:49:31

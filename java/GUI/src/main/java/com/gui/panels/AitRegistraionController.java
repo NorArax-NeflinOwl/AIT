@@ -225,7 +225,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                     account.saveOrUpdate();
                 }
 
-                AitMailSender.sentTo(account.getEmail());
+                AitMailSender.sendTo(account.getEmail());
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "AitAccount was create successfull, check your email.", ButtonType.OK);
                 alert.show();

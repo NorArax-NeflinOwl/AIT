@@ -27,6 +27,11 @@ public class AitMailSender {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
     }
 
+    public static void sendTo(String email) {
+        AitMailSender sender = new AitMailSender();
+        sender.sentActivationLinkTo(email);
+    }
+
     public void sendTest() {
         sentMailFromTo(aitMail, aitPassword, aitMail, aitDefaltSubject, aitDefaltContent);
     }
@@ -59,8 +64,8 @@ public class AitMailSender {
             Transport.send(msg);
 
             System.out.println("Message sent.");
-        }catch (MessagingException e){
-            e.printStackTrace();
+        } catch (MessagingException e) {
+            AitLogger.getInstance().logErrorToFile(e);
         }
     }
 }
