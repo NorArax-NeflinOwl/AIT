@@ -7,9 +7,8 @@ import com.gui.interfaces.AitNamespaceInterface;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.gui.strings.AitFramesStrings;
-import com.hbm.daos.AitDAOFactory;
-import com.hbm.models.AitAccount;
-import com.hbm.models.AitUserData;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitAccount;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -40,7 +39,7 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
 
     @FXML
     public void initialize() {
-        logger.info("opening: AitDashboardController.initialize()");
+        AitLogger.getInstance().logInfoToFile("opening: AitDashboardController.initialize()");
 
         fileMenu.setText(AitCultureManager.getInstance().getLanguage().getFileMenuContent());
         editMenu.setText(AitCultureManager.getInstance().getLanguage().getEditMenuContent());
@@ -83,14 +82,14 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
                 AitMainContext.setNamespaceTitle(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, account.getUserData().getNick());
             }
         } catch (UnknownHostException e) {
-            logger.error("error: AitDashboardController.initialize()", e);
+            AitLogger.getInstance().logErrorToFile("error: AitDashboardController.initialize()", e);
         }
 
-        logger.info("exiting: AitDashboardController.initialize()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.initialize()");
     }
 
     private void onLogoutAction() {
-        logger.info("opening: AitDashboardController.onLogoutAction()");
+        AitLogger.getInstance().logInfoToFile("opening: AitDashboardController.onLogoutAction()");
         // TODO show progress bar
 
         try {
@@ -102,9 +101,9 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
                 AppGUI.setRoot(AitControllersNameConstStrings.LOGIN_NAMESPACE, AitControllersNameConstStrings.DASHBOARD_NAMESPACE, this);
             }
         } catch (Exception e) {
-            logger.error("error: AitDashboardController.onLogoutAction()");
+            AitLogger.getInstance().logErrorToFile("error: AitDashboardController.onLogoutAction()", e);
         }
-        logger.info("exiting: AitDashboardController.onLogoutAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onLogoutAction()");
     }
 
     private void onExitAction() {
@@ -120,7 +119,7 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
     }
 
     private void onDoshboardAction() {
-        logger.info("exiting: AitDashboardController.onCreateAccountAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onCreateAccountAction()");
         Alert dialog = new Alert(Alert.AlertType.NONE, "Do you want open new dashboard?", ButtonType.YES, ButtonType.NO);
         dialog.showAndWait();
         if(dialog.getResult() == ButtonType.YES) {
@@ -137,14 +136,14 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
                 stage.show();
                 AppGUI.addStage(stage);
             } catch (Exception e) {
-                logger.error("error: AitDashboardController.onCreateAccountAction()",e);
+                AitLogger.getInstance().logErrorToFile("error: AitDashboardController.onCreateAccountAction()",e);
             }
         }
-        logger.info("exiting: AitDashboardController.onLogoutAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onLogoutAction()");
     }
 
     private void onCreateAccountAction() {
-        logger.info("exiting: AitDashboardController.onCreateAccountAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onCreateAccountAction()");
         try {
             Stage stage = new Stage();
             AitNamespaceInterface namespace = AitMainContext.getNamespace(AitControllersNameConstStrings.DASHBOARD_NAMESPACE);
@@ -158,8 +157,8 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
             stage.show();
             AppGUI.addStage(stage);
         } catch (Exception e) {
-            logger.error("error: AitDashboardController.onCreateAccountAction()",e);
+            AitLogger.getInstance().logErrorToFile("error: AitDashboardController.onCreateAccountAction()",e);
         }
-        logger.info("exiting: AitDashboardController.onLogoutAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onLogoutAction()");
     }
 }

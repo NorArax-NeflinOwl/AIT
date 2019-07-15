@@ -2,7 +2,8 @@ package com.hbm.daos.models;
 
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitUserHostDAOInterface;
-import com.hbm.models.AitUserHost;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitUserHost;
 import com.hbm.models.entities.AitUserHostEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -18,7 +19,7 @@ public class AitUserHostDAO extends AitGenericDAO<AitUserHostEntity, Integer> im
 
     @Override
     public List<AitUserHost> findUserHostsByAccountId(int id) {
-        logger.info("opening: AitUserHostDAO.findUserHostsByAccountId(int)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserHostDAO.findUserHostsByAccountId(int)");
 
         Query query = getSession().createQuery("from usershosts where uhs_accid = :id", AitUserHostEntity.class);
         query.setParameter("id", id);
@@ -32,13 +33,13 @@ public class AitUserHostDAO extends AitGenericDAO<AitUserHostEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserHostDAO.findUserHostsByAccountId(int)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserHostDAO.findUserHostsByAccountId(int)");
         return result;
     }
 
     @Override
     public List<AitUserHost> findUserHostsByHostName(String hostName) {
-        logger.info("opening: AitUserHostDAO.findUserHostsByHostName(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserHostDAO.findUserHostsByHostName(String)");
 
         Query query = getSession().createQuery("from usershosts where uhs_hostname = :hostname", AitUserHostEntity.class);
         query.setParameter("hostname", hostName);
@@ -52,7 +53,7 @@ public class AitUserHostDAO extends AitGenericDAO<AitUserHostEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserHostDAO.findUserHostsByHostName(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserHostDAO.findUserHostsByHostName(String)");
         return result;
     }
 }

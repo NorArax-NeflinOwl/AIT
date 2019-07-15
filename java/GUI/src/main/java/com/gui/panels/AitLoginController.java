@@ -6,8 +6,9 @@ import com.gui.context.AitMainContext;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.models.AitAccount;
-import com.ptl.managers.AitCrypter;
+import com.hbm.managers.AitCrypter;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitAccount;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,7 +38,7 @@ public class AitLoginController extends AitGenericController<AitLoginController,
 
     @FXML
     public void initialize() {
-        logger.info("opening: AitLoginController.initialize()");
+        AitLogger.getInstance().logInfoToFile("opening: AitLoginController.initialize()");
         try {
             loginBox.setPromptText(AitCultureManager.getInstance().getLanguage().getLoginPrompt());
             passwordBox.setPromptText(AitCultureManager.getInstance().getLanguage().getPasswordPrompt());
@@ -51,13 +52,13 @@ public class AitLoginController extends AitGenericController<AitLoginController,
                 try {
                     openRegisterFrame();
                 } catch (Exception e) {
-                    logger.error("error: AitLoginController.setOnAction()", e);
+                    AitLogger.getInstance().logErrorToFile("error: AitLoginController.setOnAction()", e);
                 }
             });
         } catch (Exception e) {
-            logger.error("error: AitLoginController.initialize()", e);
+            AitLogger.getInstance().logErrorToFile("error: AitLoginController.initialize()", e);
         }
-        logger.info("exiting: AitLoginController.initialize()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.initialize()");
     }
 
     private void onKeyReleased(KeyEvent keyEvent) {
@@ -68,14 +69,14 @@ public class AitLoginController extends AitGenericController<AitLoginController,
 
     @FXML
     private void openRegisterFrame() throws Exception {
-        logger.info("opening: AitLoginController.openRegisterFrame()");
+        AitLogger.getInstance().logInfoToFile("opening: AitLoginController.openRegisterFrame()");
         AppGUI.setRoot(AitControllersNameConstStrings.REGISTRATION_NAMESPACE, AitControllersNameConstStrings.LOGIN_NAMESPACE, this);
-        logger.info("exiting: AitLoginController.openRegisterFrame()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.openRegisterFrame()");
     }
 
     @FXML
     private void loginAction() {
-        logger.info("opening: AitLoginController.loginAction()");
+        AitLogger.getInstance().logInfoToFile("opening: AitLoginController.loginAction()");
         try {
             // TODO show progress bar
 
@@ -86,13 +87,13 @@ public class AitLoginController extends AitGenericController<AitLoginController,
             if(login == null || login.length() == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter login!", ButtonType.OK);
                 alert.show();
-                logger.info("Empty login!");
+                AitLogger.getInstance().logInfoToFile("Empty login!");
                 loginBox.requestFocus();
             }
             else if(password == null || password.length() == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter password!", ButtonType.OK);
                 alert.show();
-                logger.info("Empty password!");
+                AitLogger.getInstance().logInfoToFile("Empty password!");
                 passwordBox.requestFocus();
             }
             else {
@@ -104,15 +105,16 @@ public class AitLoginController extends AitGenericController<AitLoginController,
                             if(!acc.IsActive()) {
                                 Alert alert = new Alert(Alert.AlertType.ERROR, "AitAccount is not activate!", ButtonType.OK);
                                 alert.show();
-                                logger.info("AitAccount is not activate!");
+                                AitLogger.getInstance().logInfoToFile("AitAccount is not activate!");
                                 passwordBox.requestFocus();
-                                logger.info("exiting: AitLoginController.loginAction()");
+                                AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.loginAction()");
                                 return;
                             }
                             else {
                                 try {
                                     AitMainContext.setAccount(acc, rememberMe);
                                 } catch (Exception se) {
+                                    AitLogger.getInstance().logErrorToFile("",se);
                                     Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
                                     alert.showAndWait();
                                     if(alert.getResult() == ButtonType.OK) {
@@ -121,28 +123,28 @@ public class AitLoginController extends AitGenericController<AitLoginController,
                                 }
                                 AppGUI.setRoot(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, AitControllersNameConstStrings.LOGIN_NAMESPACE, this, true);
 
-                                logger.info("exiting: AitLoginController.loginAction() Login Successfull");
+                                AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.loginAction() Login Successfull");
                                 return;
                             }
                         }
                     }
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Incorect password!", ButtonType.OK);
                     alert.show();
-                    logger.info("Incorect password!");
+                    AitLogger.getInstance().logInfoToFile("Incorect password!");
                     passwordBox.requestFocus();
-                    logger.info("exiting: AitLoginController.loginAction()");
+                    AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.loginAction()");
                     return;
                 }
                 else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Login not found!", ButtonType.OK);
                     alert.show();
-                    logger.info("Login not found!");
+                    AitLogger.getInstance().logInfoToFile("Login not found!");
                     loginBox.requestFocus();
                 }
             }
         } catch (Exception e) {
-            logger.error("error: AitLoginController.loginAction()", e);
+            AitLogger.getInstance().logErrorToFile("error: AitLoginController.loginAction()", e);
         }
-        logger.info("exiting: AitLoginController.loginAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitLoginController.loginAction()");
     }
 }

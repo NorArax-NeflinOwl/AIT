@@ -7,12 +7,13 @@ import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
-import com.hbm.models.AitAccount;
-import com.hbm.models.AitUserData;
+import com.hbm.managers.AitCrypter;
+import com.hbm.managers.AitLogger;
+import com.hbm.managers.AitMailSender;
+import com.hbm.models.entitiecovers.AitAccount;
+import com.hbm.models.entitiecovers.AitUserData;
 import com.hbm.models.entities.AitAccountEntity;
 import com.hbm.models.entities.AitUserDataEntity;
-import com.ptl.managers.AitCrypter;
-import com.ptl.managers.AitMailSender;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -60,7 +61,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
 
     @FXML
     public void initialize() {
-        logger.info("opening: AitRegistraionController.initialize()");
+        AitLogger.getInstance().logInfoToFile("opening: AitRegistraionController.initialize()");
         try {
             reqLabel.setText(AitCultureManager.getInstance().getLanguage().getReqLabelContent());
             backButton.setText(AitCultureManager.getInstance().getLanguage().getBackButtonContent());
@@ -90,14 +91,14 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
             }
 
         } catch (Exception e) {
-            logger.error("error: RegistrationController.initialize()", e);
+            AitLogger.getInstance().logErrorToFile("error: RegistrationController.initialize()", e);
         }
-        logger.info("exiting: AitRegistraionController.initialize()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.initialize()");
     }
 
     @FXML
     public void onRegisterAction() {
-        logger.info("opening: AitRegistraionController.onRegisterAction()");
+        AitLogger.getInstance().logInfoToFile("opening: AitRegistraionController.onRegisterAction()");
         try {
             AitMainContext.getSession(true).beginTransaction();
             // TODO show progress bar
@@ -172,14 +173,14 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                         alert.show();
                         nickBox.requestFocus();
                         nickBox.clear();
-                        logger.info("exiting: AitRegistraionController.onRegisterAction()");
+                        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
                         return;
                     } else if (!datas.isEmpty()) {
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Nick must be unique!", ButtonType.OK);
                         alert.show();
                         nickBox.requestFocus();
                         nickBox.clear();
-                        logger.info("exiting: AitRegistraionController.onRegisterAction()");
+                        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
                         return;
                     }
                 }
@@ -190,7 +191,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                     alert.show();
                     middleNameBox.requestFocus();
                     middleNameBox.clear();
-                    logger.info("exiting: AitRegistraionController.onRegisterAction()");
+                    AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
                     return;
                 }
 
@@ -206,7 +207,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                         alert.show();
                         birthdateBox.requestFocus();
                         birthdateBox.setValue(null);
-                        logger.info("exiting: AitRegistraionController.onRegisterAction()");
+                        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
                         return;
                     }
                 }
@@ -248,16 +249,16 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                 }
             }
         } catch (Exception e) {
-            logger.error("error: AitRegistraionController.onRegisterAction()", e);
+            AitLogger.getInstance().logErrorToFile("error: AitRegistraionController.onRegisterAction()", e);
         }
 
-        logger.info("exiting: AitRegistraionController.onRegisterAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
     }
 
     public void onBackAction() {
-        logger.info("opening: AitRegistraionController.onRegisterAction()");
+        AitLogger.getInstance().logInfoToFile("opening: AitRegistraionController.onRegisterAction()");
         AppGUI.back();
-        logger.info("exiting: AitRegistraionController.onRegisterAction()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitRegistraionController.onRegisterAction()");
     }
 
 }

@@ -1,13 +1,12 @@
-package com.ptl.client;
+package com.hbm.client;
 
 import com.google.gson.Gson;
-import com.ptl.managers.AitCrypter;
-import com.ptl.managers.AitLogger;
-import com.ptl.managers.AitReceiverSender;
-import com.ptl.models.AitClientData;
-import com.ptl.models.AitPackageData;
-import com.ptl.resources.AitConsoleColor;
-import com.ptl.resources.AitLoggerPriority;
+import com.hbm.managers.AitCrypter;
+import com.hbm.managers.AitLogger;
+import com.hbm.managers.AitReceiverSender;
+import com.hbm.models.caches.AitPackageData;
+import com.hbm.models.entitiecovers.AitClientData;
+import com.hbm.resources.AitLoggerPriority;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,16 +15,16 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.ptl.resources.AitCommandTypes.Login;
-import static com.ptl.resources.AitCommandTypes.LoginInvalid;
-import static com.ptl.resources.AitCommandTypes.LoginSuc;
-import static com.ptl.resources.AitCommandTypes.LogoutSuc;
-import static com.ptl.resources.AitCommandTypes.RejestractionInvalid;
-import static com.ptl.resources.AitCommandTypes.RejestractionRequest;
-import static com.ptl.resources.AitCommandTypes.RejestractionRespons;
-import static com.ptl.resources.AitCommandTypes.RejestractionSuc;
-import static com.ptl.resources.AitCommandTypes.StopWaiting;
-import static com.ptl.resources.AitCommandTypes.Wait;
+import static com.hbm.resources.AitCommandTypes.Login;
+import static com.hbm.resources.AitCommandTypes.LoginInvalid;
+import static com.hbm.resources.AitCommandTypes.LoginSuc;
+import static com.hbm.resources.AitCommandTypes.LogoutSuc;
+import static com.hbm.resources.AitCommandTypes.RejestractionInvalid;
+import static com.hbm.resources.AitCommandTypes.RejestractionRequest;
+import static com.hbm.resources.AitCommandTypes.RejestractionRespons;
+import static com.hbm.resources.AitCommandTypes.RejestractionSuc;
+import static com.hbm.resources.AitCommandTypes.StopWaiting;
+import static com.hbm.resources.AitCommandTypes.Wait;
 
 public class AitClient {
     private final static int ServerPort = 1234;
@@ -47,7 +46,7 @@ public class AitClient {
             this.aitReceiverSender = new AitReceiverSender(s);
         } catch (IOException e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();
@@ -70,7 +69,7 @@ public class AitClient {
                             aitReceiverSender.close();
                         } catch (IOException ex) {
                             try {
-                                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                                AitLogger.getInstance().logErrorToFile(e);
                             } catch (Exception exc) {
                                 ex.printStackTrace();
                                 exc.printStackTrace();
@@ -90,14 +89,14 @@ public class AitClient {
                     try {
                         aitReceiverSender.close();
                         try {
-                            AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                            AitLogger.getInstance().logErrorToFile(e);
                         } catch (Exception exc) {
                             e.printStackTrace();
                             exc.printStackTrace();
                         }
                     } catch (IOException ex) {
                         try {
-                            AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                            AitLogger.getInstance().logErrorToFile(e);
                         } catch (Exception exc) {
                             ex.printStackTrace();
                             exc.printStackTrace();
@@ -216,7 +215,7 @@ public class AitClient {
                         "Login send... " });
             } catch (Exception e) {
                 try {
-                    AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                    AitLogger.getInstance().logErrorToFile(e);
                 }catch (Exception ex) {
                     e.printStackTrace();
                     ex.printStackTrace();

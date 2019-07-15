@@ -2,7 +2,8 @@ package com.hbm.daos.models;
 
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitUserDataDAOInterface;
-import com.hbm.models.AitUserData;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitUserData;
 import com.hbm.models.entities.AitUserDataEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,15 +18,15 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
 
     @Override
     public AitUserData findUserDataById(int id) {
-        logger.info("opening: AitUserDataDAO.findUserDataById(int)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataById(int)");
 
-        logger.info("exiting: AitUserDataDAO.findUserDataById(int)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserDataById(int)");
         return new AitUserData(getSession(), findById(id));
     }
 
     @Override
     public List<AitUserData> findUserDataByNick(String nick) {
-        logger.info("opening: AitUserDataDAO.findUserDataByNick(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByNick(String)");
 
         Query query = getSession().createQuery("from usersdata where udt_nick = :nick", AitUserDataEntity.class);
         query.setParameter("nick", nick);
@@ -39,13 +40,13 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserDataByNick(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserDataByNick(String)");
         return result;
     }
 
     @Override
     public List<AitUserData> findUserDataByFirstName(String firstName) {
-        logger.info("opening: AitUserDataDAO.findUserDataByFirstName(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByFirstName(String)");
 
         Query query = getSession().createQuery("from usersdata where udt_firstname = :firstName", AitUserDataEntity.class);
         query.setParameter("firstName", firstName);
@@ -59,13 +60,13 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserDataByFirstName(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserDataByFirstName(String)");
         return result;
     }
 
     @Override
     public List<AitUserData> findUserDataByMiddleName(String middleName) {
-        logger.info("opening: AitUserDataDAO.findUserDataByMiddleName(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByMiddleName(String)");
 
         Query query = getSession().createQuery("from usersdata where udt_middlename = :middleName", AitUserDataEntity.class);
         query.setParameter("middleName", middleName);
@@ -79,13 +80,13 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserDataByMiddleName(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserDataByMiddleName(String)");
         return result;
     }
 
     @Override
     public List<AitUserData> findUserDataByLastName(String lastName) {
-        logger.info("opening: AitUserDataDAO.findUserDataByLastName(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByLastName(String)");
 
         Query query = getSession().createQuery("from usersdata where udt_lastname = :lastName", AitUserDataEntity.class);
         query.setParameter("lastName", lastName);
@@ -99,13 +100,13 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserDataByLastName(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserDataByLastName(String)");
         return result;
     }
 
     @Override
     public List<AitUserData> findAllUserData() {
-        logger.info("opening: AitUserDataDAO.findAllUserData()");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findAllUserData()");
 
         Query query = getSession().createQuery("from usersdata", AitUserDataEntity.class);
 
@@ -118,13 +119,13 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findAllUserData()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findAllUserData()");
         return result;
     }
 
     @Override
     public AitUserData findUserDataByAccountId(int id) {
-        logger.info("opening: AitUserDataDAO.findUserHostsByAccountId(int)");
+        AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserHostsByAccountId(int)");
 
         Query query = getSession().createQuery("from usersdata where udt_accid = :id", AitUserDataEntity.class);
         query.setParameter("id", id);
@@ -138,7 +139,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
             }
         }
 
-        logger.info("exiting: AitUserDataDAO.findUserHostsByAccountId(int)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitUserDataDAO.findUserHostsByAccountId(int)");
         return result.isEmpty() ?  null : result.get(0);
     }
 }

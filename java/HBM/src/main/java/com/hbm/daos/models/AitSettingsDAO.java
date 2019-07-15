@@ -2,7 +2,8 @@ package com.hbm.daos.models;
 
 import com.hbm.generics.AitGenericDAO;
 import com.hbm.interfaces.AitSettingDAOInterface;
-import com.hbm.models.AitSetting;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitSetting;
 import com.hbm.models.entities.AitSettingEntity;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,14 +18,14 @@ public class AitSettingsDAO extends AitGenericDAO<AitSettingEntity, Integer> imp
 
     @Override
     public AitSetting findSettingById(int id) {
-        logger.info("opening: AitAccountDAO.findAccountById(Integer)");
-        logger.info("exiting: AitAccountDAO.findAccountById(Integer)");
+        AitLogger.getInstance().logInfoToFile("opening: AitAccountDAO.findAccountById(Integer)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitAccountDAO.findAccountById(Integer)");
         return new AitSetting(getSession(), findById(id));
     }
 
     @Override
     public AitSetting findSettingByName(String name) {
-        logger.info("opening: AitAccountDAO.findAccountByPass(String)");
+        AitLogger.getInstance().logInfoToFile("opening: AitAccountDAO.findAccountByPass(String)");
 
         Query query = getSession().createQuery("from settings where set_name = :name", AitSettingEntity.class);
         query.setParameter("name", name);
@@ -32,11 +33,11 @@ public class AitSettingsDAO extends AitGenericDAO<AitSettingEntity, Integer> imp
         List<AitSettingEntity> accounts = query.list();
         if(accounts != null && accounts.size() > 0)
         {
-            logger.info("exiting: AitAccountDAO.findAccountByPass(String)");
+            AitLogger.getInstance().logInfoToFile("exiting: AitAccountDAO.findAccountByPass(String)");
             return new AitSetting(getSession(), accounts.get(0));
         }
 
-        logger.info("exiting: AitAccountDAO.findAccountByPass(String)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitAccountDAO.findAccountByPass(String)");
         return null;
     }
 }

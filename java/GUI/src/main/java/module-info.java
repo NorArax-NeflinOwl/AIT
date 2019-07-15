@@ -6,9 +6,6 @@ module GUI {
     requires java.naming;
     requires org.hibernate.orm.core;
     requires HBM;
-    requires PTL;
-    requires log4j;
-    requires gson;
 
     opens com.gui.panels to javafx.fxml;
 

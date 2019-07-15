@@ -1,5 +1,4 @@
-package com.ptl.managers;
-
+package com.hbm.managers;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,7 +26,7 @@ public class AitCrypter {
         }
         catch (NoSuchAlgorithmException e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();
@@ -43,7 +42,7 @@ public class AitCrypter {
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();
@@ -60,7 +59,7 @@ public class AitCrypter {
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();

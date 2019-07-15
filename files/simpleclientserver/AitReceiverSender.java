@@ -1,4 +1,4 @@
-package com.ptl.managers;
+package com.hbm.managers;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,7 +15,7 @@ public class AitReceiverSender {
             this.dos = new DataOutputStream(s.getOutputStream());
         } catch (IOException e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();

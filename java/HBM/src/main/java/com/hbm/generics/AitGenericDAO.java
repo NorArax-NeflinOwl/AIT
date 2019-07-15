@@ -2,7 +2,7 @@ package com.hbm.generics;
 
 import com.hbm.hibernate.AitHibernateUtil;
 import com.hbm.interfaces.AitGenericDAOInterface;
-import org.apache.log4j.Logger;
+import com.hbm.managers.AitLogger;
 import org.hibernate.Session;
 
 import java.io.Serializable;
@@ -10,16 +10,15 @@ import java.lang.reflect.ParameterizedType;
 
 public class AitGenericDAO<T extends Serializable, ID extends Serializable> implements AitGenericDAOInterface<T, ID> {
 
-    protected static Logger logger = Logger.getLogger(AitGenericDAO.class);
     private Class<T> persistentClass;
     private Session session;
 
     protected AitGenericDAO(Session session) {
-        logger.info("opening: AitGenericDAO.AitGenericDAO(Session)");
+        AitLogger.getInstance().logInfoToFile("opening: AitGenericDAO.AitGenericDAO(Session)");
         this.session = session;
         this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[0];
-        logger.info("exiting: AitGenericDAO.AitGenericDAO(Session)");
+        AitLogger.getInstance().logInfoToFile("exiting: AitGenericDAO.AitGenericDAO(Session)");
     }
 
     protected Session getSession() {

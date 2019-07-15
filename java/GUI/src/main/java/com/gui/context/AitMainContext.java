@@ -13,12 +13,11 @@ import com.gui.panels.AitRegistraionController;
 import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
 import com.hbm.hibernate.AitHibernateUtil;
-import com.hbm.models.AitAccount;
-import com.hbm.models.AitUserData;
-import com.hbm.models.AitUserHost;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitAccount;
+import com.hbm.models.entitiecovers.AitUserHost;
 import com.hbm.models.entities.AitUserHostEntity;
 import javafx.util.Pair;
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.net.InetAddress;
@@ -31,16 +30,15 @@ public class AitMainContext {
     private static AitAccount user;
     private static Session sessionObj;
     private static Map<String, Pair<AitNamespaceInterface, AitGenericControllerInterface>> frames;
-    private static Logger logger = Logger.getLogger(AitMainContext.class);
 
     public static void initFrames() {
-        logger.info("opening: AitIdManager.initFrames()");
+        AitLogger.getInstance().logInfoToFile("opening: AitIdManager.initFrames()");
         frames = new HashMap<>();
         frames.put(AitControllersNameConstStrings.ARNO_NAMESPACE, new Pair<>(new AitArnoNamespace(), new AitArnoController()));
         frames.put(AitControllersNameConstStrings.LOGIN_NAMESPACE, new Pair<>(new AitLoginNamespace(), new AitLoginController()));
         frames.put(AitControllersNameConstStrings.REGISTRATION_NAMESPACE, new Pair<>(new AitRegistrationNamespace(), new AitRegistraionController()));
         frames.put(AitControllersNameConstStrings.DASHBOARD_NAMESPACE, new Pair<>(new AitDashboardNamespace(), new AitDashboardController()));
-        logger.info("exiting: AitIdManager.initFrames()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitIdManager.initFrames()");
     }
 
     public static AitNamespaceInterface getNamespace(String key) {
@@ -94,7 +92,7 @@ public class AitMainContext {
 
                     userHost.saveOrUpdate();
                 } catch (Exception e) {
-                    logger.error("error: AitMainContext.setAccount(AitAccount, boolean)", e);
+                    AitLogger.getInstance().logErrorToFile("error: AitMainContext.setAccount(AitAccount, boolean)", e);
                 }
             } else {
                 for (AitUserHost host : userHosts) {

@@ -1,11 +1,11 @@
 package com.ptl.database;
 
 import com.google.gson.Gson;
-import com.ptl.managers.AitCrypter;
-import com.ptl.managers.AitLogger;
+import com.hbm.managers.AitCrypter;
+import com.hbm.managers.AitLogger;
 import com.ptl.models.AitClientData;
 import com.ptl.models.AitMap;
-import com.ptl.resources.AitLoggerPriority;
+import com.hbm.resources.AitLoggerPriority;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -40,7 +40,7 @@ public class AitLocalDB {
             return m_Instance;
         } catch (Exception e) {
             try {
-                AitLogger.getInstance().logToFile(e.getStackTrace(), e.toString());
+                AitLogger.getInstance().logErrorToFile(e);
             } catch (Exception exc) {
                 e.printStackTrace();
                 exc.printStackTrace();

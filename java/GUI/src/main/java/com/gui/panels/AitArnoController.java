@@ -7,7 +7,8 @@ import com.gui.context.AitMainContext;
 import com.gui.interfaces.AitGenericControllerInterface;
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitControllersNameConstStrings;
-import com.hbm.models.AitAccount;
+import com.hbm.managers.AitLogger;
+import com.hbm.models.entitiecovers.AitAccount;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -28,7 +29,7 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
 
     @FXML
     public void initialize() {
-        logger.info("opening: AitArnoController.initialize()");
+        AitLogger.getInstance().logInfoToFile("opening: AitArnoController.initialize()");
         BindableTask task = new BindableTask(this);
         progressBar.progressProperty().bind(task.progressProperty());
         arnoFirstInfo.textProperty().bind(task.messageProperty());
@@ -39,9 +40,9 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
         try {
             arnoSecondInfo.setText(AitCultureManager.getInstance().getLanguage().getSecondInfoProgress());
         } catch (Exception e) {
-            logger.error("error: AitArnoController.initialize()", e);
+            AitLogger.getInstance().logErrorToFile("error: AitArnoController.initialize()", e);
         }
-        logger.info("exiting: AitArnoController.initialize()");
+        AitLogger.getInstance().logInfoToFile("exiting: AitArnoController.initialize()");
     }
 
     private class BindableTask extends Task<Integer> {
@@ -71,7 +72,7 @@ public class AitArnoController extends AitGenericController<AitArnoController, I
                 updateProgress(10,10);
                 Thread.sleep(200);
             } catch (SecurityException se) {
-                logger.error("eror: ArnoControllerBandableTask.succeeded()", se);
+                AitLogger.getInstance().logErrorToFile("eror: ArnoControllerBandableTask.succeeded()", se);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "You dont have permition to use this app! Run app as administator!", ButtonType.OK);
                 alert.show();
             } catch (Exception e) {
