@@ -1,4 +1,4 @@
-package com.hbm.managers;
+package com.wms;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,12 +10,6 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.locks.ReentrantLock;
-
-enum AitLoggerPriority {
-    ERROR,
-    WARNING,
-    INFORMATION
-}
 
 public class AitLogger {
     private static ReentrantLock m_Locker = new ReentrantLock();
@@ -36,35 +30,18 @@ public class AitLogger {
         }
     }
 
-    public void logInfoToFile(String message) {
+    void logErrorToFile(Exception exception) {
         try {
-            logToFile(null, message, null, AitLoggerPriority.INFORMATION);
+            logToFile(exception.getStackTrace(), exception.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void logErrorToFile(Exception exception) {
-        logErrorToFile(null, exception);
-    }
-
-    public void logErrorToFile(String msg, Exception exception) {
-        try {
-            logToFile(exception.getStackTrace(), exception.toString(), msg, AitLoggerPriority.ERROR);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void logToFile(Object[] params, String title, String message, AitLoggerPriority priority) throws Exception  {
+    private void logToFile(Object[] params, String title) throws Exception  {
         String dicFolderName, fileExt;
-        if(AitLoggerPriority.ERROR.equals(priority)) {
-            dicFolderName = "errors";
-            fileExt = ".err";
-        } else {
-            dicFolderName = "logs";
-            fileExt = ".log";
-        }
+        dicFolderName = "errors";
+        fileExt = ".err";
         createDir(dicFolderName);
         File file = createFile(dicFolderName, fileExt);
 
@@ -81,11 +58,7 @@ public class AitLogger {
             }
         } while(line != null);
 
-        if(null != message && !message.isEmpty()) {
-            builder.append(String.format(convertDateTimeToString() + convertPiorityToString(priority), message));
-            builder.append(System.getProperty("line.separator"));
-        }
-        builder.append(String.format(convertDateTimeToString() + convertPiorityToString(priority), title));
+        builder.append(String.format(convertDateTimeToString() + "[ERR]: %s", title));
         builder.append(System.getProperty("line.separator"));
 
         if(params != null && params.length > 0) {
@@ -105,19 +78,6 @@ public class AitLogger {
 
     private String convertDateTimeToString(){
         return new SimpleDateFormat("[hh:mm:ss]").format(Calendar.getInstance().getTime());
-    }
-
-    private String convertPiorityToString(AitLoggerPriority priority) {
-        switch (priority) {
-            case ERROR:
-                return "[ERR]: %s";
-            case WARNING:
-                return "[WAR]: %s";
-            case INFORMATION:
-                return "[INF]: %s";
-            default:
-                return "%s";
-        }
     }
 
     private void createDir(String dicName) {

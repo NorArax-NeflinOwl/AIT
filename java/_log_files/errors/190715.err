@@ -57,3 +57,16 @@ HBM/com.hbm.managers.AitIdManager.generateId(AitIdManager.java:34)
 HBM/com.hbm.generators.AitCRGenerator.createCR(AitCRGenerator.java:12)
 HBM/com.hbm.generators.AitCRGenerator.main(AitCRGenerator.java:8)
 
+[01:10:45][ERR]: java.sql.SQLException: path to 'C:/sqlite/db/database.db': 'C:\sqlite' does not exist
+sqlite.jdbc@3.28.0/org.sqlite.SQLiteConnection.open(SQLiteConnection.java:215)
+sqlite.jdbc@3.28.0/org.sqlite.SQLiteConnection.<init>(SQLiteConnection.java:61)
+sqlite.jdbc@3.28.0/org.sqlite.jdbc3.JDBC3Connection.<init>(JDBC3Connection.java:28)
+sqlite.jdbc@3.28.0/org.sqlite.jdbc4.JDBC4Connection.<init>(JDBC4Connection.java:21)
+sqlite.jdbc@3.28.0/org.sqlite.JDBC.createConnection(JDBC.java:115)
+sqlite.jdbc@3.28.0/org.sqlite.JDBC.connect(JDBC.java:90)
+java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
+java.sql/java.sql.DriverManager.getConnection(DriverManager.java:251)
+HBM/com.hbm.contexts.AitDbContext.connect(AitDbContext.java:51)
+HBM/com.hbm.contexts.AitDbContext.getConnection(AitDbContext.java:29)
+HBM/com.hbm.AppLocalDb.main(AppLocalDb.java:7)
+

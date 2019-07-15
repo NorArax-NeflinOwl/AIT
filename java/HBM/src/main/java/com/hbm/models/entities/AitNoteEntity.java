@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "notes")
+@Entity(name = "arno_notes")
 public class AitNoteEntity implements Serializable {
 
     @Id

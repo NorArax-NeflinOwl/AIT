@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "accounts")
+@Entity(name = "arno_accounts")
 public class AitAccountEntity implements Serializable {
 
     @Id

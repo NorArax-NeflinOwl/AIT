@@ -1,8 +1,5 @@
 package com.wms;
 
-import com.hbm.managers.AitCrypter;
-import com.hbm.managers.AitLogger;
-
 import javax.mail.Session;
 import javax.mail.Message;
 import javax.mail.MessagingException;

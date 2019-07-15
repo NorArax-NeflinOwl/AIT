@@ -9,7 +9,7 @@ import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
 import com.hbm.managers.AitCrypter;
 import com.hbm.managers.AitLogger;
-import com.hbm.managers.AitMailSender;
+import com.wms.AitMailSender;
 import com.hbm.models.entitiecovers.AitAccount;
 import com.hbm.models.entitiecovers.AitUserData;
 import com.hbm.models.entities.AitAccountEntity;

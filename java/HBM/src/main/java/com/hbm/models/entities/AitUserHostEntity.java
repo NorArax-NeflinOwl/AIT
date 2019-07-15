@@ -11,7 +11,7 @@ import javax.persistence.GeneratedValue;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name = "usershosts")
+@Entity(name = "arno_usershosts")
 public class AitUserHostEntity implements Serializable {
 
     @Id
