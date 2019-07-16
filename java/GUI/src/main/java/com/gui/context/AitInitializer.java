@@ -1,6 +1,7 @@
 package com.gui.context;
 
 import com.gui.managers.AitCultureManager;
+import com.gui.strings.AitEnglishStrings;
 import com.gui.strings.AitPolishStrings;
 import com.hbm.managers.AitLogger;
 import javafx.scene.control.Alert;
@@ -19,7 +20,7 @@ public class AitInitializer {
 
     public void registerAppSettings() {
         AitLogger.getInstance().logInfoToFile("opening: AitInitializer.registerAppSettings()");
-        AitCultureManager.getInstance().setLanguage(AitPolishStrings.locale);
+        AitCultureManager.getInstance().setLanguage(AitEnglishStrings.locale);
 
         AitLogger.getInstance().logInfoToFile("exiting: AitInitializer.registerAppSettings()");
     }

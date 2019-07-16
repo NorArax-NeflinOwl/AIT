@@ -1,0 +1,166 @@
+﻿<Window x:Class="WPF_Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AIT CalNote" Height="620" Width="800">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0" Background="LightGray">
+            
+        </Grid>
+        <Grid Row="1">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Border Margin="20,22,0,0" Height="527" Width="502"
+                    VerticalAlignment="Top" HorizontalAlignment="Left"
+                    BorderBrush="Silver" BorderThickness="1">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid>
+                            <TextBlock  Text="Calendar" FontSize="15" FontWeight="DemiBold"
+                                Margin="21,10,0,0" Height="23" Width="66"
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Calendar   Name="aitCalendar"
+                                Margin="10,30,0,0" Height="170" Width="180" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Button     Name="aitInsertButton" Content="Insert" FontWeight="DemiBold"
+                                Margin="409,479,0,0" Height="40" Width="85" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Button     Name="aitCancelButton" Content="Cancel" FontWeight="DemiBold" 
+                                Margin="409,433,0,0" Height="40" Width="85" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <CheckBox   Name="aitEditCheckBox" IsEnabled="False"
+                                Margin="410,315,0,0" Height="16" 
+                                VerticalAlignment="Top" 
+                                HorizontalAlignment="Left"/>
+                            <Button     Name="aitEditButton" Content="Edit" IsEnabled="False"
+                                Margin="433,313,0,0" Height="20" Width="60"
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <Button     Name="aitDeleteButton" Content="Delete" IsEnabled="False"
+                                Margin="433,339,0,0" Height="20" Width="60" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock  Text="Training info:" FontWeight="Medium" 
+                                Margin="196,71,0,0" Height="20" Width="75" 
+                                VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <Border Margin="10,206,0,0" Height="100" Width="482"
+                            VerticalAlignment="Top" HorizontalAlignment="Left"
+                            BorderBrush="Silver" BorderThickness="1">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock  Name="aitTitleTextBlock" Text="Title:" FontWeight="DemiBold"
+                                        Margin="122,9,0,0" Height="20" Width="31"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBox    Name="aitTitleTextBox" 
+                                        Margin="157,7,0,0" Height="20" Width="317"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBlock  Name="aitNoteTextBlock" Text="Note Message: " FontWeight="DemiBold" 
+                                        Margin="6,33,0,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBox    Name="aitNoteTextBox" 
+                                        Margin="96,32,0,0" Height="60" Width="380" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBlock  Name="aitTimeTextBlock" Text="Time:" FontWeight="DemiBold" 
+                                        Margin="11,9,0,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBox    Name="aitTimeTextBox" IsEnabled="False"
+                                        Margin="46,7,0,0" Height="20" Width="70" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Border>
+                        <Border Margin="277,6,0,0" Height="76" Width="216"
+                            VerticalAlignment="Top" HorizontalAlignment="Left"
+                            BorderBrush="Silver" BorderThickness="1">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock  Name="aitNoteTypeTextBlock" Text="Note type:" FontWeight="DemiBold" 
+                                        Margin="10,16,0,0" Height="20"  
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <ComboBox   Name="aitNoteTypeComboBox"
+                                        Margin="0,13,6,0" Height="23" Width="137" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                <TextBlock  Name="aitDateTypeTextBlock" Text="Date type:" FontWeight="DemiBold" 
+                                        Margin="11,48,0,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <ComboBox   Name="aitDateTypeComboBox" 
+                                        Margin="71,45,0,0" Height="23" Width="137"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Border>
+                        <Border Margin="196,88,0,0" Height="112" Width="298" 
+                            VerticalAlignment="Top" HorizontalAlignment="Left"
+                            BorderBrush="Silver" BorderThickness="1">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock  Name="aitTrainigTypeTextBlock" Text="Training type:"
+                                        Margin="3,6,0,0" Height="20" Width="75"  
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <ComboBox   Name="aitTrainigTypeComboBox" IsEnabled="False"
+                                        Margin="0,6,6,0" Height="23" Width="208" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Right" />
+                                <CheckBox   Name="aitTimeOfDayCheckBox" IsEnabled="False"
+                                        VerticalAlignment="Top" HorizontalAlignment="Right"
+                                        Margin="0,36,274,0" Height="16"/>
+                                <TextBlock  Name="aitTimeOfDayTextBlock" Text="Time of day:"
+                                        Margin="28,36,0,0" Height="20"   
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <ComboBox   Name="aitTimeOfDayComboBox" IsEnabled="False" 
+                                        Margin="104,33,0,0" Height="23" Width="186"   
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <CheckBox   Name="aitSeriesCheckBox" IsEnabled="False"
+                                        Margin="6,59,0,0" Height="16" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBlock  Name="aitSeriesTextBlock" Text="Series" 
+                                        Margin="28,59,0,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBox    Name="aitSeriesTextBox" IsEnabled="False" 
+                                        Margin="82,59,0,31" Width="40"
+                                        HorizontalAlignment="Left"/>
+                                <CheckBox   Name="aitRepeatChechBox" IsEnabled="False"
+                                        Margin="6,83,0,0" Height="16" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBlock  Name="aitRepeatTextBlock" Text="Repeat"
+                                        Margin="0,83,231,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                                <TextBox    Name="aitRepeatTextBox" IsEnabled="False" 
+                                        Margin="82,83,0,0" Height="20" Width="40"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"  />
+                            </Grid>
+                        </Border>
+                        <Border Margin="11,312,106,0" Height="207" 
+                            VerticalAlignment="Top"
+                            BorderBrush="Silver" BorderThickness="1" >
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TreeView   Name="aitLeftPanelTreeView" IsEnabled="False"
+                                        Margin="9,23,0,0" Height="176" Width="280"
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <Button     Name="aitAddButton" Content="Add" FontWeight="DemiBold" IsEnabled="False" 
+                                        Margin="300,147,0,0" Height="23" Width="75" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <Button     Name="aitRemoveButton" Content="Remove" FontWeight="DemiBold" IsEnabled="False"
+                                        Margin="300,176,0,0" Height="23" Width="75" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                <TextBlock  Name="aitRightPanelTreeViewTextBlock" 
+                                        Text="Tree view: " FontWeight="DemiBold" 
+                                        Margin="6,6,0,0" Height="20" 
+                                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid>
+                <TextBlock  Name="aitRightPanelTextBlock" Text="Task list" FontSize="15" FontWeight="DemiBold"
+                        Margin="535,12,0,0" Height="23" Width="157" 
+                        VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <ListView   Name="aitRightPanelListView" 
+                        Margin="528,41,0,0" Height="455" Width="238"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Button     Name="aitSaveButton" Content="Save/Close" FontSize="15" FontWeight="DemiBold"
+                        Margin="676,502,0,0" Height="50" Width="90" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Button     Name="aitClearButton" Content="Clear" FontSize="15" FontWeight="DemiBold" 
+                        VerticalAlignment="Top" HorizontalAlignment="Left" 
+                        Margin="580,502,0,0" Height="50" Width="90"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

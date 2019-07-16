@@ -28,7 +28,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public List<AitUserData> findUserDataByNick(String nick) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByNick(String)");
 
-        Query query = getSession().createQuery("from usersdata where udt_nick = :nick", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata where udt_nick = :nick", AitUserDataEntity.class);
         query.setParameter("nick", nick);
 
         List<AitUserData> result = new ArrayList<>();
@@ -48,7 +48,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public List<AitUserData> findUserDataByFirstName(String firstName) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByFirstName(String)");
 
-        Query query = getSession().createQuery("from usersdata where udt_firstname = :firstName", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata where udt_firstname = :firstName", AitUserDataEntity.class);
         query.setParameter("firstName", firstName);
 
         List<AitUserData> result = new ArrayList<>();
@@ -68,7 +68,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public List<AitUserData> findUserDataByMiddleName(String middleName) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByMiddleName(String)");
 
-        Query query = getSession().createQuery("from usersdata where udt_middlename = :middleName", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata where udt_middlename = :middleName", AitUserDataEntity.class);
         query.setParameter("middleName", middleName);
 
         List<AitUserData> result = new ArrayList<>();
@@ -88,7 +88,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public List<AitUserData> findUserDataByLastName(String lastName) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserDataByLastName(String)");
 
-        Query query = getSession().createQuery("from usersdata where udt_lastname = :lastName", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata where udt_lastname = :lastName", AitUserDataEntity.class);
         query.setParameter("lastName", lastName);
 
         List<AitUserData> result = new ArrayList<>();
@@ -108,7 +108,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public List<AitUserData> findAllUserData() {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findAllUserData()");
 
-        Query query = getSession().createQuery("from usersdata", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata", AitUserDataEntity.class);
 
         List<AitUserData> result = new ArrayList<>();
         List<AitUserDataEntity> usersdata = query.list();
@@ -127,7 +127,7 @@ public class AitUserDataDAO extends AitGenericDAO<AitUserDataEntity, Integer> im
     public AitUserData findUserDataByAccountId(int id) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserDataDAO.findUserHostsByAccountId(int)");
 
-        Query query = getSession().createQuery("from usersdata where udt_accid = :id", AitUserDataEntity.class);
+        Query query = getSession().createQuery("from arno_usersdata where udt_accid = :id", AitUserDataEntity.class);
         query.setParameter("id", id);
 
         List<AitUserData> result = new ArrayList<>();

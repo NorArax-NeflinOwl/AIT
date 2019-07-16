@@ -21,7 +21,7 @@ public class AitUserHostDAO extends AitGenericDAO<AitUserHostEntity, Integer> im
     public List<AitUserHost> findUserHostsByAccountId(int id) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserHostDAO.findUserHostsByAccountId(int)");
 
-        Query query = getSession().createQuery("from usershosts where uhs_accid = :id", AitUserHostEntity.class);
+        Query query = getSession().createQuery("from arno_usershosts where uhs_accid = :id", AitUserHostEntity.class);
         query.setParameter("id", id);
 
         List<AitUserHost> result = new ArrayList<>();
@@ -41,7 +41,7 @@ public class AitUserHostDAO extends AitGenericDAO<AitUserHostEntity, Integer> im
     public List<AitUserHost> findUserHostsByHostName(String hostName) {
         AitLogger.getInstance().logInfoToFile("opening: AitUserHostDAO.findUserHostsByHostName(String)");
 
-        Query query = getSession().createQuery("from usershosts where uhs_hostname = :hostname", AitUserHostEntity.class);
+        Query query = getSession().createQuery("from arno_usershosts where uhs_hostname = :hostname", AitUserHostEntity.class);
         query.setParameter("hostname", hostName);
 
         List<AitUserHost> result = new ArrayList<>();

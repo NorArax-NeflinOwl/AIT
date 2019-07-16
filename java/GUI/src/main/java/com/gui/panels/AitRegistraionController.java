@@ -9,7 +9,6 @@ import com.gui.strings.AitControllersNameConstStrings;
 import com.hbm.daos.AitDAOFactory;
 import com.hbm.managers.AitCrypter;
 import com.hbm.managers.AitLogger;
-import com.wms.AitMailSender;
 import com.hbm.models.entitiecovers.AitAccount;
 import com.hbm.models.entitiecovers.AitUserData;
 import com.hbm.models.entities.AitAccountEntity;
@@ -226,7 +225,7 @@ public class AitRegistraionController extends AitGenericController<AitRegistraio
                     account.saveOrUpdate();
                 }
 
-                AitMailSender.sendTo(account.getEmail());
+                //TODO AitMailSender.sendTo(account.getEmail());
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "AitAccount was create successfull, check your email.", ButtonType.OK);
                 alert.show();

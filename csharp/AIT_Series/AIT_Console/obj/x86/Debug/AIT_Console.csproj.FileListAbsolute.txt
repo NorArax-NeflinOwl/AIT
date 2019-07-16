@@ -1,0 +1,8 @@
+D:\Projects for tests\C#\AIT_Series\AIT_Console\bin\Debug\AIT_Console.exe
+D:\Projects for tests\C#\AIT_Series\AIT_Console\bin\Debug\AIT_Console.pdb
+D:\Projects for tests\C#\AIT_Series\AIT_Console\obj\x86\Debug\AIT_Console.exe
+D:\Projects for tests\C#\AIT_Series\AIT_Console\obj\x86\Debug\AIT_Console.pdb
+D:\Projects for tests\C#\AIT_Series\AIT_Console\bin\Debug\AIT_Series.dll
+D:\Projects for tests\C#\AIT_Series\AIT_Console\bin\Debug\Newtonsoft.Json.dll
+D:\Projects for tests\C#\AIT_Series\AIT_Console\bin\Debug\AIT_Series.pdb
+D:\Projects for tests\C#\AIT_Series\AIT_Console\obj\x86\Debug\AIT_Console.csprojResolveAssemblyReference.cache

@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public class AitDbContext {
     private static final String dbFileName = "database.db";
-    private static final String dbSqlUrl = new File("").getAbsolutePath() + "/sqlite/";
+    private static final String dbSqlUrl = new File("").getAbsolutePath() + "/_sqlite/";
     private static final String dbDirName = "db";
-    private static final String url = "jdbc:sqlite:C:/sqlite/db/";
+    private static final String url = "jdbc:sqlite:" + dbSqlUrl + "/" + dbDirName + "/";
 
     private Connection connection;
     private static AitDbContext instance = new AitDbContext();
