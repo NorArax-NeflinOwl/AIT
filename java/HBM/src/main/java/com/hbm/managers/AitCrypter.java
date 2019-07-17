@@ -77,4 +77,16 @@ public class AitCrypter {
         }
         return sb.toString();
     }
+
+    public static String generateSHA256Hash(String obj) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] array = digest.digest(obj.getBytes(StandardCharsets.UTF_8));
+        StringBuilder sb = new StringBuilder();
+        for (byte b : array) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
+    }
+
+
 }
