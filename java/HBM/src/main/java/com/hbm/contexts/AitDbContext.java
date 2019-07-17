@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class AitDbContext {
-    private static final String dbFileName = "database.db";
+    private static final String dbFileName = "nano.db";
     private static final String dbSqlUrl = new File("").getAbsolutePath() + "/_sqlite/";
     private static final String dbDirName = "db";
     private static final String url = "jdbc:sqlite:" + dbSqlUrl + "/" + dbDirName + "/";
