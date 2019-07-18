@@ -153,3 +153,11 @@
 /java/PTL/target/classes/com/ptl/resources/AitInerfix.class
 /java/PTL/target/classes/com/ptl/resources/AitPostfix.class
 /java/PTL/target/classes/com/ptl/resources/AitPrefix.class
+/java
+/csharp/WPF/obj/Debug
+/csharp/WPF/bin/Debug
+/csharp/WPF/.vs/WPF/v16/.suo
+/csharp/WPF/.vs/WPF/v16/Server/sqlite3
+/.idea/workspace.xml
+/csharp/WPF/WPF.sln
+/csharp/WPF/WPF.csproj
