@@ -1,5 +1,0 @@
-﻿<Window x:Class="WPF.Windows.StartWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Page x:Name="Page"/>
-</Window>
