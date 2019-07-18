@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using WPF.Enums;
 using WPF.Interfaces;
+using WPF.Managers;
+using WPF.Models;
 using WPF.Pages;
 using WPF.Windows;
 
@@ -11,18 +17,24 @@ namespace WPF.Contexts
 {
     public class AitMainContext
     {
-        private AitMainContext()
-        {
-            pageTrace = new List<AitBasicPageInterface>();
-            pages = new Dictionary<AitPagesEnum, AitBasicPageInterface>();
-            windows = new Dictionary<AitWindowsEnum, AitBasicWindowInterface>();
-        }
+        /* X.x.x.x.x - major release version
+         * x.X.x.x.x - relese version
+         * x.x.X.x.x - service pack version
+         * x.x.x.X.x - patch version
+         * x.x.x.x.X - debug version */
+
         private static object locker = new object();
         private static AitMainContext instance = new AitMainContext();
 
+        private IList<AitWindowsEnum> pageTrace;
+
+        private IDictionary<AitPagesEnum, AitExtendedPageInterface> pages;
+        private IDictionary<AitWindowsEnum, AitExtendedWindowInterface> windows;
+        private IDictionary<AitThreadEnum, AitExtendedThreadInterface> threads;
+
         public static AitMainContext Instance
         {
-            get 
+            get
             {
                 lock (locker)
                 {
@@ -31,36 +43,63 @@ namespace WPF.Contexts
             }
         }
 
-        private List<AitBasicPageInterface> pageTrace;
-        private Dictionary<AitPagesEnum, AitBasicPageInterface> pages;
-        private Dictionary<AitWindowsEnum, AitBasicWindowInterface> windows;
+        private AitMainContext()
+        {
+            pageTrace = new List<AitWindowsEnum>();
+            pages = new Dictionary<AitPagesEnum, AitExtendedPageInterface>();
+            windows = new Dictionary<AitWindowsEnum, AitExtendedWindowInterface>();
+            threads = new Dictionary<AitThreadEnum, AitExtendedThreadInterface>();
+        }
 
         public void Init()
         {
-            pages.Add(AitPagesEnum.START, new StartPage());
-            pages.Add(AitPagesEnum.LOGIN, new LoginPage());
-            pages.Add(AitPagesEnum.REGISTRATION, new RegistationPage());
-            pages.Add(AitPagesEnum.DASHBOARD, new DashboardPage());
-            pages.Add(AitPagesEnum.NOTE, new NotePage());
-            pages.Add(AitPagesEnum.SHEDULER, new ShedulerPage());
-            pages.Add(AitPagesEnum.WORKOUT, new WorkoutPage());
-            pages.Add(AitPagesEnum.FINANSE, new FinansePage());
-            pages.Add(AitPagesEnum.COMPANY, new CompanyPage());
-
-            windows.Add(AitWindowsEnum.START, new StartWindow());
-            windows.Add(AitWindowsEnum.LOGIN, new LoginWindow());
-            windows.Add(AitWindowsEnum.REGISTRATION, new RegistrationWindow());
-            windows.Add(AitWindowsEnum.MAIN, new MainWindow());
+            PagesInitialize();
+            WindowsInitialize();
+            ThreadInitialize();
         }
 
-        public AitBasicPageInterface OpenPageIn(AitPagesEnum pageName, AitWindowsEnum windowName)
+        public void StartThreadingProccess()
         {
-            if (pages.ContainsKey(pageName))
+            foreach (var thread in threads)
             {
-                AitBasicPageInterface page = pages[pageName];
-                //windows
+                thread.Value.Start();
             }
-            return null;
+        }
+
+        private void PagesInitialize()
+        {
+            pages.Add(AitPagesEnum.START, new AitExtendedPageModel(AitPagesEnum.START));
+            pages.Add(AitPagesEnum.LOGIN, new AitExtendedPageModel(AitPagesEnum.LOGIN));
+            pages.Add(AitPagesEnum.REGISTRATION, new AitExtendedPageModel(AitPagesEnum.REGISTRATION));
+            pages.Add(AitPagesEnum.DASHBOARD, new AitExtendedPageModel(AitPagesEnum.DASHBOARD));
+            pages.Add(AitPagesEnum.NOTE, new AitExtendedPageModel(AitPagesEnum.NOTE));
+            pages.Add(AitPagesEnum.SHEDULER, new AitExtendedPageModel(AitPagesEnum.SHEDULER));
+            pages.Add(AitPagesEnum.WORKOUT, new AitExtendedPageModel(AitPagesEnum.WORKOUT));
+            pages.Add(AitPagesEnum.FINANSE, new AitExtendedPageModel(AitPagesEnum.FINANSE));
+            pages.Add(AitPagesEnum.COMPANY, new AitExtendedPageModel(AitPagesEnum.COMPANY));
+        }
+
+        private void WindowsInitialize()
+        {
+            windows.Add(AitWindowsEnum.START, new AitExtendedWindowsModel(AitWindowsEnum.START));
+            windows.Add(AitWindowsEnum.LOGIN, new AitExtendedWindowsModel(AitWindowsEnum.LOGIN));
+            windows.Add(AitWindowsEnum.REGISTRATION, new AitExtendedWindowsModel(AitWindowsEnum.REGISTRATION));
+            windows.Add(AitWindowsEnum.MAIN, new AitExtendedWindowsModel(AitWindowsEnum.MAIN));
+        }
+
+        private void ThreadInitialize()
+        {
+
+        }
+
+        public AitExtendedWindowInterface GetWindow(AitWindowsEnum windowName)
+        {
+            return windows[windowName];
+        }
+
+        public AitExtendedPageInterface getPage(AitPagesEnum pageName)
+        {
+            return pages[pageName];
         }
     }
 }

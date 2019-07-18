@@ -53,14 +53,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Interfaces\AitBasicWindowInterface.cs" />
-    <Compile Include="Pages\CompanyPage.xaml.cs">
+    <Compile Include="Builders\AitExtendedPageBuilder.cs" />
+    <Compile Include="Builders\AitWindowBulider.cs" />
+    <Compile Include="Enums\AitPagesEnum.cs" />
+    <Compile Include="Enums\AitStyleEnum.cs" />
+    <Compile Include="Enums\AitThreadEnum.cs" />
+    <Compile Include="Enums\AitWindowsEnum.cs" />
+    <Compile Include="Models\PagesConstsData\StartPageConstsData.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
+    <Compile Include="Interfaces\AitBuilderInterface.cs" />
+    <Compile Include="Interfaces\AitExtendedPageInterface.cs" />
+    <Compile Include="Interfaces\AitExtendedThreadInterface.cs" />
+    <Compile Include="Interfaces\AitExtendedWindowInterface.cs" />
+    <Compile Include="Managers\AitFileManager.cs" />
+    <Compile Include="Models\Extended\AitExtendedThreadModel.cs" />
+    <Compile Include="Models\Extended\AitExtendedPageModel.cs" />
+    <Compile Include="Models\Extended\AitExtendedWindowsModel.cs" />
+    <Compile Include="Builders\AitPageBuilder.cs" />
+    <Compile Include="Pages\MainPages\CompanyPage.xaml.cs">
       <DependentUpon>CompanyPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\DashboardPage.xaml.cs">
+    <Compile Include="Pages\MainPages\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\FinansePage.xaml.cs">
+    <Compile Include="Pages\ErrorPage.xaml.cs">
+      <DependentUpon>ErrorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPages\FinansePage.xaml.cs">
       <DependentUpon>FinansePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
@@ -72,13 +91,13 @@
     <Compile Include="Pages\RegistationPage.xaml.cs">
       <DependentUpon>RegistationPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\ShedulerPage.xaml.cs">
+    <Compile Include="Pages\MainPages\ShedulerPage.xaml.cs">
       <DependentUpon>ShedulerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\WorkoutPage.xaml.cs">
+    <Compile Include="Pages\MainPages\WorkoutPage.xaml.cs">
       <DependentUpon>WorkoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\LoginWindow.xaml.cs">
@@ -93,15 +112,19 @@
     <Compile Include="Windows\StartWindow.xaml.cs">
       <DependentUpon>StartWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Pages\CompanyPage.xaml">
+    <Page Include="Pages\MainPages\CompanyPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\DashboardPage.xaml">
+    <Page Include="Pages\MainPages\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\FinansePage.xaml">
+    <Page Include="Pages\ErrorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPages\FinansePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,7 +140,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\ShedulerPage.xaml">
+    <Page Include="Pages\MainPages\ShedulerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\WorkoutPage.xaml">
+    <Page Include="Pages\MainPages\WorkoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,8 +160,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Interfaces\AitBasicPageInterface.cs" />
-    <Compile Include="Models\AitBasicEnums.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -188,7 +209,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\ait_logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
