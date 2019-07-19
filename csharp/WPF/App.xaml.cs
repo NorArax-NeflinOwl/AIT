@@ -17,12 +17,18 @@ namespace WPF
 
         public void Subscribe()
         {
-            MainWindow.Closing += MainWindow_Closing;
+            if(MainWindow != null)
+            {
+                MainWindow.Closing += MainWindow_Closing;
+            }
         }
 
         public void Dispose()
         {
-            MainWindow.Closing -= MainWindow_Closing;
+            if (MainWindow != null)
+            {
+                MainWindow.Closing -= MainWindow_Closing;
+            }
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
