@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using WPF.Contexts;
+using WPF.Enums;
 using WPF.Models;
 
 namespace WPF.Windows

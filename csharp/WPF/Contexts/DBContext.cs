@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
-using WPF.Managers;
 using WPF.Models;
 
 namespace WPF.Contexts
@@ -10,8 +7,8 @@ namespace WPF.Contexts
     {
         public DBContext()
         {
-            if(!Database.EnsureCreated())
-                Database.EnsureCreated();
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
