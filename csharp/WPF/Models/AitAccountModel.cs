@@ -7,22 +7,22 @@ using WPF.Validators;
 namespace WPF.Models
 {
     [Table("ait_accounts")]
-    public class AccountModel
+    public class AitAccountModel
     {
         private string id, login, password, email;
 
-        [Key, Column("ait_id")]
+        [Key, Column("acc_id")]
         public string ID
         {
             get { return id; }
             set
             {
-                if (AitAccountPropertiesValidator.ValidateID(value))
+                if (BasePropertiesValidator.ValidateID(value))
                     id = value;
             }
         }
 
-        [Column("ait_login")]
+        [Column("acc_login")]
         public string Login
         {
             get { return login; }
@@ -33,7 +33,7 @@ namespace WPF.Models
             }
         }
 
-        [Column("ait_password")]
+        [Column("acc_password")]
         public string Password
         {
             get { return password; }
@@ -44,7 +44,7 @@ namespace WPF.Models
             }
         }
 
-        [Column("ait_email")]
+        [Column("acc_email")]
         public string Email
         {
             get { return email; }
@@ -55,18 +55,18 @@ namespace WPF.Models
             }
         }
 
-        [Column("ait_active")]
-        public bool Active { get; set; }
-        [Column("ait_permition")]
+        [Column("acc_active")]
+        public bool IsActive { get; set; }
+        [Column("acc_permition")]
         public PermitionAccount Permition { get; set; }
-        [Column("ait_create")]
+        [Column("acc_create")]
         public DateTime Create { get; set; }
-        [Column("ait_lastupdate")]
+        [Column("acc_lastupdate")]
         public DateTime? LastUpdate { get; set; }
 
-        public AccountModel()
+        public AitAccountModel()
         {
-            Active = false;
+            IsActive = false;
             Permition = PermitionAccount.SIMPLE;
             Create = DateTime.Now;
         }

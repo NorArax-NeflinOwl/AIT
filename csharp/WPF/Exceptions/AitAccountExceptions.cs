@@ -2,15 +2,8 @@
 
 namespace WPF.Exceptions
 {
-    public class AitAccountExceptions
+    public class AitAccountExceptions : BaseExceptions
     {
-        public class IDException : Exception
-        {
-            public IDException(string message) : base(message)
-            {
-            }
-        }
-
         public class LoginException : Exception
         {
             public LoginException(string message) : base(message)

@@ -2,35 +2,8 @@
 
 namespace WPF.Validators
 {
-    public class AitAccountPropertiesValidator
+    public class AitAccountPropertiesValidator : BasePropertiesValidator
     {
-        private static readonly char idSeperator = '-';
-
-        public static bool ValidateID(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new AitAccountExceptions.IDException("ID is required");
-            }
-
-            if (value.Length != 15)
-            {
-                throw new AitAccountExceptions.IDException("ID length must equals 15");
-            }
-
-            var idParts = value.Split(idSeperator);
-            if (idParts.Length != 3)
-            {
-                throw new AitAccountExceptions.IDException("ID don't containt 2 separators");
-            }
-
-            if (!int.TryParse(idParts[2], out _))
-            {
-                throw new AitAccountExceptions.IDException("ID postfix is not number");
-            }
-            return true;
-        }
-
         public static bool ValidateLogin(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -40,7 +13,7 @@ namespace WPF.Validators
 
             if (value.Length < 4)
             {
-                throw new AitAccountExceptions.LoginException("Password is too short");
+                throw new AitAccountExceptions.LoginException("Login is too short");
             }
 
             return true;

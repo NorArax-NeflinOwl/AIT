@@ -88,7 +88,7 @@ CREATE TABLE ait_files (
     fls_accid VARCHAR(15) NOT NULL,
     fls_asgaccid VARCHAR(15) DEFAULT NULL,
     fls_name VARCHAR(45) NOT NULL,
-    fls_type VARCHAR(15) NOT NULL,                      -- file extension if file is big then in here is part[x] x - number of package
+    fls_type VARCHAR(15) NOT NULL,                      -- file extension or if file is big then in here is part[x] x - number of package
     fls_content VARCHAR(2048) DEFAULT NULL,
     fls_create DATETIME DEFAULT CURRENT_TIMESTAMP,      -- datetime now
     fls_lastupdate DATETIME DEFAULT NULL,

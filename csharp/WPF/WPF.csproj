@@ -194,6 +194,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Exceptions\BaseExceptions.cs" />
+    <Compile Include="Models\AitFilesModel.cs" />
+    <Compile Include="Models\AitUserDataModel.cs" />
+    <Compile Include="Models\AitUserHostModel.cs" />
+    <Compile Include="Models\SysStsgenids.cs" />
+    <Compile Include="Validators\BasePropertiesValidator.cs" />
     <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -229,6 +235,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Configs\packages.config" />
+    <None Include="Databases\nano.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
