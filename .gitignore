@@ -12,13 +12,11 @@
 
 
 # VS
-/csharp/WPF/obj/Debug
-/csharp/WPF/bin/Debug
 /csharp/WPF/.vs/WPF/v16/.suo
 /csharp/WPF/.vs/WPF/v16/Server/sqlite3
 /.idea/workspace.xml
 /.vs
-/csharp/WPF/obj/Release
-/csharp/UnitTests/obj/Debug
-/csharp/UnitTests/bin/Debug
-/csharp/UTW/bin/Debug
+/csharp/WPF/obj
+/csharp/WPF/bin
+/csharp/UTW/obj
+/csharp/UTW/bin
