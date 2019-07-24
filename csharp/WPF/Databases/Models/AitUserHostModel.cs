@@ -1,23 +1,25 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using WPF.Databases.Contexts;
 using WPF.Validators;
 
 namespace WPF.Databases.Models
 {
     [Table("ait_usershosts")]
-    public class AitUserHostModel
+    public class AitUserHostModel : BaseEntityModel, ISerializable, ICloneable
     {
-        private string id, assignedTo;
+        private string assignedTo;
 
         [Key, Column("ush_id")]
         public string ID
         {
-            get { return id; }
+            get { return BaseID; }
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    id = value;
+                    SetField(ref BaseID, value, nameof(ID));
             }
         }
         [ForeignKey("AccountData"), Column("ush_accid")]
@@ -27,7 +29,7 @@ namespace WPF.Databases.Models
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    assignedTo = value;
+                    SetField(ref assignedTo, value, nameof(AssignedTo));
             }
         }
         [Column("ush_hostname")]
@@ -39,15 +41,54 @@ namespace WPF.Databases.Models
         [Column("ush_create")]
         public DateTime Create { get; set; }
         [Column("ush_lastupdate")]
-        public DateTime? LastUpdate { get; set; }
+        public DateTime? LastUpdate
+        {
+            get { return BaseLastUpdate; }
+            set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
+        }
 
         public AitAccountModel AccountData { get; set; }
 
-        public AitUserHostModel()
+        public AitUserHostModel(DBContext context) : base(context)
         {
-            IsActive = false;
-            IsLoggedIn = false;
             Create = DateTime.Now;
+        }
+
+        public AitUserHostModel(SerializationInfo info, StreamingContext context) : base(null)
+        {
+            ID = (string)info.GetValue(nameof(ID), typeof(string));
+            AssignedTo = (string)info.GetValue(nameof(AssignedTo), typeof(string));
+            HostName = (string)info.GetValue(nameof(HostName), typeof(string));
+            IsActive = (bool)info.GetValue(nameof(IsActive), typeof(bool));
+            IsLoggedIn = (bool)info.GetValue(nameof(IsLoggedIn), typeof(bool));
+            Create = (DateTime)info.GetValue(nameof(Create), typeof(DateTime));
+            LastUpdate = (DateTime?)info.GetValue(nameof(LastUpdate), typeof(DateTime?));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(ID), ID, typeof(int));
+            info.AddValue(nameof(AssignedTo), AssignedTo, typeof(string));
+            info.AddValue(nameof(HostName), HostName, typeof(string));
+            info.AddValue(nameof(IsActive), IsActive, typeof(bool));
+            info.AddValue(nameof(IsLoggedIn), IsLoggedIn, typeof(bool));
+            info.AddValue(nameof(Create), Create, typeof(DateTime));
+            info.AddValue(nameof(LastUpdate), LastUpdate, typeof(DateTime?));
+        }
+
+        public object Clone()
+        {
+            var clone = new AitUserHostModel(Context)
+            {
+                ID = ID,
+                AssignedTo = AssignedTo,
+                HostName = HostName,
+                IsActive = IsActive,
+                IsLoggedIn = IsLoggedIn,
+                Create = Create,
+                LastUpdate = LastUpdate
+            };
+            return clone;
         }
     }
 }

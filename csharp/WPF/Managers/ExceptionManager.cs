@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
@@ -11,13 +12,18 @@ namespace WPF.Managers
 {
     public class ExceptionManager
     {
+        private JsonSerializerSettings m_Setting;
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Resources.LOGDIR_SUBPATH });
-        private static BlockingCollection<LogModel> m_Logger;
+        private static BlockingCollection<LogInfoModel> m_Logger;
 
         private ExceptionManager()
         {
-            m_Logger = new BlockingCollection<LogModel>(100);
+            m_Logger = new BlockingCollection<LogInfoModel>(100);
             FileManager.CreateDirectory(FileManager.CombinePath(Resources.LOGDIR_SUBPATH));
+            m_Setting = new JsonSerializerSettings
+            {
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
         }
 
         private static readonly object m_Locker = new object();
@@ -35,13 +41,13 @@ namespace WPF.Managers
             }
         }
 
-        public async void LogToFile(LogModel newLog)
+        public async void LogToFile(LogInfoModel newLog)
         {
             m_Logger.Add(newLog);
             await Task.Factory.StartNew(() => {
                 while (!m_Logger.IsCompleted)
                 {
-                    LogModel log = null;
+                    LogInfoModel log = null;
                     try
                     {
                         log = m_Logger.Take();
@@ -50,14 +56,15 @@ namespace WPF.Managers
                         {
                             var random = new Random();
                             var ext = GetExt(log.Type);
-                            var fileName = log.Title + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd-") + (random.Next() % 1000).ToString() + ext;
+                            var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd-") + (random.Next() % 1000).ToString() + ext;
                             var filePath = Path.Combine(m_LoggerDir, fileName);
                             if (!File.Exists(filePath))
                                 using (File.Create(filePath)) { }
 
                             using (var stream = File.AppendText(filePath))
                             {
-                                stream.WriteLine(log.Message);
+                                var json = JsonConvert.SerializeObject(log, m_Setting);
+                                stream.WriteLine(json);
                             }
 
                         }
@@ -89,11 +96,10 @@ namespace WPF.Managers
 
         public void LogExceptionToFile(Exception e)
         {
-            LogToFile(new LogModel
+            LogToFile(new LogInfoModel
             {
                 Type = FileTypeEnum.EXCEPTION,
-                Title = e.Message,
-                Message = e.StackTrace
+                Message = e.Message + Environment.NewLine + e.StackTrace
             });
 #if DEBUG
             throw e;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using WPF.Models;
 
 namespace WPF.Databases.Contexts
 {
@@ -30,5 +31,16 @@ namespace WPF.Databases.Contexts
                 return new DBContext();
             }
         }
+
+        public DeviceInfoModel BuildDeviceInfo()
+        {
+            // TODO new NotImplementedException();
+            return null;
+        }
+
+        /// <summary>
+        /// Account ID from session
+        /// </summary>
+        public string AccountID { get; }
     }
 }

@@ -2,24 +2,24 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using WPF.ExtendedClasses;
 using WPF.Validators;
 
 namespace WPF.Databases.Models
 {
     [Table("ait_usersdata")]
-    public class AitUserDataModel : NotifyPropertyChangedExtension, ISerializable, ICloneable
+    public class AitUserDataModel : BaseEntityModel, ISerializable, ICloneable
     {
-        private string id, assignedTo;
+        private string assignedTo, nick, firstname, middlename, lastname;
+        private DateTime? birthday;
 
         [Key, Column("usd_id")]
         public string ID
         {
-            get { return id; }
+            get { return BaseID; }
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    id = value;
+                    SetField(ref BaseID, value, nameof(ID));
             }
         }
 
@@ -30,26 +30,50 @@ namespace WPF.Databases.Models
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    assignedTo = value;
+                    SetField(ref assignedTo, value, nameof(AssignedTo));
             }
         }
         [Column("usd_nick")]
-        public string Nick { get; set; }
+        public string Nick
+        {
+            get { return nick; }
+            set { SetField(ref nick, value, nameof(Nick)); }
+        }
 
         [Column("usd_firstname")]
-        public string FirstName { get; set; }
+        public string FirstName
+        {
+            get { return firstname; }
+            set { SetField(ref firstname, value, nameof(FirstName)); }
+        }
 
         [Column("usd_middlename")]
-        public string MiddleName { get; set; }
+        public string MiddleName
+        {
+            get { return middlename; }
+            set { SetField(ref middlename, value, nameof(MiddleName)); }
+        }
 
         [Column("usd_lastname")]
-        public string LastName { get; set; }
+        public string LastName
+        {
+            get { return lastname; }
+            set { SetField(ref lastname, value, nameof(LastName)); }
+        }
 
         [Column("usd_birthday")]
-        public DateTime? Birthday { get; set; }
+        public DateTime? Birthday
+        {
+            get { return birthday; }
+            set { SetField(ref birthday, value, nameof(Birthday)); }
+        }
 
         [Column("usd_lastupdate")]
-        public DateTime? LastUpdate { get; set; }
+        public DateTime? LastUpdate
+        {
+            get { return BaseLastUpdate; }
+            set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
+        }
 
 
         [NotMapped]

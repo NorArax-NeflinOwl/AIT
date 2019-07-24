@@ -201,7 +201,7 @@
     </Page>
     <Compile Include="Databases\Contexts\PDBContext.cs" />
     <Compile Include="Databases\Models\BaseEntityModel.cs" />
-    <Compile Include="Enums\LogTitleEnum.cs" />
+    <Compile Include="Enums\FileTypeEnum.cs" />
     <Compile Include="Exceptions\BaseExceptions.cs" />
     <Compile Include="Exceptions\SqliteExceptions.cs" />
     <Compile Include="Extensions\NotifyPropertyChangedExtension.cs" />
@@ -215,7 +215,10 @@
     <Compile Include="Managers\EncryptionManager.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
     <Compile Include="Managers\Helpers\Generator.cs" />
-    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\DeviceInfoModel.cs" />
+    <Compile Include="Models\HardwareModel.cs" />
+    <Compile Include="Models\LogInfoModel.cs" />
+    <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Validators\BasePropertiesValidator.cs" />
     <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

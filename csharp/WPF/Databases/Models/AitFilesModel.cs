@@ -2,25 +2,27 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using WPF.Databases.Contexts;
 using WPF.ExtendedClasses;
 using WPF.Validators;
 
 namespace WPF.Databases.Models
 {
     [Table("ait_files")]
-    public class AitFilesModel : NotifyPropertyChangedExtension, ISerializable, ICloneable
+    public class AitFilesModel : BaseEntityModel, ISerializable, ICloneable
     {
-        private string id, creator, assignedTo;
+        private string creator, assignedTo, name, type, content;
         private AitAccountModel fileOwner;
+        private DateTime create;
 
         [Key, Column("fls_id")]
         public string ID
         {
-            get { return id; }
+            get { return BaseID; }
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    id = value;
+                    SetField(ref BaseID, value, nameof(ID));
             }
         }
         [ForeignKey("FileCreator"), Column("fls_accid")]
@@ -30,7 +32,7 @@ namespace WPF.Databases.Models
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    creator = value;
+                    SetField(ref creator, value, nameof(Creator));
             }
         }
         [ForeignKey("FileOwner"), Column("fls_asgaccid")]
@@ -45,19 +47,39 @@ namespace WPF.Databases.Models
             set
             {
                 if (BasePropertiesValidator.ValidateID(value))
-                    assignedTo = value;
+                    SetField(ref assignedTo, value, nameof(AssignedTo));
             }
         }
         [Column("fls_name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set { SetField(ref name, value, nameof(Name)); }
+        }
         [Column("fls_type")]
-        public string Type { get; set; }
+        public string Type
+        {
+            get { return type; }
+            set { SetField(ref type, value, nameof(Type)); }
+        }
         [Column("fls_content")]
-        public string Content { get; set; }
+        public string Content
+        {
+            get { return content; }
+            set { SetField(ref content, value, nameof(Content)); }
+        }
         [Column("fls_create")]
-        public DateTime Create { get; set; }
+        public DateTime Create
+        {
+            get { return create; }
+            set { SetField(ref create, value, nameof(Create)); }
+        }
         [Column("fls_lastupdate")]
-        public DateTime? LastUpdate { get; set; }
+        public DateTime? LastUpdate
+        {
+            get { return BaseLastUpdate;  }
+            set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
+        }
 
         public AitAccountModel FileCreator { get; set; }
         public AitAccountModel FileOwner
@@ -71,7 +93,7 @@ namespace WPF.Databases.Models
             set { fileOwner = value; }
         }
 
-        public AitFilesModel() : base(null)
+        public AitFilesModel(DBContext context) : base(context)
         {
         }
 
@@ -101,7 +123,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var file = new AitFilesModel
+            var file = new AitFilesModel(Context)
             {
                 ID = ID,
                 Creator = Creator,

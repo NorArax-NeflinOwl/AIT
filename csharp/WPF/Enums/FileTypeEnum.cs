@@ -6,5 +6,6 @@
         INFORMATION,
         NOTE,
         TRACE,
+        QUERY
     }
 }
