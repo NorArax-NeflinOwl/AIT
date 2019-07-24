@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF.csproj", "{73A6DFD6-29A6-49F8-8221-56C2066B2341}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{0CB68139-6488-4BDD-80E5-64CA9F19AA9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTW", "..\UTW\UTW.csproj", "{0CB68139-6488-4BDD-80E5-64CA9F19AA9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

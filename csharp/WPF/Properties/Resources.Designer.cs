@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WPF.Properties
-{
-
-
+namespace WPF.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,52 +19,170 @@ namespace WPF.Properties
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WPF.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .ait.
+        /// </summary>
+        internal static string AIT_EXT {
+            get {
+                return ResourceManager.GetString("AIT_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cache.
+        /// </summary>
+        internal static string CACHE_FILE {
+            get {
+                return ResourceManager.GetString("CACHE_FILE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .crypt.
+        /// </summary>
+        internal static string CRYPT_EXT {
+            get {
+                return ResourceManager.GetString("CRYPT_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Databases.
+        /// </summary>
+        internal static string DATABASES_SUBPATH {
+            get {
+                return ResourceManager.GetString("DATABASES_SUBPATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .err.
+        /// </summary>
+        internal static string ERR_EXT {
+            get {
+                return ResourceManager.GetString("ERR_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .json.
+        /// </summary>
+        internal static string JSON_EXT {
+            get {
+                return ResourceManager.GetString("JSON_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LocalCache.
+        /// </summary>
+        internal static string LOCALCACHE_SUBPATH {
+            get {
+                return ResourceManager.GetString("LOCALCACHE_SUBPATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .log.
+        /// </summary>
+        internal static string LOG_EXT {
+            get {
+                return ResourceManager.GetString("LOG_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logs.
+        /// </summary>
+        internal static string LOGDIR_SUBPATH {
+            get {
+                return ResourceManager.GetString("LOGDIR_SUBPATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .note.
+        /// </summary>
+        internal static string NOTE_EXT {
+            get {
+                return ResourceManager.GetString("NOTE_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obj.
+        /// </summary>
+        internal static string OBJDIR_SUBPATH {
+            get {
+                return ResourceManager.GetString("OBJDIR_SUBPATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .patch.
+        /// </summary>
+        internal static string PATCH_EXT {
+            get {
+                return ResourceManager.GetString("PATCH_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .trace.
+        /// </summary>
+        internal static string TRC_EXT {
+            get {
+                return ResourceManager.GetString("TRC_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .txt.
+        /// </summary>
+        internal static string TXT_EXT {
+            get {
+                return ResourceManager.GetString("TXT_EXT", resourceCulture);
             }
         }
     }
