@@ -22,7 +22,7 @@ namespace WPF.Databases.Models
             get { return BaseID; }
             set
             {
-                if (BasePropertiesValidator.ValidateID(value))
+                if (BasePropertiesValidator.ValidatePrimaryKey(value, TablePrefix))
                     SetField(ref BaseID, value, nameof(ID));
             }
         }
@@ -87,6 +87,9 @@ namespace WPF.Databases.Models
             get { return BaseLastUpdate; }
             set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
         }
+
+        [NotMapped]
+        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.ACC; } }
 
         public AitAccountModel(DBContext context) : base(context)
         {

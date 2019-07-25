@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using WPF.Enums;
 using WPF.Validators;
 
 namespace WPF.Databases.Models
@@ -18,7 +19,7 @@ namespace WPF.Databases.Models
             get { return BaseID; }
             set
             {
-                if (BasePropertiesValidator.ValidateID(value))
+                if (BasePropertiesValidator.ValidatePrimaryKey(value, TablePrefix))
                     SetField(ref BaseID, value, nameof(ID));
             }
         }
@@ -93,6 +94,9 @@ namespace WPF.Databases.Models
                 return fullname;
             }
         }
+
+        [NotMapped]
+        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.USD; } }
 
         public AitAccountModel AccountData { get; set; }
 

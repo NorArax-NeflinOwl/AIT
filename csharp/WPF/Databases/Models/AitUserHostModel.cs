@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
+using WPF.Enums;
 using WPF.Validators;
 
 namespace WPF.Databases.Models
@@ -18,7 +19,7 @@ namespace WPF.Databases.Models
             get { return BaseID; }
             set
             {
-                if (BasePropertiesValidator.ValidateID(value))
+                if (BasePropertiesValidator.ValidatePrimaryKey(value, TablePrefix))
                     SetField(ref BaseID, value, nameof(ID));
             }
         }
@@ -46,6 +47,9 @@ namespace WPF.Databases.Models
             get { return BaseLastUpdate; }
             set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
         }
+
+        [NotMapped]
+        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.USH; } }
 
         public AitAccountModel AccountData { get; set; }
 

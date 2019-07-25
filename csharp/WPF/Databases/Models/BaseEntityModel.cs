@@ -7,7 +7,7 @@ using WPF.Interfaces;
 
 namespace WPF.Databases.Models
 {
-    public class BaseEntityModel : NotifyPropertyChangedExtension, Triggerable
+    public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable
     {
         protected string BaseID;
         protected DateTime? BaseLastUpdate;
@@ -19,7 +19,7 @@ namespace WPF.Databases.Models
             Context = context;
         }
 
-        public void Add()
+        public void Insert()
         {
             Context.Add(new SysStsgenids
             {
@@ -34,7 +34,7 @@ namespace WPF.Databases.Models
             Context.Update(this);
         }
 
-        public void Remove()
+        public void Delete()
         {
             var sts = Context.Stsgenids.Where(q => q.ID.Equals(BaseID)).FirstOrDefault();
             if (sts != null)
@@ -43,6 +43,7 @@ namespace WPF.Databases.Models
                 {
                     sts.Delete = DateTime.Now;
                     Context.Update(sts);
+                    Context.Remove(this);
                 }
                 else
                 {

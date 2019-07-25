@@ -156,6 +156,7 @@
     <Compile Include="Tests\DBActionsUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\FileActionUnitTest.cs" />
+    <Compile Include="Tests\GeneratorActionUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WPF\WPF.csproj">

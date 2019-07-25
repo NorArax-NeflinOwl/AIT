@@ -202,7 +202,9 @@
     <Compile Include="Databases\Contexts\PDBContext.cs" />
     <Compile Include="Databases\Models\BaseEntityModel.cs" />
     <Compile Include="Enums\FileTypeEnum.cs" />
+    <Compile Include="Enums\IDPrefixEnum.cs" />
     <Compile Include="Exceptions\BaseExceptions.cs" />
+    <Compile Include="Exceptions\GenerateExceptions.cs" />
     <Compile Include="Exceptions\SqliteExceptions.cs" />
     <Compile Include="Extensions\NotifyPropertyChangedExtension.cs" />
     <Compile Include="Databases\Models\AitFilesModel.cs" />
@@ -210,7 +212,7 @@
     <Compile Include="Databases\Models\AitUserHostModel.cs" />
     <Compile Include="Databases\Models\SysStsgenids.cs" />
     <Compile Include="Interfaces\Initializable.cs" />
-    <Compile Include="Interfaces\Triggerable.cs" />
+    <Compile Include="Interfaces\ITriggerable.cs" />
     <Compile Include="Managers\CryptoJsonManager.cs" />
     <Compile Include="Managers\EncryptionManager.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />

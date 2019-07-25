@@ -1,4 +1,5 @@
-﻿using WPF.Exceptions;
+﻿using WPF.Enums;
+using WPF.Exceptions;
 
 namespace WPF.Validators
 {
@@ -28,6 +29,16 @@ namespace WPF.Validators
             {
                 throw new BaseExceptions.IDException("ID postfix is not number");
             }
+            return true;
+        }
+
+        public static bool ValidatePrimaryKey(string value, IDInerfixEnum tablePrefix)
+        {
+            if(ValidateID(value) && !tablePrefix.ToString().Equals(value.Split(idSeperator)[1]))
+            {
+                throw new BaseExceptions.IDException("Invalid table prefix");
+            }
+
             return true;
         }
     }

@@ -4,20 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
+using WPF.Enums;
+using WPF.Managers.Helpers;
 
 namespace UTW.Tests
 {
     [TestClass]
     public class DBActionsUnitTests
     {
+        private static readonly string id = Generator.IDGenerator(IDInerfixEnum.ACC);
+
         [TestMethod]
         public void InsertTest()
         {
             using (var dataContext = PDBContext.Instance.Context)
             {
-                dataContext.ReCreate();
+                //dataContext.ReCreate();
 
-                var id = "AIT-ACC-0000001";
                 if (!dataContext.Accounts.Any(q => q.ID.Equals(id)) && !dataContext.Stsgenids.Any(q => q.ID.Equals(id)))
                 {
                     var acc = new AitAccountModel(dataContext)
@@ -25,7 +28,7 @@ namespace UTW.Tests
                         ID = id,
                         Login = "test"
                     };
-                    acc.Add();
+                    acc.Insert();
                     acc.Context.SaveChanges();
                 }
                 Assert.IsTrue(dataContext.Accounts.Any(q => q.ID.Equals(id)));
@@ -46,13 +49,13 @@ namespace UTW.Tests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Where(q => q.ID.Equals("AIT-ACC-0000001")).FirstOrDefault();
+                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
                 if(acc != null)
                 {
-                    acc.IsActive = false;
+                    acc.IsActive = true;
                     acc.Update();
                     dbContext.SaveChanges();
-                    Assert.IsFalse(dbContext.Accounts.Where(q => q.ID.Equals("AIT-ACC-0000001")).FirstOrDefault().IsActive);
+                    Assert.IsTrue(dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault().IsActive);
                 }
             }
         }
@@ -62,15 +65,17 @@ namespace UTW.Tests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Where(q => q.ID.Equals("AIT-ACC-0000001")).FirstOrDefault();
+                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
                 if(acc != null)
                 {
-                    dbContext.Remove(acc);
+                    acc.Delete();
                 }
-                var sts = dbContext.Stsgenids.Where(q => q.ID.Equals("AIT-ACC-0000001")).FirstOrDefault();
+                var sts = dbContext.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault();
 
                 Assert.IsNotNull(sts);
                 Assert.IsTrue(sts.Delete != null);
+
+                dbContext.SaveChanges();
             }
         }
     }
