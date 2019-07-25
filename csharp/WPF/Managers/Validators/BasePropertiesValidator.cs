@@ -1,7 +1,7 @@
-﻿using WPF.Enums;
-using WPF.Exceptions;
+﻿using WPF.Models.Enums;
+using WPF.Models.Extensions.Exceptions;
 
-namespace WPF.Validators
+namespace WPF.Managers.Validators
 {
     public class BasePropertiesValidator
     {

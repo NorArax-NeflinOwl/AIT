@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace WPF.ExtendedClasses
+namespace WPF.Models.Extensions
 {
     public class NotifyPropertyChangedExtension : INotifyPropertyChanged
     {

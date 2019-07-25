@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPF.Exceptions
+namespace WPF.Models.Extensions.Exceptions
 {
     public class GenerateExceptions
     {

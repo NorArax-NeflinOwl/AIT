@@ -1,6 +1,6 @@
-﻿using WPF.Exceptions;
+﻿using WPF.Models.Extensions.Exceptions;
 
-namespace WPF.Validators
+namespace WPF.Managers.Validators
 {
     public class AitAccountPropertiesValidator : BasePropertiesValidator
     {

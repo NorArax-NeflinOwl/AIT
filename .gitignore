@@ -20,3 +20,4 @@
 /csharp/WPF/bin
 /csharp/UTW/obj
 /csharp/UTW/bin
+*.user

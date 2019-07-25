@@ -8,11 +8,11 @@ using System.Net;
 using System.Threading;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
-using WPF.Enums;
-using WPF.Interfaces;
+using WPF.Models.Enums;
+using WPF.Models.Interfaces;
 using WPF.Managers.Helpers;
 using WPF.Models;
-using WPF.Validators;
+using WPF.Managers.Validators;
 
 namespace WPF.Managers.Tasks
 {

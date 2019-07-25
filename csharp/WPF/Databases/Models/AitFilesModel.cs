@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
-using WPF.Enums;
-using WPF.ExtendedClasses;
-using WPF.Validators;
+using WPF.Models.Enums;
+using WPF.Models.Extensions;
+using WPF.Managers.Validators;
 
 namespace WPF.Databases.Models
 {

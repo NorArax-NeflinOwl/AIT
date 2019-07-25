@@ -4,7 +4,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using WPF.Enums;
+using WPF.Models.Enums;
 using WPF.Models;
 using WPF.Properties;
 

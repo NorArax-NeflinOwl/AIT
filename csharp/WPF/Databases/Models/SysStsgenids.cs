@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WPF.Enums;
-using WPF.Validators;
+using WPF.Models.Enums;
+using WPF.Managers.Validators;
 
 namespace WPF.Databases.Models
 {

@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Configuration;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
-using WPF.Enums;
-using WPF.Interfaces;
+using WPF.Models.Enums;
+using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
 {

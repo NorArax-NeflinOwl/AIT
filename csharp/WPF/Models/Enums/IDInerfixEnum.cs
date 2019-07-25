@@ -1,11 +1,5 @@
-﻿namespace WPF.Enums
+﻿namespace WPF.Models.Enums
 {
-    public enum IDPrefixEnum
-    {
-        AIT,
-        SYS
-    }
-
     public enum IDInerfixEnum
     {
         // AIT table prefix

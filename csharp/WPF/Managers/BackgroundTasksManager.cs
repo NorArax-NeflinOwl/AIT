@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WPF.Interfaces;
+using WPF.Models.Interfaces;
 using WPF.Managers.Tasks;
 
 namespace WPF.Managers

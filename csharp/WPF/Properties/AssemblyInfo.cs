@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("WPF")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("AIT")]
 [assembly: AssemblyProduct("WPF")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]

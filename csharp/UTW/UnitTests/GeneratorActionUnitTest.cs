@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WPF.Enums;
+using WPF.Models.Enums;
 using WPF.Managers.Helpers;
-using WPF.Validators;
+using WPF.Managers.Validators;
 
 namespace UTW.UnitTests
 {

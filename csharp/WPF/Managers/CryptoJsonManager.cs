@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
-using WPF.Enums;
+using WPF.Models.Enums;
 using WPF.Models;
 using WPF.Properties;
 

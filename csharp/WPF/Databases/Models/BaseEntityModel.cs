@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using WPF.Databases.Contexts;
-using WPF.Exceptions;
-using WPF.ExtendedClasses;
-using WPF.Interfaces;
+using WPF.Models.Extensions.Exceptions;
+using WPF.Models.Extensions;
+using WPF.Models.Interfaces;
 
 namespace WPF.Databases.Models
 {

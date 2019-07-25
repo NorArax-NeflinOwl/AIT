@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WPF.Interfaces
+namespace WPF.Models.Interfaces
 {
     public interface IBackgroundTask
     {

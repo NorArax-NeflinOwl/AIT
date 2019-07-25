@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
-using WPF.Enums;
+using WPF.Models.Enums;
 
 namespace WPF.Models
 {

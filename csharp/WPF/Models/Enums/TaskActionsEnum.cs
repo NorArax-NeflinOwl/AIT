@@ -1,4 +1,4 @@
-﻿namespace WPF.Enums
+﻿namespace WPF.Models.Enums
 {
     public enum TaskActionsEnum
     {

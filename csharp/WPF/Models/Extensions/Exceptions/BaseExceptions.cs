@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WPF.Exceptions
+namespace WPF.Models.Extensions.Exceptions
 {
     public class BaseExceptions
     {

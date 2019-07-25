@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace WPF.Exceptions
+namespace WPF.Models.Extensions.Exceptions
 {
     public class SqliteExceptions
     {

@@ -1,4 +1,4 @@
-﻿namespace WPF.Interfaces
+﻿namespace WPF.Models.Interfaces
 {
     interface Initializable
     {

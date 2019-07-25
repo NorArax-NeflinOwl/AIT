@@ -4,9 +4,9 @@ using System.Security.Cryptography;
 using System.Text;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
-using WPF.Enums;
-using WPF.Exceptions;
-using WPF.Validators;
+using WPF.Models.Enums;
+using WPF.Models.Extensions.Exceptions;
+using WPF.Managers.Validators;
 
 namespace WPF.Managers.Helpers
 {

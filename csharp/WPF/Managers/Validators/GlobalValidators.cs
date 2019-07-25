@@ -3,7 +3,7 @@ using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Models;
 
-namespace WPF.Validators
+namespace WPF.Managers.Validators
 {
     public class GlobalValidators
     {

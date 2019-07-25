@@ -1,4 +1,4 @@
-﻿using WPF.Exceptions;
+﻿using WPF.Models.Extensions.Exceptions;
 
 namespace WPF.Managers.Helpers
 {

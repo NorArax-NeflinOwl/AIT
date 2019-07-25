@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
-using WPF.Enums;
+using WPF.Models.Enums;
 using WPF.Managers.Helpers;
 
 namespace UTW.UnitTests
