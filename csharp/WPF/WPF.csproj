@@ -219,6 +219,7 @@
     </Page>
     <Compile Include="Databases\Contexts\PDBContext.cs" />
     <Compile Include="Databases\Models\BaseEntityModel.cs" />
+    <Compile Include="Managers\Tasks\KeyLoggerCollecterTask.cs" />
     <Compile Include="Models\Enums\FileTypesEnum.cs" />
     <Compile Include="Models\Enums\IDInerfixEnum.cs" />
     <Compile Include="Models\Enums\IDPrefixEnum.cs" />

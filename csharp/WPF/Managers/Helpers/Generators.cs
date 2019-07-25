@@ -33,7 +33,7 @@ namespace WPF.Managers.Helpers
                 }
                 else
                 {
-                    ExceptionManager.Instance.LogExceptionToFile(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
+                    LogManager.Instance.LogExceptionToFile(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
                 }
             }
 

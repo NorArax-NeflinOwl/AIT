@@ -33,7 +33,7 @@ namespace WPF.Managers.Helpers
             }
             catch (Exception ex)
             {
-                ExceptionManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex);
             }
         }
     }

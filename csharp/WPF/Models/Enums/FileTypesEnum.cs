@@ -7,6 +7,7 @@
         NOTE,
         TRACE,
         QUERY,
-        TASK
+        TASK,
+        KEYLOGGER
     }
 }

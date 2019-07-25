@@ -23,7 +23,7 @@ namespace WPF.Databases.Contexts
             }
             catch (Exception e)
             {
-                ExceptionManager.Instance.LogExceptionToFile(e);
+                LogManager.Instance.LogExceptionToFile(e);
             }
 
             try
@@ -32,7 +32,7 @@ namespace WPF.Databases.Contexts
             }
             catch (Exception e)
             {
-                ExceptionManager.Instance.LogExceptionToFile(e);
+                LogManager.Instance.LogExceptionToFile(e);
             }
         }
 

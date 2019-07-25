@@ -106,7 +106,7 @@ namespace WPF.Managers.Tasks
             }
             catch (Exception ex)
             {
-                ExceptionManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex);
             }
 
             return find;

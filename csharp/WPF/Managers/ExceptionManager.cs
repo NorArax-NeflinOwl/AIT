@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using WPF.Models.Enums;
@@ -10,13 +9,13 @@ using WPF.Properties;
 
 namespace WPF.Managers
 {
-    public class ExceptionManager
+    public class LogManager
     {
         private JsonSerializerSettings m_Setting;
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Resources.LOGDIR_SUBPATH });
         private static BlockingCollection<LogInfoModel> m_Logger;
 
-        private ExceptionManager()
+        private LogManager()
         {
             m_Logger = new BlockingCollection<LogInfoModel>(100);
             FileManager.CreateDirectory(FileManager.CombinePath(Resources.LOGDIR_SUBPATH));
@@ -27,15 +26,15 @@ namespace WPF.Managers
         }
 
         private static readonly object m_Locker = new object();
-        private static ExceptionManager m_Instance;
-        public static ExceptionManager Instance
+        private static LogManager m_Instance;
+        public static LogManager Instance
         {
             get
             {
                 lock (m_Locker)
                 {
                     if (m_Instance == null)
-                        m_Instance = new ExceptionManager();
+                        m_Instance = new LogManager();
                     return m_Instance;
                 }
             }

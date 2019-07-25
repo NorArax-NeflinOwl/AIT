@@ -45,7 +45,7 @@ namespace WPF.Managers
             }
             catch (Exception ex)
             {
-                ExceptionManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex);
                 return string.Empty;
             }
         }
@@ -60,7 +60,7 @@ namespace WPF.Managers
             }
             catch (Exception ex)
             {
-                ExceptionManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex);
                 return default(T);
             }
         }
@@ -79,7 +79,7 @@ namespace WPF.Managers
             }
             catch (Exception ex)
             {
-                ExceptionManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex);
             }
         }
     }
