@@ -77,17 +77,17 @@ namespace WPF.Managers
             });
         }
 
-        private string GetExt(FileTypeEnum title)
+        private string GetExt(FileTypesEnum title)
         {
             switch(title)
             {
-                case FileTypeEnum.EXCEPTION:
+                case FileTypesEnum.EXCEPTION:
                     return Resources.ERR_EXT;
-                case FileTypeEnum.INFORMATION:
+                case FileTypesEnum.INFORMATION:
                     return Resources.LOG_EXT;
-                case FileTypeEnum.NOTE:
+                case FileTypesEnum.NOTE:
                     return Resources.NOTE_EXT;
-                case FileTypeEnum.TRACE:
+                case FileTypesEnum.TRACE:
                     return Resources.TRC_EXT;
                 default:
                     return Resources.TXT_EXT;
@@ -98,7 +98,7 @@ namespace WPF.Managers
         {
             LogToFile(new LogInfoModel
             {
-                Type = FileTypeEnum.EXCEPTION,
+                Type = FileTypesEnum.EXCEPTION,
                 Message = e.Message + Environment.NewLine + e.StackTrace
             });
 #if DEBUG

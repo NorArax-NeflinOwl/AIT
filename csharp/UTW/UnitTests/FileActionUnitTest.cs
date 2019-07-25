@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WPF.Managers;
 
-namespace UTW.Tests
+namespace UTW.UnitTests
 {
     [TestClass]
     public class FileActionUnitTest

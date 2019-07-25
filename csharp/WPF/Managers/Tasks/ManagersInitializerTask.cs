@@ -1,0 +1,53 @@
+﻿using System;
+using System.ComponentModel;
+using System.Configuration;
+using WPF.Databases.Contexts;
+using WPF.Databases.Models;
+using WPF.Enums;
+using WPF.Interfaces;
+
+namespace WPF.Managers.Tasks
+{
+    public class ManagersInitializerTask : IBackgroundTask, IDisposable
+    {
+        public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
+
+        public void Dispose()
+        {
+            BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
+            GC.Collect();
+        }
+
+        public void Run()
+        {
+            BackgroundWorker.DoWork += BackgroundWorker_DoWork;
+            BackgroundWorker.RunWorkerAsync();
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            FileManager.Initialize();
+
+
+            // Create task menagera
+            using(var context = PDBContext.Instance.Context)
+            {
+                var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                var manager = context.Accounts.Find(managerID);
+                if(manager == null)
+                {
+                    manager = new AitAccountModel(context)
+                    {
+                        ID = managerID,
+                        Login = "taskmanager",
+                        Email = ConfigurationManager.AppSettings["AppEmail"].ToString(),
+                        Permition = PermitionAccountEnum.MANAGER,
+                        IsActive = false
+                    };
+                    manager.Insert();
+                    context.SaveChanges();
+                }
+            }
+        }
+    }
+}

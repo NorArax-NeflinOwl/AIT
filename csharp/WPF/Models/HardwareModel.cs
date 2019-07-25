@@ -5,20 +5,31 @@ namespace WPF.Models
 {
     public class HardwareModel : ISerializable, ICloneable
     {
+        public string ProcessorInfo { get; set; }
+        public string PhysicalMemory { get; set; }
+
         public HardwareModel() { }
 
         public HardwareModel(SerializationInfo info, StreamingContext context)
         {
+            ProcessorInfo = (string)info.GetValue(nameof(ProcessorInfo), typeof(string));
+            PhysicalMemory = (string)info.GetValue(nameof(PhysicalMemory), typeof(string));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            info.AddValue(nameof(ProcessorInfo), ProcessorInfo, typeof(string));
+            info.AddValue(nameof(PhysicalMemory), PhysicalMemory, typeof(string));
         }
 
         public object Clone()
         {
-            throw new NotImplementedException();
+            var hardware = new HardwareModel
+            {
+                ProcessorInfo = ProcessorInfo,
+                PhysicalMemory = PhysicalMemory
+            };
+            return hardware;
         }
     }
 }

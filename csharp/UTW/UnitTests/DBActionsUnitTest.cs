@@ -7,12 +7,12 @@ using WPF.Databases.Models;
 using WPF.Enums;
 using WPF.Managers.Helpers;
 
-namespace UTW.Tests
+namespace UTW.UnitTests
 {
     [TestClass]
     public class DBActionsUnitTests
     {
-        private static readonly string id = Generator.IDGenerator(IDInerfixEnum.ACC);
+        private static readonly string id = Generators.IDGenerator(IDInerfixEnum.ACC);
 
         [TestMethod]
         public void InsertTest()
@@ -29,7 +29,7 @@ namespace UTW.Tests
                         Login = "test"
                     };
                     acc.Insert();
-                    acc.Context.SaveChanges();
+                    dataContext.SaveChanges();
                 }
                 Assert.IsTrue(dataContext.Accounts.Any(q => q.ID.Equals(id)));
             }
@@ -49,13 +49,13 @@ namespace UTW.Tests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
+                var acc = dbContext.Accounts.Find(id);
                 if(acc != null)
                 {
                     acc.IsActive = true;
                     acc.Update();
                     dbContext.SaveChanges();
-                    Assert.IsTrue(dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault().IsActive);
+                    Assert.IsTrue(dbContext.Accounts.Find(id).IsActive);
                 }
             }
         }
@@ -65,12 +65,12 @@ namespace UTW.Tests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
+                var acc = dbContext.Accounts.Find(id);
                 if(acc != null)
                 {
                     acc.Delete();
                 }
-                var sts = dbContext.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault();
+                var sts = dbContext.Stsgenids.Find(id);
 
                 Assert.IsNotNull(sts);
                 Assert.IsTrue(sts.Delete != null);

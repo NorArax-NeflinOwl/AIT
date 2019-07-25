@@ -7,7 +7,7 @@ namespace WPF.Models
 {
     public class LogInfoModel : ISerializable, ICloneable
     {
-        public FileTypeEnum Type { get; set; }
+        public FileTypesEnum Type { get; set; }
         public DateTime Date { get; set; }
         public DeviceInfoModel DeviceInfo { get; set; }
         public string AccountID { get; set; }
@@ -17,12 +17,12 @@ namespace WPF.Models
         {
             Date = DateTime.Now;
             AccountID = PDBContext.Instance.AccountID;
-            DeviceInfo = PDBContext.Instance.BuildDeviceInfo();
+            DeviceInfo = PDBContext.Instance.DeviceInfo;
         }
 
         public LogInfoModel(SerializationInfo info, StreamingContext context)
         {
-            Type = (FileTypeEnum)info.GetValue(nameof(Type), typeof(FileTypeEnum));
+            Type = (FileTypesEnum)info.GetValue(nameof(Type), typeof(FileTypesEnum));
             Date = (DateTime)info.GetValue(nameof(Date), typeof(DateTime));
             DeviceInfo = (DeviceInfoModel)info.GetValue(nameof(DeviceInfo), typeof(DeviceInfoModel));
             AccountID = (string)info.GetValue(nameof(AccountID), typeof(string));
@@ -31,7 +31,7 @@ namespace WPF.Models
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Type), Type, typeof(FileTypeEnum));
+            info.AddValue(nameof(Type), Type, typeof(FileTypesEnum));
             info.AddValue(nameof(Date), Date, typeof(DateTime));
             info.AddValue(nameof(DeviceInfo), DeviceInfo, typeof(DeviceInfoModel));
             info.AddValue(nameof(AccountID), AccountID, typeof(string));

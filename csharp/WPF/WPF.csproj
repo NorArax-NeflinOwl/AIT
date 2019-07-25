@@ -143,6 +143,7 @@
       <HintPath>packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>packages\System.Data.SQLite.Core.1.0.111.0\lib\net46\System.Data.SQLite.dll</HintPath>
@@ -160,6 +161,7 @@
     <Reference Include="System.Interactive.Async, Version=3.2.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>packages\System.Interactive.Async.3.2.0\lib\net46\System.Interactive.Async.dll</HintPath>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
       <Private>True</Private>
@@ -201,8 +203,9 @@
     </Page>
     <Compile Include="Databases\Contexts\PDBContext.cs" />
     <Compile Include="Databases\Models\BaseEntityModel.cs" />
-    <Compile Include="Enums\FileTypeEnum.cs" />
+    <Compile Include="Enums\FileTypesEnum.cs" />
     <Compile Include="Enums\IDPrefixEnum.cs" />
+    <Compile Include="Enums\TaskActionsEnum.cs" />
     <Compile Include="Exceptions\BaseExceptions.cs" />
     <Compile Include="Exceptions\GenerateExceptions.cs" />
     <Compile Include="Exceptions\SqliteExceptions.cs" />
@@ -211,17 +214,25 @@
     <Compile Include="Databases\Models\AitUserDataModel.cs" />
     <Compile Include="Databases\Models\AitUserHostModel.cs" />
     <Compile Include="Databases\Models\SysStsgenids.cs" />
+    <Compile Include="Interfaces\IBackgoundTask.cs" />
     <Compile Include="Interfaces\Initializable.cs" />
     <Compile Include="Interfaces\ITriggerable.cs" />
+    <Compile Include="Managers\BackgroundTasksManager.cs" />
     <Compile Include="Managers\CryptoJsonManager.cs" />
     <Compile Include="Managers\EncryptionManager.cs" />
     <Compile Include="Managers\ExceptionManager.cs" />
-    <Compile Include="Managers\Helpers\Generator.cs" />
+    <Compile Include="Managers\HardwareManager.cs" />
+    <Compile Include="Managers\Helpers\Converters.cs" />
+    <Compile Include="Managers\Helpers\Generators.cs" />
+    <Compile Include="Managers\Helpers\MailSender.cs" />
+    <Compile Include="Managers\Tasks\LottoCheckerTask.cs" />
+    <Compile Include="Managers\Tasks\ManagersInitializerTask.cs" />
     <Compile Include="Models\DeviceInfoModel.cs" />
     <Compile Include="Models\HardwareModel.cs" />
     <Compile Include="Models\LogInfoModel.cs" />
     <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Validators\BasePropertiesValidator.cs" />
+    <Compile Include="Validators\GlobalValidators.cs" />
     <Compile Include="Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -256,6 +267,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Databases\nano.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

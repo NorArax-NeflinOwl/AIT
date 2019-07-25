@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using WPF.Databases.Contexts;
-using WPF.Windows;
+using WPF.Managers;
 
 namespace WPF
 {
@@ -13,6 +13,7 @@ namespace WPF
         public App()
         {
             Subscribe();
+            BackgroundTasksManager.Instance.Initialize();
         }
 
         public void Subscribe()
@@ -29,6 +30,8 @@ namespace WPF
             {
                 MainWindow.Closing -= MainWindow_Closing;
             }
+
+            GC.Collect();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

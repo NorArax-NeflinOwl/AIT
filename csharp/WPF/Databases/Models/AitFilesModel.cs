@@ -13,7 +13,7 @@ namespace WPF.Databases.Models
     public class AitFilesModel : BaseEntityModel, ISerializable, ICloneable
     {
         private string creator, assignedTo, name, type, content;
-        private AitAccountModel fileOwner;
+        private AitAccountModel fileCreator, fileOwner;
         private DateTime create;
 
         [Key, Column("fls_id")]
@@ -85,20 +85,35 @@ namespace WPF.Databases.Models
         [NotMapped]
         public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.FLS; } }
 
-        public AitAccountModel FileCreator { get; set; }
+        public AitAccountModel FileCreator
+        {
+            get
+            {
+                if(fileCreator == null && !string.IsNullOrEmpty(creator))
+                    fileCreator = Context.Accounts.Find(creator);
+                return fileCreator;
+            }
+            set { SetField(ref fileCreator, value, nameof(FileCreator)); }
+        }
         public AitAccountModel FileOwner
         {
             get
             {
-                if (fileOwner == null)
+                if (fileOwner == null && string.IsNullOrEmpty(assignedTo))
                     return FileCreator;
+                else if (!string.IsNullOrEmpty(assignedTo))
+                    fileOwner = Context.Accounts.Find(assignedTo);
                 return fileOwner;
             }
-            set { fileOwner = value; }
+            set { SetField(ref fileOwner, value, nameof(FileOwner)); }
         }
 
         public AitFilesModel(DBContext context) : base(context)
         {
+            if (!string.IsNullOrEmpty(PDBContext.Instance.AccountID))
+                Creator = PDBContext.Instance.AccountID;
+
+            Create = DateTime.Now;
         }
 
         public AitFilesModel(SerializationInfo info, StreamingContext context) : base(null)

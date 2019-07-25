@@ -10,7 +10,7 @@ using WPF.Validators;
 
 namespace WPF.Managers.Helpers
 {
-    public class Generator
+    public class Generators
     {
         private static readonly char separator = '-';
 
@@ -29,7 +29,7 @@ namespace WPF.Managers.Helpers
                 if(sysids != null)
                 {
                     var oldid = int.Parse(sysids.ID.Split(separator)[2]);
-                    id = Digit2StringCreate(oldid + 1, 7);
+                    id = Converters.Digit2StringCreate(oldid + 1, 7);
                 }
                 else
                 {
@@ -42,21 +42,6 @@ namespace WPF.Managers.Helpers
                 return newid;
             else
                 throw new BaseExceptions.IDException("Incorect id generate");
-        }
-
-        public static string Digit2StringCreate(int digit, int length)
-        {
-            var result = digit.ToString();
-            var diffLength = length - result.Length;
-            if (diffLength < 0)
-                throw new GenerateExceptions.InvalidDigitLenght("Too big number");
-
-            for(int i = 0; i < diffLength; i++)
-            {
-                result = "0" + result;
-            }
-
-            return result;
         }
 
         public static string GenerateSha256Hash(string obj)

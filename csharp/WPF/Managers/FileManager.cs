@@ -11,10 +11,10 @@ namespace WPF.Managers
 
         public FileManager()
         {
-            Init();
+            Initialize();
         }
 
-        public static void Init()
+        public static void Initialize()
         {
             m_AppDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
             CreateDirectory(Resources.LOCALCACHE_SUBPATH);
@@ -22,7 +22,10 @@ namespace WPF.Managers
 
         public static string CombinePath(params string[] subPaths)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.LOCALCACHE_SUBPATH);
+            var path = string.Empty;
+            if(subPaths == null)
+                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.LOCALCACHE_SUBPATH);
+
             foreach (string subPath in subPaths)
             {
                 path = Path.Combine(path, subPath);
@@ -30,11 +33,10 @@ namespace WPF.Managers
             return path;
         }
 
-        public static void CreateDirectory(string subPath)
+        public static void CreateDirectory(string path)
         {
             try
             {
-                var path = Path.Combine(m_AppDirectoryPath, subPath);
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -43,6 +45,10 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 
@@ -65,6 +71,9 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+#if DEBUG
+                throw ex;
+#endif
             }
             return string.Empty;
         }
@@ -109,6 +118,9 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+#if DEBUG
+                throw ex;
+#endif
             }
 
             return fileContent;
@@ -126,6 +138,9 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 
@@ -140,6 +155,9 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+#if DEBUG
+                throw ex;
+#endif
             }
         }
 

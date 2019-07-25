@@ -1,10 +1,12 @@
 ﻿using System;
+using WPF.Managers;
 using WPF.Models;
 
 namespace WPF.Databases.Contexts
 {
     public class PDBContext
     {
+        private DeviceInfoModel deviceInfo;
 
         private static readonly object locker = new object();
         private static readonly PDBContext instance = new PDBContext();
@@ -32,10 +34,29 @@ namespace WPF.Databases.Contexts
             }
         }
 
-        public DeviceInfoModel BuildDeviceInfo()
+        public DeviceInfoModel DeviceInfo
         {
-            // TODO new NotImplementedException();
-            return null;
+            get
+            {
+                if (deviceInfo == null)
+                {
+                    deviceInfo = new DeviceInfoModel
+                    {
+                        Hardware = new HardwareModel
+                        {
+                            PhysicalMemory = HardwareManager.GetPhysicalMemory(),
+                            ProcessorInfo = HardwareManager.GetProcessorInformation()
+                        },
+                        Software = new SoftwareModel
+                        {
+                            ComputerName = HardwareManager.GetComputerName(),
+                            CurrentLanguage = HardwareManager.GetCurrentLanguage(),
+                            OSInfo = HardwareManager.GetOSInformation()
+                        }
+                    };
+                }
+                return deviceInfo;
+            }
         }
 
         /// <summary>

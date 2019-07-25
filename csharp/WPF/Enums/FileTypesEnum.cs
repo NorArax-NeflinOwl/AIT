@@ -1,11 +1,12 @@
 ﻿namespace WPF.Enums
 {
-    public enum FileTypeEnum
+    public enum FileTypesEnum
     {
         EXCEPTION,
         INFORMATION,
         NOTE,
         TRACE,
-        QUERY
+        QUERY,
+        TASK
     }
 }

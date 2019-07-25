@@ -7,7 +7,7 @@ namespace WPF.Managers
 {
     public class EncryptionManager
     {
-        private const string m_EncryptionKey = "AIT_CryptiographyModules_v2.0";
+        private const string m_EncryptionKey = "AIT_CryptiographyModules_v2.0"; //Generators.GenerateSha256Hash(HardwareManager.GetBIOSserNo() + HardwareManager.GetHDDSerialNo());;
         private static readonly byte[] m_Key = Encoding.ASCII.GetBytes("NorAraxNeflin");
 
         public string Encrypt(string clearText, string password = null)
