@@ -33,14 +33,6 @@ namespace WPF.Managers.Tasks
             {
                 CreateManager();
             }
-            catch(SqliteException)
-            {
-                using (var context = PDBContext.Instance.Context)
-                {
-                    context.ReCreate();
-                }
-                CreateManager();
-            }
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFile(ex);

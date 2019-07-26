@@ -21,8 +21,6 @@ namespace UTW.UnitTests
         {
             using (var dataContext = PDBContext.Instance.Context)
             {
-                dataContext.ReCreate();
-
                 if (!dataContext.Accounts.Any(q => q.ID.Equals(id)) && !dataContext.Stsgenids.Any(q => q.ID.Equals(id)))
                 {
                     var acc = new AitAccountModel(dataContext)
