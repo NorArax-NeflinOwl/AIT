@@ -8,6 +8,7 @@ using WPF.Models.Enums;
 using WPF.Managers.Helpers;
 using System.Collections.Generic;
 using WPF.Managers;
+using System.Configuration;
 
 namespace UTW.UnitTests
 {
@@ -125,6 +126,7 @@ namespace UTW.UnitTests
                         Type = FileTypesEnum.TASK
                     }
                 };
+
                 account.Insert();
                 userData.Insert();
                 userHostModel.Insert();
@@ -140,6 +142,29 @@ namespace UTW.UnitTests
 
                 foreach (var host in account.UserHosts)
                     Assert.IsNotNull(host);
+            }
+        }
+
+        [TestMethod]
+        public void CreateManagerTest()
+        {
+            using (var context = PDBContext.Instance.Context)
+            {
+                var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                var manager = context.Accounts.Find(managerID);
+                if (manager == null)
+                {
+                    manager = new AitAccountModel(context)
+                    {
+                        ID = managerID,
+                        Login = "taskmanager",
+                        Email = ConfigurationManager.AppSettings["AppEmail"].ToString(),
+                        Permition = PermitionAccountEnum.MANAGER,
+                        IsActive = false
+                    };
+                    manager.Insert();
+                    context.SaveChanges();
+                }
             }
         }
     }
