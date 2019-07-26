@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
 using WPF.Models.Enums;
 using WPF.Managers.Validators;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WPF.Databases.Models
 {
@@ -15,6 +17,9 @@ namespace WPF.Databases.Models
         private bool isActive;
         private PermitionAccountEnum permition;
         private DateTime create;
+        private AitUserDataModel userData;
+        private IList<AitFilesModel> files;
+        private IList<AitUserHostModel> userHosts;
 
         [Key, Column("acc_id")]
         public string ID
@@ -90,6 +95,42 @@ namespace WPF.Databases.Models
 
         [NotMapped]
         public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.ACC; } }
+
+        [NotMapped]
+        public AitUserDataModel UserData
+        {
+            get
+            {
+                if (userData == null)
+                    userData = Context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
+                return userData;
+            }
+            set { SetField(ref userData, value, nameof(UserData)); }
+        }
+
+        [NotMapped]
+        public IList<AitFilesModel> Files
+        {
+            get
+            {
+                if (files == null)
+                    files = Context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
+                return files;
+            }
+            set { SetField(ref files, value, nameof(Files)); }
+        }
+
+        [NotMapped]
+        public IList<AitUserHostModel> UserHosts
+        {
+            get
+            {
+                if (userHosts == null)
+                    userHosts = Context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
+                return userHosts;
+            }
+            set { SetField(ref userHosts, value, nameof(UserHosts)); }
+        }
 
         public AitAccountModel(DBContext context) : base(context)
         {

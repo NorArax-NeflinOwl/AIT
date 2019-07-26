@@ -238,7 +238,7 @@
     <Compile Include="Managers\BackgroundTasksManager.cs" />
     <Compile Include="Managers\CryptoJsonManager.cs" />
     <Compile Include="Managers\EncryptionManager.cs" />
-    <Compile Include="Managers\ExceptionManager.cs" />
+    <Compile Include="Managers\LogManager.cs" />
     <Compile Include="Managers\HardwareManager.cs" />
     <Compile Include="Managers\Helpers\Converters.cs" />
     <Compile Include="Managers\Helpers\Generators.cs" />
@@ -285,9 +285,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Databases\nano.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Databases\nano.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -20,6 +20,29 @@ namespace WPF.Managers
             CreateDirectory(Resources.LOCALCACHE_SUBPATH);
         }
 
+        public static void CreateDBFile(string path, string dbName)
+        {
+            try
+            {
+                if(!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                if (!File.Exists(Path.Combine(path, dbName)))
+                {
+                    using (File.Create(Path.Combine(path, dbName))) { }
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e);
+#if DEBUG
+                throw e;
+#endif
+            }
+        }
+
         public static string CombinePath(params string[] subPaths)
         {
             var path = string.Empty;

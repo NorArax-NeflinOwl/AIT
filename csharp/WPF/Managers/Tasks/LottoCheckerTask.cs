@@ -86,7 +86,7 @@ namespace WPF.Managers.Tasks
                                             ID = Generators.IDGenerator(IDInerfixEnum.FLS),
                                             Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
                                             Name = FileTypesEnum.TASK.ToString() + (random.Next() % 1000).ToString(),
-                                            Type = FileTypesEnum.TASK.ToString(),
+                                            Type = FileTypesEnum.TASK,
                                             Content = JsonConvert.SerializeObject(new LogInfoModel
                                             {
                                                 Type = FileTypesEnum.TASK,

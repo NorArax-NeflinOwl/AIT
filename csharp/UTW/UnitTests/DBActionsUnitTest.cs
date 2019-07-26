@@ -6,6 +6,8 @@ using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Models.Enums;
 using WPF.Managers.Helpers;
+using System.Collections.Generic;
+using WPF.Managers;
 
 namespace UTW.UnitTests
 {
@@ -19,7 +21,7 @@ namespace UTW.UnitTests
         {
             using (var dataContext = PDBContext.Instance.Context)
             {
-                //dataContext.ReCreate();
+                dataContext.ReCreate();
 
                 if (!dataContext.Accounts.Any(q => q.ID.Equals(id)) && !dataContext.Stsgenids.Any(q => q.ID.Equals(id)))
                 {
@@ -76,6 +78,70 @@ namespace UTW.UnitTests
                 Assert.IsTrue(sts.Delete != null);
 
                 dbContext.SaveChanges();
+            }
+        }
+
+        [TestMethod]
+        public void CreateBigTest()
+        {
+            using(var context = PDBContext.Instance.Context)
+            {
+                AitAccountModel account = new AitAccountModel(context)
+                {
+                    ID = Generators.IDGenerator(IDInerfixEnum.ACC),
+                    Login = "noraraxneflinowl",
+                    Email = "pudwel.n.patryk@gmail.com",
+                    Password = Generators.GenerateSha256Hash("S1mplep@ssw0rd"),
+                    IsActive = true
+                };
+                AitUserDataModel userData = new AitUserDataModel(context)
+                {
+                    ID = Generators.IDGenerator(IDInerfixEnum.USD),
+                    AssignedTo = account.ID,
+                    FirstName = "Patryk",
+                    MiddleName = "Norbert",
+                    LastName = "Pudwel",
+                    Birthday = DateTime.Parse("1995.07.27"),
+                    Nick = "NorArax NeflinOwl"
+                };
+                AitUserHostModel userHostModel = new AitUserHostModel(context)
+                {
+                    ID = Generators.IDGenerator(IDInerfixEnum.USH),
+                    AssignedTo = account.ID,
+                    HostName = HardwareManager.GetComputerName()
+                };
+                IList<AitFilesModel> files = new List<AitFilesModel>
+                {
+                    new AitFilesModel(context)
+                    {
+                        ID = Generators.IDGenerator(IDInerfixEnum.FLS),
+                        Name = "Empty Test File 1",
+                        Creator = account.ID,
+                        Type = FileTypesEnum.NOTE
+                    },
+                    new AitFilesModel(context)
+                    {
+                        ID = Generators.IDGenerator(IDInerfixEnum.FLS),
+                        Name = "Empty Test File 2",
+                        Creator = account.ID,
+                        Type = FileTypesEnum.TASK
+                    }
+                };
+                account.Insert();
+                userData.Insert();
+                userHostModel.Insert();
+                foreach (var file in files)
+                    file.Insert();
+
+                context.SaveChanges();
+
+                Assert.IsNotNull(account.UserData);
+
+                foreach (var file in account.Files)
+                    Assert.IsNotNull(file);
+
+                foreach (var host in account.UserHosts)
+                    Assert.IsNotNull(host);
             }
         }
     }

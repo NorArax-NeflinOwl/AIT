@@ -7,12 +7,15 @@ using WPF.Databases.Models;
 using WPF.Models.Enums;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Managers.Validators;
+using System.Collections.Generic;
 
 namespace WPF.Managers.Helpers
 {
     public class Generators
     {
         private static readonly char separator = '-';
+
+        private static List<string> UsedByNotSavedIDs = new List<string>();
 
         public static string IDGenerator(IDInerfixEnum tablePrefix)
         {
@@ -23,25 +26,41 @@ namespace WPF.Managers.Helpers
         {
             var id = "0000000";
 
-            using(var context = PDBContext.Instance.Context)
+            if(UsedByNotSavedIDs.Any())
             {
-                SysStsgenids sysids = context.Stsgenids.OrderByDescending(q => q.Create).ToList().FirstOrDefault();
-                if(sysids != null)
+                var oldid = int.Parse(UsedByNotSavedIDs.Last().Split(separator)[2]);
+                id = Converters.Digit2StringCreate(oldid + 1, 7);
+            }
+            else
+            {
+                using (var context = PDBContext.Instance.Context)
                 {
-                    var oldid = int.Parse(sysids.ID.Split(separator)[2]);
-                    id = Converters.Digit2StringCreate(oldid + 1, 7);
-                }
-                else
-                {
-                    LogManager.Instance.LogExceptionToFile(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
+                    SysStsgenids sysids = context.Stsgenids.OrderByDescending(q => q.Create).ToList().FirstOrDefault();
+                    if (sysids != null)
+                    {
+                        var oldid = int.Parse(sysids.ID.Split(separator)[2]);
+                        id = Converters.Digit2StringCreate(oldid + 1, 7);
+                    }
+                    else
+                    {
+                        LogManager.Instance.LogExceptionToFile(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
+                    }
                 }
             }
 
             var newid = prefix.ToString() + separator + inerfix.ToString() + separator + id;
             if (BasePropertiesValidator.ValidateID(newid))
+            {
+                UsedByNotSavedIDs.Add(newid);
                 return newid;
+            }
             else
                 throw new BaseExceptions.IDException("Incorect id generate");
+        }
+
+        public static void ClearLocalIDs()
+        {
+            UsedByNotSavedIDs.Clear();
         }
 
         public static string GenerateSha256Hash(string obj)

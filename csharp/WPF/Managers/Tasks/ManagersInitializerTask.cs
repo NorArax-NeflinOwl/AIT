@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.ComponentModel;
 using System.Configuration;
 using WPF.Databases.Contexts;
@@ -28,13 +29,32 @@ namespace WPF.Managers.Tasks
         {
             FileManager.Initialize();
 
+            try
+            {
+                CreateManager();
+            }
+            catch(SqliteException)
+            {
+                using (var context = PDBContext.Instance.Context)
+                {
+                    context.ReCreate();
+                }
+                CreateManager();
+            }
+            catch (Exception ex)
+            {
+                LogManager.Instance.LogExceptionToFile(ex);
+            }
+        }
 
+        private void CreateManager()
+        {
             // Create task menagera
-            using(var context = PDBContext.Instance.Context)
+            using (var context = PDBContext.Instance.Context)
             {
                 var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
                 var manager = context.Accounts.Find(managerID);
-                if(manager == null)
+                if (manager == null)
                 {
                     manager = new AitAccountModel(context)
                     {

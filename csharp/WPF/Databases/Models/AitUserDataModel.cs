@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using WPF.Models.Enums;
 using WPF.Managers.Validators;
+using WPF.Databases.Contexts;
 
 namespace WPF.Databases.Models
 {
@@ -12,6 +13,7 @@ namespace WPF.Databases.Models
     {
         private string assignedTo, nick, firstname, middlename, lastname;
         private DateTime? birthday;
+        private AitAccountModel accountData;
 
         [Key, Column("usd_id")]
         public string ID
@@ -76,6 +78,16 @@ namespace WPF.Databases.Models
             set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
         }
 
+        public AitAccountModel AccountData
+        {
+            get
+            {
+                if (accountData == null && !string.IsNullOrEmpty(AssignedTo))
+                    accountData = Context.Accounts.Find(AssignedTo);
+                return accountData;
+            }
+            set { SetField(ref accountData, value, nameof(AccountData)); }
+        }
 
         [NotMapped]
         public string FullName
@@ -98,9 +110,7 @@ namespace WPF.Databases.Models
         [NotMapped]
         public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.USD; } }
 
-        public AitAccountModel AccountData { get; set; }
-
-        public AitUserDataModel() : base(null)
+        public AitUserDataModel(DBContext context) : base(context)
         { }
 
         public AitUserDataModel(SerializationInfo info, StreamingContext context) : base(null)
@@ -129,7 +139,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var userData = new AitUserDataModel
+            var userData = new AitUserDataModel(Context)
             {
                 ID = ID,
                 AssignedTo = AssignedTo,

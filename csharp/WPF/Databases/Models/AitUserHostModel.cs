@@ -12,6 +12,7 @@ namespace WPF.Databases.Models
     public class AitUserHostModel : BaseEntityModel, ISerializable, ICloneable
     {
         private string assignedTo;
+        private AitAccountModel accountData;
 
         [Key, Column("ush_id")]
         public string ID
@@ -48,13 +49,23 @@ namespace WPF.Databases.Models
             set { SetField(ref BaseLastUpdate, value, nameof(LastUpdate)); }
         }
 
+        public AitAccountModel AccountData
+        {
+            get
+            {
+                if (accountData == null && !string.IsNullOrEmpty(AssignedTo))
+                    accountData = Context.Accounts.Find(AssignedTo);
+                return accountData;
+            }
+            set { SetField(ref accountData, value, nameof(AccountData)); }
+        }
+
         [NotMapped]
         public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.USH; } }
 
-        public AitAccountModel AccountData { get; set; }
-
         public AitUserHostModel(DBContext context) : base(context)
         {
+            IsActive = true;
             Create = DateTime.Now;
         }
 

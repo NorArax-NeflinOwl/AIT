@@ -2,17 +2,22 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using WPF.Databases.Models;
 using WPF.Managers;
+using WPF.Managers.Helpers;
 
 namespace WPF.Databases.Contexts
 {
     public class DBContext : DbContext
     {
-        private readonly string databasePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6);
+        private readonly string databasePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6) + "\\Databases";
+        private readonly string databaseName = "nano.db";
 
         public DBContext()
         {
+            FileManager.CreateDBFile(databasePath, databaseName);
         }
 
         public void ReCreate()
@@ -36,9 +41,21 @@ namespace WPF.Databases.Contexts
             }
         }
 
+        public override int SaveChanges()
+        {
+            Generators.ClearLocalIDs();
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            Generators.ClearLocalIDs();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            var path = $"Data Source={databasePath}\\Databases\\nano.db";
+            var path = $"Data Source={databasePath}\\{databaseName}";
             optionbuilder.UseSqlite(path);
         }
 

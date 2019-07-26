@@ -12,7 +12,8 @@ namespace WPF.Databases.Models
     [Table("ait_files")]
     public class AitFilesModel : BaseEntityModel, ISerializable, ICloneable
     {
-        private string creator, assignedTo, name, type, content;
+        private string creator, assignedTo, name, content;
+        private FileTypesEnum type;
         private AitAccountModel fileCreator, fileOwner;
         private DateTime create;
 
@@ -58,7 +59,7 @@ namespace WPF.Databases.Models
             set { SetField(ref name, value, nameof(Name)); }
         }
         [Column("fls_type")]
-        public string Type
+        public FileTypesEnum Type
         {
             get { return type; }
             set { SetField(ref type, value, nameof(Type)); }
@@ -122,7 +123,7 @@ namespace WPF.Databases.Models
             Creator = (string)info.GetValue(nameof(Creator), typeof(string));
             AssignedTo = (string)info.GetValue(nameof(AssignedTo), typeof(string));
             Name = (string)info.GetValue(nameof(Name), typeof(string));
-            Type = (string)info.GetValue(nameof(Type), typeof(string));
+            Type = (FileTypesEnum)info.GetValue(nameof(Type), typeof(FileTypesEnum));
             Content = (string)info.GetValue(nameof(Content), typeof(string));
             Create = (DateTime)info.GetValue(nameof(Create), typeof(DateTime));
             LastUpdate = (DateTime?)info.GetValue(nameof(LastUpdate), typeof(DateTime?));
@@ -134,7 +135,7 @@ namespace WPF.Databases.Models
             info.AddValue(nameof(Creator), Creator, typeof(string));
             info.AddValue(nameof(AssignedTo), AssignedTo, typeof(string));
             info.AddValue(nameof(Name), Name, typeof(string));
-            info.AddValue(nameof(Type), Type, typeof(string));
+            info.AddValue(nameof(Type), Type, typeof(FileTypesEnum));
             info.AddValue(nameof(Content), Content, typeof(string));
             info.AddValue(nameof(Create), Create, typeof(DateTime));
             info.AddValue(nameof(LastUpdate), LastUpdate, typeof(DateTime?));
