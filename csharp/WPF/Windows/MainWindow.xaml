@@ -10,11 +10,51 @@
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
     <Grid>
-        <Grid Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="LightGray">
-            <Border BorderBrush="Black" BorderThickness="0,0,0,1"/>
-        </Grid>
-        <Grid Width="200" Margin="0,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Azure">
-            <Border BorderBrush="Black" BorderThickness="0,0,1,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Close All" IsEnabled="False"/>
+                <MenuItem Header="Settings" IsEnabled="False"/>
+                <MenuItem Header="Log Out" IsEnabled="False"/>
+                <MenuItem Header="Exit" IsEnabled="True"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" IsEnabled="False"/>
+                <MenuItem Header="Redo" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="New Note" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Navigate">
+                <MenuItem Header="Dashboard" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Query">
+                <MenuItem Header="Builder" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem Header="Tools">
+            </MenuItem>
+            <MenuItem Header="Setup">
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Register Product" IsEnabled="False"/>
+                <MenuItem Header="About" IsEnabled="False"/>
+            </MenuItem>
+        </Menu>
+        <Button x:Name="MainClosePageButton" Grid.Row="0" Width="18" HorizontalAlignment="Right" Margin="1">
+            X
+        </Button>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="MainStatus" Grid.Column="0" Margin="2,3" Text="Status: Unknown"/>
+            <ProgressBar x:Name="MainProgressBar" Grid.Column="1" Margin="5,1"/>
         </Grid>
     </Grid>
 </Window>
