@@ -17,27 +17,32 @@ namespace WPF.Databases.Contexts
 
         public DBContext()
         {
-            FileManager.CreateDBFile(databasePath, databaseName);
+            CreateIfNotExist();
         }
 
-        public void ReCreate()
+        private void CreateIfNotExist()
         {
-            try
+            if(!File.Exists(Path.Combine(databasePath, databaseName)))
             {
-                Database.EnsureDeleted();
-            }
-            catch (Exception e)
-            {
-                LogManager.Instance.LogExceptionToFile(e);
-            }
+                FileManager.CreateDBFile(databasePath, databaseName);
 
-            try
-            {
-                Database.EnsureCreated();
-            }
-            catch (Exception e)
-            {
-                LogManager.Instance.LogExceptionToFile(e);
+                try
+                {
+                    Database.EnsureDeleted();
+                }
+                catch (Exception e)
+                {
+                    LogManager.Instance.LogExceptionToFile(e);
+                }
+
+                try
+                {
+                    Database.EnsureCreated();
+                }
+                catch (Exception e)
+                {
+                    LogManager.Instance.LogExceptionToFile(e);
+                }
             }
         }
 
