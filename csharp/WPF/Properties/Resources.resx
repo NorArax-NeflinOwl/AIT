@@ -120,6 +120,15 @@
   <data name="AIT_EXT" xml:space="preserve">
     <value>.ait</value>
   </data>
+  <data name="APP_INIT" xml:space="preserve">
+    <value>Please Wait, Application Inistalization...</value>
+  </data>
+  <data name="APP_START" xml:space="preserve">
+    <value>Application starting...</value>
+  </data>
+  <data name="APP_STARTCOMPLETED" xml:space="preserve">
+    <value>Please Wait Almost Completed...</value>
+  </data>
   <data name="CACHE_FILE" xml:space="preserve">
     <value>Cache</value>
   </data>

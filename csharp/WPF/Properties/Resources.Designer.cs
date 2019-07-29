@@ -70,6 +70,33 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please Wait, Application Inistalization....
+        /// </summary>
+        internal static string APP_INIT {
+            get {
+                return ResourceManager.GetString("APP_INIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application starting....
+        /// </summary>
+        internal static string APP_START {
+            get {
+                return ResourceManager.GetString("APP_START", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Wait Almost Completed....
+        /// </summary>
+        internal static string APP_STARTCOMPLETED {
+            get {
+                return ResourceManager.GetString("APP_STARTCOMPLETED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cache.
         /// </summary>
         internal static string CACHE_FILE {

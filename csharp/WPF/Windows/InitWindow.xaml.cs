@@ -34,6 +34,7 @@ namespace WPF.Windows
 
         public void Init()
         {
+            InitMessage.Text = WPF.Properties.Resources.APP_START;
             InitImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\Icons\\logo4x3.png"));
 
             Dispatcher.Invoke(async () =>
@@ -47,10 +48,12 @@ namespace WPF.Windows
 
                     if (completed != 0)
                     {
+                        InitMessage.Text = WPF.Properties.Resources.APP_INIT;
                         InitProgressBar.Value = (count / completed) * multiple;
                     }
                 }
                 InitProgressBar.Value = 100;
+                InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
                 await Task.Delay(500);
 
                 MainContext.Instance.Windows.Add(new MainWindow());
