@@ -32,7 +32,7 @@ namespace WPF.Managers.Validators
             return true;
         }
 
-        public static bool ValidatePrimaryKey(string value, IDInerfixEnum tablePrefix)
+        public static bool ValidatePrimaryKey(string value, TableInerfixEnum tablePrefix)
         {
             if(ValidateID(value) && !tablePrefix.ToString().Equals(value.Split(idSeperator)[1]))
             {

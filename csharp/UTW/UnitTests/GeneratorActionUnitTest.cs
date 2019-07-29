@@ -27,7 +27,7 @@ namespace UTW.UnitTests
         [TestMethod]
         public void IDGeneratorTest()
         {
-            Assert.IsTrue(BasePropertiesValidator.ValidateID(Generators.IDGenerator(IDInerfixEnum.ACC)));
+            Assert.IsTrue(BasePropertiesValidator.ValidateID(Generators.RecordIDGenerator(TableInerfixEnum.ACC)));
         }
     }
 }

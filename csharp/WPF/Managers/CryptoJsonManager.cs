@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Diagnostics;
-using WPF.Models.Enums;
-using WPF.Models;
 using WPF.Properties;
 
 namespace WPF.Managers
 {
-    public class CryptoJsonManager
+    public class CryptoJsonManager : IDisposable
     {
+        private readonly string CRYPTO_FLAG = "[CRYPT]";
         private JsonSerializerSettings m_Setting;
         private EncryptionManager m_Encrypter;
 
@@ -41,7 +39,7 @@ namespace WPF.Managers
             try
             {
                 var json = JsonConvert.SerializeObject(obj, m_Setting);
-                return m_Encrypter.Encrypt(json, password);
+                return !string.IsNullOrEmpty(password) ? CRYPTO_FLAG + m_Encrypter.Encrypt(json, password) : json;
             }
             catch (Exception ex)
             {
@@ -54,7 +52,12 @@ namespace WPF.Managers
         {
             try
             {
-                var json = m_Encrypter.Decrypt(text, password);
+                var json = text;
+                if(text.Contains(CRYPTO_FLAG))
+                {
+                    text = text.Substring(CRYPTO_FLAG.Length);
+                    json = m_Encrypter.Decrypt(text, password);
+                }
                 var obj = JsonConvert.DeserializeObject<T>(json);
                 return obj;
             }
@@ -70,8 +73,14 @@ namespace WPF.Managers
             try
             {
                 var content = Serialize(obj);
+                var ext = ".json";
+                if(content.Contains(CRYPTO_FLAG))
+                {
+                    ext = Resources.CRYPT_EXT;
+                }
+
                 var dirPath = FileManager.CombinePath(Resources.OBJDIR_SUBPATH);
-                var filePath = FileManager.CombinePath(dirPath, DateTime.Now.Date.ToString("yyyy-MM-dd"));
+                var filePath = FileManager.CombinePath(dirPath, DateTime.Now.Date.ToString("yyyy-MM-dd"), ext);
                 using (var manager = new FileManager())
                 {
                     manager.WriteToFile(filePath, content);
@@ -81,6 +90,11 @@ namespace WPF.Managers
             {
                 LogManager.Instance.LogExceptionToFile(ex);
             }
+        }
+
+        public void Dispose()
+        {
+            GC.Collect();
         }
     }
 }

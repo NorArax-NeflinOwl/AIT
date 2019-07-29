@@ -106,6 +106,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initialization....
+        /// </summary>
+        internal static string INIT_WINDOW {
+            get {
+                return ResourceManager.GetString("INIT_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .json.
         /// </summary>
         internal static string JSON_EXT {

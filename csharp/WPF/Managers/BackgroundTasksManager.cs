@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WPF.Models.Interfaces;
 using WPF.Managers.Tasks;
+using System.Linq;
 
 namespace WPF.Managers
 {
@@ -26,6 +27,16 @@ namespace WPF.Managers
             }
         }
 
+        public int Completed
+        {
+            get { return tasks.Where(q => q.Completed).ToList().Count; }
+        }
+
+        public int Count
+        {
+            get { return tasks.Count; }
+        }
+
         public void Initialize()
         {
             tasks.Add(new LottoCheckerTask());
@@ -39,6 +50,14 @@ namespace WPF.Managers
             foreach(var task in tasks)
             {
                 task.Run();
+            }
+        }
+
+        public void Collect()
+        {
+            foreach(var task in tasks.Where(q => q.MustBeCollected))
+            {
+                task.Collect();
             }
         }
     }

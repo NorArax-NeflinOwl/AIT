@@ -17,12 +17,12 @@ namespace WPF.Managers.Helpers
 
         private static List<string> UsedByNotSavedIDs = new List<string>();
 
-        public static string IDGenerator(IDInerfixEnum tablePrefix)
+        public static string RecordIDGenerator(TableInerfixEnum tablePrefix)
         {
-            return IDGenerator(IDPrefixEnum.AIT, tablePrefix);
+            return RecordIDGenerator(SystemPrefixEnum.AIT, tablePrefix);
         }
 
-        public static string IDGenerator(IDPrefixEnum prefix, IDInerfixEnum inerfix)
+        public static string RecordIDGenerator(SystemPrefixEnum systemPrefix, TableInerfixEnum tablePrefix)
         {
             var id = "0000000";
 
@@ -48,7 +48,7 @@ namespace WPF.Managers.Helpers
                 }
             }
 
-            var newid = prefix.ToString() + separator + inerfix.ToString() + separator + id;
+            var newid = systemPrefix.ToString() + separator + tablePrefix.ToString() + separator + id;
             if (BasePropertiesValidator.ValidateID(newid))
             {
                 UsedByNotSavedIDs.Add(newid);

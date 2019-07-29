@@ -46,17 +46,18 @@ namespace WPF.Managers
             await Task.Factory.StartNew(() => {
                 while (!m_Logger.IsCompleted)
                 {
-                    LogInfoModel log = null;
                     try
                     {
-                        log = m_Logger.Take();
+                        var log = m_Logger.Take();
 
                         if (log != null)
                         {
                             var random = new Random();
                             var ext = GetExt(log.Type);
+
                             var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd-") + (random.Next() % 1000).ToString() + ext;
                             var filePath = Path.Combine(m_LoggerDir, fileName);
+
                             if (!File.Exists(filePath))
                                 using (File.Create(filePath)) { }
 

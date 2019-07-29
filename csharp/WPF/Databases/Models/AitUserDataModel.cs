@@ -108,7 +108,7 @@ namespace WPF.Databases.Models
         }
 
         [NotMapped]
-        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.USD; } }
+        public TableInerfixEnum TablePrefix { get { return TableInerfixEnum.USD; } }
 
         public AitUserDataModel(DBContext context) : base(context)
         { }

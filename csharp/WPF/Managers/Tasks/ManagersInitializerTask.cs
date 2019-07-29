@@ -13,6 +13,14 @@ namespace WPF.Managers.Tasks
     {
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
+        public bool MustBeCollected => false;
+
+        public bool Completed { get; set; }
+
+        public void Collect()
+        {
+        }
+
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
@@ -27,6 +35,7 @@ namespace WPF.Managers.Tasks
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
+            Completed = false;
             FileManager.Initialize();
 
             try
@@ -45,6 +54,7 @@ namespace WPF.Managers.Tasks
             {
                 LogManager.Instance.LogExceptionToFile(ex);
             }
+            Completed = true;
         }
 
         private void CreateManager()

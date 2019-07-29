@@ -14,7 +14,7 @@ namespace UTW.UnitTests
     [TestClass]
     public class DBActionsUnitTests
     {
-        private static readonly string id = Generators.IDGenerator(IDInerfixEnum.ACC);
+        private static readonly string id = Generators.RecordIDGenerator(TableInerfixEnum.ACC);
 
         [TestMethod]
         public void InsertTest()
@@ -88,7 +88,7 @@ namespace UTW.UnitTests
             {
                 AitAccountModel account = new AitAccountModel(context)
                 {
-                    ID = Generators.IDGenerator(IDInerfixEnum.ACC),
+                    ID = Generators.RecordIDGenerator(TableInerfixEnum.ACC),
                     Login = "noraraxneflinowl",
                     Email = "pudwel.n.patryk@gmail.com",
                     Password = Generators.GenerateSha256Hash("S1mplep@ssw0rd"),
@@ -96,7 +96,7 @@ namespace UTW.UnitTests
                 };
                 AitUserDataModel userData = new AitUserDataModel(context)
                 {
-                    ID = Generators.IDGenerator(IDInerfixEnum.USD),
+                    ID = Generators.RecordIDGenerator(TableInerfixEnum.USD),
                     AssignedTo = account.ID,
                     FirstName = "Patryk",
                     MiddleName = "Norbert",
@@ -106,7 +106,7 @@ namespace UTW.UnitTests
                 };
                 AitUserHostModel userHostModel = new AitUserHostModel(context)
                 {
-                    ID = Generators.IDGenerator(IDInerfixEnum.USH),
+                    ID = Generators.RecordIDGenerator(TableInerfixEnum.USH),
                     AssignedTo = account.ID,
                     HostName = HardwareManager.GetComputerName()
                 };
@@ -114,14 +114,14 @@ namespace UTW.UnitTests
                 {
                     new AitFilesModel(context)
                     {
-                        ID = Generators.IDGenerator(IDInerfixEnum.FLS),
+                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                         Name = "Empty Test File 1",
                         Creator = account.ID,
                         Type = FileTypesEnum.NOTE
                     },
                     new AitFilesModel(context)
                     {
-                        ID = Generators.IDGenerator(IDInerfixEnum.FLS),
+                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                         Name = "Empty Test File 2",
                         Creator = account.ID,
                         Type = FileTypesEnum.TASK

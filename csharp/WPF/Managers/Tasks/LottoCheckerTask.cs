@@ -30,6 +30,10 @@ namespace WPF.Managers.Tasks
 
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
+        public bool MustBeCollected => false;
+
+        public bool Completed { get; set; }
+
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
@@ -53,6 +57,7 @@ namespace WPF.Managers.Tasks
 
         public bool CheckLotto()
         {
+            Completed = false;
             var find = false;
             try
             {
@@ -83,7 +88,7 @@ namespace WPF.Managers.Tasks
                                         var random = new Random();
                                         var taskToSave = new AitFilesModel(context)
                                         {
-                                            ID = Generators.IDGenerator(IDInerfixEnum.FLS),
+                                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                             Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
                                             Name = FileTypesEnum.TASK.ToString() + (random.Next() % 1000).ToString(),
                                             Type = FileTypesEnum.TASK,
@@ -91,7 +96,7 @@ namespace WPF.Managers.Tasks
                                             {
                                                 Type = FileTypesEnum.TASK,
                                                 Message = Title + Environment.NewLine + string.Format(Message, parts[2], hits)
-                                            })
+                                            }, m_Setting)
                                         };
 
                                         taskToSave.Insert();
@@ -109,7 +114,12 @@ namespace WPF.Managers.Tasks
                 LogManager.Instance.LogExceptionToFile(ex);
             }
 
+            Completed = true;
             return find;
+        }
+
+        public void Collect()
+        {
         }
     }
 }

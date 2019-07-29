@@ -12,6 +12,8 @@ namespace WPF
     {
         public App()
         {
+            MainContext.Instance = new MainContext(this);
+
             Subscribe();
             BackgroundTasksManager.Instance.Initialize();
         }
@@ -36,7 +38,8 @@ namespace WPF
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            foreach(Window window in MainContext.Instance.Windows)
+            BackgroundTasksManager.Instance.Collect();
+            foreach (Window window in MainContext.Instance.Windows)
             {
                 if(window.IsActive)
                     window.Close();

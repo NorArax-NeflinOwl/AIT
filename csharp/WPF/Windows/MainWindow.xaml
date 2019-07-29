@@ -3,7 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Title="MainWindow" Height="800" Width="1200" ResizeMode="CanMinimize">
+        mc:Ignorable="d" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="{Binding Properties.Title}" 
+        Height="{Binding Properties.Heigth}" 
+        Width="{Binding Properties.Width}" 
+        ResizeMode="{Binding Properties.ResizeMode}">
     <Grid>
         <Grid Height="20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Background="LightGray">
             <Border BorderBrush="Black" BorderThickness="0,0,0,1"/>

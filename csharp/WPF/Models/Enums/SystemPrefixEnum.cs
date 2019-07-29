@@ -1,6 +1,6 @@
 ﻿namespace WPF.Models.Enums
 {
-    public enum IDPrefixEnum
+    public enum SystemPrefixEnum
     {
         AIT,
         SYS

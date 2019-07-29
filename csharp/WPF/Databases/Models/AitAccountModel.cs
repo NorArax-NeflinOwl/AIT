@@ -94,7 +94,7 @@ namespace WPF.Databases.Models
         }
 
         [NotMapped]
-        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.ACC; } }
+        public TableInerfixEnum TablePrefix { get { return TableInerfixEnum.ACC; } }
 
         [NotMapped]
         public AitUserDataModel UserData

@@ -1,33 +1,39 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
+using WPF.Models.Extensions;
 
 namespace WPF.Databases.Contexts
 {
     public class MainContext
     {
         private readonly static object locker = new object();
-        private readonly static MainContext instance = new MainContext();
+        private static MainContext instance;
 
-        public static bool IsInit = false;
-        public static MainContext Instance { get { lock (locker) return instance; } }
-
-        public Window MainWindow { get; set; }
-        public IList<Window> Windows { get; private set; }
-        public IList<string> KeyLogger { get; private set; }
-
-        private MainContext()
+        private static bool init;
+        public static MainContext Instance
         {
-            Windows = new List<Window>();
-            KeyLogger = new List<string>();
+            get { lock (locker) return instance; }
+            set
+            {
+                if(!init)
+                {
+                    lock (locker)
+                    {
+                        instance = value;
+                        init = true;
+                    }
+                }
+            }
         }
 
-        public void Init(Window mainWindow)
+        public WindowsList Windows { get; private set; }
+        public IList<string> KeyLogger { get; private set; }
+
+        private MainContext() { }
+
+        public MainContext(App app)
         {
-            if (!IsInit && mainWindow != null)
-            {
-                MainWindow = mainWindow;
-                IsInit = true;
-            }
+            Windows = new WindowsList(app);
+            KeyLogger = new List<string>();
         }
     }
 }

@@ -84,7 +84,7 @@ namespace WPF.Databases.Models
         }
 
         [NotMapped]
-        public IDInerfixEnum TablePrefix { get { return IDInerfixEnum.FLS; } }
+        public TableInerfixEnum TablePrefix { get { return TableInerfixEnum.FLS; } }
 
         public AitAccountModel FileCreator
         {

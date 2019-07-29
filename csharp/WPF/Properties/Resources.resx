@@ -132,6 +132,9 @@
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
   </data>
+  <data name="INIT_WINDOW" xml:space="preserve">
+    <value>Initialization...</value>
+  </data>
   <data name="JSON_EXT" xml:space="preserve">
     <value>.json</value>
   </data>

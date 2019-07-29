@@ -18,6 +18,7 @@ namespace WPF.Managers
         {
             m_AppDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
             CreateDirectory(Resources.LOCALCACHE_SUBPATH);
+            CreateDirectory(Resources.LOGDIR_SUBPATH);
         }
 
         public static void CreateDBFile(string path, string dbName)

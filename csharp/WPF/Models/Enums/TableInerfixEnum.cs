@@ -1,6 +1,6 @@
 ﻿namespace WPF.Models.Enums
 {
-    public enum IDInerfixEnum
+    public enum TableInerfixEnum
     {
         // AIT table prefix
         ACC,
