@@ -138,8 +138,17 @@
   <data name="DATABASES_SUBPATH" xml:space="preserve">
     <value>Databases</value>
   </data>
+  <data name="EDIT_HEADER" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
+  </data>
+  <data name="FILE_HEADER" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="HELP_HEADER" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="INIT_WINDOW" xml:space="preserve">
     <value>Initialization...</value>
@@ -156,6 +165,9 @@
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>
   </data>
+  <data name="NAV_HEADER" xml:space="preserve">
+    <value>Navigate</value>
+  </data>
   <data name="NOTE_EXT" xml:space="preserve">
     <value>.note</value>
   </data>
@@ -165,10 +177,22 @@
   <data name="PATCH_EXT" xml:space="preserve">
     <value>.patch</value>
   </data>
+  <data name="QUERY_HEADER" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="SETUP_HEADER" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="TOOLS_HEADER" xml:space="preserve">
+    <value>Tools</value>
+  </data>
   <data name="TRC_EXT" xml:space="preserve">
     <value>.trace</value>
   </data>
   <data name="TXT_EXT" xml:space="preserve">
     <value>.txt</value>
+  </data>
+  <data name="VIEW_HEADER" xml:space="preserve">
+    <value>View</value>
   </data>
 </root>

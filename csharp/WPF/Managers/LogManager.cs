@@ -15,8 +15,11 @@ namespace WPF.Managers
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Resources.LOGDIR_SUBPATH });
         private static BlockingCollection<LogInfoModel> m_Logger;
 
+        public static int HandleErrorCounter;
+
         private LogManager()
         {
+            HandleErrorCounter = 0;
             m_Logger = new BlockingCollection<LogInfoModel>(100);
             FileManager.CreateDirectory(FileManager.CombinePath(Resources.LOGDIR_SUBPATH));
             m_Setting = new JsonSerializerSettings
@@ -66,7 +69,7 @@ namespace WPF.Managers
                                 var json = JsonConvert.SerializeObject(log, m_Setting);
                                 stream.WriteLine(json);
                             }
-
+                            HandleErrorCounter++;
                         }
                     }
                     catch (Exception ex)

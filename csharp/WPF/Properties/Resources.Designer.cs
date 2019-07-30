@@ -124,11 +124,38 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string EDIT_HEADER {
+            get {
+                return ResourceManager.GetString("EDIT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .err.
         /// </summary>
         internal static string ERR_EXT {
             get {
                 return ResourceManager.GetString("ERR_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        internal static string FILE_HEADER {
+            get {
+                return ResourceManager.GetString("FILE_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        internal static string HELP_HEADER {
+            get {
+                return ResourceManager.GetString("HELP_HEADER", resourceCulture);
             }
         }
         
@@ -178,6 +205,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Navigate.
+        /// </summary>
+        internal static string NAV_HEADER {
+            get {
+                return ResourceManager.GetString("NAV_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .note.
         /// </summary>
         internal static string NOTE_EXT {
@@ -205,6 +241,33 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Query.
+        /// </summary>
+        internal static string QUERY_HEADER {
+            get {
+                return ResourceManager.GetString("QUERY_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup.
+        /// </summary>
+        internal static string SETUP_HEADER {
+            get {
+                return ResourceManager.GetString("SETUP_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tools.
+        /// </summary>
+        internal static string TOOLS_HEADER {
+            get {
+                return ResourceManager.GetString("TOOLS_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .trace.
         /// </summary>
         internal static string TRC_EXT {
@@ -219,6 +282,15 @@ namespace WPF.Properties {
         internal static string TXT_EXT {
             get {
                 return ResourceManager.GetString("TXT_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        internal static string VIEW_HEADER {
+            get {
+                return ResourceManager.GetString("VIEW_HEADER", resourceCulture);
             }
         }
     }
