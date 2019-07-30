@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ABOUT_HEADER" xml:space="preserve">
+    <value>About</value>
+  </data>
   <data name="AIT_EXT" xml:space="preserve">
     <value>.ait</value>
   </data>
@@ -132,17 +135,38 @@
   <data name="CACHE_FILE" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="CHANGETHEME_HEADER" xml:space="preserve">
+    <value>Change Theme</value>
+  </data>
+  <data name="CLOSEALL_HEADER" xml:space="preserve">
+    <value>Close All</value>
+  </data>
+  <data name="CREATESHA256HASH_HEADER" xml:space="preserve">
+    <value>Create SHA256 Hash</value>
+  </data>
+  <data name="CRYPTPLAINTEXT_HEADER" xml:space="preserve">
+    <value>Crypt Plain Text</value>
+  </data>
   <data name="CRYPT_EXT" xml:space="preserve">
     <value>.crypt</value>
   </data>
+  <data name="DASHBOARD_HEADER" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
   <data name="DATABASES_SUBPATH" xml:space="preserve">
     <value>Databases</value>
+  </data>
+  <data name="DECRYPTCRYPTTEXT_HEADER" xml:space="preserve">
+    <value>Decrypt Crypt Text</value>
   </data>
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
+  </data>
+  <data name="EXIT_HEADER" xml:space="preserve">
+    <value>Exit</value>
   </data>
   <data name="FILE_HEADER" xml:space="preserve">
     <value>File</value>
@@ -162,11 +186,17 @@
   <data name="LOGDIR_SUBPATH" xml:space="preserve">
     <value>Logs</value>
   </data>
+  <data name="LOGOUT_HEADER" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>
   </data>
   <data name="NAV_HEADER" xml:space="preserve">
     <value>Navigate</value>
+  </data>
+  <data name="NEWNOTE_HEADER" xml:space="preserve">
+    <value>New Note</value>
   </data>
   <data name="NOTE_EXT" xml:space="preserve">
     <value>.note</value>
@@ -177,8 +207,20 @@
   <data name="PATCH_EXT" xml:space="preserve">
     <value>.patch</value>
   </data>
+  <data name="QUERYBULIDER_HEADER" xml:space="preserve">
+    <value>Query Builder</value>
+  </data>
   <data name="QUERY_HEADER" xml:space="preserve">
     <value>Query</value>
+  </data>
+  <data name="REDO_HEADER" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="REGISTERPRODUCT_HEADER" xml:space="preserve">
+    <value>Register Product</value>
+  </data>
+  <data name="SETTINGS_HEADER" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="SETUP_HEADER" xml:space="preserve">
     <value>Setup</value>
@@ -191,6 +233,9 @@
   </data>
   <data name="TXT_EXT" xml:space="preserve">
     <value>.txt</value>
+  </data>
+  <data name="UNDO_HEADER" xml:space="preserve">
+    <value>Undo</value>
   </data>
   <data name="VIEW_HEADER" xml:space="preserve">
     <value>View</value>

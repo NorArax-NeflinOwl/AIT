@@ -15,7 +15,6 @@ namespace WPF.Managers
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Resources.LOGDIR_SUBPATH });
         private static BlockingCollection<LogInfoModel> m_Logger;
 
-        public static int HandleErrorCounter;
 
         private LogManager()
         {
@@ -42,6 +41,8 @@ namespace WPF.Managers
                 }
             }
         }
+
+        public int HandleErrorCounter { get; set; }
 
         public async void LogToFile(LogInfoModel newLog)
         {

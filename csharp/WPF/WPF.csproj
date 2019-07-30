@@ -220,14 +220,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
+    <Compile Include="Models\Extensions\ObservablePageCollection.cs" />
     <Compile Include="Models\Extensions\WindowsList.cs" />
     <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
+    <Compile Include="Models\Interfaces\IPageModel.cs" />
+    <Compile Include="Pages\DashboardPage.xaml.cs">
+      <DependentUpon>DashboardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Properties\DashboardProperties.cs" />
     <Compile Include="Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Properties\InitProperties.cs" />
     <Compile Include="Windows\Properties\MainProperties.cs" />
+    <Page Include="Pages\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\InitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

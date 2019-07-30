@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
 using WPF.Managers;
+using WPF.Pages.Properties;
+using WPF.Models.Extensions;
+using WPF.Models;
 
 namespace WPF.Windows
 {
@@ -15,8 +18,9 @@ namespace WPF.Windows
     /// </summary>
     public partial class MainWindow : Window, IDisposable, IPropertizableWindow
     {
-        public Visibility MainErrorImageVisibility { get { return LogManager.HandleErrorCounter != 0 ? Visibility.Visible : Visibility.Collapsed; } }
-        public IWindowsProperties Properties { get; set; }
+        public Visibility MainErrorImageVisibility { get { return LogManager.Instance.HandleErrorCounter != 0 ? Visibility.Visible : Visibility.Collapsed; } }
+        public IWindowsProperties Properties { get; }
+        public ObservablePageCollection MainTabItems { get; set; }
 
         public MainWindow()
         {
@@ -29,32 +33,98 @@ namespace WPF.Windows
         public void Subscribe()
         {
             KeyUp += MainWindow_KeyUp;
+            MainClosePageButton.Click += MainClosePageButton_Click;
+
+            MainFileCloseAllMenu.Click += MainFileCloseAllMenu_Click;
+            MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
+            MainFileLogOutMenu.Click += MainFileLogOutMenu_Click;
+            MainFileExitMenu.Click += MainFileExitMenu_Click;
+        }
+
+        private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Show dialog with question e.g. "Do you want close app?"
+        }
+
+        private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Close all windows and open LoginWindow
+        }
+
+        private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Open SettinsWindow
+        }
+
+        private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Close all windows without MainWindow and set MainPage = DashboardPage;
+        }
+
+        private void MainClosePageButton_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Set MainPage = DashboardPage;
         }
 
         public void Init()
         {
             MainErrorImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\Icons\\dialog_error.png"));
 
+            MainTabItems = new ObservablePageCollection();
+            MainTabItems.Add(new DashboardProperties());
+
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
+            MainFileCloseAllMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
+            MainFileSettingsMenu.Header = WPF.Properties.Resources.SETTINGS_HEADER;
+            MainFileLogOutMenu.Header = WPF.Properties.Resources.LOGDIR_SUBPATH;
+            MainFileExitMenu.Header = WPF.Properties.Resources.EXIT_HEADER;
+
             MainEditMenu.Header = WPF.Properties.Resources.EDIT_HEADER;
+            MainEditUndoMenu.Header = WPF.Properties.Resources.UNDO_HEADER;
+            MainEditRedoMenu.Header = WPF.Properties.Resources.REDO_HEADER;
+
             MainViewMenu.Header = WPF.Properties.Resources.VIEW_HEADER;
+            MainViewNewNoteMenu.Header = WPF.Properties.Resources.NEWNOTE_HEADER;
+
             MainNavigateMenu.Header = WPF.Properties.Resources.NAV_HEADER;
+            MainNavigateDashboardMenu.Header = WPF.Properties.Resources.DASHBOARD_HEADER;
+
             MainQueryMenu.Header = WPF.Properties.Resources.QUERY_HEADER;
+            MainQueryBuilderMenu.Header = WPF.Properties.Resources.QUERYBULIDER_HEADER;
+
             MainToolsMenu.Header = WPF.Properties.Resources.TOOLS_HEADER;
+            MainToolsCSHA256HashMenu.Header = WPF.Properties.Resources.CREATESHA256HASH_HEADER;
+            MainToolsCryptPTMenu.Header = WPF.Properties.Resources.CRYPTPLAINTEXT_HEADER;
+            MainToolsDecryptCTMenu.Header = WPF.Properties.Resources.DECRYPTCRYPTTEXT_HEADER;
+
             MainSetupMenu.Header = WPF.Properties.Resources.SETUP_HEADER;
+            MainSetupChangeThemeMenu.Header = WPF.Properties.Resources.CHANGETHEME_HEADER;
+
             MainHelpMenu.Header = WPF.Properties.Resources.HELP_HEADER;
+            MainHelpRegisterProductMenu.Header = WPF.Properties.Resources.REGISTERPRODUCT_HEADER;
+            MainHelpAboutMenu.Header = WPF.Properties.Resources.ABOUT_HEADER;
         }
 
         public void Dispose()
         {
             KeyUp -= MainWindow_KeyUp;
+            MainClosePageButton.Click -= MainClosePageButton_Click;
+
+            MainFileCloseAllMenu.Click -= MainFileCloseAllMenu_Click;
+            MainFileSettingsMenu.Click -= MainFileSettingsMenu_Click;
+            MainFileLogOutMenu.Click -= MainFileLogOutMenu_Click;
+            MainFileExitMenu.Click -= MainFileExitMenu_Click;
+
+
+            MainTabItems.Clear();
             GC.Collect();
         }
 
         private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             var key = e.Key.ToString();
-            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{MainPage.Content.ToString()}] page");
+            var tabitem = MainTabControl.SelectedContent as IPageModel;
+            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{tabitem?.Header}] page");
         }
     }
 }

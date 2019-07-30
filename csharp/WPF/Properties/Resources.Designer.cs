@@ -61,6 +61,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        internal static string ABOUT_HEADER {
+            get {
+                return ResourceManager.GetString("ABOUT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .ait.
         /// </summary>
         internal static string AIT_EXT {
@@ -106,6 +115,33 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Theme.
+        /// </summary>
+        internal static string CHANGETHEME_HEADER {
+            get {
+                return ResourceManager.GetString("CHANGETHEME_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close All.
+        /// </summary>
+        internal static string CLOSEALL_HEADER {
+            get {
+                return ResourceManager.GetString("CLOSEALL_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create SHA256 Hash.
+        /// </summary>
+        internal static string CREATESHA256HASH_HEADER {
+            get {
+                return ResourceManager.GetString("CREATESHA256HASH_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .crypt.
         /// </summary>
         internal static string CRYPT_EXT {
@@ -115,11 +151,38 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Crypt Plain Text.
+        /// </summary>
+        internal static string CRYPTPLAINTEXT_HEADER {
+            get {
+                return ResourceManager.GetString("CRYPTPLAINTEXT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        internal static string DASHBOARD_HEADER {
+            get {
+                return ResourceManager.GetString("DASHBOARD_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Databases.
         /// </summary>
         internal static string DATABASES_SUBPATH {
             get {
                 return ResourceManager.GetString("DATABASES_SUBPATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrypt Crypt Text.
+        /// </summary>
+        internal static string DECRYPTCRYPTTEXT_HEADER {
+            get {
+                return ResourceManager.GetString("DECRYPTCRYPTTEXT_HEADER", resourceCulture);
             }
         }
         
@@ -138,6 +201,15 @@ namespace WPF.Properties {
         internal static string ERR_EXT {
             get {
                 return ResourceManager.GetString("ERR_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string EXIT_HEADER {
+            get {
+                return ResourceManager.GetString("EXIT_HEADER", resourceCulture);
             }
         }
         
@@ -205,11 +277,29 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Log Out.
+        /// </summary>
+        internal static string LOGOUT_HEADER {
+            get {
+                return ResourceManager.GetString("LOGOUT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Navigate.
         /// </summary>
         internal static string NAV_HEADER {
             get {
                 return ResourceManager.GetString("NAV_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Note.
+        /// </summary>
+        internal static string NEWNOTE_HEADER {
+            get {
+                return ResourceManager.GetString("NEWNOTE_HEADER", resourceCulture);
             }
         }
         
@@ -250,6 +340,42 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Query Builder.
+        /// </summary>
+        internal static string QUERYBULIDER_HEADER {
+            get {
+                return ResourceManager.GetString("QUERYBULIDER_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Redo.
+        /// </summary>
+        internal static string REDO_HEADER {
+            get {
+                return ResourceManager.GetString("REDO_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Register Product.
+        /// </summary>
+        internal static string REGISTERPRODUCT_HEADER {
+            get {
+                return ResourceManager.GetString("REGISTERPRODUCT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SETTINGS_HEADER {
+            get {
+                return ResourceManager.GetString("SETTINGS_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Setup.
         /// </summary>
         internal static string SETUP_HEADER {
@@ -282,6 +408,15 @@ namespace WPF.Properties {
         internal static string TXT_EXT {
             get {
                 return ResourceManager.GetString("TXT_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Undo.
+        /// </summary>
+        internal static string UNDO_HEADER {
+            get {
+                return ResourceManager.GetString("UNDO_HEADER", resourceCulture);
             }
         }
         
