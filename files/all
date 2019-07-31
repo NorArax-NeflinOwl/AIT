@@ -1,0 +1,190 @@
+SELECT *
+FROM
+  (SELECT TOTAL_ROW_CNT,
+          get_test_and_order_locks(NULL, NULL, NULL, GP_REQI_RECID, GP_ORD_ORDNUM) AS LOCK_TYPE,
+          gcm_get_user_locks_name(NULL, NULL, NULL, GP_REQI_RECID, GP_ORD_ORDNUM) AS LOCKED_NAME,
+          'N' AS PATIENT_MATCH,
+          GP_PAT_MRN,
+          GP_PAT_LNAME,
+          GP_PAT_FNAME,
+          GP_PAT_SUFFIX,
+          GP_PAT_TITLE,
+          GP_VIS_BILLNUM,
+          GP_ORD_ORDNUM,
+          GP_ORD_CTYPE || '#' || GP_ORD_ORDNUM AS GP_ORD_ORDNUM_DIS,
+          GP_ORD_STUDY,
+          GP_ORD_PRIOR,
+          GET_PATFAMNUMS(GP_PAT_RECID) AS GP_FML_NUM,
+          GP_ORD_GRP,
+          GP_ORD_STS,
+          GP_REQI_INTTYPE AS COLUMN_INTERP_TYPE,
+          DEPARTMENT_CODE,
+          GP_ORD_DEPARTMENT,
+          GP_ORD_AUTOPSYTYPE,
+          NVL(GP_REQI_ALIAS, GP_ORD_ALIASES) AS ALIASNUM,
+          GCM_GET_INTERP_NAME('Interpretation', GP_REQI_INTTYPE, GP_REQI_DEPTYPE, GP_OTST_RECID, (CASE
+                                                                                                      WHEN (gp_reqi_inttype = 'A') THEN AUXNUM||'-'||GS_RTP_CODE
+                                                                                                      ELSE GP_OTST_CODE
+                                                                                                  END), 'Y', GP_REQI_REPNUM, '') AS COLUMN_INTERP_NAME,
+          GP_REQI_REPNUM,
+          GP_REQI_RECID,
+          TECHNOLOGY_CODE,
+          GP_REQI_INTTYPE AS INT_TYPE,
+          GP_INT_ABN AS ABN,
+          GP_INT_DGNCAT,
+          GP_REQI_TESTID,
+          GP_FAM_TYPE AS COLUMN_STUDY_TYPE,
+          GP_REQI_DEPTYPE,
+          REPLACE(REPLACE(REPLACE(GP_ORD_ORDEREDTESTS, '|', ','), '/,', '|'), '//', '/') AS COLUMN_TESTS,
+          REPLACE(REPLACE(REPLACE(GP_OTST_INDICATIONS, '|', ','), '/,', '|'), '//', '/') AS INDICATIONS,
+          GP_OTST_INDNAMES AS INDICATIONNAMES,
+          (CASE
+               WHEN (GP_OTST_SPECTYPES IS NOT NULL) THEN (REPLACE(REPLACE(REPLACE(GP_OTST_SPECTYPES, '|', ','), '/,', '|'), '//', '/'))
+               ELSE REPLACE(REPLACE(REPLACE(GP_ORD_ORDEREDSPEC, '|', ','), '/,', '|'), '//', '/')
+           END) AS GP_OTST_SPECTYPES,
+          GP_ORD_INDNAMES,
+          get_pat_relation(GP_ORD_ORDNUM) AS COLUMN_RELATIONSHIP,
+          GP_ORD_ISIFLOW,
+          GP_ORD_GESTAGE,
+          GP_VIS_CLINIC,
+          GP_ORD_ABN,
+          GP_ORD_REGDT,
+          GP_ORD_DISPSTS,
+          GP_ORD_REQ,
+          GP_ORD_SECEXTNUM,
+          GP_ORD_EXTNUM,
+          GP_ORD_RECID,
+          NVL(
+                (SELECT GS_CLIN_LNAME
+                 FROM V_GCM_CLINIC
+                 WHERE GS_CLIN_LCODE = GP_VIS_CLINIC
+                   AND gs_clin_source = 'CMN'), GP_VIS_CLINIC) AS GS_CLIN_LNAME,
+          ROWNUM AS Row_num,
+
+     (SELECT GC_CL_TIMEZONE
+      FROM V_GCM_CLINIC
+      WHERE GS_CLIN_LCODE = GP_VIS_CLINIC
+        AND gs_clin_source = 'CMN') AS GC_CL_TIMEZONE,
+          (CASE
+               WHEN (GP_REQI_INTTYPE = 'F'
+                     AND GP_REQI_TESTID IS NULL) THEN get_status_final_interp(GP_REQI_RECID)
+               ELSE GP_OTST_STATUS
+           END) AS TEST_STATUS,
+          (CASE
+               WHEN (GP_REQI_INTTYPE = 'F'
+                     AND GP_REQI_TESTID IS NULL) THEN
+                      (SELECT MIN(T2.GP_OTST_REGDT)
+                       FROM GP_OTEST T2
+                       WHERE T2.GP_OTST_REQIID = GP_REQI_RECID)
+               ELSE GP_OTST_REGDT
+           END) AS GP_OTST_REGDT,
+          (CASE
+               WHEN (GP_REQI_INTTYPE IN ('T',
+                                         'P')
+                     AND GP_REQI_TESTID IS NOT NULL) THEN
+                      (SELECT GS_PRI_NAME
+                       FROM GP_OTEST TEST,
+                            GS_PRIORITY
+                       WHERE TEST.GP_OTST_RECID = GP_REQI_TESTID
+                         AND GS_PRI_CODE = TEST.GP_OTST_PRIORITY )
+               ELSE ''
+           END) AS COLUMN_TEST_PRIORITY,
+          GP_ORD_MONITORED,
+          (CASE
+               WHEN GP_REQI_REPSTATUS IN ('S',
+                                          'D') THEN GP_REQI_REPSTATUS
+               ELSE (CASE
+                         WHEN GP_REQI_PEND = 'S' THEN 'P'
+                         ELSE NVL(GP_REQI_PEND, 'N')
+                     END)
+           END) AS COLUMN_REP_STATUS,
+          GP_REQI_REPSTATUS,
+          GP_REQI_PEND,
+
+     (SELECT GP_TSTWKL_NUM
+      FROM
+        (SELECT GP_TSTWKL_RECID,
+                GP_TSTWKL_BUILTDT,
+                GP_TSTWKL_NUM,
+                GS_TKL_CODE,
+                GP_OTST_REQIID
+         FROM GP_TESTWKL,
+              GS_TASKLIST,
+              GP_TESTWKLLINK,
+              GP_OTEST
+         WHERE GP_TWL_WKLID = GP_TSTWKL_RECID
+           AND GP_TWL_OWNID = GP_OTST_RECID
+           AND GP_TWL_OWNTP = 'T'
+           AND GP_TSTWKL_TEMPLATEID = GS_TKL_RECID
+           AND GP_TWL_ISTSTDETACHED = 'N'
+         ORDER BY GP_TSTWKL_BUILTDT DESC, GP_TSTWKL_RECID DESC)
+      WHERE GP_OTST_REQIID = GP_REQI_RECID
+        AND ROWNUM < 2) AS TASKLIST_NUM,
+          gcm_get_sampleid_for_interp(GP_REQI_RECID) AS SAMPLEID,
+          gcm_get_tubeextnum_for_interp(GP_REQI_RECID) AS TUBE_EXTNUM
+   FROM
+     (SELECT MAX(ROWNUM) over() AS TOTAL_ROW_CNT,
+             GP_PAT_RECID,
+             GP_PAT_MRN,
+             GP_PAT_LNAME,
+             GP_PAT_FNAME,
+             GP_PAT_SUFFIX,
+             GP_PAT_TITLE,
+             GP_VIS_BILLNUM,
+             GP_ORD_ORDNUM,
+             GP_ORD_CTYPE,
+             GP_ORD_STUDY,
+             GP_ORD_RECID,
+             GP_ORD_PRIOR,
+             GP_ORD_GRP,
+             GP_ORD_STS,
+             GP_ORD_AUTOPSYTYPE,
+             GP_ORD_ALIASES,
+             GP_FAM_TYPE,
+             GP_REQI_INTTYPE,
+             GP_INT_ABN,
+             GP_INT_DGNCAT,
+             GP_REQI_TESTID,
+             GP_REQI_REPSTATUS,
+             GP_REQI_REPNUM,
+             GP_REQI_PEND,
+             GP_REQI_ALIAS,
+             Decode(GP_REQI_INTTYPE, 'OC', '0', 'T', 'A', 'P', 'B', 'S', 'C', 'F', 'D', 'A', 'E', 'F') AS INTTYPE_SCHED,
+             GP_REQI_RECID,
+             DEPARTMENT_CODE,
+             GP_ORD_DEPARTMENT,
+             GP_REQI_DEPTYPE,
+             TECHNOLOGY_CODE,
+             GP_ORD_ORDEREDTESTS,
+             GP_ORD_INDICATIONS,
+             GP_ORD_INDNAMES,
+             AUXNUM,
+             GS_RTP_CODE,
+             GP_ORD_ISIFLOW,
+             GP_ORD_GESTAGE,
+             GP_VIS_CLINIC,
+             GP_ORD_ABN,
+             GP_ORD_REGDT,
+             GP_ORD_DISPSTS,
+             GP_ORD_REQ,
+             GP_ORD_ORDEREDSPEC,
+             GP_OTST_SPECTYPES,
+             GP_OTST_INDICATIONS,
+             GP_OTST_STATUS,
+             GP_OTST_REGDT,
+             GP_OTST_INDNAMES,
+             GP_ORD_MONITORED,
+             GP_ORD_EXTNUM,
+             GP_ORD_SECEXTNUM,
+             GP_OTST_CODE,
+             GP_OTST_RECID
+      FROM V_DXP_SRCH_RESULT_SIMPLE
+      WHERE ROWNUM <= ?
+        AND GP_ORD_ORDNUM LIKE ?
+        AND GP_REQI_FINDINACTIVE = 'Y'
+        AND GP_ORD_OLD = 'N'
+      ORDER BY GP_ORD_ORDNUM,
+               INTTYPE_SCHED,
+               AUXNUM) v
+   WHERE ROWNUM <= 51) view_records
+WHERE Row_Num > 0
