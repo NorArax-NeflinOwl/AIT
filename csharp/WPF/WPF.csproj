@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -201,6 +201,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -215,34 +216,40 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Windows\App.xaml">
+    <ApplicationDefinition Include="UI\Windows\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
-    <Compile Include="Models\Extensions\ObservablePageCollection.cs" />
+    <Compile Include="Managers\TabControlManager.cs" />
     <Compile Include="Models\Extensions\WindowsList.cs" />
     <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
     <Compile Include="Models\Interfaces\IPageModel.cs" />
-    <Compile Include="Pages\DashboardPage.xaml.cs">
+    <Compile Include="UI\Controls\TabItemHeaderControl.xaml.cs">
+      <DependentUpon>TabItemHeaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pages\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Properties\DashboardProperties.cs" />
-    <Compile Include="Windows\InitWindow.xaml.cs">
+    <Compile Include="UI\Pages\Properties\DashboardProperties.cs" />
+    <Compile Include="UI\Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Properties\InitProperties.cs" />
-    <Compile Include="Windows\Properties\MainProperties.cs" />
-    <Page Include="Pages\DashboardPage.xaml">
+    <Compile Include="UI\Windows\Properties\MainProperties.cs" />
+    <Page Include="UI\Controls\TabItemHeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\InitWindow.xaml">
+    <Page Include="UI\Pages\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\MainWindow.xaml">
+    <Page Include="UI\Windows\InitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -281,7 +288,7 @@
     <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Managers\Validators\BasePropertiesValidator.cs" />
     <Compile Include="Managers\Validators\GlobalValidators.cs" />
-    <Compile Include="Windows\App.xaml.cs">
+    <Compile Include="UI\Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -292,7 +299,7 @@
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Databases\Models\AitAccountModel.cs" />
     <Compile Include="Managers\Validators\AitAccountPropertiesValidator.cs" />
-    <Compile Include="Windows\MainWindow.xaml.cs">
+    <Compile Include="UI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -329,24 +336,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\logo4x2transparent.ico">
+    <None Include="UI\Icons\logo4x2transparent.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Icons\dialog_error.png">
+    <None Include="UI\Icons\dialog_error.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Icons\dialog_information.png">
+    <None Include="UI\Icons\dialog_information.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Icons\logo4x4.png">
+    <None Include="UI\Icons\logo4x4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Icons\dialog_question.png">
+    <None Include="UI\Icons\dialog_question.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icons\logo4x3.png">
+    <None Include="UI\Icons\logo4x3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

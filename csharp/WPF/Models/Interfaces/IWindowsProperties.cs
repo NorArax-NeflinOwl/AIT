@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using WPF.Models.Enums;
 
-namespace WPF.Windows.Properties
+namespace WPF.Models.Interfaces
 {
     public interface IWindowsProperties
     {

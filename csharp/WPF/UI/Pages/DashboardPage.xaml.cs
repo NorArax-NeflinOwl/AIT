@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPF.Pages
+namespace WPF.UI.Pages
 {
     /// <summary>
     /// Interaction logic for DashboardPage.xaml

@@ -1,8 +1,11 @@
-﻿namespace WPF.Models
+﻿using System.Windows.Controls;
+using WPF.UI.Controls;
+
+namespace WPF.Models
 {
     public interface IPageModel
     {
-        string Header { get; set; }
-        object Content { get; set; }
+        TabItemHeaderControl Header { get; set; }
+        Page Content { get; set; }
     }
 }

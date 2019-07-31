@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using WPF.Models.Enums;
+using WPF.Models.Interfaces;
 
-namespace WPF.Windows.Properties
+namespace WPF.UI.Windows.Properties
 {
     public class MainProperties : IWindowsProperties
     {

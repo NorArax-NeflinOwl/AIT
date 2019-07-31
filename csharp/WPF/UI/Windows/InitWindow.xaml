@@ -1,16 +1,10 @@
-﻿<Window x:Class="WPF.Windows.InitWindow"
+﻿<Window x:Class="WPF.UI.Windows.InitWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="{Binding Properties.Title}" 
-        Height="{Binding Properties.Heigth}" 
-        Width="{Binding Properties.Width}" 
-        ResizeMode="{Binding Properties.ResizeMode}" 
-        Topmost="{Binding Properties.Topmost}" 
-        WindowStyle="{Binding Properties.WindowStyle}"
+        mc:Ignorable="d" Height="300" Width="500" MaxHeight="300" MinHeight="300" MaxWidth="500" MinWidth="500"
+        ResizeMode="NoResize" Topmost="true" WindowStyle="None"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>

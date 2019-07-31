@@ -7,9 +7,9 @@ using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Interfaces;
-using WPF.Windows.Properties;
+using WPF.UI.Windows.Properties;
 
-namespace WPF.Windows
+namespace WPF.UI.Windows
 {
     /// <summary>
     /// Interaction logic for InitWindow.xaml
@@ -21,7 +21,6 @@ namespace WPF.Windows
         public InitWindow()
         {
             MainContext.Instance.Windows.Add(this);
-            Properties = new InitProperties();
 
             InitializeComponent();
             Init();
@@ -29,13 +28,13 @@ namespace WPF.Windows
 
         public void Subscribe()
         {
-            throw new NotImplementedException();
         }
 
         public void Init()
         {
+            CenterWindowOnScreen();
             InitMessage.Text = WPF.Properties.Resources.APP_START;
-            InitImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\Icons\\logo4x3.png"));
+            InitImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\logo4x3.png"));
 
             Dispatcher.Invoke(async () =>
             {
@@ -59,6 +58,16 @@ namespace WPF.Windows
                 MainContext.Instance.Windows.Add(new MainWindow());
                 MainContext.Instance.Windows.Remove(this);
             });
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         public void Dispose()

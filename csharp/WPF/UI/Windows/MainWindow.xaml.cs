@@ -2,16 +2,17 @@
 using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Models.Interfaces;
-using WPF.Windows.Properties;
+using WPF.UI.Windows.Properties;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
 using WPF.Managers;
-using WPF.Pages.Properties;
+using WPF.UI.Pages.Properties;
 using WPF.Models.Extensions;
 using WPF.Models;
+using System.Threading.Tasks;
 
-namespace WPF.Windows
+namespace WPF.UI.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -20,20 +21,20 @@ namespace WPF.Windows
     {
         public Visibility MainErrorImageVisibility { get { return LogManager.Instance.HandleErrorCounter != 0 ? Visibility.Visible : Visibility.Collapsed; } }
         public IWindowsProperties Properties { get; }
-        public ObservablePageCollection MainTabItems { get; set; }
+
+        private TabControlManager MainTabControlManager { get; set; }
 
         public MainWindow()
         {
             Properties = new MainProperties();
             InitializeComponent();
-            Subscribe();
             Init();
+            Subscribe();
         }
 
         public void Subscribe()
         {
             KeyUp += MainWindow_KeyUp;
-            MainClosePageButton.Click += MainClosePageButton_Click;
 
             MainFileCloseAllMenu.Click += MainFileCloseAllMenu_Click;
             MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
@@ -61,17 +62,23 @@ namespace WPF.Windows
             // TODO Close all windows without MainWindow and set MainPage = DashboardPage;
         }
 
-        private void MainClosePageButton_Click(object sender, RoutedEventArgs e)
+        private void CenterWindowOnScreen()
         {
-            // TODO Set MainPage = DashboardPage;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         public void Init()
         {
-            MainErrorImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\Icons\\dialog_error.png"));
+            CenterWindowOnScreen();
+            MainErrorImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\dialog_error.png"));
 
-            MainTabItems = new ObservablePageCollection();
-            MainTabItems.Add(new DashboardProperties());
+            MainTabControlManager = new TabControlManager(MainTabControl);
+            MainTabControlManager.Add(new DashboardProperties());
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
             MainFileCloseAllMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
@@ -108,15 +115,13 @@ namespace WPF.Windows
         public void Dispose()
         {
             KeyUp -= MainWindow_KeyUp;
-            MainClosePageButton.Click -= MainClosePageButton_Click;
 
             MainFileCloseAllMenu.Click -= MainFileCloseAllMenu_Click;
             MainFileSettingsMenu.Click -= MainFileSettingsMenu_Click;
             MainFileLogOutMenu.Click -= MainFileLogOutMenu_Click;
             MainFileExitMenu.Click -= MainFileExitMenu_Click;
 
-
-            MainTabItems.Clear();
+            MainTabControlManager.Clear();
             GC.Collect();
         }
 

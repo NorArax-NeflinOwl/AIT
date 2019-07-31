@@ -1,6 +1,4 @@
-﻿using WPF.Windows.Properties;
-
-namespace WPF.Models.Interfaces
+﻿namespace WPF.Models.Interfaces
 {
     public interface IPropertizableWindow
     {

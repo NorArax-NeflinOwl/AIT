@@ -1,4 +1,4 @@
-﻿namespace WPF.Windows.Properties
+﻿namespace WPF.Models.Enums
 {
     public enum PagesNameEnum
     {
