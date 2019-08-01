@@ -59,7 +59,7 @@ namespace WPF.Managers
                             var random = new Random();
                             var ext = GetExt(log.Type);
 
-                            var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd-") + (random.Next() % 1000).ToString() + ext;
+                            var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd HH:mm") + ext;
                             var filePath = Path.Combine(m_LoggerDir, fileName);
 
                             if (!File.Exists(filePath))
@@ -75,7 +75,8 @@ namespace WPF.Managers
                     }
                     catch (Exception ex)
                     {
-                        throw ex;
+                        m_Logger.Add(newLog);
+                        //throw ex;
                     }
                 }
             });

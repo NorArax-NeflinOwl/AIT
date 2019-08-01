@@ -1,23 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using WPF.Models;
 using WPF.Models.Enums;
 using WPF.UI.Controls;
-using WPF.UI.Pages;
 using WPF.UI.Pages.Properties;
 
 namespace WPF.Managers
 {
     public class TabControlManager
     {
-        private IPageModel dashboardPage;
         private TabControl tabControl;
-        private Dictionary<string, Button> cache;
 
         public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
-            cache = new Dictionary<string, Button>();
         }
 
         public void Add(IPageModel page)
@@ -34,19 +29,17 @@ namespace WPF.Managers
 
             if (!found)
             {
-                cache[page.Header.Header.Text] = page.Header.CloseButton;
-                cache[page.Header.Header.Text].Click += CloseButton_Click;
+                page.Header.CloseButton.Click += CloseButton_Click;
                 TabItem item = new TabItem();
-                item.Header = page.Header; //TODO
+                item.Header = page.Header;
                 item.Content = new Frame
                 {
                     Content = page.Content
                 };
                 tabControl.Items.Add(item);
-            }
 
-            if (page is DashboardProperties)
-                dashboardPage = page;
+                tabControl.SelectedIndex = tabControl.Items.Count - 1;
+            }
 
             LogManager.Instance.LogToFile(new LogInfoModel
             {
@@ -57,7 +50,10 @@ namespace WPF.Managers
 
         private void CloseButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var header = (((sender as Button)?.Parent as Grid)?.Parent as TabItemHeaderControl);
+            if (sender is Button button)
+                button.Click -= CloseButton_Click;
+
+            var header = ((sender as Button)?.Parent as Grid)?.Parent as TabItemHeaderControl;
             Remove(header);
         }
 
@@ -82,11 +78,9 @@ namespace WPF.Managers
                 });
 
                 tabControl.Items.Remove(tabItem);
-                cache[header.Header.Text].Click -= CloseButton_Click;
-                cache[header.Header.Text] = null;
 
                 if (tabControl.Items.IsEmpty)
-                    Add(dashboardPage);
+                    Add(new DashboardProperties());
             }
         }
 
@@ -99,7 +93,8 @@ namespace WPF.Managers
             });
 
             tabControl.Items.Clear();
-            Add(dashboardPage);
+
+            Add(new DashboardProperties());
         }
     }
 }

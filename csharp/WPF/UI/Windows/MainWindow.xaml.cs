@@ -40,6 +40,8 @@ namespace WPF.UI.Windows
             MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
             MainFileLogOutMenu.Click += MainFileLogOutMenu_Click;
             MainFileExitMenu.Click += MainFileExitMenu_Click;
+
+            MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
         }
 
         private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
@@ -60,6 +62,11 @@ namespace WPF.UI.Windows
         private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
         {
             // TODO Close all windows without MainWindow and set MainPage = DashboardPage;
+        }
+
+        private void MainNavigateDashboardMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControlManager.Add(new DashboardProperties());
         }
 
         private void CenterWindowOnScreen()
@@ -95,6 +102,7 @@ namespace WPF.UI.Windows
 
             MainNavigateMenu.Header = WPF.Properties.Resources.NAV_HEADER;
             MainNavigateDashboardMenu.Header = WPF.Properties.Resources.DASHBOARD_HEADER;
+            MainNavigateDashboardMenu.IsEnabled = true;
 
             MainQueryMenu.Header = WPF.Properties.Resources.QUERY_HEADER;
             MainQueryBuilderMenu.Header = WPF.Properties.Resources.QUERYBULIDER_HEADER;
@@ -120,6 +128,8 @@ namespace WPF.UI.Windows
             MainFileSettingsMenu.Click -= MainFileSettingsMenu_Click;
             MainFileLogOutMenu.Click -= MainFileLogOutMenu_Click;
             MainFileExitMenu.Click -= MainFileExitMenu_Click;
+
+            MainNavigateDashboardMenu.Click -= MainNavigateDashboardMenu_Click;
 
             MainTabControlManager.Clear();
             GC.Collect();
