@@ -46,6 +46,7 @@ namespace WPF.UI.Windows
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            LoginProgressBar.Visibility = Visibility.Visible;
             var login = LoginInputTextBox.Text;
             var password = Generators.GenerateSha256Hash(LoginInputPasswordBox.Password);
             var rememberMe = LoginRememberCheckBox.IsChecked;
@@ -104,7 +105,8 @@ namespace WPF.UI.Windows
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
                     throw new Exception("Samethings go wrong!"); //TODO resources
 
-                MainContext.Instance.Windows.Open(new LoginWindow());
+                MainContext.Instance.Windows.Open(new MainWindow());
+                LoginProgressBar.Visibility = Visibility.Collapsed;
                 MainContext.Instance.Windows.Close(this);
             }
             catch(Exception ex)

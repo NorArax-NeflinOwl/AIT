@@ -4,33 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" Height="500" Width="400">
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Image Grid.Row="0" x:Name="LoginImage" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox Grid.Row="1" x:Name="LoginInputTextBox" materialDesign:HintAssist.Hint="Login"
+    <Grid>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" x:Name="LoginImage" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" x:Name="LoginInputTextBox" materialDesign:HintAssist.Hint="Login"
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" FontSize="20" Foreground="#032b86"/>
-        <PasswordBox Grid.Row="2" x:Name="LoginInputPasswordBox" materialDesign:HintAssist.Hint="Password"
+            <PasswordBox Grid.Row="2" x:Name="LoginInputPasswordBox" materialDesign:HintAssist.Hint="Password"
                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" FontSize="20" Foreground="#032b86"/>
-        <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <CheckBox Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center"
                   x:Name="LoginRememberCheckBox" Content="Remember me?" Foreground="#032b86" FontSize="20" />
-        <Button Grid.Row="4" Margin="5,0" x:Name="LoginButton" Content="Login" Background="#032b86"/>
-        <Grid Grid.Row="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="LoginRegQue" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <Button Grid.Row="4" Margin="5,0" x:Name="LoginButton" Content="Login" Background="#032b86"/>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="LoginRegQue" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Text="If you don't have a account?" Foreground="#032b86"/>
-            <Button x:Name="LoginRegButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                <Button x:Name="LoginRegButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
                     Content="Register" Margin="5,0" Background="#032b86"/>
+            </Grid>
         </Grid>
+        <ProgressBar x:Name="LoginProgressBar" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+                     Style="{StaticResource MaterialDesignLinearProgressBar}" Visibility="Collapsed"/>
     </Grid>
 </Window>

@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" >
-    <Grid Height="20">
+    <Grid Height="40">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
-        <Image x:Name="Icon" Grid.Column="0" Width="20"/>
-        <TextBlock x:Name="Header" Grid.Column="1" Text="Template" Margin="5,0,5,0"/>
-        <Button x:Name="CloseButton" Grid.Column="2" Margin="2">
+        <Image x:Name="Icon" Grid.Column="0" Width="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="Header" Grid.Column="1" Text="Template" Margin="5,0,5,0" VerticalAlignment="Center"/>
+        <Button x:Name="CloseButton" Grid.Column="2" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="X" FontSize="10"/>
         </Button>
     </Grid>

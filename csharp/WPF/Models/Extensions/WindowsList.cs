@@ -31,8 +31,7 @@ namespace WPF.Models.Extensions
                 win.Close();
 
             Clear();
-
-            app.MainWindow = window;
+            Open(window);
         }
     }
 }

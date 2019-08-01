@@ -91,7 +91,12 @@ namespace WPF.Databases.Models
             get
             {
                 if(fileCreator == null && !string.IsNullOrEmpty(creator))
-                    fileCreator = Context.Accounts.Find(creator);
+                {
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        fileCreator = context.Accounts.Find(creator);
+                    }
+                }
                 return fileCreator;
             }
             set { SetField(ref fileCreator, value, nameof(FileCreator)); }
@@ -103,7 +108,12 @@ namespace WPF.Databases.Models
                 if (fileOwner == null && string.IsNullOrEmpty(assignedTo))
                     return FileCreator;
                 else if (!string.IsNullOrEmpty(assignedTo))
-                    fileOwner = Context.Accounts.Find(assignedTo);
+                {
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        fileOwner = context.Accounts.Find(assignedTo);
+                    }
+                }
                 return fileOwner;
             }
             set { SetField(ref fileOwner, value, nameof(FileOwner)); }

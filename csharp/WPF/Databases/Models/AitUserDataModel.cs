@@ -83,7 +83,12 @@ namespace WPF.Databases.Models
             get
             {
                 if (accountData == null && !string.IsNullOrEmpty(AssignedTo))
-                    accountData = Context.Accounts.Find(AssignedTo);
+                {
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        accountData = context.Accounts.Find(AssignedTo);
+                    }
+                }
                 return accountData;
             }
             set { SetField(ref accountData, value, nameof(AccountData)); }

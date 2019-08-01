@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,6 +38,7 @@ namespace WPF.UI.Windows
 
             Dispatcher.Invoke(async () =>
             {
+                InitProgressBar.Visibility = Visibility.Visible;
                 await Task.Delay(200);
                 while (BackgroundTasksManager.Instance.Completed != BackgroundTasksManager.Instance.Count)
                 {
@@ -47,15 +49,29 @@ namespace WPF.UI.Windows
                     if (completed != 0)
                     {
                         InitMessage.Text = WPF.Properties.Resources.APP_INIT;
-                        InitProgressBar.Value = (count / completed) * multiple;
+                        //InitProgressBar.Value = (count / completed) * multiple;
                     }
                 }
-                InitProgressBar.Value = 100;
+                //InitProgressBar.Value = 100;
                 InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
                 await Task.Delay(200);
 
-                MainContext.Instance.Windows.Open(new LoginWindow());
-                MainContext.Instance.Windows.Close(this);
+                var host = HardwareManager.GetComputerName();
+                using(var context = PDBContext.Instance.Context)
+                {
+                    var userHost = context.UsersHosts.Where(q => host.Equals(q.HostName) && q.IsActive && q.IsLoggedIn && !string.IsNullOrEmpty(q.AssignedTo)).FirstOrDefault();
+                    if (userHost != null)
+                    {
+                        PDBContext.Instance.AccountID = userHost.AssignedTo;
+                        MainContext.Instance.Windows.Open(new MainWindow());
+                    }
+                    else
+                    {
+                        MainContext.Instance.Windows.Open(new LoginWindow());
+                    }
+                    InitProgressBar.Visibility = Visibility.Collapsed;
+                    MainContext.Instance.Windows.Close(this);
+                }
             });
         }
 

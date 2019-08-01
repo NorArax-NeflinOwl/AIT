@@ -9,6 +9,7 @@ using System.Reflection;
 using WPF.Managers;
 using WPF.UI.Pages.Properties;
 using WPF.Models;
+using System.Linq;
 
 namespace WPF.UI.Windows
 {
@@ -40,8 +41,10 @@ namespace WPF.UI.Windows
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
             MainFileCloseAllMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
+            MainFileCloseAllMenu.IsEnabled = true;
             MainFileSettingsMenu.Header = WPF.Properties.Resources.SETTINGS_HEADER;
             MainFileLogOutMenu.Header = WPF.Properties.Resources.LOGDIR_SUBPATH;
+            MainFileLogOutMenu.IsEnabled = true;
             MainFileExitMenu.Header = WPF.Properties.Resources.EXIT_HEADER;
 
             MainEditMenu.Header = WPF.Properties.Resources.EDIT_HEADER;
@@ -117,6 +120,17 @@ namespace WPF.UI.Windows
 
         private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
         {
+            using(var context = PDBContext.Instance.Context)
+            {
+                var host = context.UsersHosts.Where(q => PDBContext.Instance.AccountID.Equals(q.AssignedTo)).FirstOrDefault();
+                if(host != null)
+                {
+                    host.IsLoggedIn = false;
+                    host.Update();
+                    context.SaveChanges();
+                }
+            }
+            PDBContext.Instance.AccountID = null;
             MainContext.Instance.Windows.Clear(new LoginWindow());
         }
 
