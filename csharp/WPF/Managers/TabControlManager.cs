@@ -8,7 +8,7 @@ namespace WPF.Managers
 {
     public class TabControlManager
     {
-        private TabControl tabControl;
+        private readonly TabControl tabControl;
 
         public TabControlManager(TabControl tabControl)
         {
@@ -30,11 +30,13 @@ namespace WPF.Managers
             if (!found)
             {
                 page.Header.CloseButton.Click += CloseButton_Click;
-                TabItem item = new TabItem();
-                item.Header = page.Header;
-                item.Content = new Frame
+                TabItem item = new TabItem
                 {
-                    Content = page.Content
+                    Header = page.Header,
+                    Content = new Frame
+                    {
+                        Content = page.Content
+                    }
                 };
                 tabControl.Items.Add(item);
 

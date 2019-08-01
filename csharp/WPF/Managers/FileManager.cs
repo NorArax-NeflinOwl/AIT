@@ -99,7 +99,6 @@ namespace WPF.Managers
                 throw ex;
 #endif
             }
-            return string.Empty;
         }
 
         public void WriteToFile(string path, string content)
