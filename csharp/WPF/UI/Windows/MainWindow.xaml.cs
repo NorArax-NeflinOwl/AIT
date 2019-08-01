@@ -8,9 +8,7 @@ using System.IO;
 using System.Reflection;
 using WPF.Managers;
 using WPF.UI.Pages.Properties;
-using WPF.Models.Extensions;
 using WPF.Models;
-using System.Threading.Tasks;
 
 namespace WPF.UI.Windows
 {
@@ -30,53 +28,6 @@ namespace WPF.UI.Windows
             InitializeComponent();
             Init();
             Subscribe();
-        }
-
-        public void Subscribe()
-        {
-            KeyUp += MainWindow_KeyUp;
-
-            MainFileCloseAllMenu.Click += MainFileCloseAllMenu_Click;
-            MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
-            MainFileLogOutMenu.Click += MainFileLogOutMenu_Click;
-            MainFileExitMenu.Click += MainFileExitMenu_Click;
-
-            MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
-        }
-
-        private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO Show dialog with question e.g. "Do you want close app?"
-        }
-
-        private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO Close all windows and open LoginWindow
-        }
-
-        private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO Open SettinsWindow
-        }
-
-        private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO Close all windows without MainWindow and set MainPage = DashboardPage;
-        }
-
-        private void MainNavigateDashboardMenu_Click(object sender, RoutedEventArgs e)
-        {
-            MainTabControlManager.Add(new DashboardProperties());
-        }
-
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         public void Init()
@@ -120,6 +71,18 @@ namespace WPF.UI.Windows
             MainHelpAboutMenu.Header = WPF.Properties.Resources.ABOUT_HEADER;
         }
 
+        public void Subscribe()
+        {
+            KeyUp += MainWindow_KeyUp;
+
+            MainFileCloseAllMenu.Click += MainFileCloseAllMenu_Click;
+            MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
+            MainFileLogOutMenu.Click += MainFileLogOutMenu_Click;
+            MainFileExitMenu.Click += MainFileExitMenu_Click;
+
+            MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
+        }
+
         public void Dispose()
         {
             KeyUp -= MainWindow_KeyUp;
@@ -140,6 +103,41 @@ namespace WPF.UI.Windows
             var key = e.Key.ToString();
             var tabitem = MainTabControl.SelectedContent as IPageModel;
             MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{tabitem?.Header}] page");
+        }
+
+        private void MainNavigateDashboardMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainTabControlManager.Add(new DashboardProperties());
+        }
+
+        private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Show dialog with question e.g. "Do you want close app?"
+        }
+
+        private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainContext.Instance.Windows.Clear(new LoginWindow());
+        }
+
+        private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO Open SettinsWindow
+        }
+
+        private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainContext.Instance.Windows.Clear(new MainWindow());
+        }
+
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
         }
     }
 }

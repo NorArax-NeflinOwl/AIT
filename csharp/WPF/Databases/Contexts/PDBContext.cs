@@ -62,6 +62,6 @@ namespace WPF.Databases.Contexts
         /// <summary>
         /// Account ID from session
         /// </summary>
-        public string AccountID { get; }
+        public string AccountID { get; set; }
     }
 }

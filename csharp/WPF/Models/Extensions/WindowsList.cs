@@ -12,17 +12,27 @@ namespace WPF.Models.Extensions
             this.app = app;
         }
 
-        public new void Add(Window window)
+        public void Open(Window window)
         {
             app.MainWindow = window;
             window.Show();
-            base.Add(window);
+            Add(window);
         }
 
-        public new void Remove(Window window)
+        public void Close(Window window)
         {
             window.Close();
-            base.Remove(window);
+            Remove(window);
+        }
+
+        public void Clear(Window window)
+        {
+            foreach(var win in this)
+                win.Close();
+
+            Clear();
+
+            app.MainWindow = window;
         }
     }
 }

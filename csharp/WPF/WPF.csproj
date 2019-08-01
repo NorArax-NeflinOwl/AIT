@@ -222,6 +222,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
     <Compile Include="Managers\TabControlManager.cs" />
+    <Compile Include="Models\Extensions\Exceptions\LoginPageExceptions.cs" />
     <Compile Include="Models\Extensions\WindowsList.cs" />
     <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
@@ -236,6 +237,9 @@
     <Compile Include="UI\Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Windows\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Windows\Properties\MainProperties.cs" />
     <Page Include="UI\Controls\TabItemHeaderControl.xaml">
       <SubType>Designer</SubType>
@@ -246,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Windows\InitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

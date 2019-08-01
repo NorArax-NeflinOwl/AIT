@@ -8,12 +8,12 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.LoginException("Login is required");
+                throw new AitAccountExceptions.LoginException("Login is required"); // TODO Resources
             }
 
             if (value.Length < 4)
             {
-                throw new AitAccountExceptions.LoginException("Login is too short");
+                throw new AitAccountExceptions.LoginException("Login is too short"); // TODO Resources
             }
 
             return true;
@@ -23,12 +23,12 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.PasswordException("Password is required");
+                throw new AitAccountExceptions.PasswordException("Password is required"); // TODO Resources
             }
 
             if (value.Length < 8)
             {
-                throw new AitAccountExceptions.PasswordException("Password is too weak");
+                throw new AitAccountExceptions.PasswordException("Password is too weak"); // TODO Resources
             }
 
             return true;
@@ -38,13 +38,13 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.EmailException("Email is required");
+                throw new AitAccountExceptions.EmailException("Email is required"); // TODO Resources
             }
 
             var addr = new System.Net.Mail.MailAddress(value);
             if (addr.Address != value)
             {
-                throw new AitAccountExceptions.EmailException("Incorect Email");
+                throw new AitAccountExceptions.EmailException("Incorect Email"); // TODO Resources
             }
 
             return true;

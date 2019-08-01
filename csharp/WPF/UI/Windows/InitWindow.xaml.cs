@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Interfaces;
-using WPF.UI.Windows.Properties;
 
 namespace WPF.UI.Windows
 {
@@ -16,11 +15,11 @@ namespace WPF.UI.Windows
     /// </summary>
     public partial class InitWindow : Window, IDisposable, IPropertizableWindow
     {
-        public IWindowsProperties Properties { get; set; }
+        public IWindowsProperties Properties { get; }
 
         public InitWindow()
         {
-            MainContext.Instance.Windows.Add(this);
+            MainContext.Instance.Windows.Open(this);
 
             InitializeComponent();
             Init();
@@ -38,7 +37,7 @@ namespace WPF.UI.Windows
 
             Dispatcher.Invoke(async () =>
             {
-                await Task.Delay(300);
+                await Task.Delay(200);
                 while (BackgroundTasksManager.Instance.Completed != BackgroundTasksManager.Instance.Count)
                 {
                     var multiple = 100 / BackgroundTasksManager.Instance.Count;
@@ -53,17 +52,17 @@ namespace WPF.UI.Windows
                 }
                 InitProgressBar.Value = 100;
                 InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
-                await Task.Delay(500);
+                await Task.Delay(200);
 
-                MainContext.Instance.Windows.Add(new MainWindow());
-                MainContext.Instance.Windows.Remove(this);
+                MainContext.Instance.Windows.Open(new LoginWindow());
+                MainContext.Instance.Windows.Close(this);
             });
         }
 
         private void CenterWindowOnScreen()
         {
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
             double windowHeight = this.Height;
             Left = (screenWidth / 2) - (windowWidth / 2);
