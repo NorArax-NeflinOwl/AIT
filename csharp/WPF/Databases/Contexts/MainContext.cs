@@ -25,14 +25,14 @@ namespace WPF.Databases.Contexts
             }
         }
 
-        public WindowsList Windows { get; private set; }
+        public WindowsDictionary Windows { get; private set; }
         public IList<string> KeyLogger { get; private set; }
 
         private MainContext() { }
 
         public MainContext(App app)
         {
-            Windows = new WindowsList(app);
+            Windows = new WindowsDictionary(app);
             KeyLogger = new List<string>();
         }
     }

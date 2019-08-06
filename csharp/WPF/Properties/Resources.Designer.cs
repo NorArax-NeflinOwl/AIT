@@ -358,6 +358,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration.
+        /// </summary>
+        internal static string REGISTER_TITLE {
+            get {
+                return ResourceManager.GetString("REGISTER_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Register Product.
         /// </summary>
         internal static string REGISTERPRODUCT_HEADER {

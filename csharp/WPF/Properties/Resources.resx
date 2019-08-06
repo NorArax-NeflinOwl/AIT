@@ -219,6 +219,9 @@
   <data name="REGISTERPRODUCT_HEADER" xml:space="preserve">
     <value>Register Product</value>
   </data>
+  <data name="REGISTER_TITLE" xml:space="preserve">
+    <value>Registration</value>
+  </data>
   <data name="SETTINGS_HEADER" xml:space="preserve">
     <value>Settings</value>
   </data>

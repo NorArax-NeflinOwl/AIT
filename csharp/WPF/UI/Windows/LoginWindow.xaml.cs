@@ -10,6 +10,8 @@ using WPF.Managers;
 using WPF.Managers.Helpers;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
+using WPF.UI.ViewModels;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.UI.Windows
 {
@@ -20,8 +22,11 @@ namespace WPF.UI.Windows
     {
         public IWindowsProperties Properties { get; }
 
+        public LoginViewModel ViewModel { get; set; }
+
         public LoginWindow()
         {
+            Properties = new LoginProperties(this);
             InitializeComponent();
             Init();
             Subscribe();
@@ -31,6 +36,7 @@ namespace WPF.UI.Windows
         {
             CenterWindowOnScreen();
             LoginImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\logo4x3.png"));
+            ViewModel = new LoginViewModel(Properties);
         }
 
         public void Subscribe()
@@ -41,7 +47,8 @@ namespace WPF.UI.Windows
 
         private void LoginRegButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO
+            MainContext.Instance.Windows.Open(new RegistrationProperties());
+            MainContext.Instance.Windows.Hide(Properties.WindowName);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -105,9 +112,9 @@ namespace WPF.UI.Windows
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
                     throw new Exception("Samethings go wrong!"); //TODO resources
 
-                MainContext.Instance.Windows.Open(new MainWindow());
+                MainContext.Instance.Windows.Open(new MainProperties());
                 LoginProgressBar.Visibility = Visibility.Collapsed;
-                MainContext.Instance.Windows.Close(this);
+                MainContext.Instance.Windows.Close(Properties.WindowName);
             }
             catch(Exception ex)
             {

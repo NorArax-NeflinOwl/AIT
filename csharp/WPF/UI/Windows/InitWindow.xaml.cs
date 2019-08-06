@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Interfaces;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.UI.Windows
 {
@@ -20,7 +21,8 @@ namespace WPF.UI.Windows
 
         public InitWindow()
         {
-            MainContext.Instance.Windows.Open(this);
+            Properties = new InitProperties(this);
+            MainContext.Instance.Windows.Open(Properties);
 
             InitializeComponent();
             Init();
@@ -49,10 +51,10 @@ namespace WPF.UI.Windows
                     if (completed != 0)
                     {
                         InitMessage.Text = WPF.Properties.Resources.APP_INIT;
-                        //InitProgressBar.Value = (count / completed) * multiple;
+                        InitProgressBar.Value = (count / completed) * multiple;
                     }
                 }
-                //InitProgressBar.Value = 100;
+                InitProgressBar.Value = 100;
                 InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
                 await Task.Delay(200);
 
@@ -63,14 +65,14 @@ namespace WPF.UI.Windows
                     if (userHost != null)
                     {
                         PDBContext.Instance.AccountID = userHost.AssignedTo;
-                        MainContext.Instance.Windows.Open(new MainWindow());
+                        MainContext.Instance.Windows.Open(new MainProperties());
                     }
                     else
                     {
-                        MainContext.Instance.Windows.Open(new LoginWindow());
+                        MainContext.Instance.Windows.Open(new LoginProperties());
                     }
                     InitProgressBar.Visibility = Visibility.Collapsed;
-                    MainContext.Instance.Windows.Close(this);
+                    MainContext.Instance.Windows.Close(Properties.WindowName);
                 }
             });
         }

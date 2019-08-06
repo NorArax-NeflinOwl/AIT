@@ -28,7 +28,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Image Grid.Row="0" x:Name="LoginImage" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="1" x:Name="LoginInputTextBox" materialDesign:HintAssist.Hint="Login"
+            <TextBox Grid.Row="1" x:Name="LoginInputTextBox" materialDesign:HintAssist.Hint="Login" Text="{Binding ViewModel.Login}"
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" FontSize="20" Foreground="#032b86"/>
             <PasswordBox Grid.Row="2" x:Name="LoginInputPasswordBox" materialDesign:HintAssist.Hint="Password"
                      HorizontalAlignment="Stretch" VerticalAlignment="Bottom" FontSize="20" Foreground="#032b86"/>

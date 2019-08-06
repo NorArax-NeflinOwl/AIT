@@ -7,25 +7,26 @@ using WPF.Models.Interfaces;
 
 namespace WPF.UI.Windows.Properties
 {
-    public class MainProperties : IWindowsProperties
+    public class LoginProperties : IWindowsProperties
     {
         public string Title { get; set; }
-        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.MAIN;
+        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.LOGIN;
         public IPageModel PagePropertie { get; set; }
-        public ResizeMode ResizeMode { get; set; } = ResizeMode.CanResizeWithGrip;
-        public double Width { get; set; } = 1200;
-        public double Heigth { get; set; } = 800;
+        public ResizeMode ResizeMode { get; set; }
+        public double Width { get; set; }
+        public double Heigth { get; set; }
         public bool Topmost { get; set; }
         public WindowStyle WindowStyle { get; set; }
-        public WindowStartupLocation WindowStartupLocation { get; set; } = WindowStartupLocation.CenterScreen;
+        public WindowStartupLocation WindowStartupLocation { get; set; }
         public Window Window { get; set; }
         public IDictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 
-        public MainProperties()
+        public LoginProperties()
         {
-            Window = new MainWindow();
+            Window = new LoginWindow();
         }
-        public MainProperties(Window window)
+
+        public LoginProperties(Window window)
         {
             Window = window;
         }

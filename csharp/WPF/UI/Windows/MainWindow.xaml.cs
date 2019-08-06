@@ -25,7 +25,7 @@ namespace WPF.UI.Windows
 
         public MainWindow()
         {
-            Properties = new MainProperties();
+            Properties = new MainProperties(this);
             InitializeComponent();
             Init();
             Subscribe();
@@ -131,7 +131,7 @@ namespace WPF.UI.Windows
                 }
             }
             PDBContext.Instance.AccountID = null;
-            MainContext.Instance.Windows.Clear(new LoginWindow());
+            MainContext.Instance.Windows.Clear(new LoginProperties());
         }
 
         private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
@@ -141,7 +141,7 @@ namespace WPF.UI.Windows
 
         private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
         {
-            MainContext.Instance.Windows.Clear(new MainWindow());
+            MainContext.Instance.Windows.Clear(Properties);
         }
 
         private void CenterWindowOnScreen()
