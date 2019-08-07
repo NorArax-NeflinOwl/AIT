@@ -8,6 +8,7 @@
         TRACE,
         QUERY,
         TASK,
-        KEYLOGGER
+        KEYLOGGER,
+        ACTIVATION_CODE
     }
 }

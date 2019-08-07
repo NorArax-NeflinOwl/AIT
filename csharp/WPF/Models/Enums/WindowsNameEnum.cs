@@ -6,7 +6,7 @@
         LOGIN,
         INIT,
         REGISTRATION,
-        DIALOG,
+        POPUP,
         NOTE
     }
 }

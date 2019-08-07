@@ -120,6 +120,18 @@
   <data name="ABOUT_HEADER" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="ACC_NOACTIVATED" xml:space="preserve">
+    <value>Account is not activated!</value>
+  </data>
+  <data name="ACTIVATION_EMAIL_CONTENT" xml:space="preserve">
+    <value>Your activation code: {0}.</value>
+  </data>
+  <data name="ACTIVATION_EMAIL_TITLE" xml:space="preserve">
+    <value>New User Activation Request</value>
+  </data>
+  <data name="ACT_CODE_FOR" xml:space="preserve">
+    <value>Activate Code for '{0}'</value>
+  </data>
   <data name="AIT_EXT" xml:space="preserve">
     <value>.ait</value>
   </data>
@@ -140,6 +152,15 @@
   </data>
   <data name="CLOSEALL_HEADER" xml:space="preserve">
     <value>Close All</value>
+  </data>
+  <data name="CODE_EMPTY" xml:space="preserve">
+    <value>Code is empty!</value>
+  </data>
+  <data name="CODE_INCORECT" xml:space="preserve">
+    <value>Code is incorect!</value>
+  </data>
+  <data name="CODE_NOTFIND" xml:space="preserve">
+    <value>Error in database. Not find activation code!</value>
   </data>
   <data name="CREATESHA256HASH_HEADER" xml:space="preserve">
     <value>Create SHA256 Hash</value>
@@ -162,6 +183,15 @@
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="EMAIL_INCORECT" xml:space="preserve">
+    <value>Incorect Email!</value>
+  </data>
+  <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>Email is required!</value>
+  </data>
+  <data name="EMAIL_SEND" xml:space="preserve">
+    <value>Main send</value>
+  </data>
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
   </data>
@@ -174,6 +204,24 @@
   <data name="HELP_HEADER" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="HOST_LOCKED" xml:space="preserve">
+    <value>Your host was locked by admin!</value>
+  </data>
+  <data name="ID_FORMATINCORECT" xml:space="preserve">
+    <value>ID don't containt 2 separators!</value>
+  </data>
+  <data name="ID_LENINCORECT" xml:space="preserve">
+    <value>ID length must equals 15!</value>
+  </data>
+  <data name="ID_NUMBERMISING" xml:space="preserve">
+    <value>ID postfix is not number!</value>
+  </data>
+  <data name="ID_REQUIRED" xml:space="preserve">
+    <value>ID is required!</value>
+  </data>
+  <data name="INFORMATION" xml:space="preserve">
+    <value>Information</value>
+  </data>
   <data name="INIT_WINDOW" xml:space="preserve">
     <value>Initialization...</value>
   </data>
@@ -185,6 +233,21 @@
   </data>
   <data name="LOGDIR_SUBPATH" xml:space="preserve">
     <value>Logs</value>
+  </data>
+  <data name="LOGIN_EMPTY" xml:space="preserve">
+    <value>Login is empty!</value>
+  </data>
+  <data name="LOGIN_EXIST" xml:space="preserve">
+    <value>Login is already exists in system, please pass another!</value>
+  </data>
+  <data name="LOGIN_NOEXIST" xml:space="preserve">
+    <value>Account with this login not find!</value>
+  </data>
+  <data name="LOGIN_REQUIRED" xml:space="preserve">
+    <value>Login is required!</value>
+  </data>
+  <data name="LOGIN_TOOSHORT" xml:space="preserve">
+    <value>Login is too short!</value>
   </data>
   <data name="LOGOUT_HEADER" xml:space="preserve">
     <value>Log Out</value>
@@ -204,8 +267,26 @@
   <data name="OBJDIR_SUBPATH" xml:space="preserve">
     <value>Obj</value>
   </data>
+  <data name="PASS_EMPTY" xml:space="preserve">
+    <value>Password is empty!</value>
+  </data>
+  <data name="PASS_NOFIND" xml:space="preserve">
+    <value>Account with this password not find!</value>
+  </data>
+  <data name="PASS_REPPASS_INCORECT" xml:space="preserve">
+    <value>Passowd and repeat password is not identical!</value>
+  </data>
+  <data name="PASS_REQUIRED" xml:space="preserve">
+    <value>Password is required!</value>
+  </data>
+  <data name="PASS_TOOWEAK" xml:space="preserve">
+    <value>Password is too weak!</value>
+  </data>
   <data name="PATCH_EXT" xml:space="preserve">
     <value>.patch</value>
+  </data>
+  <data name="PREFIX_INVALID" xml:space="preserve">
+    <value>Invalid table prefix!</value>
   </data>
   <data name="QUERYBULIDER_HEADER" xml:space="preserve">
     <value>Query Builder</value>
@@ -221,6 +302,9 @@
   </data>
   <data name="REGISTER_TITLE" xml:space="preserve">
     <value>Registration</value>
+  </data>
+  <data name="SAMETHING_WRONG" xml:space="preserve">
+    <value>Samethings go wrong!</value>
   </data>
   <data name="SETTINGS_HEADER" xml:space="preserve">
     <value>Settings</value>

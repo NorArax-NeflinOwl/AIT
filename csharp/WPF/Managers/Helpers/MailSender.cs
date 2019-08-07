@@ -2,12 +2,22 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
+using WPF.Databases.Contexts;
+using WPF.Properties;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.Managers.Helpers
 {
     public class MailSender
     {
-        public static void SendTo(string to, string title, string content)
+        public static void SendActivationCodeTo(string to, string code)
+        {
+            var title = Resources.ACTIVATION_EMAIL_TITLE;
+            var content = string.Format(Resources.ACTIVATION_EMAIL_CONTENT, code);
+            SendTo(to, title, content, true);
+        }
+
+        public static void SendTo(string to, string title, string content, bool showPopup = false)
         {
             var crypter = new EncryptionManager();
             string from = ConfigurationManager.AppSettings["AppEmail"].ToString();
@@ -30,6 +40,11 @@ namespace WPF.Managers.Helpers
                 smtpClient.Credentials = new NetworkCredential(from, password);
 
                 smtpClient.Send(message);
+
+                if (showPopup)
+                {
+                    MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.EMAIL_SEND, 3), false);
+                }
             }
             catch (Exception ex)
             {

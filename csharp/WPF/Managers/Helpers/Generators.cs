@@ -17,6 +17,12 @@ namespace WPF.Managers.Helpers
 
         private static List<string> UsedByNotSavedIDs = new List<string>();
 
+        public static string GenerateActivateCode(string input = "", int length = 10)
+        {
+            var subput = GenerateSha256Hash(DateTime.Now.ToString());
+            return GenerateSha256Hash(subput + input).Substring(0, length).ToUpper();
+        }
+
         public static string RecordIDGenerator(TableInerfixEnum tablePrefix)
         {
             return RecordIDGenerator(SystemPrefixEnum.AIT, tablePrefix);

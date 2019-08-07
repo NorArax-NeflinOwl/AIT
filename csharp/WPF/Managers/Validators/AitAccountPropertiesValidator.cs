@@ -8,12 +8,12 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.LoginException("Login is required"); // TODO Resources
+                throw new AitAccountExceptions.LoginException(Properties.Resources.LOGIN_REQUIRED);
             }
 
             if (value.Length < 4)
             {
-                throw new AitAccountExceptions.LoginException("Login is too short"); // TODO Resources
+                throw new AitAccountExceptions.LoginException(Properties.Resources.LOGIN_TOOSHORT);
             }
 
             return true;
@@ -23,12 +23,12 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.PasswordException("Password is required"); // TODO Resources
+                throw new AitAccountExceptions.PasswordException(Properties.Resources.PASS_REQUIRED); 
             }
 
             if (value.Length < 8)
             {
-                throw new AitAccountExceptions.PasswordException("Password is too weak"); // TODO Resources
+                throw new AitAccountExceptions.PasswordException(Properties.Resources.PASS_TOOWEAK); 
             }
 
             return true;
@@ -38,13 +38,13 @@ namespace WPF.Managers.Validators
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new AitAccountExceptions.EmailException("Email is required"); // TODO Resources
+                throw new AitAccountExceptions.EmailException(Properties.Resources.EMAIL_REQUIRED); 
             }
 
             var addr = new System.Net.Mail.MailAddress(value);
             if (addr.Address != value)
             {
-                throw new AitAccountExceptions.EmailException("Incorect Email"); // TODO Resources
+                throw new AitAccountExceptions.EmailException(Properties.Resources.EMAIL_INCORECT); 
             }
 
             return true;

@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid Margin="20">
+        <Grid Margin="20" x:Name="RegMainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -43,9 +43,35 @@
             <TextBox x:Name="RegLastNameTextBox" Grid.Row="7" materialDesign:HintAssist.Hint="Last Name"/>
             <TextBox x:Name="RegNickTextBox" Grid.Row="8" materialDesign:HintAssist.Hint="Nick"/>
             <DatePicker x:Name="RegBDayPicker" Grid.Row="9" materialDesign:HintAssist.Hint="Birthday date"/>
+            <Button x:Name="RegAct2Button" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0" Background="#032b86">
+                <TextBlock Margin="10,3" x:Name="RegAct2ButtonContent" Text="Activate Account" Foreground="White"/>
+            </Button>
             <Button x:Name="RegButton" Grid.Row="10" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" Background="#032b86">
                 <TextBlock Margin="10,3" x:Name="RegButtonContent" Text="Register" Foreground="White"/>
             </Button>
+        </Grid>
+        <Grid Margin="20" x:Name="RegActGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="RegActTitleBlock" Text="Pass activatation code:" VerticalAlignment="Bottom" FontSize="20" FontFamily="Bold"/>
+            <TextBox x:Name="RegActCodeTextBox" Grid.Row="1" materialDesign:HintAssist.Hint="Activation code"/>
+            <Button x:Name="RegActButton" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" Background="#032b86">
+                <TextBlock Margin="10,3" x:Name="RegActButtonContent" Text="Activate" Foreground="White"/>
+            </Button>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="RegActQuestionBlock" Text="If you dont have activation code:" VerticalAlignment="Center"/>
+                <Button x:Name="RegActRepSendButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" Background="#032b86">
+                    <TextBlock Margin="10,3" x:Name="RegActRepSendButtonContent" Text="Send again" Foreground="White"/>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

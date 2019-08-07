@@ -15,6 +15,9 @@ namespace WPF.UI.Windows
     /// </summary>
     public partial class RegistrationWindow : Window, IDisposable, IPropertizableWindow
     {
+        private AitAccountModel account;
+        private AitFilesModel userActivatedCodeFile;
+
         public IWindowsProperties Properties { get; }
 
         public RegistrationWindow()
@@ -28,17 +31,44 @@ namespace WPF.UI.Windows
         public void Dispose()
         {
             RegButton.Click -= RegButton_Click;
+            RegActButton.Click -= RegActButton_Click;
+            RegActRepSendButton.Click -= RegActRepSendButton_Click;
             GC.Collect();
         }
 
         public void Init()
         {
             CenterWindowOnScreen();
+            RegLoginTextBox.Focus();
         }
 
         public void Subscribe()
         {
             RegButton.Click += RegButton_Click;
+            RegAct2Button.Click += RegAct2Button_Click;
+            RegActButton.Click += RegActButton_Click;
+            RegActRepSendButton.Click += RegActRepSendButton_Click;
+        }
+
+        private void RegAct2Button_Click(object sender, RoutedEventArgs e)
+        {
+            var login = RegLoginTextBox.Text;
+            if (string.IsNullOrEmpty(login))
+                throw new Exception(WPF.Properties.Resources.LOGIN_EMPTY);
+
+            using (var context = PDBContext.Instance.Context)
+            {
+                account = context.Accounts.Where(q => q.Login.Equals(login)).FirstOrDefault();
+                if (account == null)
+                    throw new Exception(WPF.Properties.Resources.LOGIN_NOEXIST); 
+
+                userActivatedCodeFile = context.Files.Where(q => q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
+                if (userActivatedCodeFile == null)
+                    throw new Exception(WPF.Properties.Resources.CODE_NOTFIND); 
+            }
+
+            RegMainGrid.Visibility = Visibility.Collapsed;
+            RegActGrid.Visibility = Visibility.Visible;
         }
 
         private void CenterWindowOnScreen()
@@ -49,6 +79,29 @@ namespace WPF.UI.Windows
             double windowHeight = this.Height;
             Left = (screenWidth / 2) - (windowWidth / 2);
             Top = (screenHeight / 2) - (windowHeight / 2);
+        }
+
+        private void RegActRepSendButton_Click(object sender, RoutedEventArgs e)
+        {
+            MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content);
+        }
+
+        private void RegActButton_Click(object sender, RoutedEventArgs e)
+        {
+            var code = RegActCodeTextBox.Text;
+
+            if (string.IsNullOrEmpty(code))
+                throw new Exception(WPF.Properties.Resources.CODE_EMPTY);
+            if (!userActivatedCodeFile.Content.ToLower().Equals(code.ToLower()))
+                throw new Exception(WPF.Properties.Resources.CODE_INCORECT);
+
+            account = (AitAccountModel)account.Clone();
+            account.IsActive = true;
+            account.Update();
+            account.Context.SaveChanges();
+            
+            MainContext.Instance.Windows.Open(new LoginProperties(account.Login));
+            MainContext.Instance.Windows.Close(Properties.WindowName);
         }
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
@@ -67,63 +120,64 @@ namespace WPF.UI.Windows
             {
                 if (correctPassowrd)
                 {
-                    AitAccountModel acccout = null;
                     if (!context.Accounts.Any(q => q.Login.Equals(login)))
                     {
-                        acccout = new AitAccountModel(context)
+                        account = new AitAccountModel(context)
                         {
                             ID = Generators.RecordIDGenerator(TableInerfixEnum.ACC),
                             Login = login,
                             Password = Generators.GenerateSha256Hash(password),
                             Email = email
                         };
-                        acccout.Insert();
+                        account.Insert();
                     }
                     else
                     {
-                        throw new Exception("Login is already exists in system, please pass another");
+                        throw new Exception(WPF.Properties.Resources.LOGIN_EXIST);
                     }
 
-                    var userDate = new AitUserDataModel(context)
+                    if(account != null)
                     {
-                        ID = Generators.RecordIDGenerator(TableInerfixEnum.USD),
-                        AssignedTo = acccout?.ID,
-                        Nick = nick,
-                        FirstName = first,
-                        MiddleName = middle,
-                        LastName = last,
-                        Birthday = bday
-                    };
-                    userDate.Insert();
+                        var userDate = new AitUserDataModel(context)
+                        {
+                            ID = Generators.RecordIDGenerator(TableInerfixEnum.USD),
+                            AssignedTo = account.ID,
+                            Nick = nick,
+                            FirstName = first,
+                            MiddleName = middle,
+                            LastName = last,
+                            Birthday = bday
+                        };
+                        userDate.Insert();
 
-                    context.SaveChanges();
+                        userActivatedCodeFile = new AitFilesModel(context)
+                        {
+                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                            Creator = account.ID,
+                            Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
+                            Type = FileTypesEnum.ACTIVATION_CODE,
+                            Content = Generators.GenerateActivateCode(account.ToString())
+                        };
+                        userActivatedCodeFile.Insert();
 
-                    // TODO Generate activation code -> save code in db -> send activation email
+                        context.SaveChanges();
 
-                    // ShowActivationPanel(); - if all correct
+                        MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content);
+                        ShowActivationPanel();
+                    }
                 }
                 else
                 {
-                    throw new Exception("Passowd and repeat password is not identical");
+                    throw new Exception(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
                 }
             }
-
-            /*
-             * TODO Move to Login window if user activated your account
-             * 
-            var window = MainContext.Instance.Windows.Window(WindowsNameEnum.LOGIN);
-            if(window != null)
-            {
-                window.Properties.Add("Login", login);
-            }
-
-            MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
-            MainContext.Instance.Windows.Close(Properties.WindowName);*/
         }
 
         private void ShowActivationPanel()
         {
-
+            RegMainGrid.Visibility = Visibility.Collapsed;
+            RegActGrid.Visibility = Visibility.Visible;
+            RegActCodeTextBox.Focus();
         }
     }
 }

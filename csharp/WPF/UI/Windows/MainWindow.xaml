@@ -9,13 +9,13 @@
         Height="{Binding Properties.Heigth}" 
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
-    <Grid>
+    <Grid Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
+        <Menu Grid.Row="0" Background="LightGray">
             <MenuItem x:Name="MainFileMenu" Header="File">
                 <MenuItem x:Name="MainFileCloseAllMenu" Header="Close All" IsEnabled="False"/>
                 <MenuItem x:Name="MainFileSettingsMenu" Header="Settings" IsEnabled="False"/>
@@ -48,7 +48,7 @@
                 <MenuItem x:Name="MainHelpAboutMenu" Header="About" IsEnabled="False"/>
             </MenuItem>
         </Menu>
-        <TabControl x:Name="MainTabControl" Grid.Row="1"/>
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Background="#333333"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

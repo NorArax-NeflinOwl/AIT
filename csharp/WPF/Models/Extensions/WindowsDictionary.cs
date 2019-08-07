@@ -2,6 +2,7 @@
 using System.Linq;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.Models.Extensions
 {
@@ -14,19 +15,22 @@ namespace WPF.Models.Extensions
             this.app = app;
         }
 
-        public void Open(IWindowsProperties properties)
+        public void Open(IWindowsProperties properties, bool save = true)
         {
-            if(!this.Any(q => q.WindowName.Equals(properties.WindowName)))
+            if(save)
             {
-                Add(properties);
+                if (!this.Any(q => q.WindowName.Equals(properties?.WindowName)))
+                {
+                    Add(properties);
+                }
+
+                if (properties?.WindowName.Equals(WindowsNameEnum.MAIN) == true)
+                {
+                    app.MainWindow = properties?.Window;
+                }
             }
 
-            if(properties.WindowName.Equals(WindowsNameEnum.MAIN))
-            {
-                app.MainWindow = properties.Window;
-            }
-
-            properties.Window.Show();
+            properties?.Window.Show();
         }
 
         public void Close(WindowsNameEnum key)
@@ -48,7 +52,11 @@ namespace WPF.Models.Extensions
 
         public void Show(WindowsNameEnum key)
         {
-            this.Where(q => q.WindowName.Equals(key)).FirstOrDefault()?.Window.Show();
+            var window = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
+            if (window != null)
+                window.Window.Show();
+            else
+                Open(CreatePropertiesFromEnum(key));
         }
 
         public IWindowsProperties Window(WindowsNameEnum key)
@@ -58,11 +66,33 @@ namespace WPF.Models.Extensions
 
         public void Clear(IWindowsProperties properties)
         {
-            foreach(var win in this)
+            Exit();
+            Open(properties);
+        }
+
+        public void Exit()
+        {
+            foreach (var win in this)
                 win.Window.Close();
 
             Clear();
-            Open(properties);
+        }
+
+        private IWindowsProperties CreatePropertiesFromEnum(WindowsNameEnum key)
+        {
+            switch(key)
+            {
+                case WindowsNameEnum.INIT:
+                    return new InitProperties();
+                case WindowsNameEnum.LOGIN:
+                    return new LoginProperties();
+                case WindowsNameEnum.REGISTRATION:
+                    return new RegistrationProperties();
+                case WindowsNameEnum.MAIN:
+                    return new MainProperties();
+            }
+
+            return null;
         }
     }
 }

@@ -153,7 +153,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var file = new AitFilesModel(Context)
+            var file = new AitFilesModel(PDBContext.Instance.Context)
             {
                 ID = ID,
                 Creator = Creator,

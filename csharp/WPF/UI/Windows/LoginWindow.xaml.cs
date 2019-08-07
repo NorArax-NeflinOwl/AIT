@@ -10,7 +10,6 @@ using WPF.Managers;
 using WPF.Managers.Helpers;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
-using WPF.UI.ViewModels;
 using WPF.UI.Windows.Properties;
 
 namespace WPF.UI.Windows
@@ -22,21 +21,22 @@ namespace WPF.UI.Windows
     {
         public IWindowsProperties Properties { get; }
 
-        public LoginViewModel ViewModel { get; set; }
-
-        public LoginWindow()
+        public LoginWindow(string login = "")
         {
             Properties = new LoginProperties(this);
             InitializeComponent();
             Init();
             Subscribe();
+
+            if(!string.IsNullOrEmpty(login))
+                LoginInputTextBox.Text = login;
         }
 
         public void Init()
         {
             CenterWindowOnScreen();
             LoginImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\logo4x3.png"));
-            ViewModel = new LoginViewModel(Properties);
+            LoginInputTextBox.Focus();
         }
 
         public void Subscribe()
@@ -48,7 +48,7 @@ namespace WPF.UI.Windows
         private void LoginRegButton_Click(object sender, RoutedEventArgs e)
         {
             MainContext.Instance.Windows.Open(new RegistrationProperties());
-            MainContext.Instance.Windows.Hide(Properties.WindowName);
+            MainContext.Instance.Windows.Close(Properties.WindowName);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -61,22 +61,22 @@ namespace WPF.UI.Windows
             try
             {
                 if (string.IsNullOrEmpty(login))
-                    throw new Exception("Login is empty!"); //TODO resources
+                    throw new Exception(WPF.Properties.Resources.LOGIN_EMPTY);
                 if (string.IsNullOrEmpty(password))
-                    throw new Exception("Password is empty!"); //TODO resources
+                    throw new Exception(WPF.Properties.Resources.PASS_EMPTY); 
 
                 using (var context = PDBContext.Instance.Context)
                 {
                     var accounts = context.Accounts.Where(q => q.Login.Equals(login)).ToList();
                     if (!accounts.Any())
-                        throw new Exception("Account with this login not find!"); //TODO resources
+                        throw new Exception(WPF.Properties.Resources.LOGIN_NOEXIST); 
 
                     foreach (var account in accounts)
                     {
                         if (password.Equals(account.Password))
                         {
                             if (!account.IsActive)
-                                throw new Exception("Account is not activated!"); //TODO resources
+                                throw new Exception(WPF.Properties.Resources.ACC_NOACTIVATED); 
 
                             PDBContext.Instance.AccountID = account.ID;
                             break;
@@ -84,13 +84,13 @@ namespace WPF.UI.Windows
                     }
 
                     if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
-                        throw new Exception("Account with this password not find!"); //TODO resources
+                        throw new Exception(WPF.Properties.Resources.PASS_NOFIND); 
 
                     var host = context.UsersHosts.Where(q => PDBContext.Instance.AccountID.Equals(q.AssignedTo) && HardwareManager.GetComputerName().Equals(q.HostName)).FirstOrDefault();
                     if (host != null)
                     {
                         if (!host.IsActive)
-                            throw new Exception("Your host was locked by admin!"); //TODO resources
+                            throw new Exception(WPF.Properties.Resources.HOST_LOCKED);
 
                         if (rememberMe != null)
                             host.IsLoggedIn = (bool)rememberMe;
@@ -110,7 +110,7 @@ namespace WPF.UI.Windows
                 }
 
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
-                    throw new Exception("Samethings go wrong!"); //TODO resources
+                    throw new Exception(WPF.Properties.Resources.SAMETHING_WRONG); 
 
                 MainContext.Instance.Windows.Open(new MainProperties());
                 LoginProgressBar.Visibility = Visibility.Collapsed;

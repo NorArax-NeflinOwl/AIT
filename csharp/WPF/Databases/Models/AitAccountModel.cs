@@ -165,7 +165,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var file = new AitAccountModel(Context)
+            var file = new AitAccountModel(PDBContext.Instance.Context)
             {
                 ID = ID,
                 Login = Login,

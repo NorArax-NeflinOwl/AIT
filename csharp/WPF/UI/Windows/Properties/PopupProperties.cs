@@ -7,10 +7,10 @@ using WPF.Models.Interfaces;
 
 namespace WPF.UI.Windows.Properties
 {
-    public class LoginProperties : IWindowsProperties
+    public class PopupProperties : IWindowsProperties
     {
         public string Title { get; set; }
-        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.LOGIN;
+        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.POPUP;
         public IPageModel PagePropertie { get; set; }
         public ResizeMode ResizeMode { get; set; }
         public double Width { get; set; }
@@ -21,12 +21,12 @@ namespace WPF.UI.Windows.Properties
         public Window Window { get; set; }
         public IDictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
 
-        public LoginProperties(string login = "")
+        public PopupProperties(string title, string content, int time)
         {
-            Window = new LoginWindow(login);
+            Window = new PopupWindow(title, content, time);
         }
 
-        public LoginProperties(Window window)
+        public PopupProperties(Window window)
         {
             Window = window;
         }

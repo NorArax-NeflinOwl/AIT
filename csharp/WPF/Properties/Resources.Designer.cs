@@ -70,6 +70,42 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account is not activated!.
+        /// </summary>
+        internal static string ACC_NOACTIVATED {
+            get {
+                return ResourceManager.GetString("ACC_NOACTIVATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activate Code for &apos;{0}&apos;.
+        /// </summary>
+        internal static string ACT_CODE_FOR {
+            get {
+                return ResourceManager.GetString("ACT_CODE_FOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your activation code: {0}..
+        /// </summary>
+        internal static string ACTIVATION_EMAIL_CONTENT {
+            get {
+                return ResourceManager.GetString("ACTIVATION_EMAIL_CONTENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New User Activation Request.
+        /// </summary>
+        internal static string ACTIVATION_EMAIL_TITLE {
+            get {
+                return ResourceManager.GetString("ACTIVATION_EMAIL_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .ait.
         /// </summary>
         internal static string AIT_EXT {
@@ -129,6 +165,33 @@ namespace WPF.Properties {
         internal static string CLOSEALL_HEADER {
             get {
                 return ResourceManager.GetString("CLOSEALL_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code is empty!.
+        /// </summary>
+        internal static string CODE_EMPTY {
+            get {
+                return ResourceManager.GetString("CODE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code is incorect!.
+        /// </summary>
+        internal static string CODE_INCORECT {
+            get {
+                return ResourceManager.GetString("CODE_INCORECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error in database. Not find activation code!.
+        /// </summary>
+        internal static string CODE_NOTFIND {
+            get {
+                return ResourceManager.GetString("CODE_NOTFIND", resourceCulture);
             }
         }
         
@@ -196,6 +259,33 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorect Email!.
+        /// </summary>
+        internal static string EMAIL_INCORECT {
+            get {
+                return ResourceManager.GetString("EMAIL_INCORECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is required!.
+        /// </summary>
+        internal static string EMAIL_REQUIRED {
+            get {
+                return ResourceManager.GetString("EMAIL_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main send.
+        /// </summary>
+        internal static string EMAIL_SEND {
+            get {
+                return ResourceManager.GetString("EMAIL_SEND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .err.
         /// </summary>
         internal static string ERR_EXT {
@@ -228,6 +318,60 @@ namespace WPF.Properties {
         internal static string HELP_HEADER {
             get {
                 return ResourceManager.GetString("HELP_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your host was locked by admin!.
+        /// </summary>
+        internal static string HOST_LOCKED {
+            get {
+                return ResourceManager.GetString("HOST_LOCKED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID don&apos;t containt 2 separators!.
+        /// </summary>
+        internal static string ID_FORMATINCORECT {
+            get {
+                return ResourceManager.GetString("ID_FORMATINCORECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID length must equals 15!.
+        /// </summary>
+        internal static string ID_LENINCORECT {
+            get {
+                return ResourceManager.GetString("ID_LENINCORECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID postfix is not number!.
+        /// </summary>
+        internal static string ID_NUMBERMISING {
+            get {
+                return ResourceManager.GetString("ID_NUMBERMISING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID is required!.
+        /// </summary>
+        internal static string ID_REQUIRED {
+            get {
+                return ResourceManager.GetString("ID_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        internal static string INFORMATION {
+            get {
+                return ResourceManager.GetString("INFORMATION", resourceCulture);
             }
         }
         
@@ -277,6 +421,51 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login is empty!.
+        /// </summary>
+        internal static string LOGIN_EMPTY {
+            get {
+                return ResourceManager.GetString("LOGIN_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login is already exists in system, please pass another!.
+        /// </summary>
+        internal static string LOGIN_EXIST {
+            get {
+                return ResourceManager.GetString("LOGIN_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account with this login not find!.
+        /// </summary>
+        internal static string LOGIN_NOEXIST {
+            get {
+                return ResourceManager.GetString("LOGIN_NOEXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login is required!.
+        /// </summary>
+        internal static string LOGIN_REQUIRED {
+            get {
+                return ResourceManager.GetString("LOGIN_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login is too short!.
+        /// </summary>
+        internal static string LOGIN_TOOSHORT {
+            get {
+                return ResourceManager.GetString("LOGIN_TOOSHORT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log Out.
         /// </summary>
         internal static string LOGOUT_HEADER {
@@ -322,11 +511,65 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password is empty!.
+        /// </summary>
+        internal static string PASS_EMPTY {
+            get {
+                return ResourceManager.GetString("PASS_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account with this password not find!.
+        /// </summary>
+        internal static string PASS_NOFIND {
+            get {
+                return ResourceManager.GetString("PASS_NOFIND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passowd and repeat password is not identical!.
+        /// </summary>
+        internal static string PASS_REPPASS_INCORECT {
+            get {
+                return ResourceManager.GetString("PASS_REPPASS_INCORECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required!.
+        /// </summary>
+        internal static string PASS_REQUIRED {
+            get {
+                return ResourceManager.GetString("PASS_REQUIRED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is too weak!.
+        /// </summary>
+        internal static string PASS_TOOWEAK {
+            get {
+                return ResourceManager.GetString("PASS_TOOWEAK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .patch.
         /// </summary>
         internal static string PATCH_EXT {
             get {
                 return ResourceManager.GetString("PATCH_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid table prefix!.
+        /// </summary>
+        internal static string PREFIX_INVALID {
+            get {
+                return ResourceManager.GetString("PREFIX_INVALID", resourceCulture);
             }
         }
         
@@ -372,6 +615,15 @@ namespace WPF.Properties {
         internal static string REGISTERPRODUCT_HEADER {
             get {
                 return ResourceManager.GetString("REGISTERPRODUCT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Samethings go wrong!.
+        /// </summary>
+        internal static string SAMETHING_WRONG {
+            get {
+                return ResourceManager.GetString("SAMETHING_WRONG", resourceCulture);
             }
         }
         

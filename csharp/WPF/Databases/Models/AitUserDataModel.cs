@@ -144,7 +144,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var userData = new AitUserDataModel(Context)
+            var userData = new AitUserDataModel(PDBContext.Instance.Context)
             {
                 ID = ID,
                 AssignedTo = AssignedTo,

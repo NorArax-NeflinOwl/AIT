@@ -33,6 +33,7 @@ namespace WPF.UI.Windows
 
         public void Init()
         {
+            MainStatus.Text = "Status: Load...";
             CenterWindowOnScreen();
             MainErrorImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\dialog_error.png"));
 
@@ -43,9 +44,11 @@ namespace WPF.UI.Windows
             MainFileCloseAllMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
             MainFileCloseAllMenu.IsEnabled = true;
             MainFileSettingsMenu.Header = WPF.Properties.Resources.SETTINGS_HEADER;
-            MainFileLogOutMenu.Header = WPF.Properties.Resources.LOGDIR_SUBPATH;
+            MainFileSettingsMenu.IsEnabled = true;
+            MainFileLogOutMenu.Header = WPF.Properties.Resources.LOGOUT_HEADER;
             MainFileLogOutMenu.IsEnabled = true;
             MainFileExitMenu.Header = WPF.Properties.Resources.EXIT_HEADER;
+            MainFileExitMenu.IsEnabled = true;
 
             MainEditMenu.Header = WPF.Properties.Resources.EDIT_HEADER;
             MainEditUndoMenu.Header = WPF.Properties.Resources.UNDO_HEADER;
@@ -72,6 +75,18 @@ namespace WPF.UI.Windows
             MainHelpMenu.Header = WPF.Properties.Resources.HELP_HEADER;
             MainHelpRegisterProductMenu.Header = WPF.Properties.Resources.REGISTERPRODUCT_HEADER;
             MainHelpAboutMenu.Header = WPF.Properties.Resources.ABOUT_HEADER;
+
+            var nick = string.Empty;
+            using(var context = PDBContext.Instance.Context)
+            {
+                var data = context.UsersDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(PDBContext.Instance.AccountID) == true).FirstOrDefault();
+                if (data != null)
+                    nick = data.Nick;
+                else
+                    nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
+            }
+            MainAccountLogIn.Text = "Login: " + nick;
+            MainStatus.Text = "Status: Ready";
         }
 
         public void Subscribe()
@@ -116,10 +131,12 @@ namespace WPF.UI.Windows
         private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
         {
             // TODO Show dialog with question e.g. "Do you want close app?"
+            MainContext.Instance.Windows.Exit();
         }
 
         private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
         {
+            var login = string.Empty;
             using(var context = PDBContext.Instance.Context)
             {
                 var host = context.UsersHosts.Where(q => PDBContext.Instance.AccountID.Equals(q.AssignedTo)).FirstOrDefault();
@@ -129,14 +146,16 @@ namespace WPF.UI.Windows
                     host.Update();
                     context.SaveChanges();
                 }
+
+                login = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
             }
             PDBContext.Instance.AccountID = null;
-            MainContext.Instance.Windows.Clear(new LoginProperties());
+            MainContext.Instance.Windows.Clear(new LoginProperties(login));
         }
 
         private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Open SettinsWindow
+            MainTabControlManager.Add(new SettingsProperties());
         }
 
         private void MainFileCloseAllMenu_Click(object sender, RoutedEventArgs e)
