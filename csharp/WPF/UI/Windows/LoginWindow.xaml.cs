@@ -9,6 +9,7 @@ using WPF.Databases.Models;
 using WPF.Managers;
 using WPF.Managers.Helpers;
 using WPF.Models.Enums;
+using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
 
@@ -61,22 +62,22 @@ namespace WPF.UI.Windows
             try
             {
                 if (string.IsNullOrEmpty(login))
-                    throw new Exception(WPF.Properties.Resources.LOGIN_EMPTY);
+                    throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EMPTY);
                 if (string.IsNullOrEmpty(password))
-                    throw new Exception(WPF.Properties.Resources.PASS_EMPTY); 
+                    throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_EMPTY); 
 
                 using (var context = PDBContext.Instance.Context)
                 {
                     var accounts = context.Accounts.Where(q => q.Login.Equals(login)).ToList();
                     if (!accounts.Any())
-                        throw new Exception(WPF.Properties.Resources.LOGIN_NOEXIST); 
+                        throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST); 
 
                     foreach (var account in accounts)
                     {
                         if (password.Equals(account.Password))
                         {
                             if (!account.IsActive)
-                                throw new Exception(WPF.Properties.Resources.ACC_NOACTIVATED); 
+                                throw new AitAccountExceptions.AccoutnNotActivatedException(WPF.Properties.Resources.ACC_NOACTIVATED); 
 
                             PDBContext.Instance.AccountID = account.ID;
                             break;
@@ -84,13 +85,13 @@ namespace WPF.UI.Windows
                     }
 
                     if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
-                        throw new Exception(WPF.Properties.Resources.PASS_NOFIND); 
+                        throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_NOFIND); 
 
                     var host = context.UsersHosts.Where(q => PDBContext.Instance.AccountID.Equals(q.AssignedTo) && HardwareManager.GetComputerName().Equals(q.HostName)).FirstOrDefault();
                     if (host != null)
                     {
                         if (!host.IsActive)
-                            throw new Exception(WPF.Properties.Resources.HOST_LOCKED);
+                            throw new AitAccountExceptions.HostException(WPF.Properties.Resources.HOST_LOCKED);
 
                         if (rememberMe != null)
                             host.IsLoggedIn = (bool)rememberMe;

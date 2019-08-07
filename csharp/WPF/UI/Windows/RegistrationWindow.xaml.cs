@@ -5,6 +5,7 @@ using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Managers.Helpers;
 using WPF.Models.Enums;
+using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
 
@@ -54,17 +55,17 @@ namespace WPF.UI.Windows
         {
             var login = RegLoginTextBox.Text;
             if (string.IsNullOrEmpty(login))
-                throw new Exception(WPF.Properties.Resources.LOGIN_EMPTY);
+                throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EMPTY);
 
             using (var context = PDBContext.Instance.Context)
             {
                 account = context.Accounts.Where(q => q.Login.Equals(login)).FirstOrDefault();
                 if (account == null)
-                    throw new Exception(WPF.Properties.Resources.LOGIN_NOEXIST); 
+                    throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST); 
 
                 userActivatedCodeFile = context.Files.Where(q => q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
                 if (userActivatedCodeFile == null)
-                    throw new Exception(WPF.Properties.Resources.CODE_NOTFIND); 
+                    throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_NOTFIND); 
             }
 
             RegMainGrid.Visibility = Visibility.Collapsed;
@@ -91,9 +92,9 @@ namespace WPF.UI.Windows
             var code = RegActCodeTextBox.Text;
 
             if (string.IsNullOrEmpty(code))
-                throw new Exception(WPF.Properties.Resources.CODE_EMPTY);
+                throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_EMPTY);
             if (!userActivatedCodeFile.Content.ToLower().Equals(code.ToLower()))
-                throw new Exception(WPF.Properties.Resources.CODE_INCORECT);
+                throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_INCORECT);
 
             account = (AitAccountModel)account.Clone();
             account.IsActive = true;
@@ -133,7 +134,7 @@ namespace WPF.UI.Windows
                     }
                     else
                     {
-                        throw new Exception(WPF.Properties.Resources.LOGIN_EXIST);
+                        throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EXIST);
                     }
 
                     if(account != null)
@@ -168,7 +169,7 @@ namespace WPF.UI.Windows
                 }
                 else
                 {
-                    throw new Exception(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
+                    throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
                 }
             }
         }

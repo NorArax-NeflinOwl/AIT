@@ -24,5 +24,26 @@ namespace WPF.Models.Extensions.Exceptions
             {
             }
         }
+
+        public class AccoutnNotActivatedException : Exception
+        {
+            public AccoutnNotActivatedException(string message) : base(message)
+            {
+            }
+        }
+
+        public class HostException : Exception
+        {
+            public HostException(string message) : base(message)
+            {
+            }
+        }
+
+        public class CodeException : Exception
+        {
+            public CodeException(string message) : base(message)
+            {
+            }
+        }
     }
 }

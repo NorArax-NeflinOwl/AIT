@@ -222,7 +222,6 @@
     </ApplicationDefinition>
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
     <Compile Include="Managers\TabControlManager.cs" />
-    <Compile Include="Models\Extensions\Exceptions\LoginPageExceptions.cs" />
     <Compile Include="Models\Extensions\WindowsDictionary.cs" />
     <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
