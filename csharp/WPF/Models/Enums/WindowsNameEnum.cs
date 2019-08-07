@@ -2,11 +2,12 @@
 {
     public enum WindowsNameEnum
     {
-        MAIN,
-        LOGIN,
+        DIALOG,
         INIT,
+        LOGIN,
         REGISTRATION,
         POPUP,
-        NOTE
+        MAIN,
+        NOTE,
     }
 }

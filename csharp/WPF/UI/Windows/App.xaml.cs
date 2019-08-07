@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Managers;
+using WPF.UI.Windows.Properties;
 
 namespace WPF
 {
@@ -36,15 +38,17 @@ namespace WPF
             GC.Collect();
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public static void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            BackgroundTasksManager.Instance.Collect();
-            foreach (Window window in MainContext.Instance.Windows)
+            if (MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if(window.IsActive)
-                    window.Close();
+                BackgroundTasksManager.Instance.Collect();
+                MainContext.Instance.Windows.Exit();
             }
-            MainContext.Instance.Windows.Clear();
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

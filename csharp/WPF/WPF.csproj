@@ -237,6 +237,9 @@
     <Compile Include="UI\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Windows\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,7 @@
     <Compile Include="UI\Windows\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Windows\Properties\DialogProperties.cs" />
     <Compile Include="UI\Windows\Properties\InitProperties.cs" />
     <Compile Include="UI\Windows\Properties\LoginProperties.cs" />
     <Compile Include="UI\Windows\Properties\MainProperties.cs" />
@@ -263,6 +267,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\SettingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Windows\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

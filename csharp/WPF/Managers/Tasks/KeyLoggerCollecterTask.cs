@@ -43,8 +43,10 @@ namespace WPF.Managers.Tasks
         public void Collect()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
-            BackgroundWorker.DoWork += BackgroundWorker_Collect;
-            BackgroundWorker.RunWorkerAsync();
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += BackgroundWorker_Collect;
+            worker.RunWorkerAsync();
         }
 
         private void BackgroundWorker_Collect(object sender, DoWorkEventArgs e)

@@ -294,6 +294,9 @@
   <data name="QUERY_HEADER" xml:space="preserve">
     <value>Query</value>
   </data>
+  <data name="QUESTION" xml:space="preserve">
+    <value>Question</value>
+  </data>
   <data name="REDO_HEADER" xml:space="preserve">
     <value>Redo</value>
   </data>
@@ -326,5 +329,8 @@
   </data>
   <data name="VIEW_HEADER" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="WANT_EXIT" xml:space="preserve">
+    <value>Do you want to exit application?</value>
   </data>
 </root>

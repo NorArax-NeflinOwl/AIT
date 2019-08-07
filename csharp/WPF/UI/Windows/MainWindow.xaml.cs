@@ -91,6 +91,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
+            Closing += App.MainWindow_Closing;
             KeyUp += MainWindow_KeyUp;
 
             MainFileCloseAllMenu.Click += MainFileCloseAllMenu_Click;
@@ -103,6 +104,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
+            Closing -= App.MainWindow_Closing;
             KeyUp -= MainWindow_KeyUp;
 
             MainFileCloseAllMenu.Click -= MainFileCloseAllMenu_Click;
@@ -130,8 +132,7 @@ namespace WPF.UI.Windows
 
         private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Show dialog with question e.g. "Do you want close app?"
-            MainContext.Instance.Windows.Exit();
+            Close();
         }
 
         private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)

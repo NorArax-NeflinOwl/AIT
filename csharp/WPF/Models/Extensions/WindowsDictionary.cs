@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
@@ -22,11 +23,10 @@ namespace WPF.Models.Extensions
                 if (!this.Any(q => q.WindowName.Equals(properties?.WindowName)))
                 {
                     Add(properties);
-                }
-
-                if (properties?.WindowName.Equals(WindowsNameEnum.MAIN) == true)
-                {
-                    app.MainWindow = properties?.Window;
+                    if (properties?.WindowName.Equals(WindowsNameEnum.MAIN) == true)
+                    {
+                        app.MainWindow = properties?.Window;
+                    }
                 }
             }
 
@@ -73,7 +73,13 @@ namespace WPF.Models.Extensions
         public void Exit()
         {
             foreach (var win in this)
-                win.Window.Close();
+            {
+                try
+                {
+                    win.Window.Close();
+                }
+                catch (Exception) { }
+            }
 
             Clear();
         }

@@ -592,6 +592,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        internal static string QUESTION {
+            get {
+                return ResourceManager.GetString("QUESTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Redo.
         /// </summary>
         internal static string REDO_HEADER {
@@ -687,6 +696,15 @@ namespace WPF.Properties {
         internal static string VIEW_HEADER {
             get {
                 return ResourceManager.GetString("VIEW_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to exit application?.
+        /// </summary>
+        internal static string WANT_EXIT {
+            get {
+                return ResourceManager.GetString("WANT_EXIT", resourceCulture);
             }
         }
     }
