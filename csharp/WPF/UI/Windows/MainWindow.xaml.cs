@@ -34,15 +34,12 @@ namespace WPF.UI.Windows
 
         public void Init()
         {
-            MainStatus.Text = "Status: Load...";
-            MainProgressBar.Value = 0;
-            MainProgressBarDesc.Text = "0/5";
+            StartLoad(5);
 
             CenterWindowOnScreen();
             MainErrorImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\dialog_error.png"));
 
-            MainProgressBar.Value = 20;
-            MainProgressBarDesc.Text = "1/5";
+            UpdateLoad();
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
             MainFileCloseAllWindowsMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
@@ -80,11 +77,8 @@ namespace WPF.UI.Windows
             MainHelpRegisterProductMenu.Header = WPF.Properties.Resources.REGISTERPRODUCT_HEADER;
             MainHelpAboutMenu.Header = WPF.Properties.Resources.ABOUT_HEADER;
 
-            MainProgressBar.Value = 40;
-            MainProgressBarDesc.Text = "2/5";
-
             var nick = string.Empty;
-            using(var context = PDBContext.Instance.Context)
+            using (var context = PDBContext.Instance.Context)
             {
                 var data = context.UsersDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(PDBContext.Instance.AccountID) == true).FirstOrDefault();
                 if (data != null)
@@ -93,8 +87,7 @@ namespace WPF.UI.Windows
                     nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
             }
 
-            MainProgressBar.Value = 60;
-            MainProgressBarDesc.Text = "3/5";
+            UpdateLoad();
 
             var properties = new DashboardProperties();
             MainTabControlManager = new TabControlManager(MainTabControl);
@@ -102,23 +95,10 @@ namespace WPF.UI.Windows
 
             SetTitle(properties.Header?.Header?.Text);
 
-            MainProgressBar.Value = 80;
-            MainProgressBarDesc.Text = "3/5";
+            UpdateLoad();
 
             MainAccountLogIn.Text = "Login: " + nick;
-            MainStatus.Text = "Status: Ready";
-
-            MainProgressBar.Value = 90;
-            MainProgressBarDesc.Text = "4/5";
-
-            Dispatcher.Invoke(async () =>
-            {
-                await Task.Delay(300);
-            });
-
-            MainProgressBar.Value = 0;
-            MainProgressBarDesc.Text = string.Empty;
-            MainProgressBarDesc.Visibility = Visibility.Collapsed;
+            EndLoad();
         }
 
         public void Subscribe()
@@ -152,6 +132,43 @@ namespace WPF.UI.Windows
 
             MainTabControlManager.Clear();
             GC.Collect();
+        }
+
+        private int progressMax = 2, progressCurrent = 0;
+
+        public void StartLoad(int progressinfo)
+        {
+            progressMax = progressinfo;
+            MainStatus.Text = "Status: Load...";
+            MainProgressBar.Value = 0;
+            MainProgressBarDesc.Text = "0/" + progressMax;
+        }
+
+        public void UpdateLoad()
+        {
+            var proggressVal = 100 / progressMax;
+            MainProgressBar.Value += proggressVal;
+            MainProgressBarDesc.Text = $"{++progressCurrent}/{progressMax}";
+        }
+
+        public void EndLoad()
+        {
+            MainStatus.Text = "Status: Ready";
+            MainProgressBar.Value = 90;
+            MainProgressBarDesc.Text = $"{progressMax - 1}/{progressMax}";
+
+            Dispatcher.Invoke(async () =>
+            {
+                await Task.Delay(300);
+            });
+
+            MainProgressBar.Value = 0;
+            MainProgressBar.Visibility = Visibility.Collapsed;
+            MainProgressBarDesc.Text = string.Empty;
+            MainProgressBarDesc.Visibility = Visibility.Collapsed;
+
+            progressMax = 2;
+            progressCurrent = 0;
         }
 
         public void RefreshErrorInfo(int errorhandleCounter)

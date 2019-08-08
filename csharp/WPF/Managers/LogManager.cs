@@ -86,11 +86,11 @@ namespace WPF.Managers
                     }
                     catch (Exception e)
                     {
-                        m_Logger.Add(new LogInfoModel
+                        /* m_Logger.Add(new LogInfoModel
                         {
                             Type = FileTypesEnum.EXCEPTION,
                             Message = e.Message + Environment.NewLine + e.StackTrace
-                        });
+                        });*/
 
                         m_Logger.Add(newLog);
                     }

@@ -1,6 +1,7 @@
 ﻿using System.Windows.Controls;
 using WPF.Models;
 using WPF.Models.Enums;
+using WPF.Models.Extensions;
 using WPF.UI.Controls;
 using WPF.UI.Pages.Properties;
 
@@ -19,6 +20,12 @@ namespace WPF.Managers
 
         public void Add(IPageModel page)
         {
+            var mainWindow = WindowsDictionary.GetMainWindow();
+            if(mainWindow != null)
+            {
+                mainWindow.StartLoad(2);
+            }
+
             var index = 0;
             var found = false;
             foreach(TabItem item in tabControl.Items)
@@ -61,6 +68,11 @@ namespace WPF.Managers
                 Type = FileTypesEnum.TRACE,
                 Message = string.Format(message, task, page.Header.Header.Text)
             });
+
+            if (mainWindow != null)
+            {
+                mainWindow.EndLoad();
+            }
         }
 
         private void CloseButton_Click(object sender, System.Windows.RoutedEventArgs e)
