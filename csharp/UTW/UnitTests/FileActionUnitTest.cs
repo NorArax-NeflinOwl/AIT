@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WPF.Managers;
+using System.IO;
 
 namespace UTW.UnitTests
 {
@@ -11,6 +12,15 @@ namespace UTW.UnitTests
         {
             FileManager manager = new FileManager();
             Assert.IsNotNull(manager);
+        }
+
+        [TestMethod]
+        public void HiddenFolderTestMethod()
+        {
+            var folderPath = "C:\\Databases";
+            var fileSubPath = "sqlite.db";
+            FileManager.CreateDBFile(folderPath, fileSubPath);
+            Assert.IsTrue(File.Exists(Path.Combine(folderPath, fileSubPath)));
         }
     }
 }

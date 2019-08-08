@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="{Binding Properties.Title}" 
+        Title="AIT Nano" 
         Height="{Binding Properties.Heigth}" 
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Background="LightGray">
             <MenuItem x:Name="MainFileMenu" Header="File">
-                <MenuItem x:Name="MainFileCloseAllMenu" Header="Close All" IsEnabled="False"/>
+                <MenuItem x:Name="MainFileCloseAllWindowsMenu" Header="Close All" IsEnabled="False"/>
                 <MenuItem x:Name="MainFileSettingsMenu" Header="Settings" IsEnabled="False"/>
                 <MenuItem x:Name="MainFileLogOutMenu" Header="Log Out" IsEnabled="False"/>
                 <MenuItem x:Name="MainFileExitMenu" Header="Exit" IsEnabled="False"/>
@@ -70,8 +70,8 @@
                 <ProgressBar x:Name="MainProgressBar" Grid.Column="1" Margin="5,1"/>
             </Grid>
             <Grid Grid.Column="5">
-                <Image x:Name="MainErrorImage" Height="20" Width="20" HorizontalAlignment="Left" Visibility="{Binding MainErrorImageVisibility}"/>
-                <TextBlock Text="{Binding LogManager.Instance.HandleErrorCounter}" Height="20" Width="30" HorizontalAlignment="Right"/>
+                <Image x:Name="MainErrorImage" Height="20" Width="20" HorizontalAlignment="Left" Visibility="Collapsed"/>
+                <TextBlock x:Name="MainErrorCounter" Height="20" HorizontalAlignment="Right" Visibility="Collapsed"/>
             </Grid>
         </Grid>
     </Grid>

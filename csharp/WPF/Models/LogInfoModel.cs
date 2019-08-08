@@ -7,6 +7,7 @@ namespace WPF.Models
 {
     public class LogInfoModel : ISerializable, ICloneable
     {
+        public string Path { get; set; }
         public FileTypesEnum Type { get; set; }
         public DateTime Date { get; set; }
         public DeviceInfoModel DeviceInfo { get; set; }
@@ -15,6 +16,7 @@ namespace WPF.Models
 
         public LogInfoModel()
         {
+            Path = string.Empty;
             Date = DateTime.Now;
             AccountID = PDBContext.Instance.AccountID;
             DeviceInfo = PDBContext.Instance.DeviceInfo;
@@ -22,6 +24,7 @@ namespace WPF.Models
 
         public LogInfoModel(SerializationInfo info, StreamingContext context)
         {
+            Path = (string)info.GetValue(nameof(Path), typeof(string));
             Type = (FileTypesEnum)info.GetValue(nameof(Type), typeof(FileTypesEnum));
             Date = (DateTime)info.GetValue(nameof(Date), typeof(DateTime));
             DeviceInfo = (DeviceInfoModel)info.GetValue(nameof(DeviceInfo), typeof(DeviceInfoModel));
@@ -31,6 +34,7 @@ namespace WPF.Models
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            info.AddValue(nameof(Path), Path, typeof(string));
             info.AddValue(nameof(Type), Type, typeof(FileTypesEnum));
             info.AddValue(nameof(Date), Date, typeof(DateTime));
             info.AddValue(nameof(DeviceInfo), DeviceInfo, typeof(DeviceInfoModel));
@@ -42,6 +46,7 @@ namespace WPF.Models
         {
             var clone = new LogInfoModel
             {
+                Path = Path,
                 Type = Type,
                 Date = Date,
                 DeviceInfo = (DeviceInfoModel)DeviceInfo.Clone(),

@@ -36,7 +36,7 @@ namespace WPF.UI.Windows
         {
             CenterWindowOnScreen();
             InitMessage.Text = WPF.Properties.Resources.APP_START;
-            InitImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\logo4x3.png"));
+            InitImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\logo4x3.png"));
 
             Dispatcher.Invoke(async () =>
             {

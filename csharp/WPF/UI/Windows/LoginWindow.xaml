@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        ResizeMode="NoResize"
+        ResizeMode="NoResize" Title="AIT Nano - Login"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d" Height="500" Width="400">
     <Window.Resources>

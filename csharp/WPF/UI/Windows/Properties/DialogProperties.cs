@@ -26,6 +26,12 @@ namespace WPF.UI.Windows.Properties
             Window = new DialogWindow(this);
         }
 
+        public DialogProperties(Exception exception)
+        {
+            Window = new DialogWindow(this);
+            Properties.Add(FileTypesEnum.EXCEPTION.ToString(), exception);
+        }
+
         public void Dispose()
         {
             GC.Collect();

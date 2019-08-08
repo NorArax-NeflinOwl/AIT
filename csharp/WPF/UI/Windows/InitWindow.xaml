@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" Height="300" Width="500" MaxHeight="300" MinHeight="300" MaxWidth="500" MinWidth="500"
-        ResizeMode="NoResize" WindowStyle="None"
+        ResizeMode="NoResize" WindowStyle="None" Title="AIT Nano - Initialize"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>

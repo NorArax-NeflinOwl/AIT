@@ -10,6 +10,8 @@ namespace WPF.Managers
     {
         private readonly TabControl tabControl;
 
+        public TabControl TabControl { get => tabControl; }
+
         public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
@@ -17,16 +19,21 @@ namespace WPF.Managers
 
         public void Add(IPageModel page)
         {
+            var index = 0;
             var found = false;
             foreach(TabItem item in tabControl.Items)
             {
-                if(item.Header.Equals(page.Header))
+                var ctrl = item.Header as TabItemHeaderControl;
+                if (ctrl != null && ctrl.Header.Text.Equals(page.Header?.Header.Text))
                 {
                     found = true;
                     break;
                 }
+                index++;
             }
 
+            var message = "{0} page {1}";
+            var task = string.Empty;
             if (!found)
             {
                 page.Header.CloseButton.Click += CloseButton_Click;
@@ -41,12 +48,18 @@ namespace WPF.Managers
                 tabControl.Items.Add(item);
 
                 tabControl.SelectedIndex = tabControl.Items.Count - 1;
+                task = "Open new";
+            }
+            else
+            {
+                tabControl.SelectedIndex = index;
+                task = "Set focus on";
             }
 
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = $"Open new page {page.Header}"
+                Message = string.Format(message, task, page.Header.Header.Text)
             });
         }
 

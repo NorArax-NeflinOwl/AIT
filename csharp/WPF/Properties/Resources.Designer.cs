@@ -124,6 +124,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AIT Nano.
+        /// </summary>
+        internal static string APP_NAME {
+            get {
+                return ResourceManager.GetString("APP_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application starting....
         /// </summary>
         internal static string APP_START {
@@ -160,7 +169,7 @@ namespace WPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Close All.
+        ///   Looks up a localized string similar to Close All Windows.
         /// </summary>
         internal static string CLOSEALL_HEADER {
             get {
@@ -291,6 +300,15 @@ namespace WPF.Properties {
         internal static string ERR_EXT {
             get {
                 return ResourceManager.GetString("ERR_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} errors handle. Check logs!.
+        /// </summary>
+        internal static string ERROR_HANDLEINFO {
+            get {
+                return ResourceManager.GetString("ERROR_HANDLEINFO", resourceCulture);
             }
         }
         

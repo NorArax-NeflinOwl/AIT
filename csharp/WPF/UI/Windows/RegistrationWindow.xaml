@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="{Binding Properties.Title}" ResizeMode="NoResize"
+        Title="AIT Nano - Registration" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" Height="500" Width="400">
     <Window.Resources>
         <ResourceDictionary>

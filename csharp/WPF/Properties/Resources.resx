@@ -138,6 +138,9 @@
   <data name="APP_INIT" xml:space="preserve">
     <value>Please Wait, Application Inistalization...</value>
   </data>
+  <data name="APP_NAME" xml:space="preserve">
+    <value>AIT Nano</value>
+  </data>
   <data name="APP_START" xml:space="preserve">
     <value>Application starting...</value>
   </data>
@@ -151,7 +154,7 @@
     <value>Change Theme</value>
   </data>
   <data name="CLOSEALL_HEADER" xml:space="preserve">
-    <value>Close All</value>
+    <value>Close All Windows</value>
   </data>
   <data name="CODE_EMPTY" xml:space="preserve">
     <value>Code is empty!</value>
@@ -191,6 +194,9 @@
   </data>
   <data name="EMAIL_SEND" xml:space="preserve">
     <value>Main send</value>
+  </data>
+  <data name="ERROR_HANDLEINFO" xml:space="preserve">
+    <value>{0} errors handle. Check logs!</value>
   </data>
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>

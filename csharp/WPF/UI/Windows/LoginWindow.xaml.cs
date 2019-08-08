@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
@@ -36,7 +34,7 @@ namespace WPF.UI.Windows
         public void Init()
         {
             CenterWindowOnScreen();
-            LoginImage.Source = new BitmapImage(new Uri($"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6)}\\UI\\Icons\\logo4x3.png"));
+            LoginImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\logo4x3.png"));
             LoginInputTextBox.Focus();
         }
 

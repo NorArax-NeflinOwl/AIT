@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Models;
@@ -12,7 +11,7 @@ namespace WPF.Databases.Contexts
 {
     public class DBContext : DbContext
     {
-        private readonly string databasePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase).Substring(6) + "\\Databases";
+        private readonly string databasePath = Environment.CurrentDirectory + "\\Databases";
         private readonly string databaseName = "nano.db";
 
         public DBContext()

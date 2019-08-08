@@ -16,7 +16,7 @@ namespace WPF.Managers
 
         public static void Initialize()
         {
-            m_AppDirectoryPath = AppDomain.CurrentDomain.BaseDirectory;
+            m_AppDirectoryPath = Environment.CurrentDirectory;
             CreateDirectory(Resources.LOCALCACHE_SUBPATH);
             CreateDirectory(Resources.LOGDIR_SUBPATH);
         }
@@ -29,6 +29,9 @@ namespace WPF.Managers
                 {
                     Directory.CreateDirectory(path);
                 }
+
+                DirectoryInfo info = new DirectoryInfo(path);
+                info.Attributes = FileAttributes.Hidden;
 
                 if (!File.Exists(Path.Combine(path, dbName)))
                 {
@@ -48,7 +51,7 @@ namespace WPF.Managers
         {
             var path = string.Empty;
             if(subPaths == null)
-                path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Resources.LOCALCACHE_SUBPATH);
+                path = Path.Combine(Environment.CurrentDirectory, Resources.LOCALCACHE_SUBPATH);
 
             foreach (string subPath in subPaths)
             {
