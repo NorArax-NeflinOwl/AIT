@@ -2,6 +2,8 @@
 using WPF.Models.Interfaces;
 using WPF.Managers.Tasks;
 using System.Linq;
+using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace WPF.Managers
 {
@@ -54,12 +56,19 @@ namespace WPF.Managers
             }
         }
 
-        public void Collect()
+        public async Task Collect()
         {
             foreach(var task in tasks.Where(q => q.MustBeCollected))
             {
                 task.Collect();
             }
+
+            // Wait to collect all tasks
+            while (Count != Completed)
+            {
+                await Task.Delay(10);
+            }
+
         }
     }
 }

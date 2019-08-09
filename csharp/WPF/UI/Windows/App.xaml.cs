@@ -40,9 +40,12 @@ namespace WPF
 
         public static void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            if (MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var msgBox = MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (msgBox == MessageBoxResult.Yes)
             {
-                BackgroundTasksManager.Instance.Collect();
+                var collect = BackgroundTasksManager.Instance.Collect();
+                collect.Wait();
+
                 MainContext.Instance.Windows.Exit();
             }
             else
