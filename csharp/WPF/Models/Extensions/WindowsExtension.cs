@@ -10,11 +10,11 @@ using WPF.UI.Windows.Properties;
 
 namespace WPF.Models.Extensions
 {
-    public class WindowsDictionary : List<IWindowsProperties>
+    public class WindowsExtension : List<IWindowsProperties>
     {
         private readonly App app;
 
-        public WindowsDictionary(App app) : base()
+        public WindowsExtension(App app) : base()
         {
             this.app = app;
         }

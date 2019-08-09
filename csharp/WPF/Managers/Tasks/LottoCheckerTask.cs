@@ -20,10 +20,6 @@ namespace WPF.Managers.Tasks
     {
         private readonly string link = "http://www.mbnet.com.pl/dl.txt";
         private readonly int intervalDay = 3;
-        private readonly JsonSerializerSettings m_Setting = new JsonSerializerSettings
-        {
-            PreserveReferencesHandling = PreserveReferencesHandling.Objects
-        };
 
         public readonly string Title = "Congratulation You hit the six in a Lotto!!!";
         public readonly string Message = "Congratulation Your lucky six \"{0}\" numbers win a award. {1}/6 hits!";
@@ -92,11 +88,11 @@ namespace WPF.Managers.Tasks
                                             Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
                                             Name = FileTypesEnum.TASK.ToString() + (random.Next() % 1000).ToString(),
                                             Type = FileTypesEnum.TASK,
-                                            Content = JsonConvert.SerializeObject(new LogInfoModel
+                                            Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                             {
                                                 Type = FileTypesEnum.TASK,
                                                 Message = Title + Environment.NewLine + string.Format(Message, parts[2], hits)
-                                            }, m_Setting)
+                                            })
                                         };
 
                                         taskToSave.Insert();

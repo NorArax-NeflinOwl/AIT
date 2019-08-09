@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 using WPF.Models.Enums;
 using WPF.Models;
 using WPF.Properties;
-using WPF.Databases.Contexts;
 using WPF.Models.Extensions;
 
 namespace WPF.Managers
 {
-    public class LogManager
+    public partial class LogManager
     {
-        private readonly JsonSerializerSettings m_Setting;
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Environment.CurrentDirectory, Resources.LOGDIR_SUBPATH });
         private static BlockingCollection<LogInfoModel> m_Logger;
         private int HandleErrorCounter;
@@ -23,10 +20,6 @@ namespace WPF.Managers
             HandleErrorCounter = 0;
             m_Logger = new BlockingCollection<LogInfoModel>(100);
             FileManager.CreateDirectory(m_LoggerDir);
-            m_Setting = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            };
         }
 
         private static readonly object m_Locker = new object();
@@ -70,13 +63,13 @@ namespace WPF.Managers
 
                             using (var stream = File.AppendText(filePath))
                             {
-                                var json = JsonConvert.SerializeObject(log, m_Setting);
+                                var json = CryptoJsonManager.Instance.Serialize(log);
                                 stream.WriteLine(json);
                             }
 
                             if(FileTypesEnum.EXCEPTION.Equals(log.Type))
                             {
-                                var mainWindow = WindowsDictionary.GetMainWindow();
+                                var mainWindow = WindowsExtension.GetMainWindow();
                                 if (mainWindow != null)
                                 {
                                     mainWindow.RefreshErrorInfo(++HandleErrorCounter);
@@ -86,6 +79,7 @@ namespace WPF.Managers
                     }
                     catch (Exception e)
                     {
+                        // This exception should be handled by another process (and file if this is nessesery)
                         /* m_Logger.Add(new LogInfoModel
                         {
                             Type = FileTypesEnum.EXCEPTION,
@@ -115,12 +109,12 @@ namespace WPF.Managers
             }
         }
 
-        public void LogExceptionToFile(Exception e)
+        public void LogExceptionToFile(Exception e, string message = "")
         {
             LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.EXCEPTION,
-                Message = e.Message + Environment.NewLine + e.StackTrace
+                Message = new ExceptionExtension(message, e).ToString()
             });
 
             // TODO open error dialog window and deleted throw statment from this method

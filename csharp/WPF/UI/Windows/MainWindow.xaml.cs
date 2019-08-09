@@ -136,6 +136,7 @@ namespace WPF.UI.Windows
 
         private int progressMax = 2, progressCurrent = 0;
 
+        #region Methods not working [FIX ME]
         public void StartLoad(int progressinfo)
         {
             progressMax = progressinfo;
@@ -180,6 +181,7 @@ namespace WPF.UI.Windows
                 MainErrorCounter.Text = string.Format(WPF.Properties.Resources.ERROR_HANDLEINFO, errorhandleCounter);
             }
         }
+        #endregion
 
         private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {

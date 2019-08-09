@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Linq;
+﻿using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Models;
 
@@ -10,16 +9,16 @@ namespace WPF.Managers.Validators
         public static bool CheckNumbersInLotto(string winString, out int hits)
         {
             hits = 0;
-            var m_Setting = new JsonSerializerSettings
-            {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            };
 
             using (var context = PDBContext.Instance.Context)
             {
-                var file = context.Files.Where(q => JsonConvert.DeserializeObject<LogInfoModel>(q.Content, m_Setting).Message.Contains(winString));
-                if(file != null)
-                    return false;
+                var files = context.Files.ToList();
+                foreach(var file in files)
+                {
+                    var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
+                    if (logInfo != null && logInfo.Message.Contains(winString))
+                        return false;
+                }
             }
 
             var winNumbers = winString.Split(',');

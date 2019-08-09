@@ -20,7 +20,7 @@ namespace WPF.Managers
 
         public void Add(IPageModel page)
         {
-            var mainWindow = WindowsDictionary.GetMainWindow();
+            var mainWindow = WindowsExtension.GetMainWindow();
             if(mainWindow != null)
             {
                 mainWindow.StartLoad(2);
@@ -30,8 +30,7 @@ namespace WPF.Managers
             var found = false;
             foreach(TabItem item in tabControl.Items)
             {
-                var ctrl = item.Header as TabItemHeaderControl;
-                if (ctrl != null && ctrl.Header.Text.Equals(page.Header?.Header.Text))
+                if (item.Header is TabItemHeaderControl ctrl && ctrl.Header.Text.Equals(page.Header?.Header.Text))
                 {
                     found = true;
                     break;

@@ -165,8 +165,10 @@ namespace WPF.UI.Windows
 
                         context.SaveChanges();
 
-                        MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content);
-                        ShowActivationPanel();
+                        if (MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
+                            ShowActivationPanel();
+                        else
+                            throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WEB_CONNECTION_ERROR);
                     }
                 }
                 else

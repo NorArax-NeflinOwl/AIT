@@ -10,14 +10,14 @@ namespace WPF.Managers.Helpers
 {
     public class MailSender
     {
-        public static void SendActivationCodeTo(string to, string code)
+        public static bool SendActivationCodeTo(string to, string code)
         {
             var title = Resources.ACTIVATION_EMAIL_TITLE;
             var content = string.Format(Resources.ACTIVATION_EMAIL_CONTENT, code);
-            SendTo(to, title, content, true);
+            return SendTo(to, title, content, true);
         }
 
-        public static void SendTo(string to, string title, string content, bool showPopup = false)
+        public static bool SendTo(string to, string title, string content, bool showPopup = false)
         {
             var crypter = new EncryptionManager();
             string from = ConfigurationManager.AppSettings["AppEmail"].ToString();
@@ -45,11 +45,13 @@ namespace WPF.Managers.Helpers
                 {
                     MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.EMAIL_SEND, 3), false);
                 }
+                return true;
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFile(ex, "Check your network connection");
             }
+            return false;
         }
     }
 }

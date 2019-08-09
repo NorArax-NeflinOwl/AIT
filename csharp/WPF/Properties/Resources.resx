@@ -339,4 +339,7 @@
   <data name="WANT_EXIT" xml:space="preserve">
     <value>Do you want to exit application?</value>
   </data>
+  <data name="WEB_CONNECTION_ERROR" xml:space="preserve">
+    <value>Check your network connection</value>
+  </data>
 </root>

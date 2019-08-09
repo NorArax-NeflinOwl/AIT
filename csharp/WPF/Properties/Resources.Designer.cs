@@ -725,5 +725,14 @@ namespace WPF.Properties {
                 return ResourceManager.GetString("WANT_EXIT", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check your network connection.
+        /// </summary>
+        internal static string WEB_CONNECTION_ERROR {
+            get {
+                return ResourceManager.GetString("WEB_CONNECTION_ERROR", resourceCulture);
+            }
+        }
     }
 }

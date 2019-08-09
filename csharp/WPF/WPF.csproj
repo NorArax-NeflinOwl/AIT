@@ -223,9 +223,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\MailBoxItemModel.cs" />
+    <Compile Include="Models\Extensions\ExceptionExtension.cs" />
+    <Compile Include="Managers\Helpers\MailDownloader.cs" />
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
     <Compile Include="Managers\TabControlManager.cs" />
-    <Compile Include="Models\Extensions\WindowsDictionary.cs" />
+    <Compile Include="Models\Extensions\WindowsExtension.cs" />
     <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
     <Compile Include="Models\Interfaces\IPageModel.cs" />
