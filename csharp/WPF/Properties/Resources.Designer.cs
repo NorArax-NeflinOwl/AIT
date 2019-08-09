@@ -734,5 +734,14 @@ namespace WPF.Properties {
                 return ResourceManager.GetString("WEB_CONNECTION_ERROR", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This Email address is not exists.
+        /// </summary>
+        internal static string WRONG_EMAIL {
+            get {
+                return ResourceManager.GetString("WRONG_EMAIL", resourceCulture);
+            }
+        }
     }
 }

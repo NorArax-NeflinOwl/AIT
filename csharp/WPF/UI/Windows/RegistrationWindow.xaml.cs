@@ -86,7 +86,11 @@ namespace WPF.UI.Windows
 
         private void RegActRepSendButton_Click(object sender, RoutedEventArgs e)
         {
-            MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content);
+            Dispatcher.Invoke(async () =>
+            {
+                if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content) == false)
+                    throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WRONG_EMAIL);
+            });
         }
 
         private void RegActButton_Click(object sender, RoutedEventArgs e)
@@ -165,10 +169,13 @@ namespace WPF.UI.Windows
 
                         context.SaveChanges();
 
-                        if (MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
-                            ShowActivationPanel();
-                        else
-                            throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WEB_CONNECTION_ERROR);
+                        Dispatcher.Invoke(async () =>
+                        {
+                            if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
+                                ShowActivationPanel();
+                            else
+                                throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WRONG_EMAIL);
+                        });
                     }
                 }
                 else

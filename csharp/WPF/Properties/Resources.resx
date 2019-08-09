@@ -342,4 +342,7 @@
   <data name="WEB_CONNECTION_ERROR" xml:space="preserve">
     <value>Check your network connection</value>
   </data>
+  <data name="WRONG_EMAIL" xml:space="preserve">
+    <value>This Email address is not exists</value>
+  </data>
 </root>

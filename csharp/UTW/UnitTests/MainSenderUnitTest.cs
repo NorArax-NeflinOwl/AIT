@@ -15,7 +15,13 @@ namespace UTW.UnitTests
         [TestMethod]
         public void DownloadTest()
         {
-            Assert.IsNotNull(MailDownloader.MailsDownload());
+            Assert.IsNotNull(MailDownloader.UnreadMailsDownload());
+        }
+
+        [TestMethod]
+        public void SendActivatedMailTest()
+        {
+            Assert.IsTrue(MailSender.SendActivationCodeTo("ppud7368@gmail.com", "", false).Result == false);
         }
     }
 }

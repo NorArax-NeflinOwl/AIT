@@ -34,6 +34,8 @@ namespace WPF.Managers.Helpers
                     var mailBoxItem = new MailBoxItemModel();
                     mailBoxItem.Title = node.SelectSingleNode("title").InnerText;
                     mailBoxItem.Summary = node.SelectSingleNode("summary").InnerText;
+                    var time = node.SelectSingleNode("issued").InnerText;
+                    mailBoxItem.Issued = DateTime.Parse(time);
 
                     var authorNode = node.SelectNodes(@"author");
                     foreach (XmlNode authorInfo in authorNode)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using WPF.Databases.Contexts;
 using WPF.Properties;
 using WPF.UI.Windows.Properties;
@@ -10,11 +12,23 @@ namespace WPF.Managers.Helpers
 {
     public class MailSender
     {
-        public static bool SendActivationCodeTo(string to, string code)
+        public static async Task<bool> SendActivationCodeTo(string to, string code, bool showMsg = true)
         {
+            var result = true;
             var title = Resources.ACTIVATION_EMAIL_TITLE;
             var content = string.Format(Resources.ACTIVATION_EMAIL_CONTENT, code);
-            return SendTo(to, title, content, true);
+
+            if(SendTo(to, title, content, showMsg))
+            {
+                await Task.Delay(10000);
+                var mails = MailDownloader.UnreadMailsDownload();
+                if (mails.Any(q => q.Summary.Contains(to) && q.Summary.Contains("550 5.1.1") && q.Issued > DateTime.Now.AddSeconds(-20)))
+                {
+                    result = false;
+                }
+            }
+
+            return result;
         }
 
         public static bool SendTo(string to, string title, string content, bool showPopup = false)
