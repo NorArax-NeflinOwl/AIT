@@ -27,15 +27,6 @@ namespace WPF.Databases.Contexts
 
                 try
                 {
-                    Database.EnsureDeleted();
-                }
-                catch (Exception e)
-                {
-                    LogManager.Instance.LogExceptionToFile(e);
-                }
-
-                try
-                {
                     Database.EnsureCreated();
                 }
                 catch (Exception e)

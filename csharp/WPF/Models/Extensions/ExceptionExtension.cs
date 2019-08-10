@@ -20,12 +20,22 @@ namespace WPF.Models.Extensions
 
         public override string ToString()
         {
-            var result = Exception.Message + Environment.NewLine + Exception.StackTrace;
+            var result = GetInnersExceptions(Exception, string.Empty);
 
             if (Message != null)
                 result = CryptoJsonManager.Instance.Serialize(this);
 
             return result;
+        }
+
+        private string GetInnersExceptions(Exception exception, string output)
+        {
+            if(exception != null)
+            {
+                output += exception.Message + Environment.NewLine + exception.StackTrace;
+                return GetInnersExceptions(exception.InnerException, output);
+            }
+            return output;
         }
     }
 }

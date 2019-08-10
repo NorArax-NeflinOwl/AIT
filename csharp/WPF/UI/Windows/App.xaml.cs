@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Managers;
-using WPF.UI.Windows.Properties;
 
 namespace WPF
 {
@@ -14,6 +14,10 @@ namespace WPF
     {
         public App()
         {
+            using (new DBContext())
+            {
+                Thread.Sleep(10);
+            }
             MainContext.Instance = new MainContext(this);
 
             Subscribe();

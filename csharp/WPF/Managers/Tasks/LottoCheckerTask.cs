@@ -86,7 +86,7 @@ namespace WPF.Managers.Tasks
                                         {
                                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                             Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
-                                            Name = FileTypesEnum.TASK.ToString() + (random.Next() % 1000).ToString(),
+                                            Name = nameof(LottoCheckerTask),
                                             Type = FileTypesEnum.TASK,
                                             Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                             {

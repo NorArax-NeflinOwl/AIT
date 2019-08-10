@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Models;
+using WPF.Models.Enums;
 
 namespace WPF.Managers.Validators
 {
@@ -15,9 +16,12 @@ namespace WPF.Managers.Validators
                 var files = context.Files.ToList();
                 foreach(var file in files)
                 {
-                    var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
-                    if (logInfo != null && logInfo.Message.Contains(winString))
-                        return false;
+                    if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.TASK.Equals(file.Type))
+                    {
+                        var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
+                        if (logInfo != null && logInfo.Message.Contains(winString))
+                            return false;
+                    }
                 }
             }
 
