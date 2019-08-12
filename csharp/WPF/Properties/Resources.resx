@@ -120,6 +120,9 @@
   <data name="ABOUT_HEADER" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="ACC_ACTIVATED" xml:space="preserve">
+    <value>Account was activated</value>
+  </data>
   <data name="ACC_NOACTIVATED" xml:space="preserve">
     <value>Account is not activated!</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="CREATESHA256HASH_HEADER" xml:space="preserve">
     <value>Create SHA256 Hash</value>
+  </data>
+  <data name="CREATE_ACCSUCC" xml:space="preserve">
+    <value>Creating account success</value>
   </data>
   <data name="CRYPTPLAINTEXT_HEADER" xml:space="preserve">
     <value>Crypt Plain Text</value>
@@ -252,11 +258,17 @@
   <data name="LOGIN_REQUIRED" xml:space="preserve">
     <value>Login is required!</value>
   </data>
+  <data name="LOGIN_SUCC" xml:space="preserve">
+    <value>Login success</value>
+  </data>
   <data name="LOGIN_TOOSHORT" xml:space="preserve">
     <value>Login is too short!</value>
   </data>
   <data name="LOGOUT_HEADER" xml:space="preserve">
     <value>Log Out</value>
+  </data>
+  <data name="LOGOUT_SUCC" xml:space="preserve">
+    <value>Log out success</value>
   </data>
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>

@@ -224,6 +224,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Interfaces\IMessageInfo.cs" />
+    <Compile Include="Models\LottoInfoModel.cs" />
     <Compile Include="Models\MailBoxItemModel.cs" />
     <Compile Include="Models\ExceptionInfoModel.cs" />
     <Compile Include="Managers\Helpers\MailDownloader.cs" />

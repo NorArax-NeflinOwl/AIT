@@ -236,7 +236,10 @@ namespace WPF.UI.Windows
                 login = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
             }
             PDBContext.Instance.AccountID = null;
+
+            MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGOUT_SUCC, 2), false);
             MainContext.Instance.Windows.Clear(new LoginProperties(login));
+
         }
 
         private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)

@@ -70,6 +70,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account was activated.
+        /// </summary>
+        internal static string ACC_ACTIVATED {
+            get {
+                return ResourceManager.GetString("ACC_ACTIVATED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account is not activated!.
         /// </summary>
         internal static string ACC_NOACTIVATED {
@@ -201,6 +210,15 @@ namespace WPF.Properties {
         internal static string CODE_NOTFIND {
             get {
                 return ResourceManager.GetString("CODE_NOTFIND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating account success.
+        /// </summary>
+        internal static string CREATE_ACCSUCC {
+            get {
+                return ResourceManager.GetString("CREATE_ACCSUCC", resourceCulture);
             }
         }
         
@@ -475,6 +493,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Login success.
+        /// </summary>
+        internal static string LOGIN_SUCC {
+            get {
+                return ResourceManager.GetString("LOGIN_SUCC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login is too short!.
         /// </summary>
         internal static string LOGIN_TOOSHORT {
@@ -489,6 +516,15 @@ namespace WPF.Properties {
         internal static string LOGOUT_HEADER {
             get {
                 return ResourceManager.GetString("LOGOUT_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out success.
+        /// </summary>
+        internal static string LOGOUT_SUCC {
+            get {
+                return ResourceManager.GetString("LOGOUT_SUCC", resourceCulture);
             }
         }
         

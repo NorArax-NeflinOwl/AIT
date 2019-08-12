@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+namespace WPF.Models
+{
+    public class LottoInfoModel
+    {
+        public string ID { get; set; }
+        public DateTime DateTime { get; set; }
+        public string LuckyNumbers { get; set; }
+
+        public static List<LottoInfoModel> Convert(List<string> list)
+        {
+            List<LottoInfoModel> lottoInfoModels = new List<LottoInfoModel>();
+            foreach (var line in list)
+            {
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    var parts = line.Split(' ').ToList();
+                    if (parts.Count != 3)
+                        throw new IndexOutOfRangeException();
+
+                    var model = new LottoInfoModel
+                    {
+                        ID = parts[0],
+                        DateTime = DateTime.ParseExact(parts[1], "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        LuckyNumbers = parts[2]
+                    };
+                    lottoInfoModels.Add(model);
+                }
+            }
+            return lottoInfoModels;
+        }
+    }
+}

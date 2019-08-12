@@ -40,7 +40,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
-            Closing += App.MainWindow_Closing;
+            //Closing += App.MainWindow_Closing;
             LoginButton.Click += LoginButton_Click;
             LoginRegButton.Click += LoginRegButton_Click;
         }
@@ -94,6 +94,7 @@ namespace WPF.UI.Windows
 
                         if (rememberMe != null)
                             host.IsLoggedIn = (bool)rememberMe;
+
                         host.Update();
                     }
                     else
@@ -110,7 +111,10 @@ namespace WPF.UI.Windows
                 }
 
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))
-                    throw new Exception(WPF.Properties.Resources.SAMETHING_WRONG); 
+                    throw new Exception(WPF.Properties.Resources.SAMETHING_WRONG);
+
+
+                MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGIN_SUCC, 2), false);
 
                 MainContext.Instance.Windows.Open(new MainProperties());
                 LoginProgressBar.Visibility = Visibility.Collapsed;
@@ -126,7 +130,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
-            Closing -= App.MainWindow_Closing;
+            //Closing -= App.MainWindow_Closing;
             LoginButton.Click -= LoginButton_Click;
             LoginRegButton.Click -= LoginRegButton_Click;
 

@@ -63,13 +63,22 @@ namespace WPF.Managers.Tasks
 
                     if (!string.IsNullOrEmpty(content))
                     {
-                        List<string> lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList().OrderByDescending(q => q).ToList();
+                        List<LottoInfoModel> lottoResults = LottoInfoModel.Convert(content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList().OrderByDescending(q => q).ToList());
 
-                        foreach (var line in lines) // TODO cut lines to smaller range
+                        DateTime startDate = new DateTime(DateTime.Now.Year, 1, 1);
+                        using(var context = PDBContext.Instance.Context)
+                        {
+                            var manager = context.Stsgenids.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault();
+                            if (manager != null && startDate > manager.Create)
+                                startDate = manager.Create;
+                        }
+                        var smallLottoResult = lottoResults.Where(q => q.DateTime >= startDate).ToList();
+
+                        var firstLoopTurn = true;
+                        foreach (var lottoModel in smallLottoResult)
                         {
                             var hits = 0;
-                            var parts = line.Split(' ').ToList();
-                            if (parts != null && parts.Count == 3 && GlobalValidators.CheckNumbersInLotto(parts[2], out hits))
+                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.LuckyNumbers, out hits))
                             {
                                 find = true;
                                 using (var context = PDBContext.Instance.Context)
@@ -77,7 +86,7 @@ namespace WPF.Managers.Tasks
                                     var account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
                                     if (account != null)
                                     {
-                                        MailSender.SendTo(account.Email, Title, string.Format(Message, parts[2], hits));
+                                        MailSender.SendTo(account.Email, Title, string.Format(Message, lottoModel.LuckyNumbers, hits));
                                     }
                                     else
                                     {
@@ -90,11 +99,15 @@ namespace WPF.Managers.Tasks
                                             Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                             {
                                                 Type = FileTypesEnum.TASK,
-                                                Message = new SimpleMessageInfoModel(Title + Environment.NewLine + string.Format(Message, parts[2], hits))
+                                                Message = new SimpleMessageInfoModel(Title + Environment.NewLine + string.Format(Message, lottoModel.LuckyNumbers, hits))
                                             })
                                         };
 
-                                        WaitForManager();
+                                        if(firstLoopTurn && startDate == new DateTime(DateTime.Now.Year, 1, 1))
+                                        {
+                                            WaitForManager();
+                                            firstLoopTurn = false;
+                                        }
 
                                         taskToSave.Insert();
                                         context.SaveChanges();

@@ -23,7 +23,7 @@ namespace WPF.Managers.Helpers
 
                 XmlDocument doc = new XmlDocument();
                 objClient.Credentials = new System.Net.NetworkCredential(email, password);
-                response = Encoding.UTF8.GetString(objClient.DownloadData(@"https://mail.google.com/mail/feed/atom"));
+                response = Encoding.UTF8.GetString(objClient.DownloadData(@"https://mail.google.com/mail/feed/atom/all"));
                 response = response.Replace(@"<feed version=""0.3"" xmlns=""http://purl.org/atom/ns#"">", @"<feed>");
 
                 doc.LoadXml(response);

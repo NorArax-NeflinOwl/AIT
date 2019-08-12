@@ -31,8 +31,9 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
-            Closing -= App.MainWindow_Closing;
+            //Closing -= App.MainWindow_Closing;
             RegButton.Click -= RegButton_Click;
+            RegAct2Button.Click -= RegAct2Button_Click;
             RegActButton.Click -= RegActButton_Click;
             RegActRepSendButton.Click -= RegActRepSendButton_Click;
             GC.Collect();
@@ -46,7 +47,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
-            Closing += App.MainWindow_Closing;
+            //Closing += App.MainWindow_Closing;
             RegButton.Click += RegButton_Click;
             RegAct2Button.Click += RegAct2Button_Click;
             RegActButton.Click += RegActButton_Click;
@@ -106,7 +107,9 @@ namespace WPF.UI.Windows
             account.IsActive = true;
             account.Update();
             account.Context.SaveChanges();
-            
+
+            MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
+
             MainContext.Instance.Windows.Open(new LoginProperties(account.Login));
             MainContext.Instance.Windows.Close(Properties.WindowName);
         }
@@ -169,8 +172,11 @@ namespace WPF.UI.Windows
 
                         context.SaveChanges();
 
+                        MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
+
                         Dispatcher.Invoke(async () =>
                         {
+                            // TODO SHOW PROGRESS BAR
                             if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
                                 ShowActivationPanel();
                             else
