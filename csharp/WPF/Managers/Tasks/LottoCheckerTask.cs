@@ -13,6 +13,7 @@ using WPF.Models.Interfaces;
 using WPF.Managers.Helpers;
 using WPF.Models;
 using WPF.Managers.Validators;
+using System.Windows.Threading;
 
 namespace WPF.Managers.Tasks
 {
@@ -22,7 +23,7 @@ namespace WPF.Managers.Tasks
         private readonly int intervalDay = 3;
 
         public readonly string Title = "Congratulation You hit the six in a Lotto!!!";
-        public readonly string Message = "Congratulation Your lucky six \"{0}\" numbers win a award. {1}/6 hits!";
+        public readonly string Message = "Congratulation Your lucky six \"{0}\" numbers win a award in \"{1}\" lottery - \"{2}\". {3}/6 hits!";
 
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
@@ -72,7 +73,7 @@ namespace WPF.Managers.Tasks
                             if (manager != null && startDate > manager.Create)
                                 startDate = manager.Create;
                         }
-                        var smallLottoResult = lottoResults.Where(q => q.DateTime >= startDate).ToList();
+                        var smallLottoResult = lottoResults.Where(q => q.Date >= startDate).ToList();
 
                         var firstLoopTurn = true;
                         foreach (var lottoModel in smallLottoResult)
@@ -90,16 +91,22 @@ namespace WPF.Managers.Tasks
                                     }
                                     else
                                     {
+                                        var msg = Title + Environment.NewLine + string.Format(Message,
+                                                lottoModel.LuckyNumbers,
+                                                lottoModel.ID.Replace(".", string.Empty),
+                                                lottoModel.Date.ToString("dd/MM/yyyy"),
+                                                hits);
+
                                         var taskToSave = new AitFilesModel(context)
                                         {
                                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                            //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
+                                            //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(), //FIX ME - WTF?!??!
                                             Name = nameof(LottoCheckerTask),
                                             Type = FileTypesEnum.TASK,
                                             Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                             {
                                                 Type = FileTypesEnum.TASK,
-                                                Message = new SimpleMessageInfoModel(Title + Environment.NewLine + string.Format(Message, lottoModel.LuckyNumbers, hits))
+                                                Message = new SimpleMessageInfoModel(msg)
                                             })
                                         };
 

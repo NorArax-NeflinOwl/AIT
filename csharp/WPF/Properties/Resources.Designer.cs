@@ -430,6 +430,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .klg.
+        /// </summary>
+        internal static string KEYLOGGER_EXT {
+            get {
+                return ResourceManager.GetString("KEYLOGGER_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LocalCache.
         /// </summary>
         internal static string LOCALCACHE_SUBPATH {

@@ -20,7 +20,7 @@ namespace WPF.Managers.Validators
                     if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.TASK.Equals(file.Type))
                     {
                         var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
-                        if (logInfo != null && logInfo.Message is IMessageInfo info && info.Message.Contains(winString))
+                        if (logInfo != null && logInfo.Message is IMessageInfo info && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
                             return false;
                     }
                 }

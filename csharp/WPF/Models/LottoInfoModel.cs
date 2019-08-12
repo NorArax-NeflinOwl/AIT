@@ -7,7 +7,7 @@ namespace WPF.Models
     public class LottoInfoModel
     {
         public string ID { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime Date { get; set; }
         public string LuckyNumbers { get; set; }
 
         public static List<LottoInfoModel> Convert(List<string> list)
@@ -24,7 +24,7 @@ namespace WPF.Models
                     var model = new LottoInfoModel
                     {
                         ID = parts[0],
-                        DateTime = DateTime.ParseExact(parts[1], "dd.MM.yyyy", CultureInfo.InvariantCulture),
+                        Date = DateTime.ParseExact(parts[1], "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         LuckyNumbers = parts[2]
                     };
                     lottoInfoModels.Add(model);

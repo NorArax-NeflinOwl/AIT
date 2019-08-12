@@ -41,10 +41,10 @@ namespace WPF.Managers.Helpers
             {
                 using (var context = PDBContext.Instance.Context)
                 {
-                    SysStsgenids sysids = context.Stsgenids.OrderByDescending(q => q.Create).ToList().FirstOrDefault();
-                    if (sysids != null)
-                    {
-                        var oldid = int.Parse(sysids.ID.Split(separator)[2]);
+                    var sysid = context.Stsgenids.OrderByDescending(q => q.ID.Split(separator)[2]).ToList().FirstOrDefault();
+                    if (sysid != null)
+                    { 
+                        var oldid = int.Parse(sysid.ID.Split(separator)[2]);
                         id = Converters.Digit2StringCreate(oldid + 1, 7);
                     }
                     else if (throwException)

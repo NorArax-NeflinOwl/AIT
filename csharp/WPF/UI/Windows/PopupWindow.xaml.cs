@@ -40,12 +40,16 @@ namespace WPF.UI.Windows
         {
             Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
             {
-                var workingArea = SystemParameters.WorkArea;
-                var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                var corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
+                try
+                {
+                    var workingArea = SystemParameters.WorkArea;
+                    var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
+                    var corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
 
-                this.Left = corner.X - this.ActualWidth - 10;
-                this.Top = corner.Y - this.ActualHeight;
+                    this.Left = corner.X - this.ActualWidth - 10;
+                    this.Top = corner.Y - this.ActualHeight;
+                }
+                catch (Exception) { }
             }));
 
             Dispatcher.Invoke(async () =>

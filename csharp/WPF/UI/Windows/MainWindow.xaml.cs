@@ -186,8 +186,16 @@ namespace WPF.UI.Windows
         private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             var key = e.Key.ToString();
-            var tabitem = MainTabControl.SelectedContent as IPageModel;
-            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{tabitem?.Header}] page");
+            var index = 0;
+            if(MainTabControlManager.TabControl.SelectedIndex > 0)
+            {
+                index = MainTabControlManager.TabControl.SelectedIndex;
+            }
+
+            var tabitem = MainTabControlManager.TabControl.Items[index] as TabItem;
+            var ctrl = tabitem?.Header as TabItemHeaderControl;
+
+            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{ctrl?.Header?.Text}] page");
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

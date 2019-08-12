@@ -115,6 +115,8 @@ namespace WPF.Managers
                     return Resources.NOTE_EXT;
                 case FileTypesEnum.TRACE:
                     return Resources.TRC_EXT;
+                case FileTypesEnum.KEYLOGGER:
+                    return Resources.KEYLOGGER_EXT;
                 default:
                     return Resources.TXT_EXT;
             }

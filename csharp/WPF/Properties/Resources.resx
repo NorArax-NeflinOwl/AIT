@@ -240,6 +240,9 @@
   <data name="JSON_EXT" xml:space="preserve">
     <value>.json</value>
   </data>
+  <data name="KEYLOGGER_EXT" xml:space="preserve">
+    <value>.klg</value>
+  </data>
   <data name="LOCALCACHE_SUBPATH" xml:space="preserve">
     <value>LocalCache</value>
   </data>

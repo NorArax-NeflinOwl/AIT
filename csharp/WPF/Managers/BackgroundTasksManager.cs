@@ -58,6 +58,7 @@ namespace WPF.Managers
 
         public async Task Collect()
         {
+            // TODO open process window/popup
             foreach(var task in tasks.Where(q => q.MustBeCollected))
             {
                 task.Collect();
@@ -68,7 +69,7 @@ namespace WPF.Managers
             {
                 await Task.Delay(10);
             }
-
+            // TODO close process window/popup
         }
     }
 }
