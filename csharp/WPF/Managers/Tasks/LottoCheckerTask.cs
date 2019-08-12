@@ -81,7 +81,6 @@ namespace WPF.Managers.Tasks
                                     }
                                     else
                                     {
-                                        var random = new Random();
                                         var taskToSave = new AitFilesModel(context)
                                         {
                                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
@@ -94,6 +93,8 @@ namespace WPF.Managers.Tasks
                                                 Message = Title + Environment.NewLine + string.Format(Message, parts[2], hits)
                                             })
                                         };
+
+                                        WaitForManager(taskToSave.Creator);
 
                                         taskToSave.Insert();
                                         context.SaveChanges();
@@ -112,6 +113,17 @@ namespace WPF.Managers.Tasks
 
             Completed = true;
             return find;
+        }
+
+        private void WaitForManager(string managerID)
+        {
+            var cnt = PDBContext.Instance.Context;
+            while (cnt.Stsgenids.Find(managerID) == null)
+            {
+                Thread.Sleep(10);
+                cnt = PDBContext.Instance.Context;
+            }
+            cnt.Dispose();
         }
 
         public void Collect()
