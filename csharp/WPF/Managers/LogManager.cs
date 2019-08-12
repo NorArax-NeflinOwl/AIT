@@ -6,6 +6,7 @@ using WPF.Models.Enums;
 using WPF.Models;
 using WPF.Properties;
 using WPF.Models.Extensions;
+using System.Collections.Generic;
 
 namespace WPF.Managers
 {
@@ -61,13 +62,23 @@ namespace WPF.Managers
                             if (!File.Exists(filePath))
                                 using (File.Create(filePath)) { }
 
-                            using (var stream = File.AppendText(filePath))
+                            List<LogInfoModel> list = null;
+                            var content = File.ReadAllText(filePath);
+                            if(!string.IsNullOrEmpty(content))
                             {
-                                var json = CryptoJsonManager.Instance.Serialize(log);
-                                stream.WriteLine(json);
+                                list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content);
                             }
 
-                            if(FileTypesEnum.EXCEPTION.Equals(log.Type))
+                            if(list == null)
+                            {
+                                list = new List<LogInfoModel>();
+                            }
+
+                            list.Add(log);
+                            var json = CryptoJsonManager.Instance.Serialize(list);
+                            File.WriteAllText(filePath, json);
+
+                            if (FileTypesEnum.EXCEPTION.Equals(log.Type))
                             {
                                 var mainWindow = WindowsExtension.GetMainWindow();
                                 if (mainWindow != null)
@@ -79,7 +90,7 @@ namespace WPF.Managers
                     }
                     catch (Exception e)
                     {
-                        // This exception should be handled by another process (and file if this is nessesery)
+                        // TODO This exception should be handled by another process (and file if this is nessesery)
                         /* m_Logger.Add(new LogInfoModel
                         {
                             Type = FileTypesEnum.EXCEPTION,
@@ -114,7 +125,7 @@ namespace WPF.Managers
             LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.EXCEPTION,
-                Message = new ExceptionExtension(message, e).ToString()
+                Message = new ExceptionInfoModel(message, e)
             });
 
             // TODO open error dialog window and deleted throw statment from this method

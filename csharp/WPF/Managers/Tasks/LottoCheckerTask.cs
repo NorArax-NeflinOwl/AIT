@@ -65,7 +65,7 @@ namespace WPF.Managers.Tasks
                     {
                         List<string> lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList().OrderByDescending(q => q).ToList();
 
-                        foreach (var line in lines)
+                        foreach (var line in lines) // TODO cut lines to smaller range
                         {
                             var hits = 0;
                             var parts = line.Split(' ').ToList();
@@ -84,17 +84,17 @@ namespace WPF.Managers.Tasks
                                         var taskToSave = new AitFilesModel(context)
                                         {
                                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                            Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
+                                            //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(),
                                             Name = nameof(LottoCheckerTask),
                                             Type = FileTypesEnum.TASK,
                                             Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                             {
                                                 Type = FileTypesEnum.TASK,
-                                                Message = Title + Environment.NewLine + string.Format(Message, parts[2], hits)
+                                                Message = new SimpleMessageInfoModel(Title + Environment.NewLine + string.Format(Message, parts[2], hits))
                                             })
                                         };
 
-                                        WaitForManager(taskToSave.Creator);
+                                        WaitForManager();
 
                                         taskToSave.Insert();
                                         context.SaveChanges();
@@ -115,11 +115,13 @@ namespace WPF.Managers.Tasks
             return find;
         }
 
-        private void WaitForManager(string managerID)
+        private void WaitForManager()
         {
+            var id = ConfigurationManager.AppSettings["TasksManager"].ToString();
             var cnt = PDBContext.Instance.Context;
-            while (cnt.Stsgenids.Find(managerID) == null)
+            while (cnt.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault() == null)
             {
+                cnt.Dispose();
                 Thread.Sleep(10);
                 cnt = PDBContext.Instance.Context;
             }

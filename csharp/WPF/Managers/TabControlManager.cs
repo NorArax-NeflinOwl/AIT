@@ -65,7 +65,7 @@ namespace WPF.Managers
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = string.Format(message, task, page.Header.Header.Text)
+                Message = new SimpleMessageInfoModel(string.Format(message, task, page.Header.Header.Text))
             });
 
             if (mainWindow != null)
@@ -100,7 +100,7 @@ namespace WPF.Managers
                 LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = FileTypesEnum.TRACE,
-                    Message = $"Close page {header.Header.Text}"
+                    Message = new SimpleMessageInfoModel($"Close page {header.Header.Text}")
                 });
 
                 tabControl.Items.Remove(tabItem);
@@ -115,7 +115,7 @@ namespace WPF.Managers
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = $"Clear MainTabControl"
+                Message = new SimpleMessageInfoModel($"Clear MainTabControl")
             });
 
             tabControl.Items.Clear();

