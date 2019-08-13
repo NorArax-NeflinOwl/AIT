@@ -9,6 +9,9 @@ namespace WPF.UI.Windows.Properties
 {
     class DialogProperties : IWindowsProperties
     {
+        private LogInfoModel logInfo;
+        private DialogTypeEnum type;
+
         public string Title { get; set; }
         public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.DIALOG;
         public IPageModel PagePropertie { get; set; }
@@ -30,6 +33,13 @@ namespace WPF.UI.Windows.Properties
         {
             Window = new DialogWindow(this);
             Properties.Add(FileTypesEnum.EXCEPTION.ToString(), exception);
+        }
+
+        public DialogProperties(LogInfoModel logInfo, DialogTypeEnum type)
+        {
+            Window = new DialogWindow(this);
+            this.logInfo = logInfo;
+            this.type = type;
         }
 
         public void Dispose()

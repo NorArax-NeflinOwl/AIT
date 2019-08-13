@@ -7,6 +7,8 @@ using WPF.Models;
 using WPF.Properties;
 using WPF.Models.Extensions;
 using System.Collections.Generic;
+using WPF.Databases.Contexts;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.Managers
 {
@@ -14,11 +16,9 @@ namespace WPF.Managers
     {
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Environment.CurrentDirectory, Resources.LOGDIR_SUBPATH });
         private static BlockingCollection<LogInfoModel> m_Logger;
-        private int HandleErrorCounter;
 
         private LogManager()
         {
-            HandleErrorCounter = 0;
             m_Logger = new BlockingCollection<LogInfoModel>(100);
             FileManager.CreateDirectory(m_LoggerDir);
         }
@@ -77,15 +77,6 @@ namespace WPF.Managers
                             list.Add(log);
                             var json = CryptoJsonManager.Instance.Serialize(list);
                             File.WriteAllText(filePath, json);
-
-                            if (FileTypesEnum.EXCEPTION.Equals(log.Type))
-                            {
-                                var mainWindow = WindowsExtension.GetMainWindow();
-                                if (mainWindow != null)
-                                {
-                                    mainWindow.RefreshErrorInfo(++HandleErrorCounter);
-                                }
-                            }
                         }
                     }
                     catch (Exception e)
@@ -124,17 +115,31 @@ namespace WPF.Managers
 
         public void LogExceptionToFile(Exception e, string message = "")
         {
-            LogToFile(new LogInfoModel
+            var log = new LogInfoModel
             {
                 Type = FileTypesEnum.EXCEPTION,
                 Message = new ExceptionInfoModel(message, e)
-            });
+            };
+            LogToFile(log);
 
-            // TODO open error dialog window and deleted throw statment from this method
+            try
+            {
+                MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
+            }
+            catch(Exception ex)
+            {
+                log = new LogInfoModel
+                {
+                    Type = FileTypesEnum.EXCEPTION,
+                    Message = new ExceptionInfoModel(message, ex)
+                };
+                LogToFile(log);
 
+                MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.ERROR_NOHANDLE, 10), false);
 #if DEBUG
-            throw e;
+                throw ex;
 #endif
+            }
         }
     }
 }

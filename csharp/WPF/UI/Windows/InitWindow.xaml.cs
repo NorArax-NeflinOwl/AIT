@@ -40,21 +40,14 @@ namespace WPF.UI.Windows
 
             Dispatcher.Invoke(async () =>
             {
-                InitProgressBar.Visibility = Visibility.Visible;
                 await Task.Delay(200);
                 while (BackgroundTasksManager.Instance.Completed != BackgroundTasksManager.Instance.Count)
                 {
-                    var multiple = 100 / BackgroundTasksManager.Instance.Count;
-                    var count = BackgroundTasksManager.Instance.Count;
-                    var completed = BackgroundTasksManager.Instance.Completed;
-
-                    if (completed != 0)
+                    if (BackgroundTasksManager.Instance.Completed != 0)
                     {
                         InitMessage.Text = WPF.Properties.Resources.APP_INIT;
-                        InitProgressBar.Value = (count / completed) * multiple;
                     }
                 }
-                InitProgressBar.Value = 100;
                 InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
                 await Task.Delay(200);
 
@@ -71,7 +64,6 @@ namespace WPF.UI.Windows
                     {
                         MainContext.Instance.Windows.Open(new LoginProperties());
                     }
-                    InitProgressBar.Visibility = Visibility.Collapsed;
                     MainContext.Instance.Windows.Close(Properties.WindowName);
                 }
             });

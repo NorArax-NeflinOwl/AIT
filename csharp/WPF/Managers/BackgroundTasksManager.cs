@@ -9,7 +9,7 @@ namespace WPF.Managers
 {
     public class BackgroundTasksManager
     {
-        private IList<IBackgroundTask> tasks;
+        private readonly IList<IBackgroundTask> tasks;
         private static readonly object locker = new object();
         private static readonly BackgroundTasksManager instance = new BackgroundTasksManager();
 

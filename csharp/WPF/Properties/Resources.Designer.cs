@@ -331,6 +331,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No hadle error detected. Check log!.
+        /// </summary>
+        internal static string ERROR_NOHANDLE {
+            get {
+                return ResourceManager.GetString("ERROR_NOHANDLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string EXIT_HEADER {

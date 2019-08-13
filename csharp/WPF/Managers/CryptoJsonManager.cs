@@ -7,19 +7,20 @@ namespace WPF.Managers
     public class CryptoJsonManager : IDisposable
     {
         private readonly string CRYPTO_FLAG = "[CRYPT]";
-        private JsonSerializerSettings m_Setting;
-        private EncryptionManager m_Encrypter;
+        private readonly JsonSerializerSettings m_Setting;
+        private readonly EncryptionManager m_Encrypter;
 
         private CryptoJsonManager()
         {
             m_Encrypter = new EncryptionManager();
             m_Setting = new JsonSerializerSettings
             {
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                ObjectCreationHandling = ObjectCreationHandling.Replace
             };
         }
 
-        private static object locker = new object();
+        private static readonly object locker = new object();
         private static CryptoJsonManager m_Instance;
         public static CryptoJsonManager Instance
         {
@@ -64,7 +65,7 @@ namespace WPF.Managers
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFile(ex);
-                return default(T);
+                return default;
             }
         }
 

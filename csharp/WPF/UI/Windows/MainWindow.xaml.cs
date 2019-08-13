@@ -34,12 +34,8 @@ namespace WPF.UI.Windows
 
         public void Init()
         {
-            StartLoad(5);
-
             CenterWindowOnScreen();
-            MainErrorImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\dialog_error.png"));
-
-            UpdateLoad();
+            SetProgressVisibility(true);
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
             MainFileCloseAllWindowsMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
@@ -87,18 +83,13 @@ namespace WPF.UI.Windows
                     nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
             }
 
-            UpdateLoad();
-
             var properties = new DashboardProperties();
             MainTabControlManager = new TabControlManager(MainTabControl);
             MainTabControlManager.Add(properties);
 
             SetTitle(properties.Header?.Header?.Text);
 
-            UpdateLoad();
-
             MainAccountLogIn.Text = "Login: " + nick;
-            EndLoad();
         }
 
         public void Subscribe()
@@ -114,6 +105,8 @@ namespace WPF.UI.Windows
             MainFileExitMenu.Click += MainFileExitMenu_Click;
 
             MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
+
+            SetProgressVisibility(false);
         }
 
         public void Dispose()
@@ -134,55 +127,6 @@ namespace WPF.UI.Windows
             GC.Collect();
         }
 
-        private int progressMax = 2, progressCurrent = 0;
-
-        #region Methods not working [FIX ME]
-        public void StartLoad(int progressinfo)
-        {
-            progressMax = progressinfo;
-            MainStatus.Text = "Status: Load...";
-            MainProgressBar.Value = 0;
-            MainProgressBarDesc.Text = "0/" + progressMax;
-        }
-
-        public void UpdateLoad()
-        {
-            var proggressVal = 100 / progressMax;
-            MainProgressBar.Value += proggressVal;
-            MainProgressBarDesc.Text = $"{++progressCurrent}/{progressMax}";
-        }
-
-        public void EndLoad()
-        {
-            MainStatus.Text = "Status: Ready";
-            MainProgressBar.Value = 90;
-            MainProgressBarDesc.Text = $"{progressMax - 1}/{progressMax}";
-
-            Dispatcher.Invoke(async () =>
-            {
-                await Task.Delay(300);
-            });
-
-            MainProgressBar.Value = 0;
-            MainProgressBar.Visibility = Visibility.Collapsed;
-            MainProgressBarDesc.Text = string.Empty;
-            MainProgressBarDesc.Visibility = Visibility.Collapsed;
-
-            progressMax = 2;
-            progressCurrent = 0;
-        }
-
-        public void RefreshErrorInfo(int errorhandleCounter)
-        {
-            if(errorhandleCounter > 0)
-            {
-                MainErrorImage.Visibility = Visibility.Visible;
-                MainErrorCounter.Visibility = Visibility.Visible;
-                MainErrorCounter.Text = string.Format(WPF.Properties.Resources.ERROR_HANDLEINFO, errorhandleCounter);
-            }
-        }
-        #endregion
-
         private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             var key = e.Key.ToString();
@@ -200,11 +144,11 @@ namespace WPF.UI.Windows
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SetProgressVisibility(true);
             var index = MainTabControlManager.TabControl.SelectedIndex;
             if(index >= 0)
             {
-                var properties = MainTabControlManager.TabControl.Items[index] as TabItem;
-                if (properties != null)
+                if (MainTabControlManager.TabControl.Items[index] is TabItem properties)
                 {
                     var tabName = (properties.Header as TabItemHeaderControl)?.Header?.Text;
                     SetTitle(tabName);
@@ -216,11 +160,14 @@ namespace WPF.UI.Windows
                     });
                 }
             }
+            SetProgressVisibility(false);
         }
 
         private void MainNavigateDashboardMenu_Click(object sender, RoutedEventArgs e)
         {
+            SetProgressVisibility(true);
             MainTabControlManager.Add(new DashboardProperties());
+            SetProgressVisibility(false);
         }
 
         private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
@@ -230,6 +177,7 @@ namespace WPF.UI.Windows
 
         private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
         {
+            SetProgressVisibility(true);
             var login = string.Empty;
             using(var context = PDBContext.Instance.Context)
             {
@@ -246,13 +194,16 @@ namespace WPF.UI.Windows
             PDBContext.Instance.AccountID = null;
 
             MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGOUT_SUCC, 2), false);
+            SetProgressVisibility(false);
             MainContext.Instance.Windows.Clear(new LoginProperties(login));
 
         }
 
         private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
         {
+            SetProgressVisibility(true);
             MainTabControlManager.Add(new SettingsProperties());
+            SetProgressVisibility(false);
         }
 
         private void MainFileCloseAllWindowsMenu_Click(object sender, RoutedEventArgs e)
@@ -273,6 +224,14 @@ namespace WPF.UI.Windows
             double windowHeight = this.Height;
             Left = (screenWidth / 2) - (windowWidth / 2);
             Top = (screenHeight / 2) - (windowHeight / 2);
+        }
+
+        private void SetProgressVisibility(bool show)
+        {
+            if (show)
+                MainProgressGrid.Visibility = Visibility.Visible;
+            else
+                MainProgressGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

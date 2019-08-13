@@ -7,7 +7,7 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Databases.Models
 {
-    public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable
+    public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable, IDisposable
     {
         protected string BaseID;
         protected DateTime? BaseLastUpdate;
@@ -54,6 +54,12 @@ namespace WPF.Databases.Models
             {
                 throw new SqliteExceptions.EntityNotFound($"Stsgenids {BaseID} entity not found");
             }
+        }
+
+        public void Dispose()
+        {
+            Context.Dispose();
+            GC.Collect();
         }
     }
 }

@@ -3,76 +3,65 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:WPF.UI.Controls"
         mc:Ignorable="d" 
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="AIT Nano" 
         Height="{Binding Properties.Heigth}" 
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
-    <Grid Background="Gray">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Background="LightGray">
-            <MenuItem x:Name="MainFileMenu" Header="File">
-                <MenuItem x:Name="MainFileCloseAllWindowsMenu" Header="Close All" IsEnabled="False"/>
-                <MenuItem x:Name="MainFileSettingsMenu" Header="Settings" IsEnabled="False"/>
-                <MenuItem x:Name="MainFileLogOutMenu" Header="Log Out" IsEnabled="False"/>
-                <MenuItem x:Name="MainFileExitMenu" Header="Exit" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainEditMenu" Header="Edit">
-                <MenuItem x:Name="MainEditUndoMenu" Header="Undo" IsEnabled="False"/>
-                <MenuItem x:Name="MainEditRedoMenu" Header="Redo" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainViewMenu" Header="View">
-                <MenuItem x:Name="MainViewNewNoteMenu" Header="New Note" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainNavigateMenu" Header="Navigate">
-                <MenuItem x:Name="MainNavigateDashboardMenu" Header="Dashboard" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainQueryMenu" Header="Query">
-                <MenuItem x:Name="MainQueryBuilderMenu" Header="Query Builder" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainToolsMenu" Header="Tools">
-                <MenuItem x:Name="MainToolsCSHA256HashMenu" Header="Create SHA256 hash" IsEnabled="False"/>
-                <MenuItem x:Name="MainToolsCryptPTMenu" Header="Crypt Plain Text" IsEnabled="False"/>
-                <MenuItem x:Name="MainToolsDecryptCTMenu" Header="Decrypt Crypt Text" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainSetupMenu" Header="Setup">
-                <MenuItem x:Name="MainSetupChangeThemeMenu" Header="Change Theme" IsEnabled="False"/>
-            </MenuItem>
-            <MenuItem x:Name="MainHelpMenu" Header="Help">
-                <MenuItem x:Name="MainHelpRegisterProductMenu" Header="Register Product" IsEnabled="False"/>
-                <MenuItem x:Name="MainHelpAboutMenu" Header="About" IsEnabled="False"/>
-            </MenuItem>
-        </Menu>
-        <TabControl x:Name="MainTabControl" Grid.Row="1" Background="#333333"/>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="MainStatus" Grid.Column="0" Margin="2,3" Text="Status: Unknown" FontSize="10"/>
-            <TextBlock x:Name="MainAccountLogIn" Grid.Column="2" Margin="2,3" Text="Login: admin" FontSize="10"/>
-            <Border Grid.Column="3" Width="1" Background="Gray" Margin="0,2"/>
-            <Grid Grid.Column="4">
+    <Grid>
+        <Grid Background="Gray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Menu Grid.Row="0" Background="LightGray">
+                <MenuItem x:Name="MainFileMenu" Header="File">
+                    <MenuItem x:Name="MainFileCloseAllWindowsMenu" Header="Close All" IsEnabled="False"/>
+                    <MenuItem x:Name="MainFileSettingsMenu" Header="Settings" IsEnabled="False"/>
+                    <MenuItem x:Name="MainFileLogOutMenu" Header="Log Out" IsEnabled="False"/>
+                    <MenuItem x:Name="MainFileExitMenu" Header="Exit" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainEditMenu" Header="Edit">
+                    <MenuItem x:Name="MainEditUndoMenu" Header="Undo" IsEnabled="False"/>
+                    <MenuItem x:Name="MainEditRedoMenu" Header="Redo" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainViewMenu" Header="View">
+                    <MenuItem x:Name="MainViewNewNoteMenu" Header="New Note" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainNavigateMenu" Header="Navigate">
+                    <MenuItem x:Name="MainNavigateDashboardMenu" Header="Dashboard" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainQueryMenu" Header="Query">
+                    <MenuItem x:Name="MainQueryBuilderMenu" Header="Query Builder" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainToolsMenu" Header="Tools">
+                    <MenuItem x:Name="MainToolsCSHA256HashMenu" Header="Create SHA256 hash" IsEnabled="False"/>
+                    <MenuItem x:Name="MainToolsCryptPTMenu" Header="Crypt Plain Text" IsEnabled="False"/>
+                    <MenuItem x:Name="MainToolsDecryptCTMenu" Header="Decrypt Crypt Text" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainSetupMenu" Header="Setup">
+                    <MenuItem x:Name="MainSetupChangeThemeMenu" Header="Change Theme" IsEnabled="False"/>
+                </MenuItem>
+                <MenuItem x:Name="MainHelpMenu" Header="Help">
+                    <MenuItem x:Name="MainHelpRegisterProductMenu" Header="Register Product" IsEnabled="False"/>
+                    <MenuItem x:Name="MainHelpAboutMenu" Header="About" IsEnabled="False"/>
+                </MenuItem>
+            </Menu>
+            <TabControl x:Name="MainTabControl" Grid.Row="1" Background="#333333"/>
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="MainProgressBarDesc" Grid.Column="0" Margin="2,3,0,3" Text="x/X" FontSize="10"/>
-                <ProgressBar x:Name="MainProgressBar" Grid.Column="1" Margin="5,1"/>
-            </Grid>
-            <Grid Grid.Column="5">
-                <Image x:Name="MainErrorImage" Height="20" Width="20" HorizontalAlignment="Left" Visibility="Collapsed"/>
-                <TextBlock x:Name="MainErrorCounter" Height="20" HorizontalAlignment="Right" Visibility="Collapsed"/>
+                <TextBlock x:Name="MainStatus" Grid.Column="0" Margin="2,3" Text="Status: Unknown" FontSize="10"/>
+                <TextBlock x:Name="MainAccountLogIn" Grid.Column="2" Margin="2,3,20,3" Text="Login: Unknown" FontSize="10"/>
             </Grid>
         </Grid>
+        <controls:MaterialDesignProgressCircleControl x:Name="MainProgressGrid" Background="LightGray" Opacity="0.8" Visibility="Collapsed"/>
     </Grid>
 </Window>

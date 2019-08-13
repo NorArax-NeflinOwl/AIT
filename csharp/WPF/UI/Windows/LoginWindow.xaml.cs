@@ -117,15 +117,13 @@ namespace WPF.UI.Windows
                 MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGIN_SUCC, 2), false);
 
                 MainContext.Instance.Windows.Open(new MainProperties());
-                LoginProgressBar.Visibility = Visibility.Collapsed;
                 MainContext.Instance.Windows.Close(Properties.WindowName);
             }
             catch(Exception ex)
             {
                 LogManager.Instance.LogExceptionToFile(ex);
-
-                throw; //TODO create dialog with error;
             }
+            LoginProgressBar.Visibility = Visibility.Collapsed;
         }
 
         public void Dispose()

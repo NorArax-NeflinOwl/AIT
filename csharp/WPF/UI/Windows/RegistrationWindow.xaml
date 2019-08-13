@@ -73,5 +73,9 @@
                 </Button>
             </Grid>
         </Grid>
+        <Grid x:Name="RegProgressGrid" Visibility="Collapsed" Background="LightGray" Opacity="0.8">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         IsIndeterminate="True" Width="70" Height="70"/>
+        </Grid>
     </Grid>
 </Window>

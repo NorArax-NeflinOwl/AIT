@@ -204,6 +204,9 @@
   <data name="ERROR_HANDLEINFO" xml:space="preserve">
     <value>{0} errors handle. Check logs!</value>
   </data>
+  <data name="ERROR_NOHANDLE" xml:space="preserve">
+    <value>No hadle error detected. Check log!</value>
+  </data>
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
   </data>

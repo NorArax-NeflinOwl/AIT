@@ -112,10 +112,14 @@ namespace WPF.UI.Windows
 
             MainContext.Instance.Windows.Open(new LoginProperties(account.Login));
             MainContext.Instance.Windows.Close(Properties.WindowName);
+
+            account.Dispose();
         }
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
+            RegProgressGrid.Visibility = Visibility.Visible;
+
             var login = RegLoginTextBox.Text;
             var password = RegPasswordBox.Password;
             var correctPassowrd = RegRepPasswordBox.Password.Equals(password);
@@ -166,7 +170,7 @@ namespace WPF.UI.Windows
                             Creator = account.ID,
                             Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
                             Type = FileTypesEnum.ACTIVATION_CODE,
-                            Content = Generators.GenerateActivateCode(account.ToString())
+                            Content = Generators.GenerateActivateCode(account.GetHashCode())
                         };
                         userActivatedCodeFile.Insert();
 
@@ -176,7 +180,6 @@ namespace WPF.UI.Windows
 
                         Dispatcher.Invoke(async () =>
                         {
-                            // TODO SHOW PROGRESS BAR
                             if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
                                 ShowActivationPanel();
                             else
@@ -189,6 +192,8 @@ namespace WPF.UI.Windows
                     throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
                 }
             }
+
+            RegProgressGrid.Visibility = Visibility.Collapsed;
         }
 
         private void ShowActivationPanel()
