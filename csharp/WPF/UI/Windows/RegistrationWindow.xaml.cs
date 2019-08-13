@@ -31,6 +31,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
+            KeyUp -= App.MainWindow_KeyUp;
             //Closing -= App.MainWindow_Closing;
             RegButton.Click -= RegButton_Click;
             RegAct2Button.Click -= RegAct2Button_Click;
@@ -47,6 +48,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
+            KeyUp += App.MainWindow_KeyUp;
             //Closing += App.MainWindow_Closing;
             RegButton.Click += RegButton_Click;
             RegAct2Button.Click += RegAct2Button_Click;

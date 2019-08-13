@@ -21,7 +21,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
-
+            KeyUp -= App.MainWindow_KeyUp;
             GC.Collect();
         }
 
@@ -31,6 +31,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
+            KeyUp += App.MainWindow_KeyUp;
         }
     }
 }

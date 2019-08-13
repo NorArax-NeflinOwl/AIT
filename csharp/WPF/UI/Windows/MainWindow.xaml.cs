@@ -139,7 +139,7 @@ namespace WPF.UI.Windows
             var tabitem = MainTabControlManager.TabControl.Items[index] as TabItem;
             var ctrl = tabitem?.Header as TabItemHeaderControl;
 
-            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] on [{ctrl?.Header?.Text}] page");
+            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] release on [{ctrl?.Header?.Text}] page in MainWindow");
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

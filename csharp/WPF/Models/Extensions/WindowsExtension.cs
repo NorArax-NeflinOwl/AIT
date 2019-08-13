@@ -19,6 +19,8 @@ namespace WPF.Models.Extensions
             this.app = app;
         }
 
+        public App App { get => app; }
+
         public void Open(IWindowsProperties properties, bool save = true)
         {
             if(save)
@@ -72,6 +74,11 @@ namespace WPF.Models.Extensions
             this.Where(q => q.WindowName.Equals(key)).FirstOrDefault()?.Window.Hide();
         }
 
+        public void Hide()
+        {
+            ForEach(q => q.Window.Hide());
+        }
+
         public void Show(WindowsNameEnum key)
         {
             var window = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
@@ -79,6 +86,11 @@ namespace WPF.Models.Extensions
                 window.Window.Show();
             else
                 Open(CreatePropertiesFromEnum(key));
+        }
+
+        public void Show()
+        {
+            ForEach(q => q.Window.Show());
         }
 
         public static MainWindow GetMainWindow()

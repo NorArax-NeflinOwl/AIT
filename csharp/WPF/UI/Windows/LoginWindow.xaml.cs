@@ -40,6 +40,7 @@ namespace WPF.UI.Windows
 
         public void Subscribe()
         {
+            KeyUp += App.MainWindow_KeyUp;
             //Closing += App.MainWindow_Closing;
             LoginButton.Click += LoginButton_Click;
             LoginRegButton.Click += LoginRegButton_Click;
@@ -128,6 +129,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
+            KeyUp -= App.MainWindow_KeyUp;
             //Closing -= App.MainWindow_Closing;
             LoginButton.Click -= LoginButton_Click;
             LoginRegButton.Click -= LoginRegButton_Click;

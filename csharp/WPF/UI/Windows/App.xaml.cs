@@ -29,7 +29,14 @@ namespace WPF
             if(MainWindow != null)
             {
                 MainWindow.Closing += MainWindow_Closing;
+                MainWindow.KeyUp += MainWindow_KeyUp;
             }
+        }
+
+        public static void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            var key = e.Key.ToString();
+            MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] release on [{MainContext.Instance.Windows?.App?.MainWindow?.Name}] page");
         }
 
         public void Dispose()
@@ -37,6 +44,7 @@ namespace WPF
             if (MainWindow != null)
             {
                 MainWindow.Closing -= MainWindow_Closing;
+                MainWindow.KeyUp -= MainWindow_KeyUp;
             }
 
             GC.Collect();
@@ -47,6 +55,7 @@ namespace WPF
             var msgBox = MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (msgBox == MessageBoxResult.Yes)
             {
+                MainContext.Instance.Windows.Hide();
                 var collect = BackgroundTasksManager.Instance.Collect();
                 collect.Wait();
 
