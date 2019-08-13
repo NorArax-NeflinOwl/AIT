@@ -9,6 +9,7 @@ using WPF.Models.Extensions;
 using System.Collections.Generic;
 using WPF.Databases.Contexts;
 using WPF.UI.Windows.Properties;
+using WPF.Models.Interfaces;
 
 namespace WPF.Managers
 {
@@ -124,7 +125,14 @@ namespace WPF.Managers
 
             try
             {
-                MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
+                if(e is ICustomException)
+                {
+                    MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, e.Message, 5), false);
+                }
+                else
+                {
+                    MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
+                }
             }
             catch(Exception ex)
             {

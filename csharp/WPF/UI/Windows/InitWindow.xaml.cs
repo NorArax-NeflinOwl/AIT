@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,6 +35,8 @@ namespace WPF.UI.Windows
 
         public void Init()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             CenterWindowOnScreen();
             InitMessage.Text = WPF.Properties.Resources.APP_START;
             InitImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\logo4x3.png"));
@@ -55,6 +58,13 @@ namespace WPF.UI.Windows
                 using(var context = PDBContext.Instance.Context)
                 {
                     var userHost = context.UsersHosts.Where(q => host.Equals(q.HostName) && q.IsActive && q.IsLoggedIn && !string.IsNullOrEmpty(q.AssignedTo)).FirstOrDefault();
+
+                    stopwatch.Stop();
+                    if (stopwatch.ElapsedMilliseconds < 2000)
+                    {
+                        await Task.Delay(3000);
+                    }
+
                     if (userHost != null)
                     {
                         PDBContext.Instance.AccountID = userHost.AssignedTo;

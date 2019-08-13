@@ -230,6 +230,7 @@
     <Compile Include="Models\ArrayMessageInfoModel.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
     <Compile Include="Models\Interfaces\IMessageInfo.cs" />
+    <Compile Include="Models\Interfaces\ICustomException.cs" />
     <Compile Include="Models\LottoInfoModel.cs" />
     <Compile Include="Models\MailBoxItemModel.cs" />
     <Compile Include="Models\ExceptionInfoModel.cs" />
