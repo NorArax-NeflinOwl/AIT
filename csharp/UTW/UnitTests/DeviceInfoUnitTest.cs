@@ -8,7 +8,7 @@ namespace UTW.UnitTests
     public class DeviceInfoUnitTest
     {
         [TestMethod]
-        public void UnitTest1()
+        public void DeviceMenchodTest()
         {
             Assert.IsTrue(!string.IsNullOrEmpty(HardwareManager.GetAccountName()));
             Assert.IsTrue(!string.IsNullOrEmpty(HardwareManager.GetBIOScaption()));

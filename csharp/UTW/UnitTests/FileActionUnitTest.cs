@@ -8,7 +8,7 @@ namespace UTW.UnitTests
     public class FileActionUnitTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ConstructorTest()
         {
             FileManager manager = new FileManager();
             Assert.IsNotNull(manager);
