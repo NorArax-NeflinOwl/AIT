@@ -16,9 +16,10 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for InitWindow.xaml
     /// </summary>
-    public partial class InitWindow : Window, IDisposable, IPropertizableWindow
+    public partial class InitWindow : Window, IDisposableExtended, IPropertizableWindow
     {
         public IWindowsProperties Properties { get; }
+        public bool IsDisposed { get; set; }
 
         public InitWindow()
         {
@@ -91,6 +92,7 @@ namespace WPF.UI.Windows
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
     }

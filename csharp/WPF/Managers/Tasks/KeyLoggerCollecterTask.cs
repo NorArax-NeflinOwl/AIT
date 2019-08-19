@@ -9,18 +9,20 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
 {
-    class KeyLoggerCollecterTask : IBackgroundTask, IDisposable
+    class KeyLoggerCollecterTask : IBackgroundTask, IDisposableExtended
     {
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
         public bool MustBeCollected => true;
 
         public bool Completed { get; set; }
+        public bool IsDisposed { get; set; }
 
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
             BackgroundWorker.DoWork -= BackgroundWorker_Collect;
+            IsDisposed = true;
             GC.Collect();
         }
 

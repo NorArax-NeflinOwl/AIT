@@ -312,6 +312,9 @@
   <data name="PREFIX_INVALID" xml:space="preserve">
     <value>Invalid table prefix!</value>
   </data>
+  <data name="PROCESS" xml:space="preserve">
+    <value>Process...</value>
+  </data>
   <data name="QUERYBULIDER_HEADER" xml:space="preserve">
     <value>Query Builder</value>
   </data>

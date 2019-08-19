@@ -4,13 +4,14 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
 {
-    public class CreateDbFileInDocumnetTask : IBackgroundTask, IDisposable
+    public class CreateDbFileInDocumnetTask : IBackgroundTask, IDisposableExtended
     {
         public bool Completed { get; set; }
 
         public bool MustBeCollected { get => true; }
 
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
+        public bool IsDisposed { get; set; }
 
         public void Collect()
         {
@@ -27,6 +28,7 @@ namespace WPF.Managers.Tasks
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
 

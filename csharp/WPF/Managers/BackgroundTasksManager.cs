@@ -4,6 +4,8 @@ using WPF.Managers.Tasks;
 using System.Linq;
 using System.Windows.Threading;
 using System.Threading.Tasks;
+using WPF.Databases.Contexts;
+using WPF.UI.Windows.Properties;
 
 namespace WPF.Managers
 {
@@ -59,8 +61,8 @@ namespace WPF.Managers
 
         public async Task Collect()
         {
-            // TODO open process window/popup
-            foreach(var task in tasks.Where(q => q.MustBeCollected))
+            var processPopup = MainContext.Instance.Windows.Open(new PopupProperties());
+            foreach (var task in tasks.Where(q => q.MustBeCollected))
             {
                 task.Collect();
             }
@@ -70,7 +72,8 @@ namespace WPF.Managers
             {
                 await Task.Delay(10);
             }
-            // TODO close process window/popup
+
+            MainContext.Instance.Windows.Close(processPopup.WindowName);
         }
     }
 }

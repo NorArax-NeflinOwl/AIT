@@ -9,13 +9,14 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
 {
-    public class ManagersInitializerTask : IBackgroundTask, IDisposable
+    public class ManagersInitializerTask : IBackgroundTask, IDisposableExtended
     {
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
         public bool MustBeCollected => false;
 
         public bool Completed { get; set; }
+        public bool IsDisposed { get; set; }
 
         public void Collect()
         {
@@ -24,6 +25,7 @@ namespace WPF.Managers.Tasks
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
+            IsDisposed = true;
             GC.Collect();
         }
 

@@ -18,11 +18,12 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDisposable, IPropertizableWindow
+    public partial class MainWindow : Window, IDisposableExtended, IPropertizableWindow
     {
         public IWindowsProperties Properties { get; }
 
         private TabControlManager MainTabControlManager { get; set; }
+        public bool IsDisposed { get; set; }
 
         public MainWindow()
         {
@@ -124,6 +125,7 @@ namespace WPF.UI.Windows
             MainNavigateDashboardMenu.Click -= MainNavigateDashboardMenu_Click;
 
             MainTabControlManager.Clear();
+            IsDisposed = true;
             GC.Collect();
         }
 

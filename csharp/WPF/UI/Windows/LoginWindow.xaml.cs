@@ -16,9 +16,10 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IDisposable, IPropertizableWindow
+    public partial class LoginWindow : Window, IDisposableExtended, IPropertizableWindow
     {
         public IWindowsProperties Properties { get; }
+        public bool IsDisposed { get; set; }
 
         public LoginWindow(string login = "")
         {
@@ -41,7 +42,7 @@ namespace WPF.UI.Windows
         public void Subscribe()
         {
             KeyUp += App.MainWindow_KeyUp;
-            //Closing += App.MainWindow_Closing;
+            Closing += App.MainWindow_Closing;
             LoginButton.Click += LoginButton_Click;
             LoginRegButton.Click += LoginRegButton_Click;
         }
@@ -49,7 +50,7 @@ namespace WPF.UI.Windows
         private void LoginRegButton_Click(object sender, RoutedEventArgs e)
         {
             MainContext.Instance.Windows.Open(new RegistrationProperties());
-            MainContext.Instance.Windows.Close(Properties.WindowName);
+            MainContext.Instance.Windows.Hide(Properties.WindowName);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -118,7 +119,7 @@ namespace WPF.UI.Windows
                 MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGIN_SUCC, 2), false);
 
                 MainContext.Instance.Windows.Open(new MainProperties());
-                MainContext.Instance.Windows.Close(Properties.WindowName);
+                MainContext.Instance.Windows.Hide(Properties.WindowName);
             }
             catch(Exception ex)
             {
@@ -130,10 +131,11 @@ namespace WPF.UI.Windows
         public void Dispose()
         {
             KeyUp -= App.MainWindow_KeyUp;
-            //Closing -= App.MainWindow_Closing;
+            Closing -= App.MainWindow_Closing;
             LoginButton.Click -= LoginButton_Click;
             LoginRegButton.Click -= LoginRegButton_Click;
 
+            IsDisposed = true;
             GC.Collect();
         }
 

@@ -4,15 +4,20 @@ using WPF.Databases.Contexts;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WPF.Databases.Models
 {
-    public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable, IDisposable
+    public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable, IDisposableExtended
     {
         protected string BaseID;
         protected DateTime? BaseLastUpdate;
 
+        [NotMapped]
         public DBContext Context { get; set; }
+
+        [NotMapped]
+        public bool IsDisposed { get; set; }
 
         public BaseEntityModel(DBContext context) : base(null)
         {
@@ -59,6 +64,8 @@ namespace WPF.Databases.Models
         public void Dispose()
         {
             Context.Dispose();
+
+            IsDisposed = true;
             GC.Collect();
         }
     }

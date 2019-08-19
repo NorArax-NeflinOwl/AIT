@@ -11,19 +11,21 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for PopupWindow.xaml
     /// </summary>
-    public partial class PopupWindow : Window, IDisposable
+    public partial class PopupWindow : Window, IDisposableExtended
     {
         public IWindowsProperties Properties { get; }
         public int VisibilityTimeInSecond { get; set; }
+        public bool IsDisposed { get; set; }
 
         public PopupWindow()
         {
             Properties = new PopupProperties(this);
             InitializeComponent();
-            ToastTitleTextBox.Text = "Popup";
-            ToastMessageTextBox.Text = "Test";
-            VisibilityTimeInSecond = 5;
-            Init();
+
+            ProcessToastTitle.Text = WPF.Properties.Resources.PROCESS;
+            ProcessToastGrid.Visibility = Visibility.Visible;
+            ToastWindowBorder.Visibility = Visibility.Collapsed;
+            CenterWindowOnScreen();
         }
 
         public PopupWindow(string title, string content, int visibilityTimeInSecond)
@@ -58,10 +60,20 @@ namespace WPF.UI.Windows
                 Close();
             });
         }
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            Left = (screenWidth / 2) - (windowWidth / 2);
+            Top = (screenHeight / 2) - (windowHeight / 2);
+        }
 
         public void Dispose()
         {
             Properties.Dispose();
+            IsDisposed = true;
             GC.Collect();
         }
     }

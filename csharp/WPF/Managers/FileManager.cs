@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using WPF.Models.Interfaces;
 using WPF.Properties;
 
 namespace WPF.Managers
 {
-    public class FileManager : IDisposable
+    public class FileManager : IDisposableExtended
     {
         private static string m_AppDirectoryPath;
+
+        public bool IsDisposed { get; set; }
 
         public FileManager()
         {
@@ -189,6 +192,7 @@ namespace WPF.Managers
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
     }

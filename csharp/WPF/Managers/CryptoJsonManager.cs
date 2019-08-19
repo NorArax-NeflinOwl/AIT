@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using WPF.Models.Interfaces;
 using WPF.Properties;
 
 namespace WPF.Managers
 {
-    public class CryptoJsonManager : IDisposable
+    public class CryptoJsonManager : IDisposableExtended
     {
         private readonly string CRYPTO_FLAG = "[CRYPT]";
         private readonly JsonSerializerSettings m_Setting;
@@ -34,6 +35,8 @@ namespace WPF.Managers
                 }
             }
         }
+
+        public bool IsDisposed { get; set; }
 
         public string Serialize(object obj, string password = null)
         {
@@ -95,6 +98,7 @@ namespace WPF.Managers
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
     }

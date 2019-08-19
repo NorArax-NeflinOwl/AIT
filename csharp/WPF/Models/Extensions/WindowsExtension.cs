@@ -21,6 +21,12 @@ namespace WPF.Models.Extensions
 
         public App App { get => app; }
 
+        public IWindowsProperties Open(IWindowsProperties properties)
+        {
+            Open(properties, true);
+            return properties;
+        }
+
         public void Open(IWindowsProperties properties, bool save = true)
         {
             if(save)
@@ -60,8 +66,11 @@ namespace WPF.Models.Extensions
             });
 
             var prop = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
-            prop.Window.Close();
-            Remove(prop);
+            if(prop != null)
+            {
+                prop.Window.Close();
+                Remove(prop);
+            }
 
             if(prop != null)
             {
@@ -71,25 +80,68 @@ namespace WPF.Models.Extensions
 
         public void Hide(WindowsNameEnum key)
         {
+            LogManager.Instance.LogToFile(new LogInfoModel
+            {
+                Type = FileTypesEnum.TRACE,
+                Message = new SimpleMessageInfoModel($"Hide window " + key.ToString())
+            });
+
             this.Where(q => q.WindowName.Equals(key)).FirstOrDefault()?.Window.Hide();
         }
 
         public void Hide()
         {
+            LogManager.Instance.LogToFile(new LogInfoModel
+            {
+                Type = FileTypesEnum.TRACE,
+                Message = new SimpleMessageInfoModel($"Hide all windows")
+            }); 
+
             ForEach(q => q.Window.Hide());
+        }
+
+        public void HideAndDispose(WindowsNameEnum key)
+        {
+            var prop = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
+
+            if(prop != null)
+            {
+                LogManager.Instance.LogToFile(new LogInfoModel
+                {
+                    Type = FileTypesEnum.TRACE,
+                    Message = new SimpleMessageInfoModel($"Hide and dispose window " + key.ToString())
+                });
+
+                prop.Window.Hide();
+                prop.Dispose();
+            }
         }
 
         public void Show(WindowsNameEnum key)
         {
             var window = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
             if (window != null)
+            {
+                LogManager.Instance.LogToFile(new LogInfoModel
+                {
+                    Type = FileTypesEnum.TRACE,
+                    Message = new SimpleMessageInfoModel($"Show window " + key.ToString())
+                });
+
                 window.Window.Show();
+            }
             else
                 Open(CreatePropertiesFromEnum(key));
         }
 
         public void Show()
         {
+            LogManager.Instance.LogToFile(new LogInfoModel
+            {
+                Type = FileTypesEnum.TRACE,
+                Message = new SimpleMessageInfoModel($"Show all windows in application")
+            });
+
             ForEach(q => q.Window.Show());
         }
 
@@ -117,7 +169,7 @@ namespace WPF.Models.Extensions
                 {
                     foreach (var win in this)
                     {
-                        if(properties == null || (properties != null && !properties.Title.Equals(win.Title)))
+                        if(properties == null || (properties != null && !properties.Title.Equals(win.Title) && !properties.IsDisposed))
                             win.Window.Close();
                     }
                 }

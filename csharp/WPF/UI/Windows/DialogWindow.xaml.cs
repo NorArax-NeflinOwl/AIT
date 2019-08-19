@@ -7,9 +7,10 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class DialogWindow : Window, IDisposable, IPropertizableWindow
+    public partial class DialogWindow : Window, IDisposableExtended, IPropertizableWindow
     {
         public IWindowsProperties Properties { get; set; }
+        public bool IsDisposed { get; set; }
 
         public DialogWindow(IWindowsProperties properties)
         {
@@ -22,6 +23,7 @@ namespace WPF.UI.Windows
         public void Dispose()
         {
             KeyUp -= App.MainWindow_KeyUp;
+            IsDisposed = true;
             GC.Collect();
         }
 

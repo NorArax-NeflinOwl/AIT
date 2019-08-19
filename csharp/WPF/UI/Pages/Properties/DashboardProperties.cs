@@ -10,9 +10,11 @@ namespace WPF.UI.Pages.Properties
     {
         public TabItemHeaderControl Header { get; set; } = new TabItemHeaderControl(Resources.DASHBOARD_HEADER);
         public Page Content { get; set; } = new DashboardPage();
+        public bool IsDisposed { get; set; }
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
     }

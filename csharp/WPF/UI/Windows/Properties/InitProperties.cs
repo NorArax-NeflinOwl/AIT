@@ -20,6 +20,7 @@ namespace WPF.UI.Windows.Properties
         public WindowStartupLocation WindowStartupLocation { get; set; }
         public Window Window { get; set; }
         public IDictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
+        public bool IsDisposed { get; set; }
 
         public InitProperties()
         {
@@ -33,6 +34,7 @@ namespace WPF.UI.Windows.Properties
 
         public void Dispose()
         {
+            IsDisposed = true;
             GC.Collect();
         }
 

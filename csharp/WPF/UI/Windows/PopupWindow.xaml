@@ -12,23 +12,36 @@
         Background="Transparent"
         BorderThickness="0"
         Topmost="True">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid Background="Transparent" Name="ToastWindowGrid" RenderTransformOrigin="0,1">
 
-        <Border Name="ToastWindowBorder" BorderThickness="0" Background="#333333">
-
-            <StackPanel Name="ToastWindowStackPanel" Margin="10" Orientation="Horizontal">
-
-                <StackPanel Name="ToastMessageStackPanel" Width="359">
-
-                    <TextBox Name="ToastTitleTextBox" Margin="5" MaxWidth="340" Background="#333333" BorderThickness="0" IsReadOnly="True" Foreground="White" FontSize="20" Text="Toast Title" FontWeight="Bold" HorizontalContentAlignment="Center" Width="Auto" HorizontalAlignment="Stretch" IsHitTestVisible="False"/>
-
-                    <TextBox Name="ToastMessageTextBox" Margin="5" MaxWidth="340" Background="#333333" BorderThickness="0" IsReadOnly="True" Foreground="LightGray" FontSize="16" Text="Toast title message. Click to start something." HorizontalContentAlignment="Left" TextWrapping="Wrap" IsHitTestVisible="False"/>
-
+        <Border  x:Name="ToastWindowBorder" BorderThickness="0" Background="#333333">
+            <StackPanel x:Name="ToastWindowStackPanel" Margin="10" Orientation="Horizontal">
+                <StackPanel x:Name="ToastMessageStackPanel" Width="280">
+                    <TextBox x:Name="ToastTitleTextBox" Margin="5,-5,0,0" MaxWidth="300" Background="#333333" BorderThickness="0" 
+                             IsReadOnly="True" Foreground="White" FontSize="20" Text="Toast Title" FontWeight="Bold" HorizontalContentAlignment="Center" 
+                             Width="Auto" HorizontalAlignment="Stretch" IsHitTestVisible="False"/>
+                    <TextBox x:Name="ToastMessageTextBox" Margin="5,0,-5,0" MaxWidth="300" Background="#333333" BorderThickness="0" 
+                             IsReadOnly="True" Foreground="LightGray" FontSize="16" Text="Toast title message. Click to start." HorizontalContentAlignment="Left" 
+                             TextWrapping="Wrap" IsHitTestVisible="False"/>
                 </StackPanel>
-
             </StackPanel>
-
         </Border>
+        <Grid x:Name="ProcessToastGrid" Visibility="Collapsed" Background="#333333">
+            <TextBlock x:Name="ProcessToastTitle" Text="Process..." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="LightGray"/>
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" Height="100" Width="100" IsIndeterminate="True"/>
+        </Grid>
 
         <Grid.Triggers>
 

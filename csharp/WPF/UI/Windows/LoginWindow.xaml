@@ -47,6 +47,7 @@
                 </Button>
             </Grid>
         </Grid>
-        <ProgressBar x:Name="LoginProgressBar" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Visibility="Collapsed"/>
+        <ProgressBar x:Name="LoginProgressBar" Style="{StaticResource MaterialDesignCircularProgressBar}" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" 
+                     Visibility="Collapsed" IsIndeterminate="True"/>
     </Grid>
 </Window>

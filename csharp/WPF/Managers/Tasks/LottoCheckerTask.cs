@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace WPF.Managers.Tasks
 {
-    public class LottoCheckerTask : IBackgroundTask, IDisposable
+    public class LottoCheckerTask : IBackgroundTask, IDisposableExtended
     {
         private readonly string link = "http://www.mbnet.com.pl/dl.txt";
         private readonly int intervalDay = 3;
@@ -30,10 +30,12 @@ namespace WPF.Managers.Tasks
         public bool MustBeCollected => false;
 
         public bool Completed { get; set; }
+        public bool IsDisposed { get; set; }
 
         public void Dispose()
         {
             BackgroundWorker.DoWork -= BackgroundWorker_DoWork;
+            IsDisposed = true;
             GC.Collect();
         }
 

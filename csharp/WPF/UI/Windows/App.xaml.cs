@@ -4,14 +4,19 @@ using System.Threading;
 using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Managers;
+using WPF.Models.Interfaces;
 
 namespace WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application, IDisposable
+    public partial class App : Application, IDisposableExtended
     {
+        private static bool IsClosed;
+
+        public bool IsDisposed { get; set; }
+
         public App()
         {
             using (new DBContext())
@@ -47,23 +52,28 @@ namespace WPF
                 MainWindow.KeyUp -= MainWindow_KeyUp;
             }
 
+            IsDisposed = true;
             GC.Collect();
         }
 
         public static void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            var msgBox = MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (msgBox == MessageBoxResult.Yes)
+            if(!IsClosed)
             {
-                MainContext.Instance.Windows.Hide();
-                var collect = BackgroundTasksManager.Instance.Collect();
-                collect.Wait();
+                var msgBox = MessageBox.Show(WPF.Properties.Resources.WANT_EXIT, WPF.Properties.Resources.QUESTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (msgBox == MessageBoxResult.Yes)
+                {
+                    IsClosed = true;
+                    MainContext.Instance.Windows.Hide();
+                    var collect = BackgroundTasksManager.Instance.Collect();
+                    collect.Wait();
 
-                MainContext.Instance.Windows.Exit();
-            }
-            else
-            {
-                e.Cancel = true;
+                    MainContext.Instance.Windows.Exit();
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
             }
         }
     }

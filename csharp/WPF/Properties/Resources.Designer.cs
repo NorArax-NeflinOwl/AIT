@@ -646,6 +646,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Process....
+        /// </summary>
+        internal static string PROCESS {
+            get {
+                return ResourceManager.GetString("PROCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Query.
         /// </summary>
         internal static string QUERY_HEADER {

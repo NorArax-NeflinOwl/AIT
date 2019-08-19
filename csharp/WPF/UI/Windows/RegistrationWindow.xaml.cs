@@ -14,12 +14,13 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for RegistrationWindow.xaml
     /// </summary>
-    public partial class RegistrationWindow : Window, IDisposable, IPropertizableWindow
+    public partial class RegistrationWindow : Window, IDisposableExtended, IPropertizableWindow
     {
         private AitAccountModel account;
         private AitFilesModel userActivatedCodeFile;
 
         public IWindowsProperties Properties { get; }
+        public bool IsDisposed { get; set; }
 
         public RegistrationWindow()
         {
@@ -32,11 +33,13 @@ namespace WPF.UI.Windows
         public void Dispose()
         {
             KeyUp -= App.MainWindow_KeyUp;
-            //Closing -= App.MainWindow_Closing;
+            Closing -= App.MainWindow_Closing;
             RegButton.Click -= RegButton_Click;
             RegAct2Button.Click -= RegAct2Button_Click;
             RegActButton.Click -= RegActButton_Click;
             RegActRepSendButton.Click -= RegActRepSendButton_Click;
+
+            IsDisposed = true;
             GC.Collect();
         }
 
@@ -49,7 +52,7 @@ namespace WPF.UI.Windows
         public void Subscribe()
         {
             KeyUp += App.MainWindow_KeyUp;
-            //Closing += App.MainWindow_Closing;
+            Closing += App.MainWindow_Closing;
             RegButton.Click += RegButton_Click;
             RegAct2Button.Click += RegAct2Button_Click;
             RegActButton.Click += RegActButton_Click;
@@ -112,8 +115,8 @@ namespace WPF.UI.Windows
 
             MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
 
-            MainContext.Instance.Windows.Open(new LoginProperties(account.Login));
-            MainContext.Instance.Windows.Close(Properties.WindowName);
+            MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
+            MainContext.Instance.Windows.HideAndDispose(Properties.WindowName);
 
             account.Dispose();
         }
