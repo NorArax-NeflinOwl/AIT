@@ -61,7 +61,7 @@ namespace WPF.Managers
 
         public async Task Collect()
         {
-            var processPopup = MainContext.Instance.Windows.Open(new PopupProperties());
+            var processPopup = MainContext.Instance.Windows.Open(new PopupProperties()); // FIX ME - invisible popup, why??
             foreach (var task in tasks.Where(q => q.MustBeCollected))
             {
                 task.Collect();
