@@ -295,6 +295,24 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detached.
+        /// </summary>
+        internal static string DETACHED {
+            get {
+                return ResourceManager.GetString("DETACHED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detach.
+        /// </summary>
+        internal static string DETACHED_BTNCONTENT {
+            get {
+                return ResourceManager.GetString("DETACHED_BTNCONTENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string EDIT_HEADER {

@@ -34,6 +34,7 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref creator, value, nameof(Creator));
+                LastUpdate = DateTime.Now;
             }
         }
         [ForeignKey("FileOwner"), Column("fls_asgaccid")]
@@ -48,25 +49,38 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref assignedTo, value, nameof(AssignedTo));
+                LastUpdate = DateTime.Now;
             }
         }
         [Column("fls_name")]
         public string Name
         {
             get { return name; }
-            set { SetField(ref name, value, nameof(Name)); }
+            set
+            {
+                SetField(ref name, value, nameof(Name));
+                LastUpdate = DateTime.Now;
+            }
         }
         [Column("fls_type")]
         public FileTypesEnum Type
         {
             get { return type; }
-            set { SetField(ref type, value, nameof(Type)); }
+            set
+            {
+                SetField(ref type, value, nameof(Type));
+                LastUpdate = DateTime.Now;
+            }
         }
         [Column("fls_content")]
         public string Content
         {
             get { return content; }
-            set { SetField(ref content, value, nameof(Content)); }
+            set
+            {
+                SetField(ref content, value, nameof(Content));
+                LastUpdate = DateTime.Now;
+            }
         }
         [Column("fls_create")]
         public DateTime Create
@@ -124,6 +138,9 @@ namespace WPF.Databases.Models
 
             Create = DateTime.Now;
         }
+
+        [NotMapped]
+        public bool IsDetached { get { return string.IsNullOrEmpty(assignedTo) && string.IsNullOrEmpty(creator); } }
 
         public AitFilesModel(SerializationInfo info, StreamingContext context) : base(null)
         {

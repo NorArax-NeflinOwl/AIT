@@ -17,6 +17,9 @@ namespace WPF.UI.Controls
             Title.Text = index + " " + Note.Name;
             CreateDate.Text = Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy hh:mm:ss");
             Type.Text = Properties.Resources.TYPE_S + " " + Note.Type.ToString();
+
+            if(note.IsDetached)
+                AdditionalData.Text = Properties.Resources.DETACHED;
         }
     }
 }
