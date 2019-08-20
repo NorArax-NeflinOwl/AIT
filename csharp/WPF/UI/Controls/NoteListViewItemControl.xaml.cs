@@ -14,8 +14,8 @@ namespace WPF.UI.Controls
         {
             Note = note;
             InitializeComponent();
-            Title.Text = Note.Name;
-            CreateDate.Text = index + " " + Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy hh:mm:ss");
+            Title.Text = index + " " + Note.Name;
+            CreateDate.Text = Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy hh:mm:ss");
             Type.Text = Properties.Resources.TYPE_S + " " + Note.Type.ToString();
         }
     }

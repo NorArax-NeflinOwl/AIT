@@ -88,7 +88,7 @@ namespace WPF.UI.Windows
                     nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
             }
 
-            var properties = new DashboardProperties();
+            var properties = new NoteManagerProperties();
             MainTabControlManager = new TabControlManager(MainTabControl);
             MainTabControlManager.Add(properties);
 
@@ -264,7 +264,7 @@ namespace WPF.UI.Windows
             {
                 Dispatcher.Invoke(async () =>
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
                     MainProgressGrid.Visibility = Visibility.Collapsed;
                 });
             }
