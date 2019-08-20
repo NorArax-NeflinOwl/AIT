@@ -53,11 +53,15 @@ namespace WPF.UI.Windows
             MainEditRedoMenu.Header = WPF.Properties.Resources.REDO_HEADER;
 
             MainViewMenu.Header = WPF.Properties.Resources.VIEW_HEADER;
+            MainViewShowAllMenu.Header = WPF.Properties.Resources.SHOWALL_HEADER;
+            MainViewShowAllMenu.IsEnabled = true;
             MainViewNewNoteMenu.Header = WPF.Properties.Resources.NEWNOTE_HEADER;
 
             MainNavigateMenu.Header = WPF.Properties.Resources.NAV_HEADER;
             MainNavigateDashboardMenu.Header = WPF.Properties.Resources.DASHBOARD_HEADER;
             MainNavigateDashboardMenu.IsEnabled = true;
+            MainNavigateNoteManagerMenu.Header = WPF.Properties.Resources.NOTEMANAGER_HEADER;
+            MainNavigateNoteManagerMenu.IsEnabled = true;
 
             MainQueryMenu.Header = WPF.Properties.Resources.QUERY_HEADER;
             MainQueryBuilderMenu.Header = WPF.Properties.Resources.QUERYBULIDER_HEADER;
@@ -100,12 +104,15 @@ namespace WPF.UI.Windows
 
             MainTabControlManager.TabControl.SelectionChanged += MainTabControl_SelectionChanged;
 
+            MainViewShowAllMenu.Click += MainViewShowAllMenu_Click;
+
             MainFileCloseAllWindowsMenu.Click += MainFileCloseAllWindowsMenu_Click;
             MainFileSettingsMenu.Click += MainFileSettingsMenu_Click;
             MainFileLogOutMenu.Click += MainFileLogOutMenu_Click;
             MainFileExitMenu.Click += MainFileExitMenu_Click;
 
             MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
+            MainNavigateNoteManagerMenu.Click += MainNavigateNoteManagerMenu_Click;
 
             SetProgressVisibility(false);
         }
@@ -117,12 +124,15 @@ namespace WPF.UI.Windows
 
             MainTabControlManager.TabControl.SelectionChanged -= MainTabControl_SelectionChanged;
 
+            MainViewShowAllMenu.Click -= MainViewShowAllMenu_Click;
+
             MainFileCloseAllWindowsMenu.Click -= MainFileCloseAllWindowsMenu_Click;
             MainFileSettingsMenu.Click -= MainFileSettingsMenu_Click;
             MainFileLogOutMenu.Click -= MainFileLogOutMenu_Click;
             MainFileExitMenu.Click -= MainFileExitMenu_Click;
 
             MainNavigateDashboardMenu.Click -= MainNavigateDashboardMenu_Click;
+            MainNavigateNoteManagerMenu.Click -= MainNavigateNoteManagerMenu_Click;
 
             MainTabControlManager.Clear();
             IsDisposed = true;
@@ -133,7 +143,7 @@ namespace WPF.UI.Windows
         {
             var key = e.Key.ToString();
             var index = 0;
-            if(MainTabControlManager.TabControl.SelectedIndex > 0)
+            if(MainTabControlManager.TabControl.SelectedIndex > index)
             {
                 index = MainTabControlManager.TabControl.SelectedIndex;
             }
@@ -142,6 +152,20 @@ namespace WPF.UI.Windows
             var ctrl = tabitem?.Header as TabItemHeaderControl;
 
             MainContext.Instance.KeyLogger.Add($"{DateTime.Now} Key[{key}] release on [{ctrl?.Header?.Text}] page in MainWindow");
+        }
+
+        private void MainViewShowAllMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SetProgressVisibility(true);
+            MainContext.Instance.Windows.Show();
+            SetProgressVisibility(false);
+        }
+
+        private void MainNavigateNoteManagerMenu_Click(object sender, RoutedEventArgs e)
+        {
+            SetProgressVisibility(true);
+            MainTabControlManager.Add(new NoteManagerProperties());
+            SetProgressVisibility(false);
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

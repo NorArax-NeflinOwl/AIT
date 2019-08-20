@@ -69,6 +69,7 @@ namespace WPF
                     collect.Wait();
 
                     MainContext.Instance.Windows.Exit();
+                    Current.Shutdown();
                 }
                 else
                 {

@@ -58,7 +58,6 @@ namespace WPF.Models.Extensions
 
         public void Close(WindowsNameEnum key)
         {
-
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
@@ -169,20 +168,46 @@ namespace WPF.Models.Extensions
                 {
                     foreach (var win in this)
                     {
-                        if(properties == null || (properties != null && !properties.Title.Equals(win.Title) && !properties.IsDisposed))
-                            win.Window.Close();
+                        if(!win.IsDisposed)
+                        {
+                            if (properties == null || properties != null && !properties.WindowName.Equals(win.WindowName))
+                            {
+                                if (IsClosableWindow(win.WindowName))
+                                    win.Window?.Hide();
+                                else
+                                    win.Window?.Close();
+                            }
+                        }
                     }
                 }
                 catch (Exception) { }
             }
 
+            var msg = $"Close all windows";
+            if(properties != null)
+            {
+                msg += $" without {properties.WindowName} window and hide MainWindow";
+            }
+
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new SimpleMessageInfoModel($"Close all windows")
+                Message = new SimpleMessageInfoModel(msg)
             });
 
             Clear();
+        }
+
+        private bool IsClosableWindow(WindowsNameEnum key)
+        {
+            switch(key)
+            {
+                case WindowsNameEnum.LOGIN:
+                case WindowsNameEnum.REGISTRATION:
+                case WindowsNameEnum.MAIN:
+                    return true;
+            }
+            return false;
         }
 
         private IWindowsProperties CreatePropertiesFromEnum(WindowsNameEnum key)

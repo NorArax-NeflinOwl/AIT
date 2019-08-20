@@ -574,6 +574,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Notes Manager.
+        /// </summary>
+        internal static string NOTEMANAGER_HEADER {
+            get {
+                return ResourceManager.GetString("NOTEMANAGER_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Obj.
         /// </summary>
         internal static string OBJDIR_SUBPATH {
@@ -732,6 +741,15 @@ namespace WPF.Properties {
         internal static string SETUP_HEADER {
             get {
                 return ResourceManager.GetString("SETUP_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show All.
+        /// </summary>
+        internal static string SHOWALL_HEADER {
+            get {
+                return ResourceManager.GetString("SHOWALL_HEADER", resourceCulture);
             }
         }
         

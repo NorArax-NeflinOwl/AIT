@@ -80,7 +80,7 @@ namespace WPF.Managers
                             File.WriteAllText(filePath, json);
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         // TODO This exception should be handled by another process (and file if this is nessesery)
                         /* m_Logger.Add(new LogInfoModel

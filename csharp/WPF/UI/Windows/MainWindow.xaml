@@ -29,10 +29,12 @@
                     <MenuItem x:Name="MainEditRedoMenu" Header="Redo" IsEnabled="False"/>
                 </MenuItem>
                 <MenuItem x:Name="MainViewMenu" Header="View">
+                    <MenuItem x:Name="MainViewShowAllMenu" Header="Show All" IsEnabled="False"/>
                     <MenuItem x:Name="MainViewNewNoteMenu" Header="New Note" IsEnabled="False"/>
                 </MenuItem>
                 <MenuItem x:Name="MainNavigateMenu" Header="Navigate">
                     <MenuItem x:Name="MainNavigateDashboardMenu" Header="Dashboard" IsEnabled="False"/>
+                    <MenuItem x:Name="MainNavigateNoteManagerMenu" Header="Note Manager" IsEnabled="False"/>
                 </MenuItem>
                 <MenuItem x:Name="MainQueryMenu" Header="Query">
                     <MenuItem x:Name="MainQueryBuilderMenu" Header="Query Builder" IsEnabled="False"/>

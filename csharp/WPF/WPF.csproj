@@ -252,7 +252,11 @@
     <Compile Include="UI\Pages\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Pages\NoteManagerPage.xaml.cs">
+      <DependentUpon>NoteManagerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Pages\Properties\DashboardProperties.cs" />
+    <Compile Include="UI\Pages\Properties\NoteManagerProperties.cs" />
     <Compile Include="UI\Pages\Properties\SettingsProperties.cs" />
     <Compile Include="UI\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
@@ -287,6 +291,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Pages\DashboardPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Pages\NoteManagerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

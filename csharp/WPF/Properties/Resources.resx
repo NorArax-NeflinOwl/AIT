@@ -285,6 +285,9 @@
   <data name="NEWNOTE_HEADER" xml:space="preserve">
     <value>New Note</value>
   </data>
+  <data name="NOTEMANAGER_HEADER" xml:space="preserve">
+    <value>Notes Manager</value>
+  </data>
   <data name="NOTE_EXT" xml:space="preserve">
     <value>.note</value>
   </data>
@@ -341,6 +344,9 @@
   </data>
   <data name="SETUP_HEADER" xml:space="preserve">
     <value>Setup</value>
+  </data>
+  <data name="SHOWALL_HEADER" xml:space="preserve">
+    <value>Show All</value>
   </data>
   <data name="TOOLS_HEADER" xml:space="preserve">
     <value>Tools</value>

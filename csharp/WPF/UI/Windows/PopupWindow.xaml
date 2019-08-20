@@ -11,7 +11,8 @@
         AllowsTransparency="True"
         Background="Transparent"
         BorderThickness="0"
-        Topmost="True">
+        Topmost="True"
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <ResourceDictionary>

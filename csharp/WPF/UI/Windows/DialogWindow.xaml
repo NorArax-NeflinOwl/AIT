@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" 
+        
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{Binding Properties.Title}" 
         Height="{Binding Properties.Heigth}" 
@@ -11,17 +12,9 @@
         ResizeMode="{Binding Properties.ResizeMode}"
         WindowStyle="{Binding Properties.WindowStyle}"
         WindowStartupLocation="{Binding Properties.WindowStartupLocation}"
-        Topmost="{Binding Properties.Topmost}">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+        Topmost="{Binding Properties.Topmost}" 
+        ShowInTaskbar="False">
+    
     <Grid Background="LightGray">
         <Grid>
             
