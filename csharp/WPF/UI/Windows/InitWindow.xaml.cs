@@ -14,15 +14,15 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for InitWindow.xaml
     /// </summary>
-    public partial class InitWindow : Window, IDisposableExtended, IPropertizableWindow
+    public partial class InitWindow : Window, IDisposableExtended, IPropertizableControl
     {
-        public IWindowsProperties Properties { get; }
+        public IProperties Properties { get; }
         public bool IsDisposed { get; set; }
 
         public InitWindow()
         {
             Properties = new InitProperties(this);
-            MainContext.Instance.Windows.Open(Properties);
+            MainContext.Instance.Windows.Open((IWindowsProperties)Properties);
 
             InitializeComponent();
             Init();
@@ -74,7 +74,7 @@ namespace WPF.UI.Windows
                     {
                         MainContext.Instance.Windows.Open(new LoginProperties());
                     }
-                    MainContext.Instance.Windows.Close(Properties.WindowName);
+                    MainContext.Instance.Windows.Close(((IWindowsProperties) Properties).WindowName);
                 }
             });
         }

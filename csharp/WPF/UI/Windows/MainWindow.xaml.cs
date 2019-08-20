@@ -18,9 +18,9 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDisposableExtended, IPropertizableWindow
+    public partial class MainWindow : Window, IDisposableExtended, IPropertizableControl
     {
-        public IWindowsProperties Properties { get; }
+        public IProperties Properties { get; }
 
         private TabControlManager MainTabControlManager { get; set; }
         public bool IsDisposed { get; set; }
@@ -238,7 +238,7 @@ namespace WPF.UI.Windows
 
         private void MainFileCloseAllWindowsMenu_Click(object sender, RoutedEventArgs e)
         {
-            MainContext.Instance.Windows.Clear(Properties);
+            MainContext.Instance.Windows.Clear((IWindowsProperties) Properties);
         }
 
         private void SetTitle(string tabName)

@@ -1,28 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WPF.Models.Interfaces;
 
 namespace WPF.UI.Pages
 {
     /// <summary>
     /// Interaction logic for SettingPage.xaml
     /// </summary>
-    public partial class SettingPage : Page
+    public partial class SettingPage : Page, IDisposableExtended, IPropertizableControl
     {
         public SettingPage()
         {
             InitializeComponent();
+        }
+
+        public bool IsDisposed { get; set; }
+
+        public IProperties Properties { get; set; }
+
+        public void Dispose()
+        {
+
+            IsDisposed = true;
+            GC.Collect();
+        }
+
+        public void Init()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Subscribe()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

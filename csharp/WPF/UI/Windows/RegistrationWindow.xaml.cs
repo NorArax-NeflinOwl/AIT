@@ -14,12 +14,12 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for RegistrationWindow.xaml
     /// </summary>
-    public partial class RegistrationWindow : Window, IDisposableExtended, IPropertizableWindow
+    public partial class RegistrationWindow : Window, IDisposableExtended, IPropertizableControl
     {
         private AitAccountModel account;
         private AitFilesModel userActivatedCodeFile;
 
-        public IWindowsProperties Properties { get; }
+        public IProperties Properties { get; }
         public bool IsDisposed { get; set; }
 
         public RegistrationWindow()
@@ -116,7 +116,7 @@ namespace WPF.UI.Windows
             MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
 
             MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
-            MainContext.Instance.Windows.HideAndDispose(Properties.WindowName);
+            MainContext.Instance.Windows.HideAndDispose(((IWindowsProperties)Properties).WindowName);
 
             account.Dispose();
         }

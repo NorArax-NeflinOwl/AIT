@@ -7,9 +7,9 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for DialogWindow.xaml
     /// </summary>
-    public partial class DialogWindow : Window, IDisposableExtended, IPropertizableWindow
+    public partial class DialogWindow : Window, IDisposableExtended, IPropertizableControl
     {
-        public IWindowsProperties Properties { get; set; }
+        public IProperties Properties { get; set; }
         public bool IsDisposed { get; set; }
 
         public DialogWindow(IWindowsProperties properties)

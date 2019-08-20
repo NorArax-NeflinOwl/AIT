@@ -5,7 +5,7 @@ using WPF.Models.Enums;
 
 namespace WPF.Models.Interfaces
 {
-    public interface IWindowsProperties : IDisposableExtended
+    public interface IWindowsProperties : IDisposableExtended, IProperties
     {
         string Title { get; set; }
         WindowsNameEnum WindowName { get; set; }

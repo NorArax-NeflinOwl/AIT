@@ -232,6 +232,7 @@
     <Compile Include="Models\Interfaces\IMessageInfo.cs" />
     <Compile Include="Models\Interfaces\ICustomException.cs" />
     <Compile Include="Models\Interfaces\IDisposableExtended.cs" />
+    <Compile Include="Models\Interfaces\IProperties.cs" />
     <Compile Include="Models\LottoInfoModel.cs" />
     <Compile Include="Models\MailBoxItemModel.cs" />
     <Compile Include="Models\ExceptionInfoModel.cs" />
@@ -239,12 +240,15 @@
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
     <Compile Include="Managers\TabControlManager.cs" />
     <Compile Include="Models\Extensions\WindowsExtension.cs" />
-    <Compile Include="Models\Interfaces\IPropertizableWindow.cs" />
+    <Compile Include="Models\Interfaces\IPropertizableControl.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
     <Compile Include="Models\Interfaces\IPageModel.cs" />
     <Compile Include="Models\SimpleMessageInfoModel.cs" />
     <Compile Include="UI\Controls\MaterialDesignProgressCircleControl.xaml.cs">
       <DependentUpon>MaterialDesignProgressCircleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Controls\NoteListViewItemControl.xaml.cs">
+      <DependentUpon>NoteListViewItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\TabItemHeaderControl.xaml.cs">
       <DependentUpon>TabItemHeaderControl.xaml</DependentUpon>
@@ -283,6 +287,10 @@
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="UI\Controls\MaterialDesignProgressCircleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Controls\NoteListViewItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

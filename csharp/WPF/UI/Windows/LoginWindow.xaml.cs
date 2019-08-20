@@ -17,9 +17,9 @@ namespace WPF.UI.Windows
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
     /// </summary>
-    public partial class LoginWindow : Window, IDisposableExtended, IPropertizableWindow
+    public partial class LoginWindow : Window, IDisposableExtended, IPropertizableControl
     {
-        public IWindowsProperties Properties { get; }
+        public IProperties Properties { get; }
         public bool IsDisposed { get; set; }
 
         public LoginWindow(string login = "")
@@ -51,7 +51,7 @@ namespace WPF.UI.Windows
         private void LoginRegButton_Click(object sender, RoutedEventArgs e)
         {
             MainContext.Instance.Windows.Open(new RegistrationProperties());
-            MainContext.Instance.Windows.Hide(Properties.WindowName);
+            MainContext.Instance.Windows.Hide(((IWindowsProperties)Properties).WindowName);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -123,7 +123,7 @@ namespace WPF.UI.Windows
                 {
                     await Task.Delay(1000);
                     MainContext.Instance.Windows.Open(new MainProperties());
-                    MainContext.Instance.Windows.Hide(Properties.WindowName);
+                    MainContext.Instance.Windows.Hide(((IWindowsProperties)Properties).WindowName);
                 });
 
             }

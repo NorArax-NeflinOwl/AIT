@@ -7,7 +7,40 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="NoteManagerPage">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid>
-        <TextBlock Text="NOTE MANAGER" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="#FF747474">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White"/>
+            <ListView Grid.Row="1" x:Name="NoteManagerListView" Background="Transparent" BorderThickness="0"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox x:Name="SelectAllCheckBox" Grid.Column="0" Content="Select All" VerticalAlignment="Center" Margin="3,0"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Background="#FF9C9C9C">
+            
+        </Grid>
     </Grid>
 </Page>

@@ -1,8 +1,8 @@
 ﻿namespace WPF.Models.Interfaces
 {
-    public interface IPropertizableWindow
+    public interface IPropertizableControl
     {
-        IWindowsProperties Properties { get; }
+        IProperties Properties { get; }
         void Init();
         void Subscribe();
     }

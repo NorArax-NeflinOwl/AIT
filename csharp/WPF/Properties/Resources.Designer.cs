@@ -223,6 +223,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create:.
+        /// </summary>
+        internal static string CREATE_S {
+            get {
+                return ResourceManager.GetString("CREATE_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create SHA256 Hash.
         /// </summary>
         internal static string CREATESHA256HASH_HEADER {
@@ -795,6 +804,15 @@ namespace WPF.Properties {
         internal static string TXT_EXT {
             get {
                 return ResourceManager.GetString("TXT_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type: .
+        /// </summary>
+        internal static string TYPE_S {
+            get {
+                return ResourceManager.GetString("TYPE_S", resourceCulture);
             }
         }
         
