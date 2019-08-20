@@ -36,7 +36,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox x:Name="SelectAllCheckBox" Grid.Column="0" Content="Select All" VerticalAlignment="Center" Margin="3,0"/>
+                <CheckBox x:Name="SelectAllCheckBox" Grid.Column="0" Content="Select All" VerticalAlignment="Center" Margin="3,0" Foreground="White"/>
+                <Button x:Name="DeleteSelectedItems" Grid.Column="1" HorizontalAlignment="Right" Content="Delete" Margin="3" 
+                        VerticalAlignment="Center" IsEnabled="False"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" Background="#FF9C9C9C">

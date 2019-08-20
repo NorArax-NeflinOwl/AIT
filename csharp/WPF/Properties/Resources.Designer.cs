@@ -286,6 +286,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string DELETE_BTNCONTENT {
+            get {
+                return ResourceManager.GetString("DELETE_BTNCONTENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string EDIT_HEADER {

@@ -33,8 +33,7 @@ namespace WPF.Databases.Models
             get { return creator; }
             set
             {
-                if (BasePropertiesValidator.ValidateID(value))
-                    SetField(ref creator, value, nameof(Creator));
+                SetField(ref creator, value, nameof(Creator));
             }
         }
         [ForeignKey("FileOwner"), Column("fls_asgaccid")]
@@ -48,8 +47,7 @@ namespace WPF.Databases.Models
             }
             set
             {
-                if (BasePropertiesValidator.ValidateID(value))
-                    SetField(ref assignedTo, value, nameof(AssignedTo));
+                SetField(ref assignedTo, value, nameof(AssignedTo));
             }
         }
         [Column("fls_name")]

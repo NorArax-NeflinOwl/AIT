@@ -192,6 +192,9 @@
   <data name="DECRYPTCRYPTTEXT_HEADER" xml:space="preserve">
     <value>Decrypt Crypt Text</value>
   </data>
+  <data name="DELETE_BTNCONTENT" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>
   </data>

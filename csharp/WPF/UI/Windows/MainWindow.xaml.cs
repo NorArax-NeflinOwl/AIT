@@ -202,6 +202,7 @@ namespace WPF.UI.Windows
 
         private void MainFileExitMenu_Click(object sender, RoutedEventArgs e)
         {
+            SetProgressVisibility(true);
             Close();
         }
 
