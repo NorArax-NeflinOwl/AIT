@@ -88,12 +88,12 @@ namespace WPF.Models.Extensions
             this.Where(q => q.WindowName.Equals(key)).FirstOrDefault()?.Window.Hide();
         }
 
-        public void Hide()
+        public void Hide(string additionalMsg = "")
         {
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new SimpleMessageInfoModel($"Hide all windows")
+                Message = new SimpleMessageInfoModel($"Hide all windows {additionalMsg}")
             }); 
 
             ForEach(q => q.Window.Hide());
@@ -133,7 +133,7 @@ namespace WPF.Models.Extensions
                 Open(CreatePropertiesFromEnum(key));
         }
 
-        public void Show()
+        public bool Show()
         {
             LogManager.Instance.LogToFile(new LogInfoModel
             {
@@ -141,7 +141,16 @@ namespace WPF.Models.Extensions
                 Message = new SimpleMessageInfoModel($"Show all windows in application")
             });
 
-            ForEach(q => q.Window.Show());
+            var anyNewOpen = false;
+            foreach(var prop in this)
+            {
+                if(!prop.Window.IsActive)
+                {
+                    prop.Window.Show();
+                    anyNewOpen = true;
+                }
+            }
+            return anyNewOpen;
         }
 
         public static MainWindow GetMainWindow()

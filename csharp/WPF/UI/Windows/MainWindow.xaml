@@ -64,6 +64,7 @@
                 <TextBlock x:Name="MainAccountLogIn" Grid.Column="2" Margin="2,3,20,3" Text="Login: Unknown" FontSize="10"/>
             </Grid>
         </Grid>
-        <controls:MaterialDesignProgressCircleControl x:Name="MainProgressGrid" Background="LightGray" Opacity="0.8" Visibility="Collapsed"/>
+        <controls:MaterialDesignProgressCircleControl x:Name="MainProgressGrid" Opacity="0.8" Visibility="Collapsed" 
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"/>
     </Grid>
 </Window>

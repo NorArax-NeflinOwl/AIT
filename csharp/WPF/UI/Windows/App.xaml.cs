@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Interfaces;
+using WPF.UI.Windows.Properties;
 
 namespace WPF
 {
@@ -19,7 +21,23 @@ namespace WPF
 
         public App()
         {
-            using (new DBContext())
+            string path = string.Empty;
+#if DEBUG
+            var dirPath = @"D:\AIT\csharp\WPF\Databases";
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog() { DefaultExt = ".db" };
+            if (!Directory.Exists(dirPath))
+            {
+                openFileDialog.InitialDirectory = dirPath;
+            }
+            var result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                path = openFileDialog.FileName;
+            }
+#endif
+
+            using (new DBContext(path))
             {
                 Thread.Sleep(10);
             }
@@ -27,6 +45,9 @@ namespace WPF
 
             Subscribe();
             BackgroundTasksManager.Instance.Initialize();
+
+            if(!string.IsNullOrEmpty(path))
+                MainContext.Instance.Windows.Open(new InitProperties());
         }
 
         public void Subscribe()
@@ -64,7 +85,7 @@ namespace WPF
                 if (msgBox == MessageBoxResult.Yes)
                 {
                     IsClosed = true;
-                    MainContext.Instance.Windows.Hide();
+                    MainContext.Instance.Windows.Hide("for close app");
                     var collect = BackgroundTasksManager.Instance.Collect();
                     collect.Wait();
 

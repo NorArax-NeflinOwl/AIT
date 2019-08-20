@@ -14,6 +14,7 @@ using WPF.Managers.Helpers;
 using WPF.Models;
 using WPF.Managers.Validators;
 using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace WPF.Managers.Tasks
 {
@@ -47,11 +48,14 @@ namespace WPF.Managers.Tasks
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
+            Dispatcher.CurrentDispatcher.Invoke(async () =>
             {
-                CheckLotto();
-                Thread.Sleep(intervalDay * 24 * 3600000); //Sleep for [interval] days
-            }
+                while (true)
+                {
+                    CheckLotto();
+                    await Task.Delay(intervalDay * 24 * 3600000); //Sleep for [interval] days
+                }
+            });
         }
 
         public bool CheckLotto()
@@ -93,33 +97,37 @@ namespace WPF.Managers.Tasks
                                     }
                                     else
                                     {
-                                        var msg = Title + Environment.NewLine + string.Format(Message,
-                                                lottoModel.LuckyNumbers,
-                                                lottoModel.ID.Replace(".", string.Empty),
-                                                lottoModel.Date.ToString("dd/MM/yyyy"),
-                                                hits);
-
-                                        var taskToSave = new AitFilesModel(context)
+                                        var lottoFile = context.Files.Where(q => q.Create > DateTime.Now.Date).FirstOrDefault();
+                                        if(lottoFile == null)
                                         {
-                                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                            //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(), //FIX ME - WTF?!??!
-                                            Name = nameof(LottoCheckerTask),
-                                            Type = FileTypesEnum.TASK,
-                                            Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
+                                            var msg = Title + Environment.NewLine + string.Format(Message,
+                                                    lottoModel.LuckyNumbers,
+                                                    lottoModel.ID.Replace(".", string.Empty),
+                                                    lottoModel.Date.ToString("dd/MM/yyyy"),
+                                                    hits);
+
+                                            var taskToSave = new AitFilesModel(context)
                                             {
+                                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                                                //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(), //FIX ME - WTF?!??!
+                                                Name = nameof(LottoCheckerTask),
                                                 Type = FileTypesEnum.TASK,
-                                                Message = new SimpleMessageInfoModel(msg)
-                                            })
-                                        };
+                                                Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
+                                                {
+                                                    Type = FileTypesEnum.TASK,
+                                                    Message = new SimpleMessageInfoModel(msg)
+                                                })
+                                            };
 
-                                        if(firstLoopTurn && startDate == new DateTime(DateTime.Now.Year, 1, 1))
-                                        {
-                                            WaitForManager();
-                                            firstLoopTurn = false;
+                                            if (firstLoopTurn && startDate == new DateTime(DateTime.Now.Year, 1, 1))
+                                            {
+                                                WaitForManager();
+                                                firstLoopTurn = false;
+                                            }
+
+                                            taskToSave.Insert();
+                                            context.SaveChanges();
                                         }
-
-                                        taskToSave.Insert();
-                                        context.SaveChanges();
                                     }
                                 }
                             }

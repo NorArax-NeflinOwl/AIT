@@ -718,6 +718,24 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some window was open..
+        /// </summary>
+        internal static string REOPEN_SOME_WINDOW {
+            get {
+                return ResourceManager.GetString("REOPEN_SOME_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All window is already open..
+        /// </summary>
+        internal static string REOPEN_ZERO_WINDOW {
+            get {
+                return ResourceManager.GetString("REOPEN_ZERO_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Samethings go wrong!.
         /// </summary>
         internal static string SAMETHING_WRONG {

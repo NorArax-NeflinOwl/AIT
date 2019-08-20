@@ -14,9 +14,14 @@ namespace WPF.Databases.Contexts
         private readonly string databasePath = Environment.CurrentDirectory + "\\Databases";
         private readonly string databaseName = "nano.db";
 
-        public DBContext()
+        private static string dbPath;
+
+        public DBContext(string path = "")
         {
-            CreateIfNotExist();
+            if(!string.IsNullOrEmpty(path))
+                dbPath = path;
+            else
+                CreateIfNotExist();
         }
 
         private void CreateIfNotExist()
@@ -50,8 +55,10 @@ namespace WPF.Databases.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            var path = $"Data Source={databasePath}\\{databaseName}";
-            optionbuilder.UseSqlite(path);
+            if(!string.IsNullOrEmpty(dbPath))
+                optionbuilder.UseSqlite($"Data Source={dbPath}");
+            else
+                optionbuilder.UseSqlite($"Data Source={databasePath}\\{databaseName}");
         }
 
         public DbSet<SysStsgenids> Stsgenids { get; set; }

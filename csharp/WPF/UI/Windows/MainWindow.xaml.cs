@@ -157,7 +157,11 @@ namespace WPF.UI.Windows
         private void MainViewShowAllMenu_Click(object sender, RoutedEventArgs e)
         {
             SetProgressVisibility(true);
-            MainContext.Instance.Windows.Show();
+            if(MainContext.Instance.Windows.Show())
+                MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.REOPEN_SOME_WINDOW, 2), false);
+            else
+                MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.REOPEN_ZERO_WINDOW, 2), false);
+
             SetProgressVisibility(false);
         }
 
@@ -257,7 +261,13 @@ namespace WPF.UI.Windows
             if (show)
                 MainProgressGrid.Visibility = Visibility.Visible;
             else
-                MainProgressGrid.Visibility = Visibility.Collapsed;
+            {
+                Dispatcher.Invoke(async () =>
+                {
+                    await Task.Delay(2000);
+                    MainProgressGrid.Visibility = Visibility.Collapsed;
+                });
+            }
         }
     }
 }

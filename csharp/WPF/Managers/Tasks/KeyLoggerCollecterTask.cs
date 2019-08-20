@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using WPF.Databases.Contexts;
 using WPF.Models;
 using WPF.Models.Interfaces;
@@ -34,11 +36,14 @@ namespace WPF.Managers.Tasks
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while(true)
+            Dispatcher.CurrentDispatcher.Invoke(async () =>
             {
-                BackgroundWorker_Collect(sender, e);
-                Thread.Sleep(3600000); // Sleep one hour
-            }
+                while (true)
+                {
+                    BackgroundWorker_Collect(sender, e);
+                    await Task.Delay(3600000);
+                }
+            });
         }
 
         public void Collect()

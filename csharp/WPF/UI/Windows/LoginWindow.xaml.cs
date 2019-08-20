@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
@@ -118,8 +119,13 @@ namespace WPF.UI.Windows
 
                 MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.LOGIN_SUCC, 2), false);
 
-                MainContext.Instance.Windows.Open(new MainProperties());
-                MainContext.Instance.Windows.Hide(Properties.WindowName);
+                Dispatcher.Invoke(async () =>
+                {
+                    await Task.Delay(1000);
+                    MainContext.Instance.Windows.Open(new MainProperties());
+                    MainContext.Instance.Windows.Hide(Properties.WindowName);
+                });
+
             }
             catch(Exception ex)
             {

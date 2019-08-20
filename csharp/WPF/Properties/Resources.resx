@@ -336,6 +336,12 @@
   <data name="REGISTER_TITLE" xml:space="preserve">
     <value>Registration</value>
   </data>
+  <data name="REOPEN_SOME_WINDOW" xml:space="preserve">
+    <value>Some window was open.</value>
+  </data>
+  <data name="REOPEN_ZERO_WINDOW" xml:space="preserve">
+    <value>All window is already open.</value>
+  </data>
   <data name="SAMETHING_WRONG" xml:space="preserve">
     <value>Samethings go wrong!</value>
   </data>

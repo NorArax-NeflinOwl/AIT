@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -28,6 +26,7 @@ namespace WPF.UI.Windows
 
             InitializeComponent();
             Init();
+            Focus();
         }
 
         public void Subscribe()
