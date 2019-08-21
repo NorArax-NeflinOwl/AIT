@@ -38,6 +38,8 @@ namespace WPF.UI.Windows
             CenterWindowOnScreen();
             LoginImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\logo4x3.png"));
             LoginInputTextBox.Focus();
+
+            // TODO Set login fields hits from WPF.Properties.Resources
         }
 
         public void Subscribe()

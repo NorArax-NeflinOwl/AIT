@@ -126,6 +126,9 @@
   <data name="ACC_NOACTIVATED" xml:space="preserve">
     <value>Account is not activated!</value>
   </data>
+  <data name="ACTIVATION_CODE" xml:space="preserve">
+    <value>Activation Code</value>
+  </data>
   <data name="ACTIVATION_EMAIL_CONTENT" xml:space="preserve">
     <value>Your activation code: {0}.</value>
   </data>
@@ -155,6 +158,9 @@
   </data>
   <data name="CHANGETHEME_HEADER" xml:space="preserve">
     <value>Change Theme</value>
+  </data>
+  <data name="CLEAR" xml:space="preserve">
+    <value>Clear</value>
   </data>
   <data name="CLOSEALL_HEADER" xml:space="preserve">
     <value>Close All Windows</value>
@@ -189,6 +195,9 @@
   <data name="DATABASES_SUBPATH" xml:space="preserve">
     <value>Databases</value>
   </data>
+  <data name="DATE_S" xml:space="preserve">
+    <value>Date:</value>
+  </data>
   <data name="DECRYPTCRYPTTEXT_HEADER" xml:space="preserve">
     <value>Decrypt Crypt Text</value>
   </data>
@@ -222,6 +231,9 @@
   <data name="ERR_EXT" xml:space="preserve">
     <value>.err</value>
   </data>
+  <data name="EXCEPTION" xml:space="preserve">
+    <value>Exception</value>
+  </data>
   <data name="EXIT_HEADER" xml:space="preserve">
     <value>Exit</value>
   </data>
@@ -252,8 +264,14 @@
   <data name="INIT_WINDOW" xml:space="preserve">
     <value>Initialization...</value>
   </data>
+  <data name="INVALID_ACCOUNT_NAME" xml:space="preserve">
+    <value>Name '{0}' not find</value>
+  </data>
   <data name="JSON_EXT" xml:space="preserve">
     <value>.json</value>
+  </data>
+  <data name="KEYLOGGER" xml:space="preserve">
+    <value>Keylogger</value>
   </data>
   <data name="KEYLOGGER_EXT" xml:space="preserve">
     <value>.klg</value>
@@ -291,14 +309,23 @@
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>
   </data>
+  <data name="MESSAGE" xml:space="preserve">
+    <value>Message</value>
+  </data>
   <data name="NAV_HEADER" xml:space="preserve">
     <value>Navigate</value>
   </data>
   <data name="NEWNOTE_HEADER" xml:space="preserve">
     <value>New Note</value>
   </data>
+  <data name="NOTE" xml:space="preserve">
+    <value>Note</value>
+  </data>
   <data name="NOTEMANAGER_HEADER" xml:space="preserve">
     <value>Notes Manager</value>
+  </data>
+  <data name="NOTE_CONTENT" xml:space="preserve">
+    <value>Note Content</value>
   </data>
   <data name="NOTE_EXT" xml:space="preserve">
     <value>.note</value>
@@ -330,6 +357,9 @@
   <data name="PROCESS" xml:space="preserve">
     <value>Process...</value>
   </data>
+  <data name="QUERY" xml:space="preserve">
+    <value>Query</value>
+  </data>
   <data name="QUERYBULIDER_HEADER" xml:space="preserve">
     <value>Query Builder</value>
   </data>
@@ -357,6 +387,9 @@
   <data name="SAMETHING_WRONG" xml:space="preserve">
     <value>Samethings go wrong!</value>
   </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SETTINGS_HEADER" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -366,8 +399,14 @@
   <data name="SHOWALL_HEADER" xml:space="preserve">
     <value>Show All</value>
   </data>
+  <data name="TASK" xml:space="preserve">
+    <value>Task</value>
+  </data>
   <data name="TOOLS_HEADER" xml:space="preserve">
     <value>Tools</value>
+  </data>
+  <data name="TRACE" xml:space="preserve">
+    <value>Trace</value>
   </data>
   <data name="TRC_EXT" xml:space="preserve">
     <value>.trace</value>
@@ -380,6 +419,9 @@
   </data>
   <data name="UNDO_HEADER" xml:space="preserve">
     <value>Undo</value>
+  </data>
+  <data name="UNKNOWN" xml:space="preserve">
+    <value>Unknown</value>
   </data>
   <data name="VIEW_HEADER" xml:space="preserve">
     <value>View</value>

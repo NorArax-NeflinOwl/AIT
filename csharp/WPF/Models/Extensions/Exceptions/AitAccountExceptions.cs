@@ -5,6 +5,12 @@ namespace WPF.Models.Extensions.Exceptions
 {
     public class AitAccountExceptions : BaseExceptions
     {
+        public class InvalidNameException : Exception, ICustomException
+        {
+            public InvalidNameException(string message) : base(message)
+            {
+            }
+        }
         public class LoginException : Exception, ICustomException
         {
             public LoginException(string message) : base(message)

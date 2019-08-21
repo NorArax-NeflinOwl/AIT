@@ -52,7 +52,7 @@ namespace WPF.Managers
             }
         }
 
-        public T Deserialize<T>(string text, string password = null)
+        public T Deserialize<T>(string text, string password = null, bool saveException = true)
         {
             try
             {
@@ -67,8 +67,15 @@ namespace WPF.Managers
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogExceptionToFile(ex);
-                return default;
+                if(saveException)
+                {
+                    LogManager.Instance.LogExceptionToFile(ex);
+                    return default;
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
 

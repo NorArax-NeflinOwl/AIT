@@ -131,6 +131,7 @@ namespace WPF.Managers
                 }
                 else
                 {
+                    // FIX ME
                     MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
                 }
             }

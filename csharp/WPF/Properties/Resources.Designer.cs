@@ -97,6 +97,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activation Code.
+        /// </summary>
+        internal static string ACTIVATION_CODE {
+            get {
+                return ResourceManager.GetString("ACTIVATION_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your activation code: {0}..
         /// </summary>
         internal static string ACTIVATION_EMAIL_CONTENT {
@@ -174,6 +183,15 @@ namespace WPF.Properties {
         internal static string CHANGETHEME_HEADER {
             get {
                 return ResourceManager.GetString("CHANGETHEME_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        internal static string CLEAR {
+            get {
+                return ResourceManager.GetString("CLEAR", resourceCulture);
             }
         }
         
@@ -277,6 +295,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date:.
+        /// </summary>
+        internal static string DATE_S {
+            get {
+                return ResourceManager.GetString("DATE_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Decrypt Crypt Text.
         /// </summary>
         internal static string DECRYPTCRYPTTEXT_HEADER {
@@ -376,6 +403,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception.
+        /// </summary>
+        internal static string EXCEPTION {
+            get {
+                return ResourceManager.GetString("EXCEPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         internal static string EXIT_HEADER {
@@ -466,11 +502,29 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name &apos;{0}&apos; not find.
+        /// </summary>
+        internal static string INVALID_ACCOUNT_NAME {
+            get {
+                return ResourceManager.GetString("INVALID_ACCOUNT_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .json.
         /// </summary>
         internal static string JSON_EXT {
             get {
                 return ResourceManager.GetString("JSON_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keylogger.
+        /// </summary>
+        internal static string KEYLOGGER {
+            get {
+                return ResourceManager.GetString("KEYLOGGER", resourceCulture);
             }
         }
         
@@ -583,6 +637,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        internal static string MESSAGE {
+            get {
+                return ResourceManager.GetString("MESSAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Navigate.
         /// </summary>
         internal static string NAV_HEADER {
@@ -597,6 +660,24 @@ namespace WPF.Properties {
         internal static string NEWNOTE_HEADER {
             get {
                 return ResourceManager.GetString("NEWNOTE_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note.
+        /// </summary>
+        internal static string NOTE {
+            get {
+                return ResourceManager.GetString("NOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Content.
+        /// </summary>
+        internal static string NOTE_CONTENT {
+            get {
+                return ResourceManager.GetString("NOTE_CONTENT", resourceCulture);
             }
         }
         
@@ -702,6 +783,15 @@ namespace WPF.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query.
         /// </summary>
+        internal static string QUERY {
+            get {
+                return ResourceManager.GetString("QUERY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Query.
+        /// </summary>
         internal static string QUERY_HEADER {
             get {
                 return ResourceManager.GetString("QUERY_HEADER", resourceCulture);
@@ -781,6 +871,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SAVE {
+            get {
+                return ResourceManager.GetString("SAVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SETTINGS_HEADER {
@@ -808,11 +907,29 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        internal static string TASK {
+            get {
+                return ResourceManager.GetString("TASK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tools.
         /// </summary>
         internal static string TOOLS_HEADER {
             get {
                 return ResourceManager.GetString("TOOLS_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace.
+        /// </summary>
+        internal static string TRACE {
+            get {
+                return ResourceManager.GetString("TRACE", resourceCulture);
             }
         }
         
@@ -849,6 +966,15 @@ namespace WPF.Properties {
         internal static string UNDO_HEADER {
             get {
                 return ResourceManager.GetString("UNDO_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string UNKNOWN {
+            get {
+                return ResourceManager.GetString("UNKNOWN", resourceCulture);
             }
         }
         
