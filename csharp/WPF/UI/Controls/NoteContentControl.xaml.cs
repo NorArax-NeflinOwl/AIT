@@ -31,15 +31,8 @@ namespace WPF.UI.Controls
             backgroundWorker.RunWorkerAsync();
         }
 
-        public NoteContentControl(int selectedIndex = -1)
+        public NoteContentControl(int selectedIndex = -1) : this()
         {
-            InitializeComponent();
-            Init();
-
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += StartTimeTicker;
-            backgroundWorker.RunWorkerAsync();
-
             type = FileTypesManager.SetType(selectedIndex);
         }
 
@@ -67,11 +60,17 @@ namespace WPF.UI.Controls
 
         public string SerializableControl()
         {
-            throw new NotImplementedException();
+            return CryptoJsonManager.Instance.Serialize(new LogInfoModel
+            {
+                Type = type != null ? (FileTypesEnum)type: FileTypesEnum.NOTE,
+                Message = new SimpleMessageInfoModel(MessageContent.Text)
+            });
         }
 
         public void Dispose()
         {
+            MessageContent.LostFocus -= MessageContent_LostFocus;
+
             IsDisposed = true;
             GC.Collect();
         }
@@ -80,6 +79,17 @@ namespace WPF.UI.Controls
         {
             MessageTitle.Text = Properties.Resources.MESSAGE;
             DateTitle.Text = Properties.Resources.DATE_S;
+            MessageContent.MaxLines = int.MaxValue;
+
+            MessageContent.LostFocus += MessageContent_LostFocus;
+        }
+
+        private void MessageContent_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(MessageContent.Text))
+                IsCorrectFilled = true;
+            else
+                IsCorrectFilled = false;
         }
 
         private void StartTimeTicker(object sender, DoWorkEventArgs e)

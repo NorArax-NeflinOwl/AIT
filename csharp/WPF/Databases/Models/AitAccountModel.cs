@@ -102,7 +102,12 @@ namespace WPF.Databases.Models
             get
             {
                 if (userData == null)
-                    userData = Context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
+                {
+                    using(var context = PDBContext.Instance.Context)
+                    {
+                        userData = context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
+                    }
+                }
                 return userData;
             }
             set { SetField(ref userData, value, nameof(UserData)); }
@@ -117,11 +122,17 @@ namespace WPF.Databases.Models
                 {
                     if(Permition.Equals(PermitionAccountEnum.ADMIN) || Permition.Equals(PermitionAccountEnum.MANAGER))
                     {
-                        files = Context.Files.ToList();
+                        using (var context = PDBContext.Instance.Context)
+                        {
+                            files = context.Files.ToList();
+                        }
                     }
                     else
                     {
-                        files = Context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
+                        using (var context = PDBContext.Instance.Context)
+                        {
+                            files = context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
+                        }
                     }
                 }
                 return files;
@@ -135,7 +146,12 @@ namespace WPF.Databases.Models
             get
             {
                 if (userHosts == null)
-                    userHosts = Context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
+                {
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        userHosts = context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
+                    }
+                }
                 return userHosts;
             }
             set { SetField(ref userHosts, value, nameof(UserHosts)); }

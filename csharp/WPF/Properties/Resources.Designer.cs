@@ -493,6 +493,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Init Main Window.
+        /// </summary>
+        internal static string INIT {
+            get {
+                return ResourceManager.GetString("INIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Initialization....
         /// </summary>
         internal static string INIT_WINDOW {
@@ -903,6 +912,33 @@ namespace WPF.Properties {
         internal static string SHOWALL_HEADER {
             get {
                 return ResourceManager.GetString("SHOWALL_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status: opening {0}.
+        /// </summary>
+        internal static string STATUS_OPENING_S {
+            get {
+                return ResourceManager.GetString("STATUS_OPENING_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status: proccess.
+        /// </summary>
+        internal static string STATUS_PROCESSING_S {
+            get {
+                return ResourceManager.GetString("STATUS_PROCESSING_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status: Ready.
+        /// </summary>
+        internal static string STATUS_READY {
+            get {
+                return ResourceManager.GetString("STATUS_READY", resourceCulture);
             }
         }
         

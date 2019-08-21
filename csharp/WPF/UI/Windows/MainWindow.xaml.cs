@@ -3,7 +3,6 @@ using System.Windows;
 using WPF.Databases.Contexts;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
-using System.Windows.Media.Imaging;
 using WPF.Managers;
 using WPF.UI.Pages.Properties;
 using WPF.Models;
@@ -36,7 +35,7 @@ namespace WPF.UI.Windows
         public void Init()
         {
             CenterWindowOnScreen();
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.INIT, true);
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
             MainFileCloseAllWindowsMenu.Header = WPF.Properties.Resources.CLOSEALL_HEADER;
@@ -156,7 +155,7 @@ namespace WPF.UI.Windows
 
         private void MainViewShowAllMenu_Click(object sender, RoutedEventArgs e)
         {
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.SHOWALL_HEADER);
             if(MainContext.Instance.Windows.Show())
                 MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.REOPEN_SOME_WINDOW, 2), false);
             else
@@ -167,14 +166,26 @@ namespace WPF.UI.Windows
 
         private void MainNavigateNoteManagerMenu_Click(object sender, RoutedEventArgs e)
         {
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.NOTEMANAGER_HEADER);
             MainTabControlManager.Add(new NoteManagerProperties());
             SetProgressVisibility(false);
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SetProgressVisibility(true);
+            var info = string.Empty;
+            try
+            {
+                foreach (NoteListViewItemControl item in e.AddedItems)
+                {
+                    if (item != null)
+                        info += "[" + item.Note.Type.ToString() + "] " + item.Note.Name.ToString() + ", ";
+                }
+                info = info.Substring(0, info.Length - 2);
+            }
+            catch (Exception) { }
+
+            SetProgressVisibility(true, info);
             var index = MainTabControlManager.TabControl.SelectedIndex;
             if(index >= 0)
             {
@@ -195,7 +206,7 @@ namespace WPF.UI.Windows
 
         private void MainNavigateDashboardMenu_Click(object sender, RoutedEventArgs e)
         {
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.DASHBOARD_HEADER);
             MainTabControlManager.Add(new DashboardProperties());
             SetProgressVisibility(false);
         }
@@ -208,7 +219,7 @@ namespace WPF.UI.Windows
 
         private void MainFileLogOutMenu_Click(object sender, RoutedEventArgs e)
         {
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.LOGOUT_HEADER);
             var login = string.Empty;
             using(var context = PDBContext.Instance.Context)
             {
@@ -232,7 +243,7 @@ namespace WPF.UI.Windows
 
         private void MainFileSettingsMenu_Click(object sender, RoutedEventArgs e)
         {
-            SetProgressVisibility(true);
+            SetProgressVisibility(true, WPF.Properties.Resources.SETTINGS_HEADER);
             MainTabControlManager.Add(new SettingsProperties());
             SetProgressVisibility(false);
         }
@@ -257,15 +268,19 @@ namespace WPF.UI.Windows
             Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
-        private void SetProgressVisibility(bool show)
+        private void SetProgressVisibility(bool show, string info = "", bool proccess = false)
         {
             if (show)
+            {
+                MainStatus.Text = string.Format(proccess ? WPF.Properties.Resources.STATUS_PROCESSING_S : WPF.Properties.Resources.STATUS_OPENING_S, info);
                 MainProgressGrid.Visibility = Visibility.Visible;
+            }
             else
             {
                 Dispatcher.Invoke(async () =>
                 {
                     await Task.Delay(1000);
+                    MainStatus.Text = string.Format(WPF.Properties.Resources.STATUS_READY, info);
                     MainProgressGrid.Visibility = Visibility.Collapsed;
                 });
             }

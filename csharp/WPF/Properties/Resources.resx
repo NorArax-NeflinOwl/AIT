@@ -261,6 +261,9 @@
   <data name="INFORMATION" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="INIT" xml:space="preserve">
+    <value>Init Main Window</value>
+  </data>
   <data name="INIT_WINDOW" xml:space="preserve">
     <value>Initialization...</value>
   </data>
@@ -398,6 +401,15 @@
   </data>
   <data name="SHOWALL_HEADER" xml:space="preserve">
     <value>Show All</value>
+  </data>
+  <data name="STATUS_OPENING_S" xml:space="preserve">
+    <value>Status: opening {0}</value>
+  </data>
+  <data name="STATUS_PROCESSING_S" xml:space="preserve">
+    <value>Status: proccess</value>
+  </data>
+  <data name="STATUS_READY" xml:space="preserve">
+    <value>Status: Ready</value>
   </data>
   <data name="TASK" xml:space="preserve">
     <value>Task</value>

@@ -39,9 +39,6 @@ namespace WPF.UI.Pages
             InitListView();
             InitNoteTypeComboBox();
 
-            NoteContentControl.Dispose();
-            NoteContentControl = new NoteContentControl();
-
             NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
             DetachedSelectedItems.Content = WPF.Properties.Resources.DETACHED_BTNCONTENT;
@@ -158,7 +155,7 @@ namespace WPF.UI.Pages
                 NoteAssignedToBox.IsEnabled = false;
 
             NoteContentControl.Dispose();
-            NoteContentControl = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
+            NoteContentControl.DataContext = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
         }
 
         private void NoteTitleBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -182,10 +179,10 @@ namespace WPF.UI.Pages
                     foreach (var name in names)
                     {
                         // FIX ME
-                        var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                               || q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                               || q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
-                        if (acc == null || !acc.Any())
+                        var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
+                                                               || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
+                                                               || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) &&  q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
+                        if (accs == null || !accs.Any())
                         {
                             exceptionName.Append(string.Format(WPF.Properties.Resources.INVALID_ACCOUNT_NAME, name) + Environment.NewLine);
                         }
@@ -402,10 +399,11 @@ namespace WPF.UI.Pages
 
         private void ClearContentAction()
         {
+            EditContentBtn.Visibility = Visibility.Collapsed;
             NoteNameBox.Text = string.Empty;
             NoteAssignedToBox.Text = string.Empty;
             NoteTypeComboBox.SelectedIndex = -1;
-            NoteContentControl = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
+            NoteContentControl.DataContext = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
         }
 
         private void SetOneNoteContentAction()
@@ -442,7 +440,7 @@ namespace WPF.UI.Pages
                     }
                 }
                 NoteContentControl.Dispose();
-                NoteContentControl = new NoteContentControl(item.Note.Content, item.Note.Type);
+                NoteContentControl.DataContext = new NoteContentControl(item.Note.Content, item.Note.Type);
             }
         }
     }
