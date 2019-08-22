@@ -6,10 +6,11 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-    public class ExceptionInfoModel : IMessageInfo, ISerializable
+    public class ExceptionInfoModel : MessageInfo
     {
-        public string Message { get; set; }
         public string[] ExceptionInfo { get; set; }
+
+        public ExceptionInfoModel() : base() { }
 
         public ExceptionInfoModel(string message, Exception exception = null)
         { 
@@ -21,7 +22,7 @@ namespace WPF.Models
             ExceptionInfo = GetException(exception, new List<string>()).ToArray();
         }
 
-        public ExceptionInfoModel(SerializationInfo info, StreamingContext context)
+        public ExceptionInfoModel(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Message = (string)info.GetValue(nameof(Message), typeof(string));
             ExceptionInfo = (string[])info.GetValue(nameof(ExceptionInfo), typeof(string[]));

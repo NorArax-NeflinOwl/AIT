@@ -5,12 +5,9 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-
-    public class ArrayMessageInfoModel : IMessageInfo, ISerializable
+    public class ArrayMessageInfoModel : MessageInfo
     {
         private List<string> array;
-
-        public string Message { get; set; }
 
         public string[] Array
         {
@@ -18,12 +15,14 @@ namespace WPF.Models
             set { array = value.ToList(); }
         }
 
+        public ArrayMessageInfoModel() : base() { }
+
         public ArrayMessageInfoModel(List<string> arr)
         {
             this.array = arr;
         }
 
-        public ArrayMessageInfoModel(SerializationInfo info, StreamingContext context)
+        public ArrayMessageInfoModel(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Array = (string[])info.GetValue(nameof(Array), typeof(string[]));
         }

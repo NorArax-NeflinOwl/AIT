@@ -112,7 +112,7 @@ namespace WPF.UI.Windows
                         };
                         newhost.Insert();
                     }
-                    context.SaveChanges();
+                    //context.SaveChanges();
                 }
 
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))

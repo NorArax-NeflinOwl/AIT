@@ -111,7 +111,7 @@ namespace WPF.UI.Windows
             account = (AitAccountModel)account.Clone();
             account.IsActive = true;
             account.Update();
-            account.Context.SaveChanges();
+            //account.Context.SaveChanges();
 
             MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
 
@@ -179,7 +179,7 @@ namespace WPF.UI.Windows
                         };
                         userActivatedCodeFile.Insert();
 
-                        context.SaveChanges();
+                        //context.SaveChanges();
 
                         MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
 

@@ -15,6 +15,7 @@ using WPF.Models;
 using WPF.Managers.Validators;
 using System.Windows.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace WPF.Managers.Tasks
 {
@@ -116,6 +117,9 @@ namespace WPF.Managers.Tasks
                                                 {
                                                     Type = FileTypesEnum.TASK,
                                                     Message = new SimpleMessageInfoModel(msg)
+                                                    {
+                                                        Type = NoteTypesEnum.LOTTO_NOTE
+                                                    }
                                                 })
                                             };
 
@@ -126,7 +130,8 @@ namespace WPF.Managers.Tasks
                                             }
 
                                             taskToSave.Insert();
-                                            context.SaveChanges();
+                                            //context.Entry(taskToSave).State = EntityState.Added;
+                                            //context.SaveChanges();
                                         }
                                     }
                                 }

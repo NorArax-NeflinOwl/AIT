@@ -69,7 +69,7 @@ namespace WPF.Managers.Tasks
                         IsActive = false
                     };
                     manager.Insert();
-                    context.SaveChanges();
+                    //context.SaveChanges();
                 }
             }
         }

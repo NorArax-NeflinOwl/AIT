@@ -228,7 +228,7 @@ namespace WPF.UI.Windows
                 {
                     host.IsLoggedIn = false;
                     host.Update();
-                    context.SaveChanges();
+                    //context.SaveChanges();
                 }
 
                 login = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;

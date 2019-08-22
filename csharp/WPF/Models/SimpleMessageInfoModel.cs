@@ -3,11 +3,10 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-    public class SimpleMessageInfoModel : IMessageInfo, ISerializable
+    public class SimpleMessageInfoModel : MessageInfo
     {
-        public string Message { get; set; }
 
-        public SimpleMessageInfoModel()
+        public SimpleMessageInfoModel() : base()
         {
         }
 
@@ -16,7 +15,7 @@ namespace WPF.Models
             Message = message;
         }
 
-        public SimpleMessageInfoModel(SerializationInfo info, StreamingContext context)
+        public SimpleMessageInfoModel(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Message = (string)info.GetValue(nameof(Message), typeof(string));
         }

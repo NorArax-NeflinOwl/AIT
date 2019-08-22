@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WPF.Databases.Contexts;
+using WPF.Databases.Models;
 using WPF.Models;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
@@ -12,6 +14,7 @@ namespace WPF.Managers.Validators
         {
             hits = 0;
 
+            var lottoUserLuckyNumbers = new List<AitFilesModel>();
             using (var context = PDBContext.Instance.Context)
             {
                 var files = context.Files.ToList();
@@ -20,10 +23,23 @@ namespace WPF.Managers.Validators
                     if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.TASK.Equals(file.Type))
                     {
                         var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
-                        if (logInfo != null && logInfo.Message is IMessageInfo info && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
+                        if (logInfo != null && logInfo.Message is MessageInfo info 
+                            && NoteTypesEnum.LOTTO_NOTE.Equals(info.Type) 
+                            && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
                             return false;
                     }
                 }
+
+                if(!string.IsNullOrEmpty(PDBContext.Instance.AccountID))
+                {
+                    lottoUserLuckyNumbers = context.Files.Where(q => !string.IsNullOrEmpty(q.Content) && FileTypesEnum.NOTE.Equals(q.Type)
+                                                                     && q.Creator.Equals(PDBContext.Instance.AccountID)).ToList();
+                }
+            }
+
+            if(lottoUserLuckyNumbers.Any())
+            {
+                // TODO search wining number in lottoUserLuckyNumbers if any for user
             }
 
             var winNumbers = winString.Split(',');
