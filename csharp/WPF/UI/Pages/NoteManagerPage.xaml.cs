@@ -1,13 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Managers;
 using WPF.Managers.Helpers;
+using WPF.Models;
 using WPF.Models.Enums;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
@@ -21,7 +24,11 @@ namespace WPF.UI.Pages
     public partial class NoteManagerPage : Page, IDisposableExtended, IPropertizableControl
     {
         private AitAccountModel account;
-        private bool CorrectlyAssign;
+        private bool? CorrectlyAssign;
+        private bool IsCorrectFilled;
+        private bool StopClock;
+        private BackgroundWorker backgroundWorker;
+        private FileTypesEnum? type;
 
         public NoteManagerPage()
         {
@@ -49,10 +56,18 @@ namespace WPF.UI.Pages
             SaveContentBtn.Content = WPF.Properties.Resources.SAVE;
             // TODO Set note fields hits from WPF.Properties.Resources
 
+            MessageTitle.Text = WPF.Properties.Resources.MESSAGE;
+            DateTitle.Text = WPF.Properties.Resources.DATE_S;
+            MessageContent.MaxLines = int.MaxValue;
+
             if (account != null && account.Permition.Equals(PermitionAccountEnum.ADMIN))
             {
                 DeleteSelectedItems.Visibility = Visibility.Visible;
             }
+
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += StartTimeTicker;
+            backgroundWorker.RunWorkerAsync();
         }
 
         public void Dispose()
@@ -71,6 +86,8 @@ namespace WPF.UI.Pages
             EditContentBtn.Click -= EditContentBtn_Click;
             ClearContentBtn.Click += ClearContentBtn_Click;
             SaveContentBtn.Click += SaveContentBtn_Click;
+
+            MessageContent.LostFocus -= MessageContent_LostFocus;
 
             IsDisposed = true;
             GC.Collect();
@@ -92,6 +109,8 @@ namespace WPF.UI.Pages
             EditContentBtn.Click += EditContentBtn_Click;
             ClearContentBtn.Click += ClearContentBtn_Click;
             SaveContentBtn.Click += SaveContentBtn_Click;
+
+            MessageContent.LostFocus += MessageContent_LostFocus;
         }
 
         #region RIGHT PANEL METHODS
@@ -103,40 +122,93 @@ namespace WPF.UI.Pages
             throw new NotImplementedException();
         }
 
+        private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(MessageContent.Text))
+                IsCorrectFilled = true;
+            else
+                IsCorrectFilled = false;
+
+            ValidateNotDefaultNote();
+            ValidateRequiredFieldFillCorrectly();
+        }
+
+        private void StartTimeTicker(object sender, DoWorkEventArgs e)
+        {
+            Dispatcher.Invoke(async () =>
+            {
+                while (!StopClock)
+                {
+                    Date.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    await Task.Delay(1000);
+                }
+            });
+        }
+
         private void SaveContentBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
-                foreach (var name in names)
+                if(!string.IsNullOrEmpty(NoteAssignedToBox.Text))
                 {
-                    using (var context = PDBContext.Instance.Context)
+                    var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
+                    foreach (var name in names)
                     {
-                        var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                               || q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                               || q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
-
-                        foreach (var a in acc)
+                        using (var context = PDBContext.Instance.Context)
                         {
-                            var file = new AitFilesModel(context)
+                            var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
+
+                            foreach (var a in acc)
                             {
-                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                Creator = PDBContext.Instance.AccountID,
-                                AssignedTo = a.ID,
-                                Name = NoteNameBox.Text,
-                                Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex,
-                                Content = NoteContentControl.SerializableControl()
-                            };
-                            file.Insert();
-                            file.Context.SaveChanges();
+                                var file = new AitFilesModel(context)
+                                {
+                                    ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                                    Creator = PDBContext.Instance.AccountID,
+                                    AssignedTo = a.ID,
+                                    Name = NoteNameBox.Text,
+                                    Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex,
+                                    Content = SerializableControl()
+                                };
+                                file.Insert();
+                                file.Context.SaveChanges();
+                            }
                         }
                     }
                 }
+                else
+                {
+                    using(var context = PDBContext.Instance.Context)
+                    {
+                        var file = new AitFilesModel(context)
+                        {
+                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                            Creator = PDBContext.Instance.AccountID,
+                            Name = NoteNameBox.Text,
+                            Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex,
+                            Content = SerializableControl()
+                        };
+                        file.Insert();
+                        file.Context.SaveChanges();
+                    }
+                }
+                ClearContentAction();
+                InitListView();
             }
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFile(ex);
             }
+        }
+
+        public string SerializableControl()
+        {
+            return CryptoJsonManager.Instance.Serialize(new LogInfoModel
+            {
+                Type = type != null ? (FileTypesEnum)type : FileTypesEnum.NOTE,
+                Message = new SimpleMessageInfoModel(MessageContent.Text)
+            });
         }
 
         private void ClearContentBtn_Click(object sender, RoutedEventArgs e)
@@ -154,8 +226,7 @@ namespace WPF.UI.Pages
             else
                 NoteAssignedToBox.IsEnabled = false;
 
-            NoteContentControl.Dispose();
-            NoteContentControl.DataContext = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
+            type = FileTypesManager.SetType(NoteTypeComboBox.SelectedIndex);
         }
 
         private void NoteTitleBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -166,9 +237,6 @@ namespace WPF.UI.Pages
 
         private void NoteAssignedToBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ValidateNotDefaultNote();
-            ValidateRequiredFieldFillCorrectly();
-
             try
             {
                 CorrectlyAssign = false;
@@ -191,12 +259,16 @@ namespace WPF.UI.Pages
 
                 if (!string.IsNullOrEmpty(exceptionName.ToString()))
                     throw new AitAccountExceptions.InvalidNameException(exceptionName.ToString());
+
                 CorrectlyAssign = true;
             }
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFile(ex);
             }
+
+            ValidateNotDefaultNote();
+            ValidateRequiredFieldFillCorrectly();
         }
 
         private void InitNoteTypeComboBox()
@@ -212,7 +284,7 @@ namespace WPF.UI.Pages
             if (NoteTypeComboBox.SelectedIndex >= 0
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
                 || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
-                || NoteContentControl.IsNotDefault)
+                || !string.IsNullOrEmpty(MessageContent.Text))
             {
                 ClearContentBtn.IsEnabled = true;
             }
@@ -225,8 +297,8 @@ namespace WPF.UI.Pages
         public void ValidateRequiredFieldFillCorrectly()
         {
             if (NoteTypeComboBox.SelectedIndex >= 0
-                && (string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign)
-                && NoteContentControl.IsCorrectFilled)
+                && (string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
+                && IsCorrectFilled)
             {
                 SaveContentBtn.IsEnabled = true;
             }
@@ -380,13 +452,15 @@ namespace WPF.UI.Pages
 
         private void InitListView()
         {
+            NoteManagerListView.Items.Clear();
             using (var context = PDBContext.Instance.Context)
             {
                 account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
                 if (account != null)
                 {
                     var index = 1;
-                    foreach (var note in account.Files.ToList())
+                    var list = account.Files.ToList();
+                    foreach (var note in list)
                     {
                         NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
                         index++;
@@ -399,11 +473,23 @@ namespace WPF.UI.Pages
 
         private void ClearContentAction()
         {
-            EditContentBtn.Visibility = Visibility.Collapsed;
             NoteNameBox.Text = string.Empty;
             NoteAssignedToBox.Text = string.Empty;
             NoteTypeComboBox.SelectedIndex = -1;
-            NoteContentControl.DataContext = new NoteContentControl(NoteTypeComboBox.SelectedIndex);
+            type = FileTypesManager.SetType(NoteTypeComboBox.SelectedIndex);
+            MessageContent.Text = string.Empty;
+            StopClock = false;
+
+            backgroundWorker.DoWork -= StartTimeTicker;
+            backgroundWorker.Dispose();
+
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += StartTimeTicker;
+            backgroundWorker.RunWorkerAsync();
+
+            EditContentBtn.Visibility = Visibility.Collapsed;
+            ClearContentBtn.IsEnabled = false;
+            SaveContentBtn.IsEnabled = false;
         }
 
         private void SetOneNoteContentAction()
@@ -439,8 +525,26 @@ namespace WPF.UI.Pages
                         NoteAssignedToBox.Text = names;
                     }
                 }
-                NoteContentControl.Dispose();
-                NoteContentControl.DataContext = new NoteContentControl(item.Note.Content, item.Note.Type);
+
+                StopClock = true;
+                type = item.Note.Type;
+
+                try
+                {
+                    var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, null, false);
+                    if (obj != null)
+                    {
+                        Date.Text = obj.Date.ToString();
+                        MessageContent.Text = CryptoJsonManager.Instance.Deserialize<SimpleMessageInfoModel>(obj.Message.ToString(), null, false)?.Message;
+                    }
+                }
+                catch (Exception)
+                {
+                    // FIX ME
+                    Date.Text = WPF.Properties.Resources.UNKNOWN;
+                    MessageContent.Text = item.Note.Content;
+                }
+
             }
         }
     }

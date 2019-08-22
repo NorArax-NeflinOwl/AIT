@@ -75,7 +75,27 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="NoteContentTitle" Grid.Row="0" Text="Note Content:" FontSize="14" Foreground="White" Margin="5,5,5,0"/>
-                    <controls:NoteContentControl x:Name="NoteContentControl" Grid.Row="1" VerticalAlignment="Stretch" Margin="0,0,0,5"/>
+                    <Grid Background="LightGray" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="MessageTitle" Margin="10,10,0,10" Text="Message:" Grid.Column="0"/>
+                            <TextBlock x:Name="DateTitle" Margin="5" Text="Create Date:" Grid.Column="2" VerticalAlignment="Center"/>
+                            <TextBox x:Name="Date" IsEnabled="false" Margin="5" Text="Unknown" Grid.Column="3"/>
+                        </Grid>
+                        <ScrollViewer Grid.Row="1">
+                            <TextBox x:Name="MessageContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontSize="14" AcceptsReturn="True" TextWrapping="Wrap" Margin="5,0"/>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>

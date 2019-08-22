@@ -247,9 +247,6 @@
     <Compile Include="UI\Controls\MaterialDesignProgressCircleControl.xaml.cs">
       <DependentUpon>MaterialDesignProgressCircleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\NoteContentControl.xaml.cs">
-      <DependentUpon>NoteContentControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Controls\NoteListViewItemControl.xaml.cs">
       <DependentUpon>NoteListViewItemControl.xaml</DependentUpon>
     </Compile>
@@ -290,10 +287,6 @@
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="UI\Controls\MaterialDesignProgressCircleControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Controls\NoteContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

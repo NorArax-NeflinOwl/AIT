@@ -26,17 +26,23 @@ namespace WPF.Databases.Models
 
         public void Insert()
         {
-            Context.Add(new SysStsgenids
+            using(var context = PDBContext.Instance.Context)
             {
-                ID = BaseID
-            });
-            Context.Add(this);
+                context.Add(new SysStsgenids
+                {
+                    ID = BaseID
+                });
+                context.Add(this);
+            }
         }
 
         public void Update()
         {
-            BaseLastUpdate = DateTime.Now;
-            Context.Update(this);
+            using (var context = PDBContext.Instance.Context)
+            {
+                BaseLastUpdate = DateTime.Now;
+                context.Update(this);
+            }
         }
 
         public void Delete()
@@ -47,8 +53,11 @@ namespace WPF.Databases.Models
                 if (sts.Delete == null)
                 {
                     sts.Delete = DateTime.Now;
-                    Context.Update(sts);
-                    Context.Remove(this);
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        context.Update(sts);
+                        context.Remove(this);
+                    }
                 }
                 else
                 {

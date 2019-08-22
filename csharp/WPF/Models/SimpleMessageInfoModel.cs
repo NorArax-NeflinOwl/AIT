@@ -6,6 +6,11 @@ namespace WPF.Models
     public class SimpleMessageInfoModel : IMessageInfo, ISerializable
     {
         public string Message { get; set; }
+
+        public SimpleMessageInfoModel()
+        {
+        }
+
         public SimpleMessageInfoModel(string message)
         {
             Message = message;
