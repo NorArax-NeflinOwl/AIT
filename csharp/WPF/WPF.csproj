@@ -230,6 +230,7 @@
     <Compile Include="Models\ArrayMessageInfoModel.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
     <Compile Include="Models\Enums\NoteTypesEnum.cs" />
+    <Compile Include="Models\Extensions\DispatcherExtension.cs" />
     <Compile Include="Models\Interfaces\MessageInfo.cs" />
     <Compile Include="Models\Interfaces\ICustomException.cs" />
     <Compile Include="Models\Interfaces\IDisposableExtended.cs" />

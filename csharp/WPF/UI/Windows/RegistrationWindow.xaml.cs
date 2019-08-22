@@ -5,6 +5,7 @@ using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Managers.Helpers;
 using WPF.Models.Enums;
+using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
@@ -92,7 +93,7 @@ namespace WPF.UI.Windows
 
         private void RegActRepSendButton_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content) == false)
                     throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WRONG_EMAIL);
@@ -183,7 +184,7 @@ namespace WPF.UI.Windows
 
                         MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
 
-                        Dispatcher.Invoke(async () =>
+                        DispatcherExtension.Invoke(async () =>
                         {
                             if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
                                 ShowActivationPanel();

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using WPF.Databases.Contexts;
 using WPF.Managers;
+using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
 
@@ -41,7 +42,7 @@ namespace WPF.UI.Windows
             InitMessage.Text = WPF.Properties.Resources.APP_START;
             InitImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\UI\\Icons\\logo4x3.png"));
 
-            Dispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 await Task.Delay(200);
                 while (BackgroundTasksManager.Instance.Completed != BackgroundTasksManager.Instance.Count)

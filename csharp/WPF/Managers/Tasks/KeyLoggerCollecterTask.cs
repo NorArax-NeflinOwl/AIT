@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using WPF.Databases.Contexts;
 using WPF.Models;
+using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
@@ -36,7 +37,7 @@ namespace WPF.Managers.Tasks
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dispatcher.CurrentDispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 while (true)
                 {

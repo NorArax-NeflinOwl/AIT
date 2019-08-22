@@ -13,6 +13,7 @@ using WPF.Managers;
 using WPF.Managers.Helpers;
 using WPF.Models;
 using WPF.Models.Enums;
+using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.UI.Controls;
@@ -154,7 +155,7 @@ namespace WPF.UI.Pages
         {
             try
             {
-                Dispatcher.Invoke(() =>
+                DispatcherExtension.Invoke(() =>
                 {
                     if (!string.IsNullOrEmpty(NoteAssignedToBox.Text))
                     {
@@ -351,7 +352,7 @@ namespace WPF.UI.Pages
 
         private void DetachedSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(() =>
             {
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
@@ -372,7 +373,7 @@ namespace WPF.UI.Pages
 
         private void DeleteSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            Dispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {

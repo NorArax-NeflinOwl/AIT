@@ -16,6 +16,7 @@ using WPF.Managers.Validators;
 using System.Windows.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WPF.Models.Extensions;
 
 namespace WPF.Managers.Tasks
 {
@@ -49,7 +50,7 @@ namespace WPF.Managers.Tasks
 
         private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Dispatcher.CurrentDispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 while (true)
                 {

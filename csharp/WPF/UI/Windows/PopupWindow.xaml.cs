@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 using WPF.UI.Windows.Properties;
 
@@ -40,7 +41,7 @@ namespace WPF.UI.Windows
 
         private void Init()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            DispatcherExtension.Invoke(() =>
             {
                 try
                 {
@@ -52,9 +53,9 @@ namespace WPF.UI.Windows
                     this.Top = corner.Y - this.ActualHeight;
                 }
                 catch (Exception) { }
-            }));
+            });
 
-            Dispatcher.Invoke(async () =>
+            DispatcherExtension.Invoke(async () =>
             {
                 await Task.Delay(VisibilityTimeInSecond * 1500);
                 Close();
