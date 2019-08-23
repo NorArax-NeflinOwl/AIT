@@ -63,6 +63,26 @@ namespace WPF.Databases.Contexts
                 optionbuilder.UseSqlite($"Data Source={databasePath}\\{databaseName}");
         }
 
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AitUserDataModel>()
+                .HasOne(q => q.AccountData)
+                .WithOne(p => p.UserData)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AitUserHostModel>()
+                .HasOne(q => q.AccountData)
+                .WithMany(p => p.UserHosts)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<AitFilesModel>()
+                .HasOne(q => q.FileCreator)
+                .WithMany(p => p.Files)
+                .OnDelete(DeleteBehavior.Cascade);
+        }*/
+
         public override void Dispose()
         {
             IsDisposed = true;

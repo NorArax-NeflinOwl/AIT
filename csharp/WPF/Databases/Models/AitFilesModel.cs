@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
 using WPF.Models.Enums;
-using WPF.Models.Extensions;
 using WPF.Managers.Validators;
+using System.Linq;
 
 namespace WPF.Databases.Models
 {
@@ -106,13 +106,14 @@ namespace WPF.Databases.Models
                 {
                     using (var context = PDBContext.Instance.Context)
                     {
-                        fileCreator = context.Accounts.Find(creator);
+                        fileCreator = context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
                     }
                 }
                 return fileCreator;
             }
             set { SetField(ref fileCreator, value, nameof(FileCreator)); }
         }
+
         public AitAccountModel FileOwner
         {
             get
@@ -123,7 +124,7 @@ namespace WPF.Databases.Models
                 {
                     using (var context = PDBContext.Instance.Context)
                     {
-                        fileOwner = context.Accounts.Find(assignedTo);
+                        fileOwner = context.Accounts.Where(q => q.ID.Equals(assignedTo)).FirstOrDefault();
                     }
                 }
                 return fileOwner;
