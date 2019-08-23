@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 using WPF.Databases.Contexts;
 using WPF.Models;
 using WPF.Models.Extensions;
@@ -20,6 +18,14 @@ namespace WPF.Managers.Tasks
 
         public bool Completed { get; set; }
         public bool IsDisposed { get; set; }
+
+        public DBContext Context
+        {
+            get
+            {
+                return null;
+            }
+        }
 
         public void Dispose()
         {

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-    public class ExceptionInfoModel : MessageInfo
+    public class ExceptionInfoModel : MessageInfoModel
     {
         public string[] ExceptionInfo { get; set; }
 
@@ -32,6 +31,16 @@ namespace WPF.Models
         {
             info.AddValue(nameof(Message), Message, typeof(int));
             info.AddValue(nameof(ExceptionInfo), ExceptionInfo, typeof(string[]));
+            base.GetObjectData(info, context);
+        }
+
+        public override string ToString()
+        {
+            var msg = string.Empty;
+            foreach(var exception in ExceptionInfo.ToList())
+                msg += exception;
+
+            return msg;
         }
 
         private List<string> GetException(Exception exception, List<string> list)
@@ -42,7 +51,7 @@ namespace WPF.Models
                 var stackTrace = exception.StackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList();
 
                 foreach (var line in stackTrace)
-                    list.Add(line);
+                    list.Add(line + Environment.NewLine);
 
                 if (exception.InnerException != null)
                     list = GetException(exception.InnerException, list);

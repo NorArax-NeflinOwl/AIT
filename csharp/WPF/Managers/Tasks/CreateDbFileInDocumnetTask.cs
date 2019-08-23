@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using WPF.Databases.Contexts;
 using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Tasks
@@ -12,6 +13,23 @@ namespace WPF.Managers.Tasks
 
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
         public bool IsDisposed { get; set; }
+
+        private object dbLocker => new object();
+
+        private DBContext context;
+        public DBContext Context
+        {
+            get
+            {
+                lock (dbLocker)
+                {
+                    if (context == null || context.IsDisposed)
+                        context = new DBContext();
+
+                    return context;
+                }
+            }
+        }
 
         public void Collect()
         {

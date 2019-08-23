@@ -52,7 +52,22 @@ namespace WPF.Managers
             }
         }
 
-        public T Deserialize<T>(string text, string password = null, bool saveException = true)
+        public T Deserialize<T>(string text)
+        {
+            return Deserialize<T>(text, null, true);
+        }
+
+        public T Deserialize<T>(string text, bool saveException)
+        {
+            return Deserialize<T>(text, null, saveException);
+        }
+
+        public T Deserialize<T>(string text, string password)
+        {
+            return Deserialize<T>(text, password, true);
+        }
+
+        public T Deserialize<T>(string text, string password, bool saveException)
         {
             try
             {

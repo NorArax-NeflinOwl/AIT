@@ -13,9 +13,7 @@ using WPF.Models.Interfaces;
 using WPF.Managers.Helpers;
 using WPF.Models;
 using WPF.Managers.Validators;
-using System.Windows.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using WPF.Models.Extensions;
 
 namespace WPF.Managers.Tasks
@@ -34,6 +32,23 @@ namespace WPF.Managers.Tasks
 
         public bool Completed { get; set; }
         public bool IsDisposed { get; set; }
+
+        private object dbLocker => new object();
+
+        private DBContext context;
+        public DBContext Context
+        {
+            get
+            {
+                lock (dbLocker)
+                {
+                    if (context == null || context.IsDisposed)
+                        context = new DBContext();
+
+                    return context;
+                }
+            }
+        }
 
         public void Dispose()
         {
@@ -75,7 +90,7 @@ namespace WPF.Managers.Tasks
                         List<LottoInfoModel> lottoResults = LottoInfoModel.Convert(content.Split(new[] { Environment.NewLine }, StringSplitOptions.None).ToList().OrderByDescending(q => q).ToList());
 
                         DateTime startDate = new DateTime(DateTime.Now.Year, 1, 1);
-                        using(var context = PDBContext.Instance.Context)
+                        using(var context = Context)
                         {
                             var manager = context.Stsgenids.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault();
                             if (manager != null && startDate > manager.Create)
@@ -90,7 +105,7 @@ namespace WPF.Managers.Tasks
                             if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.LuckyNumbers, out hits))
                             {
                                 find = true;
-                                using (var context = PDBContext.Instance.Context)
+                                using (var context = Context)
                                 {
                                     var account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
                                     if (account != null)
@@ -154,12 +169,12 @@ namespace WPF.Managers.Tasks
         private void WaitForManager()
         {
             var id = ConfigurationManager.AppSettings["TasksManager"].ToString();
-            var cnt = PDBContext.Instance.Context;
+            var cnt = Context;
             while (cnt.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault() == null)
             {
                 cnt.Dispose();
                 Thread.Sleep(10);
-                cnt = PDBContext.Instance.Context;
+                cnt = Context;
             }
             cnt.Dispose();
         }

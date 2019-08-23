@@ -42,8 +42,8 @@ namespace WPF.Databases.Models
             using (var context = PDBContext.Instance.Context)
             {
                 BaseLastUpdate = DateTime.Now;
-                context.Update(this);
                 context.Entry(this).State = EntityState.Modified;
+                context.Update(this);
                 context.SaveChanges();
             }
         }

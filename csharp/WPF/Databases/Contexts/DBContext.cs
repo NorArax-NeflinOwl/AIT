@@ -6,15 +6,17 @@ using System.Threading.Tasks;
 using WPF.Databases.Models;
 using WPF.Managers;
 using WPF.Managers.Helpers;
+using WPF.Models.Interfaces;
 
 namespace WPF.Databases.Contexts
 {
-    public class DBContext : DbContext
+    public class DBContext : DbContext, IDisposableExtended
     {
         private readonly string databasePath = Environment.CurrentDirectory + "\\Databases";
         private readonly string databaseName = "nano.db";
 
         private static string dbPath;
+        public bool IsDisposed { get; set; }
 
         public DBContext(string path = "")
         {
@@ -59,6 +61,12 @@ namespace WPF.Databases.Contexts
                 optionbuilder.UseSqlite($"Data Source={dbPath}");
             else
                 optionbuilder.UseSqlite($"Data Source={databasePath}\\{databaseName}");
+        }
+
+        public override void Dispose()
+        {
+            IsDisposed = true;
+            base.Dispose();
         }
 
         public DbSet<SysStsgenids> Stsgenids { get; set; }

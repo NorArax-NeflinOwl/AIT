@@ -3,7 +3,7 @@ using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-    public class SimpleMessageInfoModel : MessageInfo
+    public class SimpleMessageInfoModel : MessageInfoModel
     {
 
         public SimpleMessageInfoModel() : base()

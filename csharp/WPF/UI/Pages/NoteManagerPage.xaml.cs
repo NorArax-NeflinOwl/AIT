@@ -267,25 +267,28 @@ namespace WPF.UI.Pages
             try
             {
                 CorrectlyAssign = false;
-                var exceptionName = new StringBuilder();
-                var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
-                using (var context = PDBContext.Instance.Context)
+                if(!string.IsNullOrEmpty(NoteAssignedToBox.Text))
                 {
-                    foreach (var name in names)
+                    var exceptionName = new StringBuilder();
+                    var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
+                    using (var context = PDBContext.Instance.Context)
                     {
-                        // FIX ME
-                        var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                               || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                               || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) &&  q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
-                        if (accs == null || !accs.Any())
+                        foreach (var name in names)
                         {
-                            exceptionName.Append(string.Format(WPF.Properties.Resources.INVALID_ACCOUNT_NAME, name) + Environment.NewLine);
+                            // FIX ME
+                            var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
+                            if (accs == null || !accs.Any())
+                            {
+                                exceptionName.Append(string.Format(WPF.Properties.Resources.INVALID_ACCOUNT_NAME, name) + Environment.NewLine);
+                            }
                         }
                     }
-                }
 
-                if (!string.IsNullOrEmpty(exceptionName.ToString()))
-                    throw new AitAccountExceptions.InvalidNameException(exceptionName.ToString());
+                    if (!string.IsNullOrEmpty(exceptionName.ToString()))
+                        throw new AitAccountExceptions.InvalidNameException(exceptionName.ToString());
+                }
 
                 CorrectlyAssign = true;
             }
@@ -311,7 +314,7 @@ namespace WPF.UI.Pages
             if (NoteTypeComboBox.SelectedIndex >= 0
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
                 || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
-                || !string.IsNullOrEmpty(MessageContent.Text))
+                || !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent())
             {
                 ClearContentBtn.IsEnabled = true;
             }
@@ -321,11 +324,18 @@ namespace WPF.UI.Pages
             }
         }
 
+        private bool TypeAllowToEmptyContent()
+        {
+            var typeInt = NoteTypeComboBox.SelectedIndex;
+            var type = FileTypesManager.SetType(typeInt);
+            return FileTypesManager.AllowToEmptyContent(type);
+        }
+
         public void ValidateRequiredFieldFillCorrectly()
         {
             if (NoteTypeComboBox.SelectedIndex >= 0
                 && (string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
-                && IsCorrectFilled)
+                && (IsCorrectFilled || TypeAllowToEmptyContent()))
             {
                 SaveContentBtn.IsEnabled = true;
             }
@@ -373,7 +383,7 @@ namespace WPF.UI.Pages
 
         private void DeleteSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            DispatcherExtension.Invoke(async () =>
+            DispatcherExtension.Invoke(() =>
             {
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
@@ -574,11 +584,11 @@ namespace WPF.UI.Pages
 
                 try
                 {
-                    var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, null, false);
+                    var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, false);
                     if (obj != null)
                     {
                         Date.Text = obj.Date.ToString();
-                        MessageContent.Text = CryptoJsonManager.Instance.Deserialize<SimpleMessageInfoModel>(obj.Message.ToString(), null, false)?.Message;
+                        MessageContent.Text = obj.Message.Message;
                     }
                 }
                 catch (Exception)

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using WPF.Models.Interfaces;
 
 namespace WPF.Models
 {
-    public class ArrayMessageInfoModel : MessageInfo
+    public class ArrayMessageInfoModel : MessageInfoModel
     {
         private List<string> array;
 
@@ -30,6 +30,16 @@ namespace WPF.Models
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Array), Array, typeof(string[]));
+            base.GetObjectData(info, context);
+        }
+
+        public override string ToString()
+        {
+            var msg = string.Empty;
+            foreach (var item in array)
+                msg += item + Environment.NewLine;
+
+            return msg;
         }
     }
 }

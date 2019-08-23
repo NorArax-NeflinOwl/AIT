@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using WPF.Databases.Contexts;
 using WPF.UI.Windows.Properties;
 using WPF.Models.Interfaces;
+using System.Windows;
 
 namespace WPF.Managers
 {
@@ -67,7 +68,7 @@ namespace WPF.Managers
                             var content = File.ReadAllText(filePath);
                             if(!string.IsNullOrEmpty(content))
                             {
-                                list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content);
+                                list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
                             }
 
                             if(list == null)
@@ -132,7 +133,8 @@ namespace WPF.Managers
                 else
                 {
                     // FIX ME
-                    MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
+                    //MainContext.Instance.Windows.Open(new DialogProperties(log, DialogTypeEnum.EXCEPTION_HANDLER), false);
+                    MessageBox.Show(log.ToString(), Resources.WARNING, MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
             catch(Exception ex)
@@ -145,6 +147,7 @@ namespace WPF.Managers
                 LogToFile(log);
 
                 MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.ERROR_NOHANDLE, 10), false);
+                //MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);
 #if DEBUG
                 throw ex;
 #endif

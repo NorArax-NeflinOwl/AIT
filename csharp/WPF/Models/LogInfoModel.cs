@@ -12,7 +12,7 @@ namespace WPF.Models
         public DateTime Date { get; set; }
         public DeviceInfoModel DeviceInfo { get; set; }
         public string AccountID { get; set; }
-        public object Message { get; set; }
+        public MessageInfoModel Message { get; set; }
 
         public LogInfoModel()
         {
@@ -29,7 +29,7 @@ namespace WPF.Models
             Date = (DateTime)info.GetValue(nameof(Date), typeof(DateTime));
             DeviceInfo = (DeviceInfoModel)info.GetValue(nameof(DeviceInfo), typeof(DeviceInfoModel));
             AccountID = (string)info.GetValue(nameof(AccountID), typeof(string));
-            Message = info.GetValue(nameof(Message), typeof(object));
+            Message = (MessageInfoModel)info.GetValue(nameof(Message), typeof(MessageInfoModel));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -39,7 +39,12 @@ namespace WPF.Models
             info.AddValue(nameof(Date), Date, typeof(DateTime));
             info.AddValue(nameof(DeviceInfo), DeviceInfo, typeof(DeviceInfoModel));
             info.AddValue(nameof(AccountID), AccountID, typeof(string));
-            info.AddValue(nameof(Message), Message, typeof(object));
+            info.AddValue(nameof(Message), Message, typeof(MessageInfoModel));
+        }
+
+        public override string ToString()
+        {
+            return Message.ToString();
         }
 
         public object Clone()

@@ -18,6 +18,23 @@ namespace WPF.Managers.Tasks
         public bool Completed { get; set; }
         public bool IsDisposed { get; set; }
 
+        private object dbLocker => new object();
+
+        private DBContext context;
+        public DBContext Context
+        {
+            get
+            {
+                lock(dbLocker)
+                {
+                    if (context == null || context.IsDisposed)
+                        context = new DBContext();
+
+                    return context;
+                }
+            }
+        }
+
         public void Collect()
         {
         }
@@ -54,7 +71,7 @@ namespace WPF.Managers.Tasks
         private void CreateManager()
         {
             // Create task menagera
-            using (var context = PDBContext.Instance.Context)
+            using (var context = Context)
             {
                 var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
                 var manager = context.Accounts.Find(managerID);

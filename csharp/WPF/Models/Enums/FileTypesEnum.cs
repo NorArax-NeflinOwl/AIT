@@ -52,5 +52,32 @@ namespace WPF.Models.Enums
             }
             return null;
         }
+
+        public static bool AllowToEmptyContent(FileTypesEnum? type)
+        {
+            if(type != null)
+            {
+                switch (type)
+                {
+                    case FileTypesEnum.EXCEPTION:
+                        return false;
+                    case FileTypesEnum.INFORMATION:
+                        return false;
+                    case FileTypesEnum.NOTE:
+                        return true;
+                    case FileTypesEnum.TRACE:
+                        return false;
+                    case FileTypesEnum.QUERY:
+                        return false;
+                    case FileTypesEnum.TASK:
+                        return true;
+                    case FileTypesEnum.KEYLOGGER:
+                        return false;
+                    case FileTypesEnum.ACTIVATION_CODE:
+                        return false;
+                }
+            }
+            return false;
+        }
     }
 }

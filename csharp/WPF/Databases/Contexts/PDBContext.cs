@@ -1,4 +1,7 @@
-﻿using WPF.Managers;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using WPF.Managers;
 using WPF.Models;
 
 namespace WPF.Databases.Contexts
@@ -7,8 +10,11 @@ namespace WPF.Databases.Contexts
     {
         private DeviceInfoModel deviceInfo;
 
+        private static readonly object dbLocker = new object();
         private static readonly object locker = new object();
         private static readonly PDBContext instance = new PDBContext();
+
+        private static DBContext context;
 
         private PDBContext()
         {

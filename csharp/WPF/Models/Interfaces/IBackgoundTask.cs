@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using WPF.Databases.Contexts;
 
 namespace WPF.Models.Interfaces
 {
@@ -7,6 +8,7 @@ namespace WPF.Models.Interfaces
         bool Completed { get; set; }
         bool MustBeCollected { get; }
         BackgroundWorker BackgroundWorker { get; }
+        DBContext Context { get; }
 
         void Run();
         void Collect();
