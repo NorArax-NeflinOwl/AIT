@@ -111,7 +111,15 @@ namespace WPF.Databases.Models
                 }
                 return fileCreator;
             }
-            set { SetField(ref fileCreator, value, nameof(FileCreator)); }
+            set
+            {
+                SetField(ref fileCreator, value, nameof(FileCreator));
+                if (value != null)
+                {
+                    creator = value.ID;
+                }
+                LastUpdate = DateTime.Now;
+            }
         }
 
         public AitAccountModel FileOwner
@@ -129,7 +137,15 @@ namespace WPF.Databases.Models
                 }
                 return fileOwner;
             }
-            set { SetField(ref fileOwner, value, nameof(FileOwner)); }
+            set
+            {
+                SetField(ref fileOwner, value, nameof(FileOwner));
+                if(value != null)
+                {
+                    assignedTo = value.ID;
+                }
+                LastUpdate = DateTime.Now;
+            }
         }
 
         public AitFilesModel(DBContext context) : base(context)

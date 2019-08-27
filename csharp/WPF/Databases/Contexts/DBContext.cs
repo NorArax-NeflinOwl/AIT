@@ -57,7 +57,9 @@ namespace WPF.Databases.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbuilder)
         {
-            if(!string.IsNullOrEmpty(dbPath))
+            optionbuilder.EnableSensitiveDataLogging();
+
+            if (!string.IsNullOrEmpty(dbPath))
                 optionbuilder.UseSqlite($"Data Source={dbPath}");
             else
                 optionbuilder.UseSqlite($"Data Source={databasePath}\\{databaseName}");

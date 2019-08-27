@@ -126,7 +126,7 @@ namespace WPF.Managers.Tasks
                                             var taskToSave = new AitFilesModel(context)
                                             {
                                                 ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                                //Creator = ConfigurationManager.AppSettings["TasksManager"].ToString(), //FIX ME - WTF?!??!
+                                                FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
                                                 Name = nameof(LottoCheckerTask),
                                                 Type = FileTypesEnum.TASK,
                                                 Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
@@ -146,8 +146,6 @@ namespace WPF.Managers.Tasks
                                             }
 
                                             taskToSave.Insert();
-                                            //context.Entry(taskToSave).State = EntityState.Added;
-                                            //context.SaveChanges();
                                         }
                                     }
                                 }

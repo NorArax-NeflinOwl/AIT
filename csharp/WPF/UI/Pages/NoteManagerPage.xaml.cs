@@ -155,73 +155,67 @@ namespace WPF.UI.Pages
         {
             try
             {
-                DispatcherExtension.Invoke(() =>
+                if (!string.IsNullOrEmpty(NoteAssignedToBox.Text))
                 {
-                    if (!string.IsNullOrEmpty(NoteAssignedToBox.Text))
+                    var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
+                    foreach (var value in names)
                     {
-                        var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
-                        foreach (var value in names)
+                        var name = value.Replace(" ", "");
+                        using (var context = PDBContext.Instance.Context)
                         {
-                            var name = value.Replace(" ", "");
-                            using (var context = PDBContext.Instance.Context)
-                            {
-                                var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                                       || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                                       || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
+                            var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
+                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
 
-                                foreach (var a in acc)
+                            foreach (var a in acc)
+                            {
+                                if (currentNote != null)
                                 {
-                                    if (currentNote != null)
-                                    {
-                                        currentNote.Creator = PDBContext.Instance.AccountID;
-                                        currentNote.AssignedTo = a.ID;
-                                        currentNote.Name = NoteNameBox.Text;
-                                        currentNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
-                                        currentNote.Content = SerializableControl();
-                                        currentNote.Update();
-                                    }
-                                    else
-                                    {
-                                        var newNote = new AitFilesModel(context);
-                                        newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
-                                        newNote.Creator = PDBContext.Instance.AccountID;
-                                        newNote.AssignedTo = a.ID;
-                                        newNote.Name = NoteNameBox.Text;
-                                        newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
-                                        newNote.Content = SerializableControl();
-                                        newNote.Insert();
-                                    }
+                                    currentNote.FileOwner = a;
+                                    currentNote.Name = NoteNameBox.Text;
+                                    currentNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                                    currentNote.Content = SerializableControl();
+                                    currentNote.Update();
+                                }
+                                else
+                                {
+                                    var creator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
+                                    var newNote = new AitFilesModel(context);
+                                    newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
+                                    newNote.FileOwner = a;
+                                    newNote.Name = NoteNameBox.Text;
+                                    newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                                    newNote.Content = SerializableControl();
+                                    newNote.Insert();
                                 }
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    using (var context = PDBContext.Instance.Context)
                     {
-                        using (var context = PDBContext.Instance.Context)
+                        if (currentNote != null)
                         {
-                            if (currentNote != null)
-                            {
-                                currentNote.Creator = PDBContext.Instance.AccountID;
-                                currentNote.Name = NoteNameBox.Text;
-                                currentNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
-                                currentNote.Content = SerializableControl();
-                                currentNote.Update();
-                            }
-                            else
-                            {
-                                var newNote = new AitFilesModel(context);
-                                newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
-                                newNote.Creator = PDBContext.Instance.AccountID;
-                                newNote.Name = NoteNameBox.Text;
-                                newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
-                                newNote.Content = SerializableControl();
-                                newNote.Insert();
-                            }
+                            currentNote.Name = NoteNameBox.Text;
+                            currentNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                            currentNote.Content = SerializableControl();
+                            currentNote.Update();
+                        }
+                        else
+                        {
+                            var newNote = new AitFilesModel(context);
+                            newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
+                            newNote.Name = NoteNameBox.Text;
+                            newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                            newNote.Content = SerializableControl();
+                            newNote.Insert();
                         }
                     }
-                    ClearContentAction();
-                    InitListView();
-                });
+                }
+                ClearContentAction();
+                InitListView();
             }
             catch (Exception ex)
             {
@@ -273,9 +267,9 @@ namespace WPF.UI.Pages
                     var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
                     using (var context = PDBContext.Instance.Context)
                     {
-                        foreach (var name in names)
+                        foreach (var value in names)
                         {
-                            // FIX ME
+                            var name = value.Replace(" ", "");
                             var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
                                                                    || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
                                                                    || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
@@ -527,6 +521,7 @@ namespace WPF.UI.Pages
             backgroundWorker.DoWork += StartTimeTicker;
             backgroundWorker.RunWorkerAsync();
 
+            EditContentBtn.Visibility = Visibility.Collapsed;
             EditContentBtn.IsEnabled = false;
             ClearContentBtn.IsEnabled = false;
             SaveContentBtn.IsEnabled = false;
