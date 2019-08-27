@@ -123,7 +123,7 @@ namespace WPF.Managers.Tasks
                                                     lottoModel.Date.ToString("dd/MM/yyyy"),
                                                     hits);
 
-                                            var taskToSave = new AitFilesModel(context)
+                                            var taskToSave = new AitFileModel(context)
                                             {
                                                 ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                                 FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),

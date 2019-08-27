@@ -95,7 +95,7 @@ namespace WPF.Databases.Contexts
 
         public DbSet<AitAccountModel> Accounts { get; set; }
 
-        public DbSet<AitFilesModel> Files { get; set; }
+        public DbSet<AitFileModel> Files { get; set; }
 
         public DbSet<AitUserDataModel> UsersDatas { get; set; }
 

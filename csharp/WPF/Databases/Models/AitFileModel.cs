@@ -10,7 +10,7 @@ using System.Linq;
 namespace WPF.Databases.Models
 {
     [Table("ait_files")]
-    public class AitFilesModel : BaseEntityModel, ISerializable, ICloneable
+    public class AitFileModel : BaseEntityModel, ISerializable, ICloneable
     {
         private string creator, assignedTo, name, content;
         private FileTypesEnum type;
@@ -102,12 +102,9 @@ namespace WPF.Databases.Models
         {
             get
             {
-                if(fileCreator == null && !string.IsNullOrEmpty(creator))
+                if(fileCreator == null && !string.IsNullOrEmpty(creator) && Fill)
                 {
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        fileCreator = context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
-                    }
+                    fileCreator = Context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
                 }
                 return fileCreator;
             }
@@ -126,14 +123,11 @@ namespace WPF.Databases.Models
         {
             get
             {
-                if (fileOwner == null && string.IsNullOrEmpty(assignedTo))
+                if (fileOwner == null && string.IsNullOrEmpty(assignedTo) && Fill)
                     return FileCreator;
-                else if (!string.IsNullOrEmpty(assignedTo))
+                else if (!string.IsNullOrEmpty(assignedTo) && Fill)
                 {
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        fileOwner = context.Accounts.Where(q => q.ID.Equals(assignedTo)).FirstOrDefault();
-                    }
+                    fileOwner = Context.Accounts.Where(q => q.ID.Equals(assignedTo)).FirstOrDefault();
                 }
                 return fileOwner;
             }
@@ -148,7 +142,7 @@ namespace WPF.Databases.Models
             }
         }
 
-        public AitFilesModel(DBContext context) : base(context)
+        public AitFileModel(DBContext context) : base(context)
         {
             if (!string.IsNullOrEmpty(PDBContext.Instance.AccountID))
                 Creator = PDBContext.Instance.AccountID;
@@ -159,7 +153,7 @@ namespace WPF.Databases.Models
         [NotMapped]
         public bool IsDetached { get { return string.IsNullOrEmpty(assignedTo) && string.IsNullOrEmpty(creator); } }
 
-        public AitFilesModel(SerializationInfo info, StreamingContext context) : base(null)
+        public AitFileModel(SerializationInfo info, StreamingContext context) : base(null)
         {
             ID = (string)info.GetValue(nameof(ID), typeof(string));
             Creator = (string)info.GetValue(nameof(Creator), typeof(string));
@@ -185,7 +179,7 @@ namespace WPF.Databases.Models
 
         public object Clone()
         {
-            var file = new AitFilesModel(PDBContext.Instance.Context)
+            var file = new AitFileModel(PDBContext.Instance.Context)
             {
                 ID = ID,
                 Creator = Creator,

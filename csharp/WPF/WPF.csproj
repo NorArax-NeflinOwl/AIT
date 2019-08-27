@@ -339,7 +339,7 @@
     <Compile Include="Models\Extensions\Exceptions\GenerateExceptions.cs" />
     <Compile Include="Models\Extensions\Exceptions\SqliteExceptions.cs" />
     <Compile Include="Models\Extensions\NotifyPropertyChangedExtension.cs" />
-    <Compile Include="Databases\Models\AitFilesModel.cs" />
+    <Compile Include="Databases\Models\AitFileModel.cs" />
     <Compile Include="Databases\Models\AitUserDataModel.cs" />
     <Compile Include="Databases\Models\AitUserHostModel.cs" />
     <Compile Include="Databases\Models\SysStsgenids.cs" />

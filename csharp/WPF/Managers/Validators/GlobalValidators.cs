@@ -4,7 +4,6 @@ using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Models;
 using WPF.Models.Enums;
-using WPF.Models.Interfaces;
 
 namespace WPF.Managers.Validators
 {
@@ -14,7 +13,7 @@ namespace WPF.Managers.Validators
         {
             hits = 0;
 
-            var lottoUserLuckyNumbers = new List<AitFilesModel>();
+            var lottoUserLuckyNumbers = new List<AitFileModel>();
             using (var context = PDBContext.Instance.Context)
             {
                 var files = context.Files.ToList();

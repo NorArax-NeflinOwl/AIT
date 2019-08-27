@@ -19,7 +19,7 @@ namespace WPF.Models
             Path = string.Empty;
             Date = DateTime.Now;
             AccountID = PDBContext.Instance.AccountID;
-            //DeviceInfo = PDBContext.Instance.DeviceInfo;
+            DeviceInfo = PDBContext.Instance.DeviceInfo;
         }
 
         public LogInfoModel(SerializationInfo info, StreamingContext context)

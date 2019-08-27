@@ -18,7 +18,7 @@ namespace WPF.Databases.Models
         private PermitionAccountEnum permition;
         private DateTime create;
         private AitUserDataModel userData;
-        private IList<AitFilesModel> files;
+        private IList<AitFileModel> files;
         private IList<AitUserHostModel> userHosts;
 
         [Key, Column("acc_id")]
@@ -101,12 +101,9 @@ namespace WPF.Databases.Models
         {
             get
             {
-                if (userData == null)
+                if (userData == null && Fill)
                 {
-                    using(var context = PDBContext.Instance.Context)
-                    {
-                        userData = context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
-                    }
+                    userData = Context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
                 }
                 return userData;
             }
@@ -114,25 +111,19 @@ namespace WPF.Databases.Models
         }
 
         [NotMapped]
-        public IList<AitFilesModel> Files
+        public IList<AitFileModel> Files
         {
             get
             {
-                if (files == null)
+                if (files == null && Fill)
                 {
                     if(Permition.Equals(PermitionAccountEnum.ADMIN) || Permition.Equals(PermitionAccountEnum.MANAGER))
                     {
-                        using (var context = PDBContext.Instance.Context)
-                        {
-                            files = context.Files.ToList();
-                        }
+                        files = Context.Files.ToList();
                     }
                     else
                     {
-                        using (var context = PDBContext.Instance.Context)
-                        {
-                            files = context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
-                        }
+                        files = Context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
                     }
                 }
                 return files;
@@ -145,12 +136,9 @@ namespace WPF.Databases.Models
         {
             get
             {
-                if (userHosts == null)
+                if (userHosts == null && Fill)
                 {
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        userHosts = context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
-                    }
+                    userHosts = Context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
                 }
                 return userHosts;
             }

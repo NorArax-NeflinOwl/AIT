@@ -18,7 +18,7 @@ namespace WPF.UI.Windows
     public partial class RegistrationWindow : Window, IDisposableExtended, IPropertizableControl
     {
         private AitAccountModel account;
-        private AitFilesModel userActivatedCodeFile;
+        private AitFileModel userActivatedCodeFile;
 
         public IProperties Properties { get; }
         public bool IsDisposed { get; set; }
@@ -170,7 +170,7 @@ namespace WPF.UI.Windows
                         };
                         userDate.Insert();
 
-                        userActivatedCodeFile = new AitFilesModel(context)
+                        userActivatedCodeFile = new AitFileModel(context)
                         {
                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                             Creator = account.ID,

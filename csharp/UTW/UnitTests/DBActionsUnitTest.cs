@@ -109,20 +109,20 @@ namespace UTW.UnitTests
                     AssignedTo = account.ID,
                     HostName = HardwareManager.GetComputerName()
                 };
-                IList<AitFilesModel> files = new List<AitFilesModel>
+                IList<AitFileModel> files = new List<AitFileModel>
                 {
-                    new AitFilesModel(context)
+                    new AitFileModel(context)
                     {
                         ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS, false),
                         Name = "Empty Test File 1",
-                        Creator = account.ID,
+                        FileCreator = account,
                         Type = FileTypesEnum.NOTE
                     },
-                    new AitFilesModel(context)
+                    new AitFileModel(context)
                     {
                         ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS, false),
                         Name = "Empty Test File 2",
-                        Creator = account.ID,
+                        FileCreator = account,
                         Type = FileTypesEnum.TASK
                     }
                 };

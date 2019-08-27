@@ -8,14 +8,14 @@ namespace WPF.UI.Controls
     /// </summary>
     public partial class NoteListViewItemControl : UserControl
     {
-        public AitFilesModel Note {get;set;}
+        public AitFileModel Note {get;set;}
 
-        public NoteListViewItemControl(int index, AitFilesModel note)
+        public NoteListViewItemControl(int index, AitFileModel note)
         {
             Note = note;
             InitializeComponent();
             Title.Text = index + " " + Note.Name;
-            CreateDate.Text = Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy hh:mm:ss");
+            CreateDate.Text = Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
             Type.Text = Properties.Resources.TYPE_S + " " + Note.Type.ToString();
 
             if(note.IsDetached)

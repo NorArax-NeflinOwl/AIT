@@ -82,12 +82,9 @@ namespace WPF.Databases.Models
         {
             get
             {
-                if (accountData == null && !string.IsNullOrEmpty(AssignedTo))
+                if (accountData == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
                 {
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        accountData = context.Accounts.Find(AssignedTo);
-                    }
+                    accountData = Context.Accounts.Find(AssignedTo);
                 }
                 return accountData;
             }

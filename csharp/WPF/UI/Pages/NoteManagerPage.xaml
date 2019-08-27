@@ -33,7 +33,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White"/>
             <ListView Grid.Row="1" x:Name="NoteManagerListView" Background="Transparent" BorderThickness="0"/>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Margin="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -97,7 +97,7 @@
                         </ScrollViewer>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="2" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
