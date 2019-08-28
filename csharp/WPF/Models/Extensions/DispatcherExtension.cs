@@ -16,7 +16,7 @@ namespace WPF.Models.Extensions
                 }
                 catch(Exception e)
                 {
-                    LogManager.Instance.LogExceptionToFile(e);
+                    LogManager.Instance.LogExceptionToFileAndDB(e);
                 }
             });
         }
@@ -31,7 +31,7 @@ namespace WPF.Models.Extensions
                 }
                 catch(Exception e)
                 {
-                    LogManager.Instance.LogExceptionToFile(e);
+                    LogManager.Instance.LogExceptionToFileAndDB(e);
                 }
             }, priority);
         }

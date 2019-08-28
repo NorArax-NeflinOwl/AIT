@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -128,14 +127,10 @@ namespace WPF.Managers.Tasks
                                                 ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                                 FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
                                                 Name = nameof(LottoCheckerTask),
-                                                Type = FileTypesEnum.TASK,
+                                                Type = FileTypesEnum.LOTTO_NOTE,
                                                 Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                                 {
-                                                    Type = FileTypesEnum.TASK,
                                                     Message = new SimpleMessageInfoModel(msg)
-                                                    {
-                                                        Type = NoteTypesEnum.LOTTO_NOTE
-                                                    }
                                                 })
                                             };
 
@@ -157,7 +152,7 @@ namespace WPF.Managers.Tasks
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
             }
 
             Completed = true;

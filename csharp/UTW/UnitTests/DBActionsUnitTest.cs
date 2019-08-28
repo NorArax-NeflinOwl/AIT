@@ -135,6 +135,7 @@ namespace UTW.UnitTests
 
                 context.SaveChanges();
 
+                account.FillObject();
                 Assert.IsNotNull(account.UserData);
 
                 foreach (var file in account.Files)

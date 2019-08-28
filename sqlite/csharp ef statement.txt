@@ -1,8 +1,0 @@
-	"ait_id" TEXT NOT NULL CONSTRAINT "PK_ait_accounts" PRIMARY KEY,
-    "ait_login" TEXT NULL,
-    "ait_password" TEXT NULL,
-    "ait_email" TEXT NULL,
-    "ait_active" INTEGER NOT NULL,
-    "ait_permition" INTEGER NOT NULL,
-    "ait_create" TEXT NOT NULL,
-    "ait_lastupdate" TEXT NULL

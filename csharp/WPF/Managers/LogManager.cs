@@ -8,9 +8,13 @@ using WPF.Properties;
 using WPF.Models.Extensions;
 using System.Collections.Generic;
 using WPF.Databases.Contexts;
-using WPF.UI.Windows.Properties;
+using WPF.GUI.Windows.Properties;
 using WPF.Models.Interfaces;
 using System.Windows;
+using WPF.Databases.Models;
+using WPF.Managers.Helpers;
+using System.Linq;
+using System.Configuration;
 
 namespace WPF.Managers
 {
@@ -115,7 +119,7 @@ namespace WPF.Managers
             }
         }
 
-        public void LogExceptionToFile(Exception e, string message = "")
+        public void LogExceptionToFileAndDB(Exception e, string message = "")
         {
             var log = new LogInfoModel
             {
@@ -123,6 +127,7 @@ namespace WPF.Managers
                 Message = new ExceptionInfoModel(message, e)
             };
             LogToFile(log);
+            LogToDB(log);
 
             try
             {
@@ -145,12 +150,47 @@ namespace WPF.Managers
                     Message = new ExceptionInfoModel(message, ex)
                 };
                 LogToFile(log);
+                LogToDB(log);
 
                 MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.ERROR_NOHANDLE, 10), false);
                 //MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);
 #if DEBUG
                 throw ex;
 #endif
+            }
+        }
+
+        private void LogToDB(LogInfoModel log)
+        {
+            var msg = CryptoJsonManager.Instance.Serialize(log);
+            try
+            {
+                using (var context = PDBContext.Instance.Context)
+                {
+                    var logToSave = new AitFileModel(context)
+                    {
+                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                        FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
+                        FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
+                        Name = nameof(LogManager) + "-" + log.Type.ToString(),
+                        Type = log.Type,
+                        Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
+                        {
+                            Message = new SimpleMessageInfoModel(msg)
+                        })
+                    };
+                    logToSave.Insert();
+                }
+            }
+            catch(Exception ex)
+            {
+                log = new LogInfoModel
+                {
+                    Type = FileTypesEnum.EXCEPTION,
+                    Message = new ExceptionInfoModel(msg, ex)
+                };
+                LogToFile(log);
+                MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

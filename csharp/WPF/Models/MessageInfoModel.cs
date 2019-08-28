@@ -1,31 +1,26 @@
-﻿using System;
-using System.Runtime.Serialization;
-using WPF.Models.Enums;
+﻿using System.Runtime.Serialization;
 
 namespace WPF.Models
 {
     public class MessageInfoModel : ISerializable
     {
-        public NoteTypesEnum Type { get; set; }
         public string Message { get; set; }
 
         public MessageInfoModel() { }
 
         public MessageInfoModel(SerializationInfo info, StreamingContext context)
         {
-            Type = (NoteTypesEnum)info.GetValue(nameof(Type), typeof(NoteTypesEnum));
             Message = (string)info.GetValue(nameof(Message), typeof(string));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Type), Type, typeof(NoteTypesEnum));
             info.AddValue(nameof(Message), Message, typeof(string));
         }
 
         public override string ToString()
         {
-            return Type.ToString() + Environment.NewLine + Message.ToString();
+            return Message.ToString();
         }
     }
 }

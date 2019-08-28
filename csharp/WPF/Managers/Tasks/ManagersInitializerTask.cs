@@ -63,7 +63,7 @@ namespace WPF.Managers.Tasks
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogExceptionToFile(ex);
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
             }
             Completed = true;
         }

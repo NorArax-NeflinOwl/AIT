@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using WPF.Models.Interfaces;
-using WPF.UI.Controls;
+using WPF.GUI.Controls;
 
 namespace WPF.Models
 {

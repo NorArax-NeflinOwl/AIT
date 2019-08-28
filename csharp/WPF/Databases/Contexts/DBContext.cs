@@ -38,7 +38,7 @@ namespace WPF.Databases.Contexts
                 }
                 catch (Exception e)
                 {
-                    LogManager.Instance.LogExceptionToFile(e);
+                    LogManager.Instance.LogExceptionToFileAndDB(e);
                 }
             }
         }

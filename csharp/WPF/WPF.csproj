@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>UI/Icons/logo4x2transparent.ico</ApplicationIcon>
+    <ApplicationIcon>GUI/Icons/logo4x2transparent.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>WPF.App</StartupObject>
@@ -222,14 +222,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="UI\Windows\App.xaml">
+    <ApplicationDefinition Include="GUI\Windows\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Managers\Tasks\CreateDbFileInDocumnetTask.cs" />
     <Compile Include="Models\ArrayMessageInfoModel.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
-    <Compile Include="Models\Enums\NoteTypesEnum.cs" />
     <Compile Include="Models\Extensions\DispatcherExtension.cs" />
     <Compile Include="Models\MessageInfoModel.cs" />
     <Compile Include="Models\Interfaces\ICustomException.cs" />
@@ -246,85 +245,85 @@
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
     <Compile Include="Models\Interfaces\IPageModel.cs" />
     <Compile Include="Models\SimpleMessageInfoModel.cs" />
-    <Compile Include="UI\Controls\MaterialDesignProgressCircleControl.xaml.cs">
+    <Compile Include="GUI\Controls\MaterialDesignProgressCircleControl.xaml.cs">
       <DependentUpon>MaterialDesignProgressCircleControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\NoteListViewItemControl.xaml.cs">
+    <Compile Include="GUI\Controls\NoteListViewItemControl.xaml.cs">
       <DependentUpon>NoteListViewItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Controls\TabItemHeaderControl.xaml.cs">
+    <Compile Include="GUI\Controls\TabItemHeaderControl.xaml.cs">
       <DependentUpon>TabItemHeaderControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\DashboardPage.xaml.cs">
+    <Compile Include="GUI\Pages\DashboardPage.xaml.cs">
       <DependentUpon>DashboardPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\NoteManagerPage.xaml.cs">
+    <Compile Include="GUI\Pages\NoteManagerPage.xaml.cs">
       <DependentUpon>NoteManagerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\Properties\DashboardProperties.cs" />
-    <Compile Include="UI\Pages\Properties\NoteManagerProperties.cs" />
-    <Compile Include="UI\Pages\Properties\SettingsProperties.cs" />
-    <Compile Include="UI\Pages\SettingPage.xaml.cs">
+    <Compile Include="GUI\Pages\Properties\DashboardProperties.cs" />
+    <Compile Include="GUI\Pages\Properties\NoteManagerProperties.cs" />
+    <Compile Include="GUI\Pages\Properties\SettingsProperties.cs" />
+    <Compile Include="GUI\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\DialogWindow.xaml.cs">
+    <Compile Include="GUI\Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\InitWindow.xaml.cs">
+    <Compile Include="GUI\Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\LoginWindow.xaml.cs">
+    <Compile Include="GUI\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\PopupWindow.xaml.cs">
+    <Compile Include="GUI\Windows\PopupWindow.xaml.cs">
       <DependentUpon>PopupWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Windows\Properties\DialogProperties.cs" />
-    <Compile Include="UI\Windows\Properties\InitProperties.cs" />
-    <Compile Include="UI\Windows\Properties\LoginProperties.cs" />
-    <Compile Include="UI\Windows\Properties\MainProperties.cs" />
-    <Compile Include="UI\Windows\Properties\PopupProperties.cs" />
-    <Compile Include="UI\Windows\Properties\RegistrationProperties.cs" />
-    <Compile Include="UI\Windows\RegistrationWindow.xaml.cs">
+    <Compile Include="GUI\Windows\Properties\DialogProperties.cs" />
+    <Compile Include="GUI\Windows\Properties\InitProperties.cs" />
+    <Compile Include="GUI\Windows\Properties\LoginProperties.cs" />
+    <Compile Include="GUI\Windows\Properties\MainProperties.cs" />
+    <Compile Include="GUI\Windows\Properties\PopupProperties.cs" />
+    <Compile Include="GUI\Windows\Properties\RegistrationProperties.cs" />
+    <Compile Include="GUI\Windows\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\Controls\MaterialDesignProgressCircleControl.xaml">
+    <Page Include="GUI\Controls\MaterialDesignProgressCircleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\NoteListViewItemControl.xaml">
+    <Page Include="GUI\Controls\NoteListViewItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Controls\TabItemHeaderControl.xaml">
+    <Page Include="GUI\Controls\TabItemHeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\DashboardPage.xaml">
+    <Page Include="GUI\Pages\DashboardPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\NoteManagerPage.xaml">
+    <Page Include="GUI\Pages\NoteManagerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\SettingPage.xaml">
+    <Page Include="GUI\Pages\SettingPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\DialogWindow.xaml">
+    <Page Include="GUI\Windows\DialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\InitWindow.xaml">
+    <Page Include="GUI\Windows\InitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\LoginWindow.xaml">
+    <Page Include="GUI\Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\MainWindow.xaml">
+    <Page Include="GUI\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -363,7 +362,7 @@
     <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Managers\Validators\BasePropertiesValidator.cs" />
     <Compile Include="Managers\Validators\GlobalValidators.cs" />
-    <Compile Include="UI\Windows\App.xaml.cs">
+    <Compile Include="GUI\Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -374,15 +373,15 @@
     <Compile Include="Managers\FileManager.cs" />
     <Compile Include="Databases\Models\AitAccountModel.cs" />
     <Compile Include="Managers\Validators\AitAccountPropertiesValidator.cs" />
-    <Compile Include="UI\Windows\MainWindow.xaml.cs">
+    <Compile Include="GUI\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\Windows\PopupWindow.xaml">
+    <Page Include="GUI\Windows\PopupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Windows\RegistrationWindow.xaml">
+    <Page Include="GUI\Windows\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -416,24 +415,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="UI\Icons\logo4x2transparent.ico">
+    <None Include="GUI\Icons\logo4x2transparent.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UI\Icons\dialog_error.png">
+    <None Include="GUI\Icons\dialog_error.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UI\Icons\dialog_information.png">
+    <None Include="GUI\Icons\dialog_information.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UI\Icons\logo4x4.png">
+    <None Include="GUI\Icons\logo4x4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UI\Icons\dialog_question.png">
+    <None Include="GUI\Icons\dialog_question.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="UI\Icons\logo4x3.png">
+    <None Include="GUI\Icons\logo4x3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

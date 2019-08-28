@@ -27,6 +27,7 @@ namespace WPF.Databases.Models
                     SetField(ref BaseID, value, nameof(ID));
             }
         }
+
         [ForeignKey("FileCreator"), Column("fls_accid")]
         public string Creator
         {
@@ -37,6 +38,7 @@ namespace WPF.Databases.Models
                 LastUpdate = DateTime.Now;
             }
         }
+
         [ForeignKey("FileOwner"), Column("fls_asgaccid")]
         public string AssignedTo
         {
@@ -52,6 +54,7 @@ namespace WPF.Databases.Models
                 LastUpdate = DateTime.Now;
             }
         }
+
         [Column("fls_name")]
         public string Name
         {
@@ -62,6 +65,7 @@ namespace WPF.Databases.Models
                 LastUpdate = DateTime.Now;
             }
         }
+
         [Column("fls_type")]
         public FileTypesEnum Type
         {
@@ -72,6 +76,7 @@ namespace WPF.Databases.Models
                 LastUpdate = DateTime.Now;
             }
         }
+
         [Column("fls_content")]
         public string Content
         {
@@ -82,12 +87,14 @@ namespace WPF.Databases.Models
                 LastUpdate = DateTime.Now;
             }
         }
+
         [Column("fls_create")]
         public DateTime Create
         {
             get { return create; }
             set { SetField(ref create, value, nameof(Create)); }
         }
+
         [Column("fls_lastupdate")]
         public DateTime? LastUpdate
         {

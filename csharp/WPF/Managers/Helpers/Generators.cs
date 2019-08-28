@@ -51,7 +51,7 @@ namespace WPF.Managers.Helpers
                     }
                     else if (throwException)
                     {
-                        LogManager.Instance.LogExceptionToFile(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
+                        LogManager.Instance.LogExceptionToFileAndDB(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
                     }
                 }
             }

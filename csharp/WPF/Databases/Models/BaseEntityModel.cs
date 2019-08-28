@@ -19,11 +19,16 @@ namespace WPF.Databases.Models
         public bool IsDisposed { get; set; }
 
         [NotMapped]
-        public bool Fill { get; set; }
+        protected bool Fill { get; set; }
 
         public BaseEntityModel(DBContext context) : base(null)
         {
             Context = context;
+        }
+
+        public void FillObject()
+        {
+            Fill = true;
         }
 
         public void Insert()

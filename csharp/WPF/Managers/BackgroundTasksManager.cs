@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Contexts;
-using WPF.UI.Windows.Properties;
+using WPF.GUI.Windows.Properties;
 
 namespace WPF.Managers
 {

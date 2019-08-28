@@ -2,8 +2,8 @@
 using WPF.Models;
 using WPF.Models.Enums;
 using WPF.Models.Extensions;
-using WPF.UI.Controls;
-using WPF.UI.Pages.Properties;
+using WPF.GUI.Controls;
+using WPF.GUI.Pages.Properties;
 
 namespace WPF.Managers
 {

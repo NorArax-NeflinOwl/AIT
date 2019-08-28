@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using WPF.Databases.Contexts;
 using WPF.Properties;
-using WPF.UI.Windows.Properties;
+using WPF.GUI.Windows.Properties;
 
 namespace WPF.Managers.Helpers
 {
@@ -63,7 +63,7 @@ namespace WPF.Managers.Helpers
             }
             catch (Exception ex)
             {
-                LogManager.Instance.LogExceptionToFile(ex, "Check your network connection");
+                LogManager.Instance.LogExceptionToFileAndDB(ex, "Check your network connection");
             }
             return false;
         }

@@ -49,7 +49,7 @@ namespace WPF.Managers.Helpers
             }
             catch (Exception exe)
             {
-                LogManager.Instance.LogExceptionToFile(exe, "Check your network connection");
+                LogManager.Instance.LogExceptionToFileAndDB(exe, "Check your network connection");
             }
             return null;
         }

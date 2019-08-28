@@ -270,6 +270,9 @@
   <data name="INVALID_ACCOUNT_NAME" xml:space="preserve">
     <value>Name '{0}' not find</value>
   </data>
+  <data name="INVALID_LOTTO_NUMBER" xml:space="preserve">
+    <value>You pass invalid lucky number: {0}</value>
+  </data>
   <data name="JSON_EXT" xml:space="preserve">
     <value>.json</value>
   </data>
@@ -311,6 +314,9 @@
   </data>
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>
+  </data>
+  <data name="LOTTO_NOTE" xml:space="preserve">
+    <value>Lotto Note</value>
   </data>
   <data name="MESSAGE" xml:space="preserve">
     <value>Message</value>
@@ -429,11 +435,17 @@
   <data name="TYPE_S" xml:space="preserve">
     <value>Type: </value>
   </data>
+  <data name="UNDEFINED" xml:space="preserve">
+    <value>Undefined</value>
+  </data>
   <data name="UNDO_HEADER" xml:space="preserve">
     <value>Undo</value>
   </data>
   <data name="UNKNOWN" xml:space="preserve">
     <value>Unknown</value>
+  </data>
+  <data name="USER_LOTTONUMBER" xml:space="preserve">
+    <value>Lotto Lucky Number {0}</value>
   </data>
   <data name="VIEW_HEADER" xml:space="preserve">
     <value>View</value>

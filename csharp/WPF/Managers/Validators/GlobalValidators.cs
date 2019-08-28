@@ -19,11 +19,10 @@ namespace WPF.Managers.Validators
                 var files = context.Files.ToList();
                 foreach(var file in files)
                 {
-                    if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.TASK.Equals(file.Type))
+                    if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.LOTTO_NOTE.Equals(file.Type))
                     {
                         var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content, false);
                         if (logInfo != null && logInfo.Message is MessageInfoModel info 
-                            && NoteTypesEnum.LOTTO_NOTE.Equals(info.Type) 
                             && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
                             return false;
                     }

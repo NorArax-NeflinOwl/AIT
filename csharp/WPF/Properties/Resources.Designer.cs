@@ -520,6 +520,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You pass invalid lucky number: {0}.
+        /// </summary>
+        internal static string INVALID_LOTTO_NUMBER {
+            get {
+                return ResourceManager.GetString("INVALID_LOTTO_NUMBER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .json.
         /// </summary>
         internal static string JSON_EXT {
@@ -642,6 +651,15 @@ namespace WPF.Properties {
         internal static string LOGOUT_SUCC {
             get {
                 return ResourceManager.GetString("LOGOUT_SUCC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lotto Note.
+        /// </summary>
+        internal static string LOTTO_NOTE {
+            get {
+                return ResourceManager.GetString("LOTTO_NOTE", resourceCulture);
             }
         }
         
@@ -997,6 +1015,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Undefined.
+        /// </summary>
+        internal static string UNDEFINED {
+            get {
+                return ResourceManager.GetString("UNDEFINED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Undo.
         /// </summary>
         internal static string UNDO_HEADER {
@@ -1011,6 +1038,15 @@ namespace WPF.Properties {
         internal static string UNKNOWN {
             get {
                 return ResourceManager.GetString("UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lotto Lucky Number {0}.
+        /// </summary>
+        internal static string USER_LOTTONUMBER {
+            get {
+                return ResourceManager.GetString("USER_LOTTONUMBER", resourceCulture);
             }
         }
         

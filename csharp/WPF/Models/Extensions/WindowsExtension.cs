@@ -5,8 +5,8 @@ using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Enums;
 using WPF.Models.Interfaces;
-using WPF.UI.Windows;
-using WPF.UI.Windows.Properties;
+using WPF.GUI.Windows;
+using WPF.GUI.Windows.Properties;
 
 namespace WPF.Models.Extensions
 {
