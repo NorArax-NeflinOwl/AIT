@@ -94,7 +94,7 @@ namespace WPF.Managers
                             Message = e.Message + Environment.NewLine + e.StackTrace
                         });*/
 
-                        m_Logger.Add(newLog);
+                        //m_Logger.Add(newLog);
                     }
                 }
             });
@@ -150,7 +150,6 @@ namespace WPF.Managers
                     Message = new ExceptionInfoModel(message, ex)
                 };
                 LogToFile(log);
-                LogToDB(log);
 
                 MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.ERROR_NOHANDLE, 10), false);
                 //MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -165,21 +164,38 @@ namespace WPF.Managers
             var msg = CryptoJsonManager.Instance.Serialize(log);
             try
             {
+                var list = new List<LogInfoModel>();
                 using (var context = PDBContext.Instance.Context)
                 {
-                    var logToSave = new AitFileModel(context)
+                    var fileInDB = context.Files.Where(q => q.Create > DateTime.Now.AddDays(-1) && q.Type.Equals(log.Type)).FirstOrDefault();
+
+                    if (fileInDB != null)
                     {
-                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                        FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
-                        FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
-                        Name = nameof(LogManager) + "-" + log.Type.ToString(),
-                        Type = log.Type,
-                        Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
+                        var content = fileInDB.Content;
+                        list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
+
+                        if (list == null)
+                            list = new List<LogInfoModel>();
+
+                        list.Add(log);
+                        fileInDB.FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
+                        fileInDB.Content = CryptoJsonManager.Instance.Serialize(list);
+                        fileInDB.Update();
+                    }
+                    else
+                    {
+                        list.Add(log);
+                        var logToSave = new AitFileModel(context)
                         {
-                            Message = new SimpleMessageInfoModel(msg)
-                        })
-                    };
-                    logToSave.Insert();
+                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                            FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
+                            FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
+                            Name = nameof(LogManager) + "-" + log.Type.ToString(),
+                            Type = log.Type,
+                            Content = CryptoJsonManager.Instance.Serialize(list)
+                        };
+                        logToSave.Insert();
+                    }
                 }
             }
             catch(Exception ex)

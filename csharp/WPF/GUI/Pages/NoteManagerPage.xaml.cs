@@ -17,6 +17,7 @@ using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Controls;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace WPF.GUI.Pages
 {
@@ -29,10 +30,11 @@ namespace WPF.GUI.Pages
         private AitFileModel currentNote;
         private BackgroundWorker backgroundWorker;
 
+        private List<AitFileModel> luckyNumbersToSave;
+
         private bool? CorrectlyAssign;
         private bool IsCorrectFilled;
         private bool StopClock;
-        private bool LottoListIsDefault;
         private FileTypesEnum? type;
 
         public NoteManagerPage()
@@ -50,6 +52,8 @@ namespace WPF.GUI.Pages
         {
             InitListView();
             InitNoteTypeComboBox();
+
+            luckyNumbersToSave = new List<AitFileModel>();
 
             NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
@@ -98,10 +102,12 @@ namespace WPF.GUI.Pages
             NoteAssignedToBox.LostFocus -= NoteAssignedToBox_LostFocus;
             MessageContent.LostFocus -= MessageContent_LostFocus;
 
+            MessageContentList.SelectionChanged += MessageContentList_SelectionChanged;
+
             IsDisposed = true;
 
             account.Dispose();
-            currentNote.Dispose();
+            currentNote?.Dispose();
             backgroundWorker.Dispose();
 
             ClearMessageContentListView(true);
@@ -129,6 +135,8 @@ namespace WPF.GUI.Pages
             NoteTypeComboBox.LostFocus += MessageContent_LostFocus;
             NoteAssignedToBox.LostFocus += NoteAssignedToBox_LostFocus;
             MessageContent.LostFocus += MessageContent_LostFocus;
+
+            MessageContentList.SelectionChanged += MessageContentList_SelectionChanged;
         }
 
         #region RIGHT PANEL METHODS
@@ -194,6 +202,11 @@ namespace WPF.GUI.Pages
                                 newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
                                 newNote.Content = SerializableControl();
                                 newNote.Insert();
+
+                                foreach (var file in luckyNumbersToSave)
+                                {
+                                    file.FileOwner = a;
+                                }
                             }
                         }
                     }
@@ -220,16 +233,23 @@ namespace WPF.GUI.Pages
                         }
                     }
                 }
+
+                foreach(var file in luckyNumbersToSave)
+                {
+                    file.Insert(); // FIX ME
+                }
+
                 ClearContentAction();
                 InitListView();
             }
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFileAndDB(ex);
+                InitListView();
             }
         }
 
-        public string SerializableControl()
+        private string SerializableControl()
         {
             return CryptoJsonManager.Instance.Serialize(new LogInfoModel
             {
@@ -260,6 +280,10 @@ namespace WPF.GUI.Pages
                 if(FileTypesEnum.LOTTO_NOTE.Equals(type))
                 {
                     MessageContentList.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    MessageContentList.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -332,7 +356,8 @@ namespace WPF.GUI.Pages
             if (NoteTypeComboBox.SelectedIndex >= 0
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
                 || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
-                || !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent())
+                || !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent()
+                || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type)))
             {
                 ClearContentBtn.IsEnabled = true;
             }
@@ -352,7 +377,8 @@ namespace WPF.GUI.Pages
         private void ValidateRequiredFieldFillCorrectly()
         {
             if ((string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
-                && (IsCorrectFilled || TypeAllowToEmptyContent()))
+                && (IsCorrectFilled || TypeAllowToEmptyContent()) 
+                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type))))
             {
                 SaveContentBtn.IsEnabled = true;
             }
@@ -365,39 +391,43 @@ namespace WPF.GUI.Pages
         private void LottoTextbox_LostFocus(object sender, RoutedEventArgs e)
         {
             var textBox = sender as TextBox;
-            if (!string.IsNullOrEmpty(textBox?.Text) && textBox.Text.Contains(",") || textBox.Text.Contains(" "))
+            if (!string.IsNullOrEmpty(textBox?.Text))
             {
-                var spaceTab = textBox.Text.Split(' ').ToList();
-                var dotTab = textBox.Text.Split(',').ToList();
-                if(ValidateLottoNewLuckyNumber(dotTab) || ValidateLottoNewLuckyNumber(spaceTab))
+                if (textBox.Text.Contains(",") || textBox.Text.Contains(" "))
                 {
-                    using(var context = PDBContext.Instance.Context)
+                    var spaceTab = textBox.Text.Split(' ').ToList();
+                    var dotTab = textBox.Text.Split(',').ToList();
+                    if (ValidateLottoNewLuckyNumber(dotTab) || ValidateLottoNewLuckyNumber(spaceTab))
                     {
-                        var nick = string.Empty;
-                        var data = context.UsersDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(PDBContext.Instance.AccountID) == true).FirstOrDefault();
-                        if (data != null)
+                        using (var context = PDBContext.Instance.Context)
                         {
-                            if (!string.IsNullOrEmpty(data.Nick))
-                                nick = data.Nick;
+                            var nick = string.Empty;
+                            var data = context.UsersDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(PDBContext.Instance.AccountID) == true).FirstOrDefault();
+                            if (data != null)
+                            {
+                                if (!string.IsNullOrEmpty(data.Nick))
+                                    nick = data.Nick;
+                                else
+                                    nick = data.FullName;
+                            }
                             else
-                                nick = data.FullName;
+                                nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
+
+                            var luckyNumberToSave = new AitFileModel(context)
+                            {
+                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
+                                FileCreator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
+                                Name = NoteNameBox.Text,
+                                Type = FileTypesEnum.LOTTO_NOTE,
+                                Content = string.Format(WPF.Properties.Resources.USER_LOTTONUMBER, nick) + Environment.NewLine + ConvertTab2String(dotTab)
+                            };
+
+                            luckyNumbersToSave.Add(luckyNumberToSave);
                         }
-                        else
-                            nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
 
-                        var luckyNumberToSave = new AitFileModel(context)
-                        {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                            FileCreator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
-                            Name = string.Format(WPF.Properties.Resources.USER_LOTTONUMBER, nick),
-                            Type = FileTypesEnum.LOTTO_NOTE,
-                            Content = ConvertTab2String(dotTab)
-                        };
+                        AddNewLottoTextBox();
 
-                        luckyNumberToSave.Insert();
                     }
-
-                    AddNewLottoTextBox();
                 }
                 else
                 {
@@ -409,6 +439,18 @@ namespace WPF.GUI.Pages
             {
                 MessageContentList.Items.Remove(sender);
             }
+
+
+            ValidateNotDefaultNote();
+            ValidateRequiredFieldFillCorrectly();
+        }
+        
+        private void MessageContentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = MessageContentList.SelectedItem as ListViewItem;
+            var textBox = item?.Content as TextBox;
+            if (textBox != null)
+                textBox.Focus();
         }
 
         private bool ValidateLottoNewLuckyNumber(List<string> tab)
@@ -420,7 +462,7 @@ namespace WPF.GUI.Pages
             {
                 var input = value.Replace(" ", "");
                 var number = -1;
-                if (!int.TryParse(input, out number))
+                if (!int.TryParse(input, out number) && number > 0 && number < 50)
                 {
                     return false;
                 }
@@ -429,13 +471,13 @@ namespace WPF.GUI.Pages
             return true;
         }
 
-        public string ConvertTab2String(List<string> tab)
+        private string ConvertTab2String(List<string> tab)
         {
             var result = string.Empty;
-
+            var index = 0;
             foreach(var value in tab)
             {
-                result += ", " + value;
+                result += index > 0 ? ", " : "" + value;
             }
 
             return result;
@@ -540,6 +582,7 @@ namespace WPF.GUI.Pages
 
         private bool ChangeButtonsEditabilityAndCheckMultiMode()
         {
+            ClearContentAction();
             if (NoteManagerListView.SelectedItems.Any())
             {
                 DeleteSelectedItems.IsEnabled = true;
@@ -710,10 +753,23 @@ namespace WPF.GUI.Pages
         {
             var lottoTextbox = new TextBox();
             lottoTextbox.LostFocus += LottoTextbox_LostFocus;
-            MessageContentList.Items.Add(new ListViewItem { Content = lottoTextbox });
+            lottoTextbox.HorizontalAlignment = HorizontalAlignment.Center;
+            lottoTextbox.MinWidth = 150;
+            lottoTextbox.MaxLines = 1;
+            lottoTextbox.Background = Brushes.White;
 
-            if (MessageContentList.Items.Count == 1)
-                LottoListIsDefault = true;
+            var toAdd = true;
+            foreach(ListViewItem item in MessageContentList.Items)
+            {
+                var textBox = item?.Content as TextBox;
+                if (string.IsNullOrEmpty(textBox.Text))
+                    toAdd = false;
+            }
+
+            if(toAdd)
+            {
+                MessageContentList.Items.Add(new ListViewItem { Content = lottoTextbox });
+            }
         }
 
         private void ClearMessageContentListView(bool fullClear = false)
@@ -726,6 +782,7 @@ namespace WPF.GUI.Pages
                     textBox.LostFocus -= LottoTextbox_LostFocus;
                 }
             }
+            luckyNumbersToSave.Clear();
             MessageContentList.Items.Clear();
 
             if(!fullClear)

@@ -4,6 +4,7 @@ using WPF.Models.Enums;
 using WPF.Models.Extensions;
 using WPF.GUI.Controls;
 using WPF.GUI.Pages.Properties;
+using WPF.Models.Interfaces;
 
 namespace WPF.Managers
 {
@@ -92,6 +93,7 @@ namespace WPF.Managers
                     Message = new SimpleMessageInfoModel($"Close page {header.Header.Text}")
                 });
 
+                ((tabItem.Content as Frame)?.Content as IDisposableExtended)?.Dispose();
                 tabControl.Items.Remove(tabItem);
 
                 if (tabControl.Items.IsEmpty)
@@ -106,6 +108,11 @@ namespace WPF.Managers
                 Type = FileTypesEnum.TRACE,
                 Message = new SimpleMessageInfoModel($"Clear MainTabControl")
             });
+
+            foreach(TabItem item in tabControl.Items)
+            {
+                ((item.Content as Frame)?.Content as IDisposableExtended)?.Dispose();
+            }
 
             tabControl.Items.Clear();
 
