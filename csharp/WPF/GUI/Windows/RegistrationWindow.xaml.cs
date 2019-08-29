@@ -140,7 +140,7 @@ namespace WPF.GUI.Windows
             {
                 if (correctPassowrd)
                 {
-                    if (!context.Accounts.Any(q => q.Login.Equals(login)))
+                    if (!context.Accounts.Any(q => q.Login.Equals(login) && q.Permition.Equals(PermitionAccountEnum.NONE)))
                     {
                         account = new AitAccountModel(context)
                         {
@@ -179,8 +179,6 @@ namespace WPF.GUI.Windows
                             Content = Generators.GenerateActivateCode(account.GetHashCode())
                         };
                         userActivatedCodeFile.Insert();
-
-                        //context.SaveChanges();
 
                         MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
 

@@ -73,7 +73,7 @@ namespace WPF.GUI.Windows
 
                 using (var context = PDBContext.Instance.Context)
                 {
-                    var accounts = context.Accounts.Where(q => q.Login.Equals(login)).ToList();
+                    var accounts = context.Accounts.Where(q => q.Login.Equals(login) && !q.Permition.Equals(PermitionAccountEnum.NONE)).ToList();
                     if (!accounts.Any())
                         throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST); 
 

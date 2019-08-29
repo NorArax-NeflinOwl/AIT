@@ -228,7 +228,6 @@
     </ApplicationDefinition>
     <Compile Include="Managers\FileTypesManager.cs" />
     <Compile Include="Managers\Tasks\CreateDbFileInDocumnetTask.cs" />
-    <Compile Include="Models\ArrayMessageInfoModel.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
     <Compile Include="Models\Extensions\DispatcherExtension.cs" />
     <Compile Include="Models\FileTypeModel.cs" />
@@ -238,7 +237,6 @@
     <Compile Include="Models\Interfaces\IProperties.cs" />
     <Compile Include="Models\LottoInfoModel.cs" />
     <Compile Include="Models\MailBoxItemModel.cs" />
-    <Compile Include="Models\ExceptionInfoModel.cs" />
     <Compile Include="Managers\Helpers\MailDownloader.cs" />
     <Compile Include="Models\Enums\WindowsNameEnum.cs" />
     <Compile Include="Managers\TabControlManager.cs" />
@@ -246,7 +244,6 @@
     <Compile Include="Models\Interfaces\IPropertizableControl.cs" />
     <Compile Include="Models\Interfaces\IWindowsProperties.cs" />
     <Compile Include="Models\Interfaces\IPageModel.cs" />
-    <Compile Include="Models\SimpleMessageInfoModel.cs" />
     <Compile Include="GUI\Controls\MaterialDesignProgressCircleControl.xaml.cs">
       <DependentUpon>MaterialDesignProgressCircleControl.xaml</DependentUpon>
     </Compile>

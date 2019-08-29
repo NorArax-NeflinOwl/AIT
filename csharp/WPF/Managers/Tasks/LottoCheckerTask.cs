@@ -130,7 +130,7 @@ namespace WPF.Managers.Tasks
                                                 Type = FileTypesEnum.LOTTO_NOTE,
                                                 Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
                                                 {
-                                                    Message = new SimpleMessageInfoModel(msg)
+                                                    Message = new MessageInfoModel(msg)
                                                 })
                                             };
 

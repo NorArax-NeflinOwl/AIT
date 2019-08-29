@@ -254,7 +254,7 @@ namespace WPF.GUI.Pages
             return CryptoJsonManager.Instance.Serialize(new LogInfoModel
             {
                 Type = type != null ? type.EnumType : FileTypesEnum.UNDEFINED,
-                Message = new SimpleMessageInfoModel(MessageContent.Text)
+                Message = new MessageInfoModel(MessageContent.Text)
             });
         }
 
@@ -277,7 +277,7 @@ namespace WPF.GUI.Pages
 
             if(type != null)
             {
-                if(FileTypesEnum.LOTTO_NOTE.Equals(type))
+                if(FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType))
                 {
                     MessageContentList.Visibility = Visibility.Visible;
                 }
@@ -360,7 +360,7 @@ namespace WPF.GUI.Pages
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
                 || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
                 || !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent()
-                || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type)))
+                || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType)))
             {
                 ClearContentBtn.IsEnabled = true;
             }
@@ -381,7 +381,7 @@ namespace WPF.GUI.Pages
         {
             if ((string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
                 && (IsCorrectFilled || TypeAllowToEmptyContent()) 
-                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type))))
+                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType))))
             {
                 SaveContentBtn.IsEnabled = true;
             }
@@ -731,6 +731,7 @@ namespace WPF.GUI.Pages
 
                 try
                 {
+                    // TODO
                     var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, false);
                     if (obj != null)
                     {
@@ -759,7 +760,7 @@ namespace WPF.GUI.Pages
             lottoTextbox.HorizontalAlignment = HorizontalAlignment.Center;
             lottoTextbox.MinWidth = 150;
             lottoTextbox.MaxLines = 1;
-            lottoTextbox.Background = Brushes.White;
+            lottoTextbox.Background = Brushes.AliceBlue;
 
             var toAdd = true;
             foreach(ListViewItem item in MessageContentList.Items)

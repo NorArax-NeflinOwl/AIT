@@ -202,7 +202,7 @@ namespace WPF.GUI.Windows
                     LogManager.Instance.LogToFile(new LogInfoModel
                     {
                         Type = FileTypesEnum.TRACE,
-                        Message = new SimpleMessageInfoModel("Set focus to page " + tabName)
+                        Message = new MessageInfoModel("Set focus to page " + tabName)
                     });
                 }
             }
@@ -233,7 +233,6 @@ namespace WPF.GUI.Windows
                 {
                     host.IsLoggedIn = false;
                     host.Update();
-                    //context.SaveChanges();
                 }
 
                 login = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;

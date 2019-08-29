@@ -75,6 +75,11 @@ namespace WPF.Managers
                                 list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
                             }
 
+                            if(log.Type.Equals(FileTypesEnum.EXCEPTION))
+                            {
+                                //
+                            }
+
                             if(list == null)
                             {
                                 list = new List<LogInfoModel>();
@@ -124,7 +129,7 @@ namespace WPF.Managers
             var log = new LogInfoModel
             {
                 Type = FileTypesEnum.EXCEPTION,
-                Message = new ExceptionInfoModel(message, e)
+                Message = new MessageInfoModel(message, e)
             };
             LogToFile(log);
             LogToDB(log);
@@ -147,7 +152,7 @@ namespace WPF.Managers
                 log = new LogInfoModel
                 {
                     Type = FileTypesEnum.EXCEPTION,
-                    Message = new ExceptionInfoModel(message, ex)
+                    Message = new MessageInfoModel(message, ex)
                 };
                 LogToFile(log);
 
@@ -167,8 +172,8 @@ namespace WPF.Managers
                 var list = new List<LogInfoModel>();
                 using (var context = PDBContext.Instance.Context)
                 {
-                    var fileInDB = context.Files.Where(q => q.Create > DateTime.Now.AddDays(-1) && q.Type.Equals(log.Type)).FirstOrDefault();
-
+                    var fileInDB = context.Files.Where(q => (q.Create.Day > DateTime.Now.AddDays(-1).Day || !q.Create.Month.Equals(DateTime.Now.AddDays(-1).Month))
+                                                    && q.Type.Equals(log.Type)).FirstOrDefault();
                     if (fileInDB != null)
                     {
                         var content = fileInDB.Content;
@@ -203,7 +208,7 @@ namespace WPF.Managers
                 log = new LogInfoModel
                 {
                     Type = FileTypesEnum.EXCEPTION,
-                    Message = new ExceptionInfoModel(msg, ex)
+                    Message = new MessageInfoModel(msg, ex)
                 };
                 LogToFile(log);
                 MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);

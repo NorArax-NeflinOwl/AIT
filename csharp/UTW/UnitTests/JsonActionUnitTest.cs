@@ -28,7 +28,7 @@ namespace UTW.UnitTests
             var log = new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new SimpleMessageInfoModel("Test")
+                Message = new MessageInfoModel("Test")
             };
             var list = new List<LogInfoModel>();
             list.Add(log);

@@ -82,11 +82,10 @@ namespace WPF.Managers.Tasks
                         ID = managerID,
                         Login = "taskmanager",
                         Email = ConfigurationManager.AppSettings["AppEmail"].ToString(),
-                        Permition = PermitionAccountEnum.MANAGER,
+                        Permition = PermitionAccountEnum.NONE,
                         IsActive = false
                     };
                     manager.Insert();
-                    //context.SaveChanges();
                 }
             }
         }
