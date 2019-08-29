@@ -79,6 +79,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account is block! Contact to administations..
+        /// </summary>
+        internal static string ACC_BLOCED {
+            get {
+                return ResourceManager.GetString("ACC_BLOCED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account is not activated!.
         /// </summary>
         internal static string ACC_NOACTIVATED {

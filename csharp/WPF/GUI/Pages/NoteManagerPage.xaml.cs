@@ -35,7 +35,7 @@ namespace WPF.GUI.Pages
         private bool? CorrectlyAssign;
         private bool IsCorrectFilled;
         private bool StopClock;
-        private FileTypesEnum? type;
+        private FileTypeModel type;
 
         public NoteManagerPage()
         {
@@ -253,7 +253,7 @@ namespace WPF.GUI.Pages
         {
             return CryptoJsonManager.Instance.Serialize(new LogInfoModel
             {
-                Type = type != null ? (FileTypesEnum)type : FileTypesEnum.UNDEFINED,
+                Type = type != null ? type.EnumType : FileTypesEnum.UNDEFINED,
                 Message = new SimpleMessageInfoModel(MessageContent.Text)
             });
         }
@@ -345,9 +345,12 @@ namespace WPF.GUI.Pages
 
         private void InitNoteTypeComboBox()
         {
-            foreach (var item in FileTypesManager.Content)
+            foreach (var item in FileTypesManager.Types)
             {
-                NoteTypeComboBox.Items.Add(item);
+                if((int)account.Permition >= (int)item.PermitionLevel)
+                {
+                    NoteTypeComboBox.Items.Add(item.StringType);
+                }
             }
         }
 
@@ -371,7 +374,7 @@ namespace WPF.GUI.Pages
         {
             var typeInt = NoteTypeComboBox.SelectedIndex;
             var type = FileTypesManager.SetType(typeInt);
-            return FileTypesManager.AllowToEmptyContent(type);
+            return type?.AllowToEmptyContent == true;
         }
 
         private void ValidateRequiredFieldFillCorrectly()
@@ -723,7 +726,7 @@ namespace WPF.GUI.Pages
                 }
 
                 StopClock = true;
-                type = item.Note.Type;
+                type = FileTypesManager.SetType((int)item.Note.Type);
                 EditContentBtn.IsEnabled = true;
 
                 try

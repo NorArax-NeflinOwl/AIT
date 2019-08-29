@@ -123,6 +123,9 @@
   <data name="ACC_ACTIVATED" xml:space="preserve">
     <value>Account was activated</value>
   </data>
+  <data name="ACC_BLOCED" xml:space="preserve">
+    <value>Account is block! Contact to administations.</value>
+  </data>
   <data name="ACC_NOACTIVATED" xml:space="preserve">
     <value>Account is not activated!</value>
   </data>

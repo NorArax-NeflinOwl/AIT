@@ -4,8 +4,8 @@
     {
         NONE = -1,
         BLOCK = 0,
-        ADMIN = 1,
-        SIMPLE = 2,
-        MANAGER = 3
+        SIMPLE = 1,
+        MANAGER = 2,
+        ADMIN = 3
     }
 }

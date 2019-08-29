@@ -84,6 +84,9 @@ namespace WPF.GUI.Windows
                             if (!account.IsActive)
                                 throw new AitAccountExceptions.AccoutnNotActivatedException(WPF.Properties.Resources.ACC_NOACTIVATED); 
 
+                            if(account.Permition <= (int)PermitionAccountEnum.BLOCK)
+                                throw new AitAccountExceptions.AccoutnNotActivatedException(WPF.Properties.Resources.ACC_BLOCED);
+
                             PDBContext.Instance.AccountID = account.ID;
                             break;
                         }
@@ -113,7 +116,6 @@ namespace WPF.GUI.Windows
                         };
                         newhost.Insert();
                     }
-                    //context.SaveChanges();
                 }
 
                 if (string.IsNullOrEmpty(PDBContext.Instance.AccountID))

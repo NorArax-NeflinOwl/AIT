@@ -226,10 +226,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Managers\FileTypesManager.cs" />
     <Compile Include="Managers\Tasks\CreateDbFileInDocumnetTask.cs" />
     <Compile Include="Models\ArrayMessageInfoModel.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
     <Compile Include="Models\Extensions\DispatcherExtension.cs" />
+    <Compile Include="Models\FileTypeModel.cs" />
     <Compile Include="Models\MessageInfoModel.cs" />
     <Compile Include="Models\Interfaces\ICustomException.cs" />
     <Compile Include="Models\Interfaces\IDisposableExtended.cs" />
