@@ -117,14 +117,7 @@ namespace WPF.Databases.Models
             {
                 if (files == null && Fill)
                 {
-                    if(Permition.Equals(PermitionAccountEnum.ADMIN) || Permition.Equals(PermitionAccountEnum.MANAGER))
-                    {
-                        files = Context.Files.ToList();
-                    }
-                    else
-                    {
-                        files = Context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
-                    }
+                    files = Context.Files.Where(q => ID.Equals(q.Creator) || ID.Equals(q.AssignedTo)).ToList();
                 }
                 return files;
             }

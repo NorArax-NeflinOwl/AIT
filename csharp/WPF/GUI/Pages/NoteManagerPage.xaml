@@ -49,9 +49,9 @@
                 </Grid.ColumnDefinitions>
                 <CheckBox x:Name="SelectAllCheckBox" Grid.Column="0" Content="Select All" VerticalAlignment="Center" Margin="3,0" Foreground="White"/>
                 <Button x:Name="DeleteSelectedItems" Grid.Column="1" HorizontalAlignment="Right" Content="Delete" Margin="3" 
-                        VerticalAlignment="Center" IsEnabled="False" Visibility="Collapsed" Height="30"/>
+                        VerticalAlignment="Center" IsEnabled="False" Visibility="Collapsed" Height="30" Background="#032b86"/>
                 <Button x:Name="DetachedSelectedItems" Grid.Column="2" HorizontalAlignment="Right" Content="Detach" Margin="3" 
-                        VerticalAlignment="Center" IsEnabled="False" Height="30"/>
+                        VerticalAlignment="Center" IsEnabled="False" Height="30" Background="#032b86"/>
             </Grid>
         </Grid>
         <Grid Margin="10" Grid.Column="1">
@@ -120,9 +120,9 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="EditContentBtn" Grid.Column="1" Content="Edit" Margin="3" Height="30" IsEnabled="False" Visibility="Collapsed"/>
-                    <Button x:Name="ClearContentBtn" Grid.Column="2" Content="Clear" Margin="3" Height="30" IsEnabled="False"/>
-                    <Button x:Name="SaveContentBtn" Grid.Column="3" Content="Save" Margin="3" Height="30" IsEnabled="False"/>
+                    <Button x:Name="EditContentBtn" Grid.Column="1" Content="Edit" Margin="3" Height="30" IsEnabled="False" Visibility="Collapsed" Background="#032b86"/>
+                    <Button x:Name="ClearContentBtn" Grid.Column="2" Content="Clear" Margin="3" Height="30" IsEnabled="False" Background="#032b86"/>
+                    <Button x:Name="SaveContentBtn" Grid.Column="3" Content="Save" Margin="3" Height="30" IsEnabled="False" Background="#032b86"/>
                 </Grid>
             </Grid>
             <Grid x:Name="OpenMultiNoteGrid" Visibility="Collapsed">

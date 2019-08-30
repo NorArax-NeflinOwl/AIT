@@ -206,7 +206,7 @@ namespace WPF.GUI.Pages
                                 newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
                                 newNote.FileOwner = a;
                                 newNote.Name = NoteNameBox.Text;
-                                newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                                newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
                                 newNote.Content = SerializableControl();
                                 newNote.Insert();
                             }
@@ -220,7 +220,7 @@ namespace WPF.GUI.Pages
                         if (currentNote != null)
                         {
                             currentNote.Name = NoteNameBox.Text;
-                            currentNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                            currentNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
                             currentNote.Content = SerializableControl();
                             currentNote.Update();
                         }
@@ -229,7 +229,7 @@ namespace WPF.GUI.Pages
                             var newNote = new AitFileModel(context);
                             newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
                             newNote.Name = NoteNameBox.Text;
-                            newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
+                            newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
                             newNote.Content = SerializableControl();
                             newNote.Insert();
                         }
@@ -273,7 +273,7 @@ namespace WPF.GUI.Pages
             else
                 NoteAssignedToBox.IsEnabled = false;
 
-            type = FileTypesManager.SetType(NoteTypeComboBox.SelectedIndex);
+            type = NoteTypeComboBox.SelectedItem as FileTypeModel;
 
             if(type != null)
             {
@@ -349,7 +349,7 @@ namespace WPF.GUI.Pages
             {
                 if((int)account.Permition >= (int)item.PermitionLevel)
                 {
-                    NoteTypeComboBox.Items.Add(item.StringType);
+                    NoteTypeComboBox.Items.Add(item);
                 }
             }
         }
@@ -372,9 +372,7 @@ namespace WPF.GUI.Pages
 
         private bool TypeAllowToEmptyContent()
         {
-            var typeInt = NoteTypeComboBox.SelectedIndex;
-            var type = FileTypesManager.SetType(typeInt);
-            return type?.AllowToEmptyContent == true;
+            return NoteTypeComboBox.SelectedItem is FileTypeModel model && model.AllowToEmptyContent;
         }
 
         private void ValidateRequiredFieldFillCorrectly()
@@ -635,8 +633,11 @@ namespace WPF.GUI.Pages
                     var list = account.Files.ToList();
                     foreach (var note in list)
                     {
-                        NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
-                        index++;
+                        if(FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+                        {
+                            NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
+                            index++;
+                        }
                     }
                 }
             }
@@ -649,7 +650,7 @@ namespace WPF.GUI.Pages
             NoteNameBox.Text = string.Empty;
             NoteAssignedToBox.Text = string.Empty;
             NoteTypeComboBox.SelectedIndex = -1;
-            type = FileTypesManager.SetType(NoteTypeComboBox.SelectedIndex);
+            type = NoteTypeComboBox.SelectedItem as FileTypeModel;
             MessageContent.Text = string.Empty;
             StopClock = false;
 
@@ -681,7 +682,6 @@ namespace WPF.GUI.Pages
             if(item != null)
             {
                 NoteNameBox.Text = item.Note.Name;
-                NoteTypeComboBox.SelectedIndex = (int)item.Note.Type;
                 var assignId = item.Note.AssignedTo;
                 using(var context = PDBContext.Instance.Context)
                 {
@@ -717,6 +717,7 @@ namespace WPF.GUI.Pages
 
                 StopClock = true;
                 type = FileTypesManager.SetType((int)item.Note.Type);
+                NoteTypeComboBox.SelectedItem = type;
                 EditContentBtn.IsEnabled = true;
 
                 try
@@ -754,6 +755,13 @@ namespace WPF.GUI.Pages
                 NoteTypeComboBox.IsEnabled = false;
                 NoteAssignedToBox.IsEnabled = false;
                 MessageContent.IsEnabled = false;
+
+                foreach(ListViewItem element in MessageContentList.Items)
+                {
+                    var textbox = element?.Content as TextBox;
+                    if (textbox != null)
+                        textbox.IsEnabled = false;
+                }
             }
         }
 
@@ -793,7 +801,7 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private void AddNewLottoTextBox(string text = "", bool focus = false)
+        private void AddNewLottoTextBox(string text = "")
         {
             var lottoTextbox = new TextBox();
             lottoTextbox.LostFocus += LottoTextbox_LostFocus;
@@ -833,11 +841,6 @@ namespace WPF.GUI.Pages
             if (toAdd)
             {
                 MessageContentList.Items.Add(new ListViewItem { Content = lottoTextbox });
-            }
-
-            if (focus)
-            {
-                lottoTextbox.Focus();
             }
         }
 

@@ -8,5 +8,10 @@ namespace WPF.Models
         public string StringType { get; set; }
         public PermitionAccountEnum PermitionLevel { get; set; }
         public bool AllowToEmptyContent { get; set; }
+
+        public override string ToString()
+        {
+            return StringType;
+        }
     }
 }
