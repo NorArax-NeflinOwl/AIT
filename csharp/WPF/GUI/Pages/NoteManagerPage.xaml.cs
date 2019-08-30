@@ -451,12 +451,14 @@ namespace WPF.GUI.Pages
 
         private bool ValidateLottoNewLuckyNumber(List<string> tab)
         {
+            tab.ForEach(q => q = q.Replace(" ", string.Empty));
+            tab = tab.Distinct().ToList();
+
             if (tab == null || tab.Count != 6)
                 return false;
 
-            foreach(var value in tab)
+            foreach(var input in tab)
             {
-                var input = value.Replace(" ", string.Empty);
                 var number = -1;
                 if (!int.TryParse(input, out number) || number < 0 || number > 50)
                 {

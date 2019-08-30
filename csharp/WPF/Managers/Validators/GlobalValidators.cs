@@ -76,6 +76,7 @@ namespace WPF.Managers.Validators
                 {
                     for (var k = 0; k < 6; k++)
                     {
+                        // FIX ME - some error ;/
                         if (searchTab[i][j].Equals(winNumbers[k]))
                             hits++;
                     }
