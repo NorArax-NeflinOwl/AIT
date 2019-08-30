@@ -26,6 +26,8 @@ namespace WPF.GUI.Pages
     /// </summary>
     public partial class NoteManagerPage : Page, IDisposableExtended, IPropertizableControl
     {
+        #region CONSTRUCT
+
         private AitAccountModel account;
         private AitFileModel currentNote;
         private BackgroundWorker backgroundWorker;
@@ -37,16 +39,16 @@ namespace WPF.GUI.Pages
         private bool StopClock;
         private FileTypeModel type;
 
+        public bool IsDisposed { get; set; }
+
+        public IProperties Properties { get; set; }
+
         public NoteManagerPage()
         {
             InitializeComponent();
             Init();
             Subscribe();
         }
-
-        public bool IsDisposed { get; set; }
-
-        public IProperties Properties { get; set; }
 
         public void Init()
         {
@@ -77,6 +79,8 @@ namespace WPF.GUI.Pages
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += StartTimeTicker;
             backgroundWorker.RunWorkerAsync();
+
+            CreateFilterPanel();
 
             AddNewLottoTextBox();
         }
@@ -138,6 +142,8 @@ namespace WPF.GUI.Pages
 
             MessageContentList.SelectionChanged += MessageContentList_SelectionChanged;
         }
+
+        #endregion
 
         #region RIGHT PANEL METHODS
 
@@ -620,9 +626,11 @@ namespace WPF.GUI.Pages
             return false;
         }
 
-        private void InitListView()
+        private void InitListView(FileTypesEnum? optionalType = null)
         {
             NoteManagerListView.Items.Clear();
+            optionalType = CheckIfFilterIsSelected();
+
             using (var context = PDBContext.Instance.Context)
             {
                 account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
@@ -633,7 +641,7 @@ namespace WPF.GUI.Pages
                     var list = account.Files.ToList();
                     foreach (var note in list)
                     {
-                        if(FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+                        if(note.Type.Equals(optionalType) || optionalType == null && FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
                         {
                             NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
                             index++;
@@ -641,9 +649,243 @@ namespace WPF.GUI.Pages
                     }
                 }
             }
+
+            if(NoteManagerListView.Items.Count == 1)
+            {
+                NoteManagerListView.SelectedIndex = 0;
+                SetOneNoteContentAction();
+            }
+        }
+
+        #region Filter Menu
+
+        private FileTypesEnum? CheckIfFilterIsSelected()
+        {
+            foreach (MenuItem item in NoteManagerFilter.Items)
+            {
+                var index = 0;
+                foreach (MenuItem subItem in item.Items)
+                {
+                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
+                    {
+                        var model = FileTypesManager.SetType(index);
+                        return model.EnumType;
+                    }
+                    index++;
+                }
+            }
+            return null;
+        }
+
+        private void ALL_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView();
+            SetEditableMenuItem(sender);
+        }
+
+        private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.ACTIVATION_CODE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void EXCEPTION_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.EXCEPTION);
+            SetEditableMenuItem(sender);
+        }
+
+        private void INFORMATION_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.INFORMATION);
+            SetEditableMenuItem(sender);
+        }
+
+        private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.KEYLOGGER);
+            SetEditableMenuItem(sender);
+        }
+
+        private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.LOTTO_NOTE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void NOTE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.NOTE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void QUERY_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.QUERY);
+            SetEditableMenuItem(sender);
+        }
+
+        private void TASK_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.TASK);
+            SetEditableMenuItem(sender);
+        }
+
+        private void TRACE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.TRACE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void UNDEFINED_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.UNDEFINED);
+            SetEditableMenuItem(sender);
+        }
+
+        private void SetEditableMenuItem(object sender)
+        {
+            foreach (MenuItem item in NoteManagerFilter.Items)
+            {
+                foreach (MenuItem subItem in item.Items)
+                {
+                    if (subItem.Header.Equals((sender as MenuItem)?.Header))
+                        subItem.IsEnabled = false;
+                    else
+                        subItem.IsEnabled = true;
+                }
+            }
+        }
+
+        private void CreateFilterPanel()
+        {
+            NoteManagerFilter.Items.Clear();
+            var noteFilter = new MenuItem();
+            noteFilter.Header = "Filters";
+            noteFilter.Background = Brushes.Transparent;
+            noteFilter.Foreground = Brushes.White;
+
+            var obj = new MenuItem();
+            obj.Header = "All";
+            obj.Background = Brushes.LightGray;
+            obj.Foreground = Brushes.Black;
+            obj.IsEnabled = false;
+            obj.Click += ALL_Click;
+            noteFilter.Items.Add(obj);
+
+            if (account != null)
+            {
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.UNDEFINED))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Undefined";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += UNDEFINED_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Exceptions";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += EXCEPTION_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Informations";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += INFORMATION_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Notes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += NOTE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Traces";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += TRACE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Queries";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += QUERY_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Tasks";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += TASK_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Keys Logger";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += KEYLOGGER_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Activation codes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += ACTIVATION_CODE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Lotto Notes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += LOTTO_NOTE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+            }
+
+            NoteManagerFilter.Items.Add(noteFilter);
         }
 
         #endregion
+
+        #endregion
+
+        #region Private Methods
 
         private void ClearContentAction()
         {
@@ -679,25 +921,25 @@ namespace WPF.GUI.Pages
         private void SetOneNoteContentAction()
         {
             var item = NoteManagerListView.SelectedItem as NoteListViewItemControl;
-            if(item != null)
+            if (item != null)
             {
                 NoteNameBox.Text = item.Note.Name;
                 var assignId = item.Note.AssignedTo;
-                using(var context = PDBContext.Instance.Context)
+                using (var context = PDBContext.Instance.Context)
                 {
                     var accs = context.Accounts.Where(q => q.ID.Equals(assignId)).ToList();
-                    if(accs != null)
+                    if (accs != null)
                     {
                         var index = 0;
                         var names = string.Empty;
-                        foreach(var acc in accs)
+                        foreach (var acc in accs)
                         {
                             acc.FillObject();
-                            if(!string.IsNullOrEmpty(acc.UserData?.Nick))
+                            if (!string.IsNullOrEmpty(acc.UserData?.Nick))
                             {
                                 names += acc.UserData.Nick;
                             }
-                            else if(!string.IsNullOrEmpty(acc.UserData?.FullName))
+                            else if (!string.IsNullOrEmpty(acc.UserData?.FullName))
                             {
                                 names += acc.UserData.FullName;
                             }
@@ -706,7 +948,7 @@ namespace WPF.GUI.Pages
                                 names += acc.Login;
                             }
 
-                            if(accs.Count - 1 != index)
+                            if (accs.Count - 1 != index)
                                 names += ", ";
 
                             index++;
@@ -728,7 +970,7 @@ namespace WPF.GUI.Pages
                         var objs = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(item.Note.Content, false);
                         if (objs != null)
                         {
-                            foreach(var obj in objs)
+                            foreach (var obj in objs)
                             {
                                 FillNoteFieldsFromNote(item.Note.Type, obj);
                             }
@@ -756,7 +998,7 @@ namespace WPF.GUI.Pages
                 NoteAssignedToBox.IsEnabled = false;
                 MessageContent.IsEnabled = false;
 
-                foreach(ListViewItem element in MessageContentList.Items)
+                foreach (ListViewItem element in MessageContentList.Items)
                 {
                     var textbox = element?.Content as TextBox;
                     if (textbox != null)
@@ -786,7 +1028,7 @@ namespace WPF.GUI.Pages
             {
                 MessageContent.Text = obj.MessageInfo.Message;
 
-                if(obj.MessageInfo.Array != null)
+                if (obj.MessageInfo.Array != null)
                 {
                     foreach (var line in obj.MessageInfo.Array.ToList())
                     {
@@ -857,8 +1099,10 @@ namespace WPF.GUI.Pages
             luckyNumbersToSave.Clear();
             MessageContentList.Items.Clear();
 
-            if(!fullClear)
+            if (!fullClear)
                 AddNewLottoTextBox();
         }
+
+        #endregion
     }
 }

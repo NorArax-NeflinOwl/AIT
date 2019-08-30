@@ -33,5 +33,10 @@ namespace WPF.Managers
                 return null;
             }
         }
+
+        public static bool AccountHasPermitionToFile(PermitionAccountEnum permition, FileTypesEnum fileType)
+        {
+            return Types.Any(q => q.EnumType.Equals(fileType) && (int)q.PermitionLevel <= (int)permition);
+        }
     }
 }

@@ -35,10 +35,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="1" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White"/>
-                <Button Grid.Column="0" x:Name="NoteManagerFilterBtn" Width="40" Height="40" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0">
-                    <TextBlock Text="F" Foreground="White"/>
-                </Button>
+                <TextBlock Grid.Column="1" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White" VerticalAlignment="Center"/>
+                <Menu Grid.Column="0" x:Name="NoteManagerFilter" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0">
+                    <MenuItem x:Name="FiltrNote" Header="Filtr" Background="Transparent" Foreground="White" FontSize="22">
+                        <MenuItem x:Name="AllNoteFilter" Header="All"/>
+                    </MenuItem>
+                </Menu>
             </Grid>
             <ListView Grid.Row="1" x:Name="NoteManagerListView" Background="Transparent" BorderThickness="0"/>
             <Grid Grid.Row="2" Margin="5">
