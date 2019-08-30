@@ -185,7 +185,7 @@ namespace WPF.GUI.Pages
                     }
                     foreach (var value in names)
                     {
-                        var name = value.Replace(" ", "");
+                        var name = value.Replace(" ", string.Empty);
                         using (var context = PDBContext.Instance.Context)
                         {
                             var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
@@ -307,7 +307,7 @@ namespace WPF.GUI.Pages
                     {
                         foreach (var value in names)
                         {
-                            var name = value.Replace(" ", "");
+                            var name = value.Replace(" ", string.Empty);
                             var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
                                                                    || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
                                                                    || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
@@ -452,7 +452,7 @@ namespace WPF.GUI.Pages
 
             foreach(var value in tab)
             {
-                var input = value.Replace(" ", "");
+                var input = value.Replace(" ", string.Empty);
                 var number = -1;
                 if (!int.TryParse(input, out number) || number < 0 || number > 50)
                 {
@@ -778,10 +778,13 @@ namespace WPF.GUI.Pages
             {
                 MessageContent.Text = obj.MessageInfo.Message;
 
-                foreach (var line in obj.MessageInfo.Array.ToList())
+                if(obj.MessageInfo.Array != null)
                 {
-                    luckyNumbersToSave.Add(line);
-                    AddNewLottoTextBox(line);
+                    foreach (var line in obj.MessageInfo.Array.ToList())
+                    {
+                        luckyNumbersToSave.Add(line);
+                        AddNewLottoTextBox(line);
+                    }
                 }
             }
             else

@@ -58,7 +58,7 @@ namespace WPF.Managers
                 mo.Dispose();
             }
 
-            MACAddress = MACAddress.Replace(":", "");
+            MACAddress = MACAddress.Replace(":", string.Empty);
             return MACAddress;
         }
         /// <summary>
@@ -346,7 +346,7 @@ namespace WPF.Managers
             }
             //replace the ":" with an empty space, this could also
             //be removed if you wish
-            gateway = gateway.Replace(":", "");
+            gateway = gateway.Replace(":", string.Empty);
             //return the mac address
             return gateway;
         }

@@ -25,7 +25,7 @@ namespace WPF.Managers
 
         private LogManager()
         {
-            m_Logger = new BlockingCollection<LogInfoModel>(100);
+            m_Logger = new BlockingCollection<LogInfoModel>(5);
             FileManager.CreateDirectory(m_LoggerDir);
         }
 
