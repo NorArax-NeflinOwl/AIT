@@ -30,13 +30,13 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White"/>
-                <Button Grid.Column="1" x:Name="NoteManagerFilterBtn" Width="40" Height="40" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="0">
+                <TextBlock Grid.Column="1" x:Name="NoteManagerTitle" Text="Note Manager" FontSize="22" Margin="10" Foreground="White"/>
+                <Button Grid.Column="0" x:Name="NoteManagerFilterBtn" Width="40" Height="40" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right" BorderThickness="0">
                     <TextBlock Text="F" Foreground="White"/>
                 </Button>
             </Grid>

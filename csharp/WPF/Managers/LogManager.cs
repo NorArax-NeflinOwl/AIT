@@ -129,7 +129,7 @@ namespace WPF.Managers
             var log = new LogInfoModel
             {
                 Type = FileTypesEnum.EXCEPTION,
-                Message = new MessageInfoModel(message, e)
+                MessageInfo = new MessageInfoModel(message, e)
             };
             LogToFile(log);
             LogToDB(log);
@@ -152,7 +152,7 @@ namespace WPF.Managers
                 log = new LogInfoModel
                 {
                     Type = FileTypesEnum.EXCEPTION,
-                    Message = new MessageInfoModel(message, ex)
+                    MessageInfo = new MessageInfoModel(message, ex)
                 };
                 LogToFile(log);
 
@@ -208,7 +208,7 @@ namespace WPF.Managers
                 log = new LogInfoModel
                 {
                     Type = FileTypesEnum.EXCEPTION,
-                    Message = new MessageInfoModel(msg, ex)
+                    MessageInfo = new MessageInfoModel(msg, ex)
                 };
                 LogToFile(log);
                 MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);

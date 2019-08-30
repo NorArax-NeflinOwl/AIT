@@ -22,7 +22,7 @@ namespace WPF.Managers.Validators
                     if(!string.IsNullOrEmpty(file.Content) && FileTypesEnum.LOTTO_NOTE.Equals(file.Type))
                     {
                         var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content, false);
-                        if (logInfo != null && logInfo.Message is MessageInfoModel info 
+                        if (logInfo != null && logInfo.MessageInfo is MessageInfoModel info 
                             && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
                             return false;
                     }

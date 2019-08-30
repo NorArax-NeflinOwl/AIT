@@ -39,7 +39,7 @@ namespace WPF.Models.Extensions
                         LogManager.Instance.LogToFile(new LogInfoModel
                         {
                             Type = FileTypesEnum.TRACE,
-                            Message = new MessageInfoModel($"Set main window = " + properties?.WindowName.ToString())
+                            MessageInfo = new MessageInfoModel($"Set main window = " + properties?.WindowName.ToString())
                         });
 
                         app.MainWindow = properties?.Window;
@@ -50,7 +50,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Open window " + properties?.WindowName)
+                MessageInfo = new MessageInfoModel($"Open window " + properties?.WindowName)
             });
 
             properties?.Window.Show();
@@ -61,7 +61,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Close window " + key.ToString())
+                MessageInfo = new MessageInfoModel($"Close window " + key.ToString())
             });
 
             var prop = this.Where(q => q.WindowName.Equals(key)).FirstOrDefault();
@@ -82,7 +82,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Hide window " + key.ToString())
+                MessageInfo = new MessageInfoModel($"Hide window " + key.ToString())
             });
 
             this.Where(q => q.WindowName.Equals(key)).FirstOrDefault()?.Window.Hide();
@@ -93,7 +93,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Hide all windows {additionalMsg}")
+                MessageInfo = new MessageInfoModel($"Hide all windows {additionalMsg}")
             }); 
 
             ForEach(q => q.Window.Hide());
@@ -108,7 +108,7 @@ namespace WPF.Models.Extensions
                 LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = FileTypesEnum.TRACE,
-                    Message = new MessageInfoModel($"Hide and dispose window " + key.ToString())
+                    MessageInfo = new MessageInfoModel($"Hide and dispose window " + key.ToString())
                 });
 
                 prop.Window.Hide();
@@ -124,7 +124,7 @@ namespace WPF.Models.Extensions
                 LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = FileTypesEnum.TRACE,
-                    Message = new MessageInfoModel($"Show window " + key.ToString())
+                    MessageInfo = new MessageInfoModel($"Show window " + key.ToString())
                 });
 
                 window.Window.Show();
@@ -138,7 +138,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Show all windows in application")
+                MessageInfo = new MessageInfoModel($"Show all windows in application")
             });
 
             var anyNewOpen = false;
@@ -201,7 +201,7 @@ namespace WPF.Models.Extensions
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel(msg)
+                MessageInfo = new MessageInfoModel(msg)
             });
 
             Clear();

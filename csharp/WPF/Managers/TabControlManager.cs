@@ -60,7 +60,7 @@ namespace WPF.Managers
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel(string.Format(message, task, page.Header.Header.Text))
+                MessageInfo = new MessageInfoModel(string.Format(message, task, page.Header.Header.Text))
             });
         }
 
@@ -90,7 +90,7 @@ namespace WPF.Managers
                 LogManager.Instance.LogToFile(new LogInfoModel
                 {
                     Type = FileTypesEnum.TRACE,
-                    Message = new MessageInfoModel($"Close page {header.Header.Text}")
+                    MessageInfo = new MessageInfoModel($"Close page {header.Header.Text}")
                 });
 
                 ((tabItem.Content as Frame)?.Content as IDisposableExtended)?.Dispose();
@@ -106,7 +106,7 @@ namespace WPF.Managers
             LogManager.Instance.LogToFile(new LogInfoModel
             {
                 Type = FileTypesEnum.TRACE,
-                Message = new MessageInfoModel($"Clear MainTabControl")
+                MessageInfo = new MessageInfoModel($"Clear MainTabControl")
             });
 
             foreach(TabItem item in tabControl.Items)

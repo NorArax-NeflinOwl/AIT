@@ -30,7 +30,7 @@ namespace WPF.GUI.Pages
         private AitFileModel currentNote;
         private BackgroundWorker backgroundWorker;
 
-        private List<AitFileModel> luckyNumbersToSave;
+        private List<string> luckyNumbersToSave;
 
         private bool? CorrectlyAssign;
         private bool IsCorrectFilled;
@@ -53,7 +53,7 @@ namespace WPF.GUI.Pages
             InitListView();
             InitNoteTypeComboBox();
 
-            luckyNumbersToSave = new List<AitFileModel>();
+            luckyNumbersToSave = new List<string>();
 
             NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
@@ -149,6 +149,13 @@ namespace WPF.GUI.Pages
             NoteTypeComboBox.IsEnabled = !NoteTypeComboBox.IsEnabled;
             NoteAssignedToBox.IsEnabled = !NoteAssignedToBox.IsEnabled;
             MessageContent.IsEnabled = !MessageContent.IsEnabled;
+
+            foreach(ListViewItem item in MessageContentList.Items)
+            {
+                var textBox = item?.Content as TextBox;
+                if (textBox != null)
+                    textBox.IsEnabled = !textBox.IsEnabled;
+            }
         }
 
         private void StartTimeTicker(object sender, DoWorkEventArgs e)
@@ -202,11 +209,6 @@ namespace WPF.GUI.Pages
                                 newNote.Type = (FileTypesEnum)NoteTypeComboBox.SelectedIndex;
                                 newNote.Content = SerializableControl();
                                 newNote.Insert();
-
-                                foreach (var file in luckyNumbersToSave)
-                                {
-                                    file.FileOwner = a;
-                                }
                             }
                         }
                     }
@@ -234,11 +236,6 @@ namespace WPF.GUI.Pages
                     }
                 }
 
-                foreach(var file in luckyNumbersToSave)
-                {
-                    file.Insert(); // FIX ME
-                }
-
                 ClearContentAction();
                 InitListView();
             }
@@ -254,7 +251,10 @@ namespace WPF.GUI.Pages
             return CryptoJsonManager.Instance.Serialize(new LogInfoModel
             {
                 Type = type != null ? type.EnumType : FileTypesEnum.UNDEFINED,
-                Message = new MessageInfoModel(MessageContent.Text)
+                MessageInfo = new MessageInfoModel(luckyNumbersToSave)
+                {
+                    Message = MessageContent.Text
+                },
             });
         }
 
@@ -393,59 +393,48 @@ namespace WPF.GUI.Pages
 
         private void LottoTextbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            var textBox = sender as TextBox;
-            if (!string.IsNullOrEmpty(textBox?.Text))
+            try
             {
-                if (textBox.Text.Contains(",") || textBox.Text.Contains(" "))
+                var textBox = sender as TextBox;
+                if (!string.IsNullOrEmpty(textBox?.Text))
                 {
-                    var spaceTab = textBox.Text.Split(' ').ToList();
-                    var dotTab = textBox.Text.Split(',').ToList();
-                    if (ValidateLottoNewLuckyNumber(dotTab) || ValidateLottoNewLuckyNumber(spaceTab))
+                    if (textBox.Text.Contains(",") || textBox.Text.Contains(" "))
                     {
-                        using (var context = PDBContext.Instance.Context)
+                        var spaceTab = textBox.Text.Split(' ').ToList();
+                        var dotTab = textBox.Text.Split(',').ToList();
+                        var spaceDetected = ValidateLottoNewLuckyNumber(spaceTab);
+                        if (ValidateLottoNewLuckyNumber(dotTab) || spaceDetected)
                         {
-                            var nick = string.Empty;
-                            var data = context.UsersDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(PDBContext.Instance.AccountID) == true).FirstOrDefault();
-                            if (data != null)
-                            {
-                                if (!string.IsNullOrEmpty(data.Nick))
-                                    nick = data.Nick;
-                                else
-                                    nick = data.FullName;
-                            }
-                            else
-                                nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
+                            if (spaceDetected)
+                                dotTab = spaceTab;
 
-                            var luckyNumberToSave = new AitFileModel(context)
-                            {
-                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                FileCreator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
-                                Name = NoteNameBox.Text,
-                                Type = FileTypesEnum.LOTTO_NOTE,
-                                Content = string.Format(WPF.Properties.Resources.USER_LOTTONUMBER, nick) + Environment.NewLine + ConvertTab2String(dotTab)
-                            };
+                            luckyNumbersToSave.Add(ConvertTab2String(dotTab));
 
-                            luckyNumbersToSave.Add(luckyNumberToSave);
+                            AddNewLottoTextBox();
                         }
-
-                        AddNewLottoTextBox();
-
+                        else
+                        {
+                            throw new AitAccountExceptions.InvalidValueException(string.Format(WPF.Properties.Resources.INVALID_LOTTO_NUMBER, textBox.Text));
+                        }
+                    }
+                    else
+                    {
+                        throw new AitAccountExceptions.InvalidValueException(string.Format(WPF.Properties.Resources.INVALID_LOTTO_NUMBER, textBox.Text));
                     }
                 }
-                else
+
+                if (string.IsNullOrEmpty(textBox.Text) && MessageContentList.Items.Count != 1)
                 {
-                    throw new AitAccountExceptions.InvalidValueException(string.Format(WPF.Properties.Resources.INVALID_LOTTO_NUMBER, textBox.Text));
+                    MessageContentList.Items.Remove(sender);
                 }
-            }
 
-            if(string.IsNullOrEmpty(textBox.Text) && MessageContentList.Items.Count != 1)
+                ValidateNotDefaultNote();
+                ValidateRequiredFieldFillCorrectly();
+            }
+            catch (Exception ex)
             {
-                MessageContentList.Items.Remove(sender);
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
             }
-
-
-            ValidateNotDefaultNote();
-            ValidateRequiredFieldFillCorrectly();
         }
         
         private void MessageContentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -465,7 +454,7 @@ namespace WPF.GUI.Pages
             {
                 var input = value.Replace(" ", "");
                 var number = -1;
-                if (!int.TryParse(input, out number) && number > 0 && number < 50)
+                if (!int.TryParse(input, out number) || number < 0 || number > 50)
                 {
                     return false;
                 }
@@ -480,7 +469,8 @@ namespace WPF.GUI.Pages
             var index = 0;
             foreach(var value in tab)
             {
-                result += index > 0 ? ", " : "" + value;
+                result += index > 0 ? ", " + value : "" + value;
+                index++;
             }
 
             return result;
@@ -731,11 +721,25 @@ namespace WPF.GUI.Pages
 
                 try
                 {
-                    // TODO
-                    var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, false);
-                    if (obj != null)
+                    if (item.Note.Content.StartsWith("[{"))
                     {
-                        MessageContent.Text = obj.Message.Message;
+                        MessageContent.Text = string.Empty;
+                        var objs = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(item.Note.Content, false);
+                        if (objs != null)
+                        {
+                            foreach(var obj in objs)
+                            {
+                                FillNoteFieldsFromNote(item.Note.Type, obj);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, false);
+                        if (obj != null)
+                        {
+                            FillNoteFieldsFromNote(item.Note.Type, obj);
+                        }
                     }
                 }
                 catch (Exception)
@@ -753,7 +757,40 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private void AddNewLottoTextBox()
+        private void FillNoteFieldsFromNote(FileTypesEnum type, LogInfoModel obj)
+        {
+            if (luckyNumbersToSave == null)
+                throw new Exception();
+
+            luckyNumbersToSave.Clear();
+
+            if (FileTypesEnum.EXCEPTION.Equals(type))
+            {
+                foreach (var exception in obj.MessageInfo.ExceptionInfo.ToList())
+                    MessageContent.Text += exception;
+            }
+            else if (FileTypesEnum.TRACE.Equals(type))
+            {
+                foreach (var element in obj.MessageInfo.Array.ToList())
+                    MessageContent.Text += element;
+            }
+            else if (FileTypesEnum.LOTTO_NOTE.Equals(type))
+            {
+                MessageContent.Text = obj.MessageInfo.Message;
+
+                foreach (var line in obj.MessageInfo.Array.ToList())
+                {
+                    luckyNumbersToSave.Add(line);
+                    AddNewLottoTextBox(line);
+                }
+            }
+            else
+            {
+                MessageContent.Text = obj.MessageInfo.Message;
+            }
+        }
+
+        private void AddNewLottoTextBox(string text = "", bool focus = false)
         {
             var lottoTextbox = new TextBox();
             lottoTextbox.LostFocus += LottoTextbox_LostFocus;
@@ -762,17 +799,42 @@ namespace WPF.GUI.Pages
             lottoTextbox.MaxLines = 1;
             lottoTextbox.Background = Brushes.AliceBlue;
 
+
             var toAdd = true;
-            foreach(ListViewItem item in MessageContentList.Items)
+            if (!string.IsNullOrEmpty(text))
             {
-                var textBox = item?.Content as TextBox;
-                if (string.IsNullOrEmpty(textBox.Text))
-                    toAdd = false;
+                lottoTextbox.Text = text;
+                lottoTextbox.IsEnabled = false;
+
+                var anyFilled = false;
+                foreach (ListViewItem item in MessageContentList.Items)
+                {
+                    var textBox = item?.Content as TextBox;
+                    if (!string.IsNullOrEmpty(textBox.Text))
+                        anyFilled = true;
+                }
+
+                if (!anyFilled)
+                    MessageContentList.Items.Clear();
+            }
+            else
+            {
+                foreach (ListViewItem item in MessageContentList.Items)
+                {
+                    var textBox = item?.Content as TextBox;
+                    if (string.IsNullOrEmpty(textBox.Text))
+                        toAdd = false;
+                }
             }
 
-            if(toAdd)
+            if (toAdd)
             {
                 MessageContentList.Items.Add(new ListViewItem { Content = lottoTextbox });
+            }
+
+            if (focus)
+            {
+                lottoTextbox.Focus();
             }
         }
 

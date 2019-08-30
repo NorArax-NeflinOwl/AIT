@@ -12,7 +12,7 @@ namespace WPF.Models
         public DateTime Date { get; set; }
         public DeviceInfoModel DeviceInfo { get; set; }
         public string AccountID { get; set; }
-        public MessageInfoModel Message { get; set; }
+        public MessageInfoModel MessageInfo { get; set; }
 
         public LogInfoModel()
         {
@@ -31,13 +31,13 @@ namespace WPF.Models
             AccountID = (string)info.GetValue(nameof(AccountID), typeof(string));
 
             if(Type.Equals(FileTypesEnum.EXCEPTION))
-                Message = (MessageInfoModel)info.GetValue(nameof(Message), typeof(MessageInfoModel));
+                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
             else if(Type.Equals(FileTypesEnum.TRACE))
-                Message = (MessageInfoModel)info.GetValue(nameof(Message), typeof(MessageInfoModel));
+                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
             else if (Type.Equals(FileTypesEnum.KEYLOGGER))
-                Message = (MessageInfoModel)info.GetValue(nameof(Message), typeof(MessageInfoModel));
+                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
             else
-                Message = (MessageInfoModel)info.GetValue(nameof(Message), typeof(MessageInfoModel));
+                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -49,18 +49,18 @@ namespace WPF.Models
             info.AddValue(nameof(AccountID), AccountID, typeof(string));
 
             if (Type.Equals(FileTypesEnum.EXCEPTION))
-                info.AddValue(nameof(Message), Message, typeof(MessageInfoModel));
+                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
             else if (Type.Equals(FileTypesEnum.TRACE))
-                info.AddValue(nameof(Message), Message, typeof(MessageInfoModel));
+                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
             else if (Type.Equals(FileTypesEnum.KEYLOGGER))
-                info.AddValue(nameof(Message), Message, typeof(MessageInfoModel));
+                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
             else
-                info.AddValue(nameof(Message), Message, typeof(MessageInfoModel));
+                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
         }
 
         public override string ToString()
         {
-            return Message.ToString();
+            return MessageInfo.ToString();
         }
 
         public object Clone()
@@ -72,7 +72,7 @@ namespace WPF.Models
                 Date = Date,
                 DeviceInfo = (DeviceInfoModel)DeviceInfo.Clone(),
                 AccountID = AccountID,
-                Message = Message
+                MessageInfo = MessageInfo
             };
             return clone;
         }

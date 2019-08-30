@@ -202,7 +202,7 @@ namespace WPF.GUI.Windows
                     LogManager.Instance.LogToFile(new LogInfoModel
                     {
                         Type = FileTypesEnum.TRACE,
-                        Message = new MessageInfoModel("Set focus to page " + tabName)
+                        MessageInfo = new MessageInfoModel("Set focus to page " + tabName)
                     });
                 }
             }
