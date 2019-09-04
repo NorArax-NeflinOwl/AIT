@@ -11,6 +11,7 @@
         TASK,
         KEYLOGGER,
         ACTIVATION_CODE,
-        LOTTO_NOTE
+        LOTTO_NOTE,
+        DETACHED
     }
 }

@@ -497,14 +497,256 @@ namespace WPF.GUI.Pages
 
         #region LEFT PANEL METHODS
 
+        #region Filter Menu
+
+        private FileTypesEnum? CheckIfFilterIsSelected()
+        {
+            // FIX ME ---
+            foreach (MenuItem item in NoteManagerFilter.Items)
+            {
+                var index = 0;
+                foreach (MenuItem subItem in item.Items)
+                {
+                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
+                    {
+                        var model = FileTypesManager.SetType(index);
+                        return model.EnumType;
+                    }
+                    index++;
+                }
+            }
+            return null;
+        }
+
+        private void ALL_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView();
+            SetEditableMenuItem(sender);
+        }
+
+        private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.ACTIVATION_CODE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void EXCEPTION_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.EXCEPTION);
+            SetEditableMenuItem(sender);
+        }
+
+        private void INFORMATION_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.INFORMATION);
+            SetEditableMenuItem(sender);
+        }
+
+        private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.KEYLOGGER);
+            SetEditableMenuItem(sender);
+        }
+
+        private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.LOTTO_NOTE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void NOTE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.NOTE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void QUERY_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.QUERY);
+            SetEditableMenuItem(sender);
+        }
+
+        private void TASK_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.TASK);
+            SetEditableMenuItem(sender);
+        }
+
+        private void TRACE_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.TRACE);
+            SetEditableMenuItem(sender);
+        }
+
+        private void UNDEFINED_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView(FileTypesEnum.UNDEFINED);
+            SetEditableMenuItem(sender);
+        }
+
+        private void DETACHED_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContentAction();
+            InitListView();
+            SetEditableMenuItem(sender);
+        }
+
+        private void SetEditableMenuItem(object sender)
+        {
+            foreach (MenuItem item in NoteManagerFilter.Items)
+            {
+                foreach (MenuItem subItem in item.Items)
+                {
+                    if (subItem.Header.Equals((sender as MenuItem)?.Header))
+                        subItem.IsEnabled = false;
+                    else
+                        subItem.IsEnabled = true;
+                }
+            }
+        }
+
+        private void CreateFilterPanel()
+        {
+            NoteManagerFilter.Items.Clear();
+            var noteFilter = new MenuItem();
+            noteFilter.Header = "Filters";
+            noteFilter.Background = Brushes.Transparent;
+            noteFilter.Foreground = Brushes.White;
+
+            var obj = new MenuItem();
+            obj.Header = "All";
+            obj.Background = Brushes.LightGray;
+            obj.Foreground = Brushes.Black;
+            obj.IsEnabled = false;
+            obj.Click += ALL_Click;
+            noteFilter.Items.Add(obj);
+
+            if (account != null)
+            {
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.UNDEFINED))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Undefined";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += UNDEFINED_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Exceptions";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += EXCEPTION_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Informations";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += INFORMATION_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Notes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += NOTE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Traces";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += TRACE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Queries";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += QUERY_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Tasks";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += TASK_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Keys Logger";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += KEYLOGGER_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Activation codes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += ACTIVATION_CODE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Lotto Notes";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += LOTTO_NOTE_Click;
+                    noteFilter.Items.Add(obj);
+                }
+                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.DETACHED))
+                {
+                    obj = new MenuItem();
+                    obj.Header = "Detached";
+                    obj.Background = Brushes.LightGray;
+                    obj.Foreground = Brushes.Black;
+                    obj.Click += DETACHED_Click;
+                    noteFilter.Items.Add(obj);
+                }
+            }
+
+            NoteManagerFilter.Items.Add(noteFilter);
+        }
+
+        #endregion
+
         private void DetachedSelectedItems_Click(object sender, RoutedEventArgs e)
         {
             DispatcherExtension.Invoke(() =>
             {
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
-                    item.Note.AssignedTo = string.Empty;
-                    item.Note.Creator = string.Empty;
+                    item.DetachNote();
                     item.Note.Update();
                 }
 
@@ -633,6 +875,13 @@ namespace WPF.GUI.Pages
             NoteManagerListView.Items.Clear();
             optionalType = CheckIfFilterIsSelected();
 
+            var onlyDetached = false;
+            if(FileTypesEnum.DETACHED.Equals(optionalType))
+            {
+                onlyDetached = true;
+                optionalType = null;
+            }
+
             using (var context = PDBContext.Instance.Context)
             {
                 account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
@@ -643,7 +892,7 @@ namespace WPF.GUI.Pages
                     var list = account.Files.ToList();
                     foreach (var note in list)
                     {
-                        if(note.Type.Equals(optionalType) || optionalType == null && FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+                        if(!onlyDetached && note.Type.Equals(optionalType) || !onlyDetached && optionalType == null && FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
                         {
                             NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
                             index++;
@@ -658,232 +907,6 @@ namespace WPF.GUI.Pages
                 SetOneNoteContentAction();
             }
         }
-
-        #region Filter Menu
-
-        private FileTypesEnum? CheckIfFilterIsSelected()
-        {
-            foreach (MenuItem item in NoteManagerFilter.Items)
-            {
-                var index = 0;
-                foreach (MenuItem subItem in item.Items)
-                {
-                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
-                    {
-                        var model = FileTypesManager.SetType(index);
-                        return model.EnumType;
-                    }
-                    index++;
-                }
-            }
-            return null;
-        }
-
-        private void ALL_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView();
-            SetEditableMenuItem(sender);
-        }
-
-        private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.ACTIVATION_CODE);
-            SetEditableMenuItem(sender);
-        }
-
-        private void EXCEPTION_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.EXCEPTION);
-            SetEditableMenuItem(sender);
-        }
-
-        private void INFORMATION_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.INFORMATION);
-            SetEditableMenuItem(sender);
-        }
-
-        private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.KEYLOGGER);
-            SetEditableMenuItem(sender);
-        }
-
-        private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.LOTTO_NOTE);
-            SetEditableMenuItem(sender);
-        }
-
-        private void NOTE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.NOTE);
-            SetEditableMenuItem(sender);
-        }
-
-        private void QUERY_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.QUERY);
-            SetEditableMenuItem(sender);
-        }
-
-        private void TASK_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.TASK);
-            SetEditableMenuItem(sender);
-        }
-
-        private void TRACE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.TRACE);
-            SetEditableMenuItem(sender);
-        }
-
-        private void UNDEFINED_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            InitListView(FileTypesEnum.UNDEFINED);
-            SetEditableMenuItem(sender);
-        }
-
-        private void SetEditableMenuItem(object sender)
-        {
-            foreach (MenuItem item in NoteManagerFilter.Items)
-            {
-                foreach (MenuItem subItem in item.Items)
-                {
-                    if (subItem.Header.Equals((sender as MenuItem)?.Header))
-                        subItem.IsEnabled = false;
-                    else
-                        subItem.IsEnabled = true;
-                }
-            }
-        }
-
-        private void CreateFilterPanel()
-        {
-            NoteManagerFilter.Items.Clear();
-            var noteFilter = new MenuItem();
-            noteFilter.Header = "Filters";
-            noteFilter.Background = Brushes.Transparent;
-            noteFilter.Foreground = Brushes.White;
-
-            var obj = new MenuItem();
-            obj.Header = "All";
-            obj.Background = Brushes.LightGray;
-            obj.Foreground = Brushes.Black;
-            obj.IsEnabled = false;
-            obj.Click += ALL_Click;
-            noteFilter.Items.Add(obj);
-
-            if (account != null)
-            {
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.UNDEFINED))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Undefined";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += UNDEFINED_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Exceptions";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += EXCEPTION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Informations";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += INFORMATION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Notes";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Traces";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += TRACE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Queries";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += QUERY_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Tasks";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += TASK_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Keys Logger";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += KEYLOGGER_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Activation codes";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += ACTIVATION_CODE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
-                {
-                    obj = new MenuItem();
-                    obj.Header = "Lotto Notes";
-                    obj.Background = Brushes.LightGray;
-                    obj.Foreground = Brushes.Black;
-                    obj.Click += LOTTO_NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-            }
-
-            NoteManagerFilter.Items.Add(noteFilter);
-        }
-
-        #endregion
 
         #endregion
 
@@ -1103,6 +1126,15 @@ namespace WPF.GUI.Pages
 
             if (!fullClear)
                 AddNewLottoTextBox();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void RefreshList()
+        {
+            InitListView();
         }
 
         #endregion

@@ -21,7 +21,8 @@ namespace WPF.GUI.Windows
     {
         public IProperties Properties { get; }
 
-        private TabControlManager MainTabControlManager { get; set; }
+        public TabControlManager MainTabControlManager { get; set; }
+
         public bool IsDisposed { get; set; }
 
         public MainWindow()

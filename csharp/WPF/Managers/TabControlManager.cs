@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 using WPF.Models;
 using WPF.Models.Enums;
-using WPF.Models.Extensions;
 using WPF.GUI.Controls;
 using WPF.GUI.Pages.Properties;
 using WPF.Models.Interfaces;
+using WPF.GUI.Pages;
 
 namespace WPF.Managers
 {
@@ -17,6 +17,19 @@ namespace WPF.Managers
         public TabControlManager(TabControl tabControl)
         {
             this.tabControl = tabControl;
+        }
+
+        public NoteManagerPage GetNoteManager()
+        {
+            foreach(var element in tabControl?.Items)
+            {
+                if(element is TabItem item && item.Content is Frame frame && frame.Content is NoteManagerPage noteManager)
+                {
+                    return noteManager;
+                }
+            }
+
+            return null;
         }
 
         public void Add(IPageModel page)

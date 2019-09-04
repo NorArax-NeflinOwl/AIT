@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Configuration;
+using System.Windows.Controls;
 using WPF.Databases.Models;
 
 namespace WPF.GUI.Controls
@@ -20,6 +21,12 @@ namespace WPF.GUI.Controls
 
             if(note.IsDetached)
                 AdditionalData.Text = Properties.Resources.DETACHED;
+        }
+
+        public void DetachNote()
+        {
+            Note.Creator = null;
+            Note.AssignedTo = null;
         }
     }
 }
