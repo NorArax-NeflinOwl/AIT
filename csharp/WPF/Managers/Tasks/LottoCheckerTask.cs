@@ -133,10 +133,7 @@ namespace WPF.Managers.Tasks
                                                 //FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
                                                 Name = nameof(LottoCheckerTask),
                                                 Type = FileTypesEnum.LOTTO_NOTE,
-                                                Content = CryptoJsonManager.Instance.Serialize(new LogInfoModel
-                                                {
-                                                    MessageInfo = new MessageInfoModel(msg)
-                                                })
+                                                Content = CryptoJsonManager.Instance.Serialize(new MessageInfoModel(msg))
                                             };
 
                                             if (firstLoopTurn && startDate == new DateTime(DateTime.Now.Year, 1, 1))

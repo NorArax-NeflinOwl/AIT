@@ -226,6 +226,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Databases\Models\AitHostDataModel.cs" />
     <Compile Include="Managers\FileTypesManager.cs" />
     <Compile Include="Managers\Tasks\CreateDbFileInDocumnetTask.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />

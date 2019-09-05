@@ -7,6 +7,7 @@
         FLS,
         USH,
         USD,
+        HSD,
 
         // SYS table prefix
         SGI,

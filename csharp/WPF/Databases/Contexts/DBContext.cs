@@ -80,5 +80,7 @@ namespace WPF.Databases.Contexts
         public DbSet<AitUserDataModel> UsersDatas { get; set; }
 
         public DbSet<AitUserHostModel> UsersHosts { get; set; }
+
+        public DbSet<AitHostDataModel> HostDatas { get; set; }
     }
 }

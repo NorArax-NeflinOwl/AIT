@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using WPF.Models.Enums;
 using WPF.Managers.Validators;
 using WPF.Databases.Contexts;
+using System.Linq;
 
 namespace WPF.Databases.Models
 {
@@ -14,6 +15,7 @@ namespace WPF.Databases.Models
         private string assignedTo, nick, firstname, middlename, lastname;
         private DateTime? birthday;
         private AitAccountModel accountData;
+        private AitHostDataModel hostData;
 
         [Key, Column("usd_id")]
         public string ID
@@ -89,6 +91,19 @@ namespace WPF.Databases.Models
                 return accountData;
             }
             set { SetField(ref accountData, value, nameof(AccountData)); }
+        }
+
+        public AitHostDataModel HostData
+        {
+            get
+            {
+                if (hostData == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
+                {
+                    hostData = Context.HostDatas.Where(q => string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(assignedTo)).FirstOrDefault();
+                }
+                return hostData;
+            }
+            set { SetField(ref hostData, value, nameof(AccountData)); }
         }
 
         [NotMapped]

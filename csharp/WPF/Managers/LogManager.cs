@@ -174,7 +174,7 @@ namespace WPF.Managers
             var msg = CryptoJsonManager.Instance.Serialize(log);
             try
             {
-                var list = new List<LogInfoModel>();
+                var list = new List<MessageInfoModel>();
                 using (var context = PDBContext.Instance.Context)
                 {
                     var fileInDB = context.Files.Where(q => (q.Create.Day > DateTime.Now.AddDays(-1).Day && q.Create.Month.Equals(DateTime.Now.AddDays(-1).Month))
@@ -182,12 +182,12 @@ namespace WPF.Managers
                     if (fileInDB != null)
                     {
                         var content = fileInDB.Content;
-                        list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
+                        list = CryptoJsonManager.Instance.Deserialize<List<MessageInfoModel>>(content, false);
 
                         if (list == null)
-                            list = new List<LogInfoModel>();
+                            list = new List<MessageInfoModel>();
 
-                        list.Add(log);
+                        list.Add(log.MessageInfo);
                         fileInDB.FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
                         fileInDB.Content = CryptoJsonManager.Instance.Serialize(list);
                         fileInDB.Update();
@@ -195,7 +195,7 @@ namespace WPF.Managers
                     }
                     else
                     {
-                        list.Add(log);
+                        list.Add(log.MessageInfo);
                         var logToSave = new AitFileModel(context)
                         {
                             ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),

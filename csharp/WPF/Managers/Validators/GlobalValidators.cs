@@ -22,9 +22,8 @@ namespace WPF.Managers.Validators
                 {
                     if (!string.IsNullOrEmpty(file.Content) && FileTypesEnum.LOTTO_NOTE.Equals(file.Type))
                     {
-                        var logInfo = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content, false);
-                        if (logInfo != null && logInfo.MessageInfo is MessageInfoModel info
-                            && string.IsNullOrEmpty(info.Message) && info.Message.Contains(winString))
+                        var logInfo = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(file.Content, false);
+                        if (logInfo != null && string.IsNullOrEmpty(logInfo.Message) && logInfo.Message.Contains(winString))
                             return false;
                     }
                 }
@@ -47,10 +46,10 @@ namespace WPF.Managers.Validators
                 {
                     if(file.Content.StartsWith("[{"))
                     {
-                        var content = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(file.Content);
+                        var content = CryptoJsonManager.Instance.Deserialize<List<MessageInfoModel>>(file.Content);
                         foreach (var item in content)
                         {
-                            foreach (var element in item.MessageInfo.Array)
+                            foreach (var element in item.Array)
                             {
                                 searchTab.Add(element.Replace(" ", string.Empty).Split(','));
                             }
@@ -58,8 +57,8 @@ namespace WPF.Managers.Validators
                     }
                     else
                     {
-                        var content = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(file.Content);
-                        foreach(var item in content.MessageInfo.Array)
+                        var content = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(file.Content);
+                        foreach(var item in content.Array)
                         {
                             searchTab.Add(item.Replace(" ", string.Empty).Split(','));
                         }

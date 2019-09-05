@@ -255,13 +255,9 @@ namespace WPF.GUI.Pages
 
         private string SerializableControl()
         {
-            return CryptoJsonManager.Instance.Serialize(new LogInfoModel
+            return CryptoJsonManager.Instance.Serialize(new MessageInfoModel(luckyNumbersToSave)
             {
-                Type = type != null ? type.EnumType : FileTypesEnum.UNDEFINED,
-                MessageInfo = new MessageInfoModel(luckyNumbersToSave)
-                {
-                    Message = MessageContent.Text
-                },
+                Message = MessageContent.Text
             });
         }
 
@@ -1013,7 +1009,7 @@ namespace WPF.GUI.Pages
                     if (item.Note.Content.StartsWith("[{"))
                     {
                         MessageContent.Text = string.Empty;
-                        var objs = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(item.Note.Content, false);
+                        var objs = CryptoJsonManager.Instance.Deserialize<List<MessageInfoModel>>(item.Note.Content, false);
                         if (objs != null)
                         {
                             foreach (var obj in objs)
@@ -1024,7 +1020,7 @@ namespace WPF.GUI.Pages
                     }
                     else
                     {
-                        var obj = CryptoJsonManager.Instance.Deserialize<LogInfoModel>(item.Note.Content, false);
+                        var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(item.Note.Content, false);
                         if (obj != null)
                         {
                             FillNoteFieldsFromNote(item.Note.Type, obj);
@@ -1053,7 +1049,7 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private void FillNoteFieldsFromNote(FileTypesEnum type, LogInfoModel obj)
+        private void FillNoteFieldsFromNote(FileTypesEnum type, MessageInfoModel obj)
         {
             if (luckyNumbersToSave == null)
                 throw new Exception();
@@ -1062,21 +1058,21 @@ namespace WPF.GUI.Pages
 
             if (FileTypesEnum.EXCEPTION.Equals(type))
             {
-                foreach (var exception in obj.MessageInfo.ExceptionInfo.ToList())
+                foreach (var exception in obj.ExceptionInfo.ToList())
                     MessageContent.Text += exception;
             }
             else if (FileTypesEnum.TRACE.Equals(type))
             {
-                foreach (var element in obj.MessageInfo.Array.ToList())
+                foreach (var element in obj.Array.ToList())
                     MessageContent.Text += element;
             }
             else if (FileTypesEnum.LOTTO_NOTE.Equals(type))
             {
-                MessageContent.Text = obj.MessageInfo.Message;
+                MessageContent.Text = obj.Message;
 
-                if (obj.MessageInfo.Array != null)
+                if (obj.Array != null)
                 {
-                    foreach (var line in obj.MessageInfo.Array.ToList())
+                    foreach (var line in obj.Array.ToList())
                     {
                         luckyNumbersToSave.Add(line);
                         AddNewLottoTextBox(line);
@@ -1085,7 +1081,7 @@ namespace WPF.GUI.Pages
             }
             else
             {
-                MessageContent.Text = obj.MessageInfo.Message;
+                MessageContent.Text = obj.Message;
             }
         }
 
