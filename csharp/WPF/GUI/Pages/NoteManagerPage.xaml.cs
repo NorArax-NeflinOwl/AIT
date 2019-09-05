@@ -60,6 +60,7 @@ namespace WPF.GUI.Pages
             NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
             DetachedSelectedItems.Content = WPF.Properties.Resources.DETACHED_BTNCONTENT;
+            NoteManagerListViewEmpty.Text = WPF.Properties.Resources.LIST_EMPTY;
 
             NoteContentTitle.Text = WPF.Properties.Resources.NOTE_CONTENT;
             EditContentBtn.Content = WPF.Properties.Resources.EDIT_HEADER;
@@ -501,16 +502,20 @@ namespace WPF.GUI.Pages
 
         private FileTypesEnum? CheckIfFilterIsSelected()
         {
-            // FIX ME ---
             foreach (MenuItem item in NoteManagerFilter.Items)
             {
-                var index = 0;
+                var index = -1;
                 foreach (MenuItem subItem in item.Items)
                 {
-                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
+                    if (subItem.IsEnabled)
                     {
-                        var model = FileTypesManager.SetType(index);
-                        return model.EnumType;
+                        if (!subItem.Header.Equals("All"))
+                        {
+                            var model = FileTypesManager.SetType(index);
+                            return model.EnumType;
+                        }
+                        else
+                            return null;
                     }
                     index++;
                 }
@@ -598,7 +603,7 @@ namespace WPF.GUI.Pages
         private void DETACHED_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView();
+            InitListView(FileTypesEnum.DETACHED);
             SetEditableMenuItem(sender);
         }
 
@@ -873,14 +878,9 @@ namespace WPF.GUI.Pages
         private void InitListView(FileTypesEnum? optionalType = null)
         {
             NoteManagerListView.Items.Clear();
-            optionalType = CheckIfFilterIsSelected();
 
-            var onlyDetached = false;
-            if(FileTypesEnum.DETACHED.Equals(optionalType))
-            {
-                onlyDetached = true;
-                optionalType = null;
-            }
+            if(optionalType == null)
+                optionalType = CheckIfFilterIsSelected();
 
             using (var context = PDBContext.Instance.Context)
             {
@@ -892,7 +892,7 @@ namespace WPF.GUI.Pages
                     var list = account.Files.ToList();
                     foreach (var note in list)
                     {
-                        if(!onlyDetached && note.Type.Equals(optionalType) || !onlyDetached && optionalType == null && FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+                        if(ValidateNoteFilters(note, optionalType))
                         {
                             NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
                             index++;
@@ -906,6 +906,27 @@ namespace WPF.GUI.Pages
                 NoteManagerListView.SelectedIndex = 0;
                 SetOneNoteContentAction();
             }
+
+            if(NoteManagerListView.Items.Count == 0)
+            {
+                NoteManagerListView.Visibility = Visibility.Collapsed;
+                NoteManagerListViewEmpty.Visibility = Visibility.Visible;
+            }
+        }
+
+        private bool ValidateNoteFilters(AitFileModel note, FileTypesEnum? optionalType)
+        {
+            if(FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+            {
+                if(FileTypesEnum.DETACHED.Equals(optionalType) && note.IsDetached)
+                    return true;
+
+                if (optionalType == null || note.Type.Equals(optionalType))
+                    return true;
+
+            }
+
+            return false;
         }
 
         #endregion

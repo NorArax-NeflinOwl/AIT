@@ -86,8 +86,7 @@ namespace WPF
                 {
                     IsClosed = true;
                     MainContext.Instance.Windows.Hide("for close app");
-                    var collect = BackgroundTasksManager.Instance.Collect();
-                    collect.Wait();
+                    BackgroundTasksManager.Instance.Collect().Wait();
 
                     MainContext.Instance.Windows.Exit();
                     Current.Shutdown();

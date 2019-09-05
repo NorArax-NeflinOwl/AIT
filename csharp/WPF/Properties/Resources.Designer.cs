@@ -565,6 +565,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List Empty.
+        /// </summary>
+        internal static string LIST_EMPTY {
+            get {
+                return ResourceManager.GetString("LIST_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LocalCache.
         /// </summary>
         internal static string LOCALCACHE_SUBPATH {

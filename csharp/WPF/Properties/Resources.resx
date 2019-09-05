@@ -285,6 +285,9 @@
   <data name="KEYLOGGER_EXT" xml:space="preserve">
     <value>.klg</value>
   </data>
+  <data name="LIST_EMPTY" xml:space="preserve">
+    <value>List Empty</value>
+  </data>
   <data name="LOCALCACHE_SUBPATH" xml:space="preserve">
     <value>LocalCache</value>
   </data>
