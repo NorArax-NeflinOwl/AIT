@@ -15,17 +15,17 @@ using WPF.Databases.Models;
 using WPF.Managers.Helpers;
 using System.Linq;
 using System.Configuration;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace WPF.Managers
 {
     public partial class LogManager
     {
         private static readonly string m_LoggerDir = FileManager.CombinePath(new string[] { Environment.CurrentDirectory, Resources.LOGDIR_SUBPATH });
-        private static BlockingCollection<LogInfoModel> m_Logger;
 
         private LogManager()
         {
-            m_Logger = new BlockingCollection<LogInfoModel>(5);
             FileManager.CreateDirectory(m_LoggerDir);
         }
 
@@ -44,65 +44,58 @@ namespace WPF.Managers
             }
         }
 
-        public async void LogToFile(LogInfoModel newLog)
+        public void LogToFile(LogInfoModel log)
         {
-            m_Logger.Add(newLog);
-            await Task.Factory.StartNew(() => {
-                while (!m_Logger.IsCompleted)
+            try
+            {
+                if (log != null)
                 {
-                    try
+                    var random = new Random();
+                    var ext = GetExt(log.Type);
+
+                    if (string.IsNullOrEmpty(log.Path))
+                        log.Path = m_LoggerDir;
+
+                    var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd") + ext;
+                    var filePath = Path.Combine(log.Path, fileName);
+
+                    if (!File.Exists(filePath))
+                        using (File.Create(filePath)) { }
+
+                    List<LogInfoModel> list = null;
+                    var content = File.ReadAllText(filePath);
+                    if (!string.IsNullOrEmpty(content))
                     {
-                        var log = m_Logger.Take();
-
-                        if (log != null)
-                        {
-                            var random = new Random();
-                            var ext = GetExt(log.Type);
-
-                            if (string.IsNullOrEmpty(log.Path))
-                                log.Path = m_LoggerDir;
-
-                            var fileName = log.Type.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd") + ext;
-                            var filePath = Path.Combine(log.Path, fileName);
-
-                            if (!File.Exists(filePath))
-                                using (File.Create(filePath)) { }
-
-                            List<LogInfoModel> list = null;
-                            var content = File.ReadAllText(filePath);
-                            if(!string.IsNullOrEmpty(content))
-                            {
-                                list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
-                            }
-
-                            if(log.Type.Equals(FileTypesEnum.EXCEPTION))
-                            {
-                                //
-                            }
-
-                            if(list == null)
-                            {
-                                list = new List<LogInfoModel>();
-                            }
-
-                            list.Add(log);
-                            var json = CryptoJsonManager.Instance.Serialize(list);
-                            File.WriteAllText(filePath, json);
-                        }
+                        list = CryptoJsonManager.Instance.Deserialize<List<LogInfoModel>>(content, false);
                     }
-                    catch (Exception)
+
+                    if (log.Type.Equals(FileTypesEnum.EXCEPTION))
                     {
-                        // TODO This exception should be handled by another process (and file if this is nessesery)
-                        /* m_Logger.Add(new LogInfoModel
-                        {
-                            Type = FileTypesEnum.EXCEPTION,
-                            Message = e.Message + Environment.NewLine + e.StackTrace
-                        });*/
-
-                        //m_Logger.Add(newLog);
+                        // TODO WHAT?
                     }
+
+                    if (list == null)
+                    {
+                        list = new List<LogInfoModel>();
+                    }
+
+                    list.Add(log);
+                    var json = CryptoJsonManager.Instance.Serialize(list);
+                    File.WriteAllText(filePath, json);
                 }
-            });
+            }
+            catch (Exception e)
+            {
+                new Thread(() =>
+                    LogToFile(new LogInfoModel
+                    {
+                        Type = FileTypesEnum.EXCEPTION,
+                        MessageInfo = new MessageInfoModel(e)
+                    })
+                ).Start();
+
+                new Thread(() => LogToFile(log)).Start();
+            }
         }
 
         private string GetExt(FileTypesEnum title)
@@ -131,7 +124,7 @@ namespace WPF.Managers
                 Type = FileTypesEnum.EXCEPTION,
                 MessageInfo = new MessageInfoModel(message, e)
             };
-            LogToFile(log);
+            Dispatcher.CurrentDispatcher.Invoke(() => LogToFile(log));
             var result = LogToDB(log);
 
             try
@@ -154,7 +147,7 @@ namespace WPF.Managers
                     Type = FileTypesEnum.EXCEPTION,
                     MessageInfo = new MessageInfoModel(message, ex)
                 };
-                LogToFile(log);
+                Dispatcher.CurrentDispatcher.Invoke(() => LogToFile(log));
 
                 MainContext.Instance.Windows.Open(new PopupProperties(Resources.INFORMATION, Resources.ERROR_NOHANDLE, 10), false);
                 //MessageBox.Show(log.ToString(), Resources.EXCEPTION, MessageBoxButton.OK, MessageBoxImage.Error);

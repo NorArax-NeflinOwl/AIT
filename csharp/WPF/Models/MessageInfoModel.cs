@@ -32,6 +32,12 @@ namespace WPF.Models
                 Message += message;
         }
 
+        public MessageInfoModel(Exception exception)
+        {
+            Message = Environment.NewLine + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            ExceptionInfo = GetException(exception, new List<string>()).ToArray();
+        }
+
         public MessageInfoModel(string message, Exception exception)
         {
             Message = Environment.NewLine;

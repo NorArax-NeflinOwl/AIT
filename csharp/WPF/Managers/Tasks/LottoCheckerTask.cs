@@ -34,14 +34,14 @@ namespace WPF.Managers.Tasks
         public bool Completed { get; set; }
         public bool IsDisposed { get; set; }
 
-        private object dbLocker => new object();
+        private object DbLocker => new object();
 
         private DBContext context;
         public DBContext Context
         {
             get
             {
-                lock (dbLocker)
+                lock (DbLocker)
                 {
                     if (context == null || context.IsDisposed)
                         context = new DBContext();
@@ -101,9 +101,8 @@ namespace WPF.Managers.Tasks
 
                         foreach (var lottoModel in smallLottoResult)
                         {
-                            var hits = 0;
                             var userLuckyNumbers = new List<string>();
-                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.WiningNumbers, out hits, out userLuckyNumbers))
+                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.WiningNumbers, out var hits, out userLuckyNumbers))
                             {
                                 find = true;
                                 using (var context = Context)
@@ -189,19 +188,6 @@ namespace WPF.Managers.Tasks
                                           hits, item));
             }
             return newList.Distinct().ToArray();
-        }
-
-        private void WaitForManager()
-        {
-            var id = ConfigurationManager.AppSettings["TasksManager"].ToString();
-            var cnt = Context;
-            while (cnt.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault() == null)
-            {
-                cnt.Dispose();
-                Thread.Sleep(10);
-                cnt = Context;
-            }
-            cnt.Dispose();
         }
 
         private static string ConvertList2String(List<string> tab)
