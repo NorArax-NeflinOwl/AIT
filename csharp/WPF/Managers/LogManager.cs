@@ -84,17 +84,8 @@ namespace WPF.Managers
                     File.WriteAllText(filePath, json);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                new Thread(() =>
-                    LogToFile(new LogInfoModel
-                    {
-                        Type = FileTypesEnum.EXCEPTION,
-                        MessageInfo = new MessageInfoModel(e)
-                    })
-                ).Start();
-
-                new Thread(() => LogToFile(log)).Start();
             }
         }
 

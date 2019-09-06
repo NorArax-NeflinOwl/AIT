@@ -19,6 +19,7 @@ using WPF.GUI.Controls;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Configuration;
+using System.Windows.Input;
 
 namespace WPF.GUI.Pages
 {
@@ -92,6 +93,8 @@ namespace WPF.GUI.Pages
             NoteManagerListView.MouseDoubleClick -= NoteManagerListView_MouseDoubleClick;
             NoteManagerListView.SelectionChanged -= NoteManagerListView_SelectionChanged;
 
+            SearchNoteItemTextBox.KeyUp -= SearchNoteItemTextBox_KeyUp;
+
             SelectAllCheckBox.Click -= SelectAllCheckBox_Click;
             DeleteSelectedItems.Click -= DeleteSelectedItems_Click;
             DetachedSelectedItems.Click -= DetachedSelectedItems_Click;
@@ -125,6 +128,8 @@ namespace WPF.GUI.Pages
         {
             NoteManagerListView.MouseDoubleClick += NoteManagerListView_MouseDoubleClick;
             NoteManagerListView.SelectionChanged += NoteManagerListView_SelectionChanged;
+
+            SearchNoteItemTextBox.KeyUp += SearchNoteItemTextBox_KeyUp;
 
             SelectAllCheckBox.Click += SelectAllCheckBox_Click;
             DeleteSelectedItems.Click += DeleteSelectedItems_Click;
@@ -245,8 +250,8 @@ namespace WPF.GUI.Pages
                     }
                 }
 
-                ClearContentAction();
                 InitListView();
+                ClearContentAction();
             }
             catch (Exception ex)
             {
@@ -516,20 +521,28 @@ namespace WPF.GUI.Pages
 
         private FileTypesEnum? CheckIfFilterIsSelected()
         {
-            foreach (MenuItem item in NoteManagerFilter.Items)
+            foreach (MenuItem element in NoteManagerFilter.Items)
             {
-                var index = -1;
-                foreach (MenuItem subItem in item.Items)
+                var index = 0;
+                var list = new List<Tuple<int, bool, string>>();
+                foreach (MenuItem subItem in element.Items)
                 {
-                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
-                    {
-                        var model = FileTypesManager.SetType(index);
-                        return model.EnumType;
-                    }
-                    if (subItem.IsEnabled && subItem.Header.Equals("All"))
-                        return null;
-
+                    list.Add(new Tuple<int, bool, string>(index, subItem.IsEnabled, subItem.Header.ToString()));
                     index++;
+                }
+
+                if(list.Where(q => !q.Item2).Count() > 1)
+                {
+                    throw new InvalidProgramException("Note Manager list hava invalid enabled items!");
+                }
+
+                var item = list.Where(q => !q.Item2).FirstOrDefault();
+                if (item == null || item.Item1 == 0)
+                    return null;
+                else
+                {
+                    var model = FileTypesManager.SetType(item.Item1 - 1);
+                    return model.EnumType;
                 }
             }
             return null;
@@ -538,85 +551,85 @@ namespace WPF.GUI.Pages
         private void ALL_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView();
             SetEditableMenuItem(sender);
+            InitListView();
         }
 
         private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.ACTIVATION_CODE);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.ACTIVATION_CODE);
         }
 
         private void EXCEPTION_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.EXCEPTION);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.EXCEPTION);
         }
 
         private void INFORMATION_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.INFORMATION);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.INFORMATION);
         }
 
         private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.KEYLOGGER);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.KEYLOGGER);
         }
 
         private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.LOTTO_NOTE);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.LOTTO_NOTE);
         }
 
         private void NOTE_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.NOTE);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.NOTE);
         }
 
         private void QUERY_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.QUERY);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.QUERY);
         }
 
         private void TASK_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.TASK);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.TASK);
         }
 
         private void TRACE_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.TRACE);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.TRACE);
         }
 
         private void UNDEFINED_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.UNDEFINED);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.UNDEFINED);
         }
 
         private void DETACHED_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            InitListView(FileTypesEnum.DETACHED);
             SetEditableMenuItem(sender);
+            InitListView(FileTypesEnum.DETACHED);
         }
 
         private void SetEditableMenuItem(object sender)
@@ -783,6 +796,14 @@ namespace WPF.GUI.Pages
 
         #endregion
 
+        private void SearchNoteItemTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key.Equals(Key.Enter))
+            {
+                InitListView();
+            }
+        }
+
         private void DetachedSelectedItems_Click(object sender, RoutedEventArgs e)
         {
             DispatcherExtension.Invoke(() =>
@@ -919,6 +940,8 @@ namespace WPF.GUI.Pages
             if(optionalType == null)
                 optionalType = CheckIfFilterIsSelected();
 
+            var searchItem = SearchNoteItemTextBox.Text ?? string.Empty;
+
             using (var context = PDBContext.Instance.Context)
             {
                 account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
@@ -927,6 +950,11 @@ namespace WPF.GUI.Pages
                     var index = 1;
                     account.FillObject();
                     var list = account.Files.ToList();
+                    if(!string.IsNullOrEmpty(searchItem))
+                    {
+                        list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
+                    }
+
                     foreach (var note in list)
                     {
                         if(ValidateNoteFilters(note, optionalType))
