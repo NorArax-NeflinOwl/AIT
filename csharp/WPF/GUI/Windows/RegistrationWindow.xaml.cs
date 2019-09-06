@@ -144,7 +144,6 @@ namespace WPF.GUI.Windows
                     {
                         account = new AitAccountModel(context)
                         {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.ACC),
                             Login = login,
                             Password = Generators.GenerateSha256Hash(password),
                             Email = email
@@ -160,7 +159,6 @@ namespace WPF.GUI.Windows
                     {
                         var userDate = new AitUserDataModel(context)
                         {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.USD),
                             AssignedTo = account.ID,
                             Nick = nick,
                             FirstName = first,
@@ -172,7 +170,6 @@ namespace WPF.GUI.Windows
 
                         userActivatedCodeFile = new AitFileModel(context)
                         {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                             Creator = account.ID,
                             Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
                             Type = FileTypesEnum.ACTIVATION_CODE,

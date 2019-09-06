@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Models;
@@ -72,15 +75,70 @@ namespace WPF.Databases.Contexts
         }
 
         public DbSet<SysStsgenids> Stsgenids { get; set; }
+        public DbSet<AitAccountModel> AccountsModel { get; set; }
+        public DbSet<AitFileModel> FilesModel { get; set; }
+        public DbSet<AitUserDataModel> UsersDatasModel { get; set; }
+        public DbSet<AitUserHostModel> UsersHostsModel { get; set; }
+        public DbSet<AitHostDataModel> HostDatasModel { get; set; }
 
-        public DbSet<AitAccountModel> Accounts { get; set; }
+        public List<AitAccountModel> Accounts
+        {
+            get
+            {
+                var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                if (deleteEntityMode.Equals("ON"))
+                    return AccountsModel.ToList();
+                else
+                    return AccountsModel.Where(entry => !entry.IsDeleted).ToList();
+            }
+        }
 
-        public DbSet<AitFileModel> Files { get; set; }
+        public List<AitFileModel> Files
+        {
+            get
+            {
+                var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                if (deleteEntityMode.Equals("ON"))
+                    return FilesModel.ToList();
+                else
+                    return FilesModel.Where(entry => !entry.IsDeleted).ToList();
+            }
+        }
 
-        public DbSet<AitUserDataModel> UsersDatas { get; set; }
+        public List<AitUserDataModel> UsersDatas
+        {
+            get
+            {
+                var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                if (deleteEntityMode.Equals("ON"))
+                    return UsersDatasModel.ToList();
+                else
+                    return UsersDatasModel.Where(entry => !entry.IsDeleted).ToList();
+            }
+        }
 
-        public DbSet<AitUserHostModel> UsersHosts { get; set; }
+        public List<AitUserHostModel> UsersHosts
+        {
+            get
+            {
+                var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                if (deleteEntityMode.Equals("ON"))
+                    return UsersHostsModel.ToList();
+                else
+                    return UsersHostsModel.Where(entry => !entry.IsDeleted).ToList();
+            }
+        }
 
-        public DbSet<AitHostDataModel> HostDatas { get; set; }
+        public List<AitHostDataModel> HostDatas
+        {
+            get
+            {
+                var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                if (deleteEntityMode.Equals("ON"))
+                    return HostDatasModel.ToList();
+                else
+                    return HostDatasModel.Where(entry => !entry.IsDeleted).ToList();
+            }
+        }
     }
 }

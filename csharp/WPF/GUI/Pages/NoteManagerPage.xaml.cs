@@ -215,7 +215,6 @@ namespace WPF.GUI.Pages
                                     newNote.Create = clone.Create;
                                 }
 
-                                newNote.ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS);
                                 newNote.FileOwner = a;
                                 newNote.Name = NoteNameBox.Text;
                                 newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
@@ -240,7 +239,6 @@ namespace WPF.GUI.Pages
                         {
                             var newNote = new AitFileModel(context)
                             {
-                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                 Name = NoteNameBox.Text,
                                 Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED,
                                 Content = SerializableControl()

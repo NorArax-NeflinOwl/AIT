@@ -50,13 +50,13 @@ namespace UTW.UnitTests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Find(id);
+                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
                 if(acc != null)
                 {
                     acc.IsActive = true;
                     acc.Update();
                     dbContext.SaveChanges();
-                    Assert.IsTrue(dbContext.Accounts.Find(id).IsActive);
+                    Assert.IsTrue(dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault().IsActive);
                 }
             }
         }
@@ -66,12 +66,12 @@ namespace UTW.UnitTests
         {
             using (var dbContext = PDBContext.Instance.Context)
             {
-                var acc = dbContext.Accounts.Find(id);
+                var acc = dbContext.Accounts.Where(q => q.ID.Equals(id)).FirstOrDefault();
                 if(acc != null)
                 {
                     acc.Delete();
                 }
-                var sts = dbContext.Stsgenids.Find(id);
+                var sts = dbContext.Stsgenids.Where(q => q.ID.Equals(id)).FirstOrDefault();
 
                 Assert.IsNotNull(sts);
                 Assert.IsTrue(sts.Delete != null);
@@ -87,7 +87,6 @@ namespace UTW.UnitTests
             {
                 AitAccountModel account = new AitAccountModel(context)
                 {
-                    ID = Generators.RecordIDGenerator(TableInerfixEnum.ACC, false),
                     Login = "noraraxneflinowl",
                     Email = "pudwel.n.patryk@gmail.com",
                     Password = Generators.GenerateSha256Hash("S1mplep@ssw0rd"),
@@ -95,7 +94,6 @@ namespace UTW.UnitTests
                 };
                 AitUserDataModel userData = new AitUserDataModel(context)
                 {
-                    ID = Generators.RecordIDGenerator(TableInerfixEnum.USD, false),
                     AssignedTo = account.ID,
                     FirstName = "Patryk",
                     MiddleName = "Norbert",
@@ -105,22 +103,23 @@ namespace UTW.UnitTests
                 };
                 AitUserHostModel userHostModel = new AitUserHostModel(context)
                 {
-                    ID = Generators.RecordIDGenerator(TableInerfixEnum.USH, false),
                     AssignedTo = account.ID,
                     HostName = HardwareManager.GetComputerName()
+                };
+                AitHostDataModel hostDataModel = new AitHostDataModel(context)
+                {
+
                 };
                 IList<AitFileModel> files = new List<AitFileModel>
                 {
                     new AitFileModel(context)
                     {
-                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS, false),
                         Name = "Empty Test File 1",
                         FileCreator = account,
                         Type = FileTypesEnum.NOTE
                     },
                     new AitFileModel(context)
                     {
-                        ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS, false),
                         Name = "Empty Test File 2",
                         FileCreator = account,
                         Type = FileTypesEnum.TASK
@@ -152,7 +151,7 @@ namespace UTW.UnitTests
             using (var context = PDBContext.Instance.Context)
             {
                 var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
-                var manager = context.Accounts.Find(managerID);
+                var manager = context.Accounts.Where(q => q.ID.Equals(managerID)).FirstOrDefault();
                 if (manager == null)
                 {
                     manager = new AitAccountModel(context)

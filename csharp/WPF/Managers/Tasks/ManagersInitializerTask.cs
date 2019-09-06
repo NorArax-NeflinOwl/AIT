@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Configuration;
+using System.Linq;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Models.Enums;
@@ -18,14 +19,14 @@ namespace WPF.Managers.Tasks
         public bool Completed { get; set; }
         public bool IsDisposed { get; set; }
 
-        private object dbLocker => new object();
+        private object DbLocker => new object();
 
         private DBContext context;
         public DBContext Context
         {
             get
             {
-                lock(dbLocker)
+                lock(DbLocker)
                 {
                     if (context == null || context.IsDisposed)
                         context = new DBContext();
@@ -74,7 +75,7 @@ namespace WPF.Managers.Tasks
             using (var context = Context)
             {
                 var managerID = ConfigurationManager.AppSettings["TasksManager"].ToString();
-                var manager = context.Accounts.Find(managerID);
+                var manager = context.Accounts.Where(q => q.ID.Equals(managerID)).FirstOrDefault();
                 if (manager == null)
                 {
                     manager = new AitAccountModel(context)

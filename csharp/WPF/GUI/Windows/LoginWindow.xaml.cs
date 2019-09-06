@@ -110,7 +110,6 @@ namespace WPF.GUI.Windows
                     {
                         var newhost = new AitUserHostModel(context)
                         {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.USH),
                             AssignedTo = PDBContext.Instance.AccountID,
                             HostName = HardwareManager.GetComputerName()
                         };

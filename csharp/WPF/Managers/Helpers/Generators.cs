@@ -25,12 +25,12 @@ namespace WPF.Managers.Helpers
             return GenerateSha256Hash(subput).Substring(0, length).ToUpper();
         }
 
-        public static string RecordIDGenerator(TableInerfixEnum tablePrefix, bool throwException = true)
+        public static string RecordIDGenerator(TableInerfixEnum tablePrefix)
         {
-            return RecordIDGenerator(SystemPrefixEnum.AIT, tablePrefix, throwException);
+            return RecordIDGenerator(SystemPrefixEnum.AIT, tablePrefix);
         }
 
-        public static string RecordIDGenerator(SystemPrefixEnum systemPrefix, TableInerfixEnum tablePrefix, bool throwException)
+        public static string RecordIDGenerator(SystemPrefixEnum systemPrefix, TableInerfixEnum tablePrefix)
         {
             var id = "0000000";
 
@@ -49,7 +49,7 @@ namespace WPF.Managers.Helpers
                         var oldid = int.Parse(sysid.ID.Split(separator)[2]);
                         id = Converters.Digit2StringCreate(oldid + 1, 7);
                     }
-                    else if (throwException)
+                    else
                     {
                         LogManager.Instance.LogExceptionToFileAndDB(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
                     }

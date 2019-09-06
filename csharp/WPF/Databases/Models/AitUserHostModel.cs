@@ -6,6 +6,7 @@ using WPF.Databases.Contexts;
 using WPF.Models.Enums;
 using WPF.Managers.Validators;
 using System.Linq;
+using WPF.Managers.Helpers;
 
 namespace WPF.Databases.Models
 {
@@ -57,7 +58,7 @@ namespace WPF.Databases.Models
             {
                 if (accountData == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
                 {
-                    accountData = Context.Accounts.Find(AssignedTo);
+                    accountData = Context.Accounts.Where(q => q.ID.Equals(AssignedTo)).FirstOrDefault();
                 }
                 return accountData;
             }
@@ -83,6 +84,7 @@ namespace WPF.Databases.Models
 
         public AitUserHostModel(DBContext context) : base(context)
         {
+            ID = Generators.RecordIDGenerator(TablePrefix);
             IsActive = true;
             Create = DateTime.Now;
         }

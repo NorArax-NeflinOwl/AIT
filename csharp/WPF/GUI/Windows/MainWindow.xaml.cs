@@ -90,7 +90,7 @@ namespace WPF.GUI.Windows
                         nick = data.FullName;
                 }
                 else
-                    nick = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
+                    nick = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault()?.Login;
             }
 
             var properties = new NoteManagerProperties();
@@ -236,7 +236,7 @@ namespace WPF.GUI.Windows
                     host.Update();
                 }
 
-                login = context.Accounts.Find(PDBContext.Instance.AccountID)?.Login;
+                login = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault()?.Login;
             }
             PDBContext.Instance.AccountID = null;
 

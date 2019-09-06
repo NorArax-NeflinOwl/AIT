@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using WPF.Databases.Contexts;
 using WPF.Models.Enums;
 using WPF.Managers.Validators;
+using System.Linq;
+using WPF.Managers.Helpers;
 
 namespace WPF.Databases.Models
 {
@@ -67,7 +69,7 @@ namespace WPF.Databases.Models
             {
                 if (userHost == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
                 {
-                    userHost = Context.UsersHosts.Find(AssignedTo);
+                    userHost = Context.UsersHosts.Where(q => q.AssignedTo.Equals(AssignedTo)).FirstOrDefault();
                 }
                 return userHost;
             }
@@ -79,6 +81,7 @@ namespace WPF.Databases.Models
 
         public AitHostDataModel(DBContext context) : base(context)
         {
+            ID = Generators.RecordIDGenerator(TablePrefix);
             Create = DateTime.Now;
         }
 

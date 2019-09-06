@@ -182,7 +182,6 @@ namespace WPF.Managers
                         list.Add(log.MessageInfo);
                         var logToSave = new AitFileModel(context)
                         {
-                            ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                             FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
                             FileOwner = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault(),
                             Name = nameof(LogManager) + "-" + log.Type.ToString(),

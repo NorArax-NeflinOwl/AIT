@@ -6,6 +6,7 @@ using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace WPF.Databases.Models
 {
@@ -15,11 +16,38 @@ namespace WPF.Databases.Models
         protected DateTime? BaseLastUpdate;
         protected DBContext Context;
 
+        private bool? isDeleted;
+
         [NotMapped]
         public bool IsDisposed { get; set; }
 
         [NotMapped]
         protected bool Fill { get; set; }
+
+        [NotMapped]
+        public bool IsDeleted
+        {
+            get
+            {
+                if(isDeleted == null)
+                {
+                    using (var context = PDBContext.Instance.Context)
+                    {
+                        var sgiEntry = context.Stsgenids.Where(entry => entry.ID.Equals(BaseID)).FirstOrDefault();
+                        if (sgiEntry != null)
+                        {
+                            isDeleted = sgiEntry.Delete != null;
+                        }
+                        else
+                        {
+                            isDeleted = true;
+                        }
+                    }
+                }
+
+                return (bool)isDeleted;
+            }
+        }
 
         public BaseEntityModel(DBContext context) : base(null)
         {
@@ -77,8 +105,18 @@ namespace WPF.Databases.Models
                     sts.Delete = DateTime.Now;
                     Context.Update(sts);
                     Context.Entry(sts).State = EntityState.Modified;
-                    Context.Remove(this);
-                    Context.Entry(this).State = EntityState.Deleted;
+
+                    var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
+                    if(deleteEntityMode.Equals("ON"))
+                    {
+                        Context.Remove(this);
+                        Context.Entry(this).State = EntityState.Deleted;
+                    }
+                    else
+                    {
+                        isDeleted = true;
+                    }
+
                     Context.SaveChanges();
                 }
                 else

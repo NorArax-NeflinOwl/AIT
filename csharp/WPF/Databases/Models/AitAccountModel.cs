@@ -7,6 +7,7 @@ using WPF.Models.Enums;
 using WPF.Managers.Validators;
 using System.Collections.Generic;
 using System.Linq;
+using WPF.Managers.Helpers;
 
 namespace WPF.Databases.Models
 {
@@ -147,6 +148,7 @@ namespace WPF.Databases.Models
 
         public AitAccountModel(DBContext context) : base(context)
         {
+            ID = Generators.RecordIDGenerator(TablePrefix);
             IsActive = false;
             Permition = PermitionAccountEnum.SIMPLE;
             Create = DateTime.Now;

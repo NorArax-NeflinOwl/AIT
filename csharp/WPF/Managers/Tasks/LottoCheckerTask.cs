@@ -130,7 +130,6 @@ namespace WPF.Managers.Tasks
                                         {
                                             var taskToSave = new AitFileModel(context)
                                             {
-                                                ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
                                                 FileCreator = fileCreator ?? null,
                                                 Name = nameof(LottoCheckerTask),
                                                 Type = FileTypesEnum.LOTTO_NOTE,
