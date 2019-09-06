@@ -200,26 +200,27 @@ namespace WPF.GUI.Pages
                         var name = value.Replace(" ", string.Empty);
                         using (var context = PDBContext.Instance.Context)
                         {
-                            var acc = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
-
-                            foreach (var a in acc)
+                            var acc = ValidateAssignedToAccount(context, name.ToLower());
+                            if(acc != null)
                             {
-                                var creator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
-                                var newNote = new AitFileModel(context);
-
-                                if(clone != null)
+                                var file = context.Files.Where(q => acc.ID.Equals(q.Creator) || acc.ID.Equals(q.AssignedTo)).FirstOrDefault();
+                                if (file == null)
                                 {
-                                    newNote.FileCreator = clone.FileCreator;
-                                    newNote.Create = clone.Create;
-                                }
+                                    var creator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
+                                    var newNote = new AitFileModel(context);
 
-                                newNote.FileOwner = a;
-                                newNote.Name = NoteNameBox.Text;
-                                newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
-                                newNote.Content = SerializableControl();
-                                newNote.Insert();
+                                    if (clone != null)
+                                    {
+                                        newNote.FileCreator = clone.FileCreator;
+                                        newNote.Create = clone.Create;
+                                    }
+
+                                    newNote.FileOwner = acc;
+                                    newNote.Name = NoteNameBox.Text;
+                                    newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
+                                    newNote.Content = SerializableControl();
+                                    newNote.Insert();
+                                }
                             }
                         }
                     }
@@ -332,13 +333,10 @@ namespace WPF.GUI.Pages
                         foreach (var value in names)
                         {
                             var name = value.Replace(" ", string.Empty);
-                            var accs = context.Accounts.Where(q => q.Login.ToLower().Equals(name.ToLower())
-                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.Nick) && q.UserData.Nick.ToLower().Equals(name.ToLower())
-                                                                   || q.UserData != null && !string.IsNullOrEmpty(q.UserData.FullName) && q.UserData.FullName.ToLower().Equals(name.ToLower())).ToList();
-                            if (accs == null || !accs.Any())
-                            {
+                            var accs = ValidateAssignedToAccount(context, name.ToLower());
+
+                            if (accs == null)
                                 exceptionName.Append(string.Format(WPF.Properties.Resources.INVALID_ACCOUNT_NAME, name) + Environment.NewLine);
-                            }
                         }
                     }
 
@@ -354,6 +352,33 @@ namespace WPF.GUI.Pages
             }
 
             MessageContent_LostFocus(sender, e);
+        }
+
+        private AitAccountModel ValidateAssignedToAccount(DBContext context, string name)
+        {
+            var accounts = context.Accounts.ToList();
+
+            foreach(var account in accounts)
+            {
+                account.FillObject();
+                if (name.Equals(account.Login.ToLower()))
+                {
+                    return account;
+                }
+                if(account.UserData != null)
+                {
+                    if (!string.IsNullOrEmpty(account.UserData.Nick) && name.Equals(account.UserData.Nick.ToLower()))
+                    {
+                        return account;
+                    }
+                    if (!string.IsNullOrEmpty(account.UserData.FullName) && name.Equals(account.UserData.FullName.ToLower().Replace(" ", string.Empty)))
+                    {
+                        return account;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
@@ -947,7 +972,7 @@ namespace WPF.GUI.Pages
                 {
                     var index = 1;
                     account.FillObject();
-                    var list = account.Files.ToList();
+                    var list = account.Files.GroupBy(q => q.Name).Select(q => q.First()).OrderBy(q => q.Name).ToList();
                     if(!string.IsNullOrEmpty(searchItem))
                     {
                         list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
@@ -1043,37 +1068,41 @@ namespace WPF.GUI.Pages
             if (NoteManagerListView.SelectedItem is NoteListViewItemControl item)
             {
                 NoteNameBox.Text = item.Note.Name;
-                var assignId = item.Note.AssignedTo;
                 using (var context = PDBContext.Instance.Context)
                 {
-                    var accs = context.Accounts.Where(q => q.ID.Equals(assignId)).ToList();
-                    if (accs != null)
+                    var names = string.Empty;
+                    var files = context.Files.Where(q => q.Name.Equals(item.Note.Name)).ToList();
+                    foreach(var file in files)
                     {
-                        var index = 0;
-                        var names = string.Empty;
-                        foreach (var acc in accs)
+                        var accs = context.Accounts.Where(q => q.ID.Equals(file.Creator) || q.ID.Equals(file.AssignedTo)).ToList();
+                        if (accs != null)
                         {
-                            acc.FillObject();
-                            if (!string.IsNullOrEmpty(acc.UserData?.Nick))
+                            var index = 0;
+                            foreach (var acc in accs)
                             {
-                                names += acc.UserData.Nick;
-                            }
-                            else if (!string.IsNullOrEmpty(acc.UserData?.FullName))
-                            {
-                                names += acc.UserData.FullName;
-                            }
-                            else
-                            {
-                                names += acc.Login;
-                            }
+                                // if acc.permition <= PDContext...
+                                acc.FillObject();
+                                if (!string.IsNullOrEmpty(acc.UserData?.Nick))
+                                {
+                                    names += acc.UserData.Nick;
+                                }
+                                else if (!string.IsNullOrEmpty(acc.UserData?.FullName))
+                                {
+                                    names += acc.UserData.FullName;
+                                }
+                                else
+                                {
+                                    names += acc.Login;
+                                }
 
-                            if (accs.Count - 1 != index)
-                                names += ", ";
+                                if (accs.Count - 1 != index)
+                                    names += ", ";
 
-                            index++;
+                                index++;
+                            }
                         }
-                        NoteAssignedToBox.Text = names;
                     }
+                    NoteAssignedToBox.Text = names;
                 }
 
                 StopClock = true;
@@ -1110,7 +1139,7 @@ namespace WPF.GUI.Pages
                 }
 
                 var sysManager = ConfigurationManager.AppSettings["TasksManager"].ToString();
-                if (!string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
+                if (string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
                 {
                     EditContentBtn.Visibility = Visibility.Visible;
                 }

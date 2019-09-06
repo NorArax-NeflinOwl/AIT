@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="Title" Grid.Row="0" FontSize="18" Text="Item title" Margin="5,5,20,5"/>
+        <TextBlock x:Name="Title" Grid.Row="0" FontSize="18" Text="Item title" Margin="5,5,20,5" MaxWidth="250" TextTrimming="CharacterEllipsis"/>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

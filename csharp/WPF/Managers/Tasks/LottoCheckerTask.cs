@@ -120,7 +120,7 @@ namespace WPF.Managers.Tasks
                                     {
                                         AitAccountModel fileCreator = null;
                                         var creator = ConfigurationManager.AppSettings["TasksManager"].ToString();
-                                        if (string.IsNullOrEmpty(creator))
+                                        if (!string.IsNullOrEmpty(creator))
                                         {
                                             fileCreator = context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
                                         }
@@ -150,6 +150,10 @@ namespace WPF.Managers.Tasks
                                                 {
                                                     obj.Array = ConvertExistsItemListToMessage(lottoModel, hits, userLuckyNumbers, obj.Array.ToList());
                                                     lottoFile.Content = CryptoJsonManager.Instance.Serialize(obj);
+
+                                                    if (lottoFile.FileCreator == null && fileCreator != null)
+                                                        lottoFile.FileCreator = fileCreator;
+
                                                     lottoFile.Update();
                                                 }
                                             }

@@ -2,10 +2,10 @@
 using WPF.Models.Interfaces;
 using WPF.Managers.Tasks;
 using System.Linq;
-using System.Windows.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Contexts;
 using WPF.GUI.Windows.Properties;
+using System;
 
 namespace WPF.Managers
 {
@@ -73,7 +73,14 @@ namespace WPF.Managers
                 await Task.Delay(10);
             }
 
-            MainContext.Instance.Windows.Close(processPopup.WindowName);
+            try
+            {
+                MainContext.Instance.Windows.Close(processPopup.WindowName);
+            }
+            catch(Exception e)
+            {
+                LogManager.Instance.LogExceptionToFileAndDB(e, "Error during exit aplication.");
+            }
         }
     }
 }

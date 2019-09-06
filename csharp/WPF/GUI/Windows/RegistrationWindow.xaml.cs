@@ -72,7 +72,7 @@ namespace WPF.GUI.Windows
                 if (account == null)
                     throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST); 
 
-                userActivatedCodeFile = context.Files.Where(q => q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
+                userActivatedCodeFile = context.Files.Where(q => q.Creator != null && q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
                 if (userActivatedCodeFile == null)
                     throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_NOTFIND); 
             }
