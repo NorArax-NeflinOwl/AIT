@@ -9,10 +9,10 @@ namespace WPF.Managers.Validators
 {
     public class GlobalValidators
     {
-        public static bool CheckNumbersInLotto(string winString, out int hits, out List<string> winingNumbers)
+        public static bool CheckNumbersInLotto(string winString, out int hits, out List<string> userLuckyNumber)
         {
             hits = 0;
-            winingNumbers = new List<string>();
+            userLuckyNumber = new List<string>();
 
             var lottoUserLuckyNumbers = new List<AitFileModel>();
             using (var context = PDBContext.Instance.Context)
@@ -38,6 +38,7 @@ namespace WPF.Managers.Validators
             List<string[]> searchTab = new List<string[]>
             {
                 new string[] { "4", "6", "17", "21", "24", "34" },
+                new string[] { "3", "7", "13", "21", "34", "47" },
             };
 
             if(lottoUserLuckyNumbers.Any())
@@ -82,11 +83,11 @@ namespace WPF.Managers.Validators
 
                 if(hits >= 3)
                 {
-                    winingNumbers.Add(ConvertTab2String(searchTab[i]));
+                    userLuckyNumber.Add(ConvertTab2String(searchTab[i]));
                 }
             }
 
-            return winingNumbers.Any();
+            return userLuckyNumber.Any();
         }
 
         private static string ConvertTab2String(string[] tab)

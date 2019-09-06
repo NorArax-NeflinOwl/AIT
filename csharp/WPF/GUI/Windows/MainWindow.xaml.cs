@@ -284,7 +284,7 @@ namespace WPF.GUI.Windows
             {
                 Dispatcher.Invoke(async () =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(500);
                     MainStatus.Text = string.Format(WPF.Properties.Resources.STATUS_READY, info);
                     MainProgressGrid.Visibility = Visibility.Collapsed;
                 });

@@ -46,8 +46,7 @@ namespace WPF
             Subscribe();
             BackgroundTasksManager.Instance.Initialize();
 
-            if(!string.IsNullOrEmpty(path))
-                MainContext.Instance.Windows.Open(new InitProperties());
+            MainContext.Instance.Windows.Open(new InitProperties());
         }
 
         public void Subscribe()

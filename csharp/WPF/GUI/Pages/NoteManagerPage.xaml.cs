@@ -18,6 +18,7 @@ using WPF.Models.Interfaces;
 using WPF.GUI.Controls;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Configuration;
 
 namespace WPF.GUI.Pages
 {
@@ -255,9 +256,27 @@ namespace WPF.GUI.Pages
 
         private string SerializableControl()
         {
+            List<string> array = new List<string>();
+            if(type != null)
+            {
+                switch(type.EnumType)
+                {
+                    case FileTypesEnum.LOTTO_NOTE:
+                        foreach(ListViewItem item in MessageContentList.Items)
+                        {
+                            if(item.Content is TextBox textbox && !string.IsNullOrEmpty(textbox.Text))
+                            {
+                                array.Add(textbox.Text);
+                            }
+                        }
+                        break;
+                }
+            }
+
             return CryptoJsonManager.Instance.Serialize(new MessageInfoModel(luckyNumbersToSave)
             {
-                Message = MessageContent.Text
+                Message = MessageContent.Text,
+                Array = array.ToArray()
             });
         }
 
@@ -268,8 +287,7 @@ namespace WPF.GUI.Pages
 
         private void NoteTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ValidateNotDefaultNote();
-            ValidateRequiredFieldFillCorrectly();
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
 
             if (NoteTypeComboBox.SelectedIndex >= 0)
                 NoteAssignedToBox.IsEnabled = true;
@@ -293,8 +311,7 @@ namespace WPF.GUI.Pages
 
         private void NoteTitleBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ValidateNotDefaultNote();
-            ValidateRequiredFieldFillCorrectly();
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
         }
 
         private void NoteAssignedToBox_LostFocus(object sender, RoutedEventArgs e)
@@ -342,8 +359,7 @@ namespace WPF.GUI.Pages
             else
                 IsCorrectFilled = false;
 
-            ValidateNotDefaultNote();
-            ValidateRequiredFieldFillCorrectly();
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
         }
 
         private void InitNoteTypeComboBox()
@@ -357,7 +373,7 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private void ValidateNotDefaultNote()
+        private bool ValidateNotDefaultNote()
         {
             if (NoteTypeComboBox.SelectedIndex >= 0
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
@@ -366,10 +382,12 @@ namespace WPF.GUI.Pages
                 || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType)))
             {
                 ClearContentBtn.IsEnabled = true;
+                return true;
             }
             else
             {
                 ClearContentBtn.IsEnabled = false;
+                return false;
             }
         }
 
@@ -378,11 +396,12 @@ namespace WPF.GUI.Pages
             return NoteTypeComboBox.SelectedItem is FileTypeModel model && model.AllowToEmptyContent;
         }
 
-        private void ValidateRequiredFieldFillCorrectly()
+        private void ValidateRequiredFieldFillCorrectly(bool editButtonWasEnabled)
         {
             if ((string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
                 && (IsCorrectFilled || TypeAllowToEmptyContent()) 
-                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType))))
+                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType)))
+                && editButtonWasEnabled)
             {
                 SaveContentBtn.IsEnabled = true;
             }
@@ -429,8 +448,7 @@ namespace WPF.GUI.Pages
                     MessageContentList.Items.Remove(sender);
                 }
 
-                ValidateNotDefaultNote();
-                ValidateRequiredFieldFillCorrectly();
+                ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
             }
             catch (Exception ex)
             {
@@ -503,16 +521,14 @@ namespace WPF.GUI.Pages
                 var index = -1;
                 foreach (MenuItem subItem in item.Items)
                 {
-                    if (subItem.IsEnabled)
+                    if (!subItem.IsEnabled && !subItem.Header.Equals("All"))
                     {
-                        if (!subItem.Header.Equals("All"))
-                        {
-                            var model = FileTypesManager.SetType(index);
-                            return model.EnumType;
-                        }
-                        else
-                            return null;
+                        var model = FileTypesManager.SetType(index);
+                        return model.EnumType;
                     }
+                    if (subItem.IsEnabled && subItem.Header.Equals("All"))
+                        return null;
+
                     index++;
                 }
             }
@@ -807,6 +823,7 @@ namespace WPF.GUI.Pages
 
         private void NoteManagerListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ClearContentAction();
             if (ChangeButtonsEditabilityAndCheckMultiMode())
             {
                 SetMulitModePanel();
@@ -824,7 +841,6 @@ namespace WPF.GUI.Pages
 
         private bool ChangeButtonsEditabilityAndCheckMultiMode()
         {
-            ClearContentAction();
             if (NoteManagerListView.SelectedItems.Any())
             {
                 DeleteSelectedItems.IsEnabled = true;
@@ -859,7 +875,6 @@ namespace WPF.GUI.Pages
                 CreateNewNoteGrid.Visibility = Visibility.Visible;
                 OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
                 SetOneNoteContentAction();
-                EditContentBtn.Visibility = Visibility.Visible;
             }
             else
             {
@@ -902,12 +917,7 @@ namespace WPF.GUI.Pages
                 NoteManagerListView.SelectedIndex = 0;
                 SetOneNoteContentAction();
             }
-
-            if(NoteManagerListView.Items.Count == 0)
-            {
-                NoteManagerListView.Visibility = Visibility.Collapsed;
-                NoteManagerListViewEmpty.Visibility = Visibility.Visible;
-            }
+            ChangeNoteManagerListViewVisibility();
         }
 
         private bool ValidateNoteFilters(AitFileModel note, FileTypesEnum? optionalType)
@@ -929,6 +939,20 @@ namespace WPF.GUI.Pages
 
         #region Private Methods
 
+        private void ChangeNoteManagerListViewVisibility()
+        {
+            if (NoteManagerListView.Items.Count == 0)
+            {
+                NoteManagerListView.Visibility = Visibility.Collapsed;
+                NoteManagerListViewEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoteManagerListView.Visibility = Visibility.Visible;
+                NoteManagerListViewEmpty.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void ClearContentAction()
         {
             NoteNameBox.Text = string.Empty;
@@ -937,6 +961,7 @@ namespace WPF.GUI.Pages
             type = NoteTypeComboBox.SelectedItem as FileTypeModel;
             MessageContent.Text = string.Empty;
             StopClock = false;
+            luckyNumbersToSave.Clear();
 
             backgroundWorker.DoWork -= StartTimeTicker;
             backgroundWorker.Dispose();
@@ -958,6 +983,7 @@ namespace WPF.GUI.Pages
             currentNote = null;
             MessageContentList.Visibility = Visibility.Collapsed;
             ClearMessageContentListView();
+            ChangeNoteManagerListViewVisibility();
         }
 
         private void SetOneNoteContentAction()
@@ -1030,6 +1056,12 @@ namespace WPF.GUI.Pages
                 catch (Exception)
                 {
                     MessageContent.Text = item.Note.Content;
+                }
+
+                var sysManager = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                if (!string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
+                {
+                    EditContentBtn.Visibility = Visibility.Visible;
                 }
 
                 Date.Text = item.Note.Create.ToString("dd/MM/yyyy HH:mm:ss");

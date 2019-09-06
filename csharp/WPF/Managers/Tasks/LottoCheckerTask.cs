@@ -24,6 +24,8 @@ namespace WPF.Managers.Tasks
 
         public readonly string Title = "Congratulation You hit the six in a Lotto!!!";
         public readonly string Message = "Congratulation Your lucky six \"{0}\" numbers win a award in \"{1}\" lottery - \"{2}\". {3}/6 hits! \nWining numners is: {4}";
+        public readonly string FileMessage = "Winning number";
+        public readonly string LottoLuckyNumberListItemMessage = "Lucky six \"{0}\" numbers win a award in \"{1}\" lottery - \"{2}\". {3}/6 hits! Wining numners is: {4}";
 
         public BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker();
 
@@ -97,12 +99,11 @@ namespace WPF.Managers.Tasks
                         }
                         var smallLottoResult = lottoResults.Where(q => q.Date >= startDate).ToList();
 
-                        var firstLoopTurn = true;
                         foreach (var lottoModel in smallLottoResult)
                         {
                             var hits = 0;
-                            var winingNumber = new List<string>();
-                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.LuckyNumbers, out hits, out winingNumber))
+                            var userLuckyNumbers = new List<string>();
+                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.WiningNumbers, out hits, out userLuckyNumbers))
                             {
                                 find = true;
                                 using (var context = Context)
@@ -111,38 +112,49 @@ namespace WPF.Managers.Tasks
                                     if (account != null)
                                     {
                                         MailSender.SendTo(account.Email, Title, string.Format(Message,
-                                                    lottoModel.LuckyNumbers,
+                                                    lottoModel.WiningNumbers,
                                                     lottoModel.ID.Replace(".", string.Empty),
                                                     lottoModel.Date.ToString("dd/MM/yyyy"),
-                                                    hits, ConvertTab2String(winingNumber)));
+                                                    hits, ConvertList2String(userLuckyNumbers)));
                                     }
                                     else
                                     {
-                                        var lottoFile = context.Files.Where(q => q.Create > DateTime.Now.Date && nameof(LottoCheckerTask).Equals(q.Name)).FirstOrDefault();
-                                        if(lottoFile == null)
+                                        AitAccountModel fileCreator = null;
+                                        var creator = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                                        if (string.IsNullOrEmpty(creator))
                                         {
-                                            var msg = Title + Environment.NewLine + string.Format(Message,
-                                                    lottoModel.LuckyNumbers,
-                                                    lottoModel.ID.Replace(".", string.Empty),
-                                                    lottoModel.Date.ToString("dd/MM/yyyy"),
-                                                    hits, ConvertTab2String(winingNumber));
+                                            fileCreator = context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
+                                        }
 
+                                        var lottoFiles = context.Files.Where(q => q.Create > DateTime.Now.Date && nameof(LottoCheckerTask).Equals(q.Name)).ToList();
+                                        if(lottoFiles == null || !lottoFiles.Any())
+                                        {
                                             var taskToSave = new AitFileModel(context)
                                             {
                                                 ID = Generators.RecordIDGenerator(TableInerfixEnum.FLS),
-                                                //FileCreator = context.Accounts.Where(q => q.ID.Equals(ConfigurationManager.AppSettings["TasksManager"].ToString())).FirstOrDefault(),
+                                                FileCreator = fileCreator ?? null,
                                                 Name = nameof(LottoCheckerTask),
                                                 Type = FileTypesEnum.LOTTO_NOTE,
-                                                Content = CryptoJsonManager.Instance.Serialize(new MessageInfoModel(msg))
+                                                Content = CryptoJsonManager.Instance.Serialize(new MessageInfoModel(FileMessage)
+                                                {
+                                                    Array = ConvertNewItemListToMessage(lottoModel, hits, userLuckyNumbers)
+                                                })
                                             };
 
-                                            if (firstLoopTurn && startDate == new DateTime(DateTime.Now.Year, 1, 1))
-                                            {
-                                                WaitForManager();
-                                                firstLoopTurn = false;
-                                            }
-
                                             taskToSave.Insert();
+                                        }
+                                        else
+                                        {
+                                            foreach(var lottoFile in lottoFiles.GroupBy(q => q.AssignedTo).Select(group => group.First()).ToList())
+                                            {
+                                                var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(lottoFile.Content);
+                                                if(obj != null)
+                                                {
+                                                    obj.Array = ConvertExistsItemListToMessage(lottoModel, hits, userLuckyNumbers, obj.Array.ToList());
+                                                    lottoFile.Content = CryptoJsonManager.Instance.Serialize(obj);
+                                                    lottoFile.Update();
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -161,6 +173,24 @@ namespace WPF.Managers.Tasks
             return find;
         }
 
+        private string[] ConvertNewItemListToMessage(LottoInfoModel lottoInfo, int hits, List<string> list)
+        {
+            return ConvertExistsItemListToMessage(lottoInfo, hits, list, new List<string>());
+        }
+
+        private string[] ConvertExistsItemListToMessage(LottoInfoModel lottoInfo, int hits, List<string> list, List<string> newList)
+        {
+            foreach(var item in list)
+            {
+                newList.Add(string.Format(LottoLuckyNumberListItemMessage,
+                                          lottoInfo.WiningNumbers,
+                                          lottoInfo.ID.Replace(".", string.Empty),
+                                          lottoInfo.Date.ToString("dd/MM/yyyy"),
+                                          hits, item));
+            }
+            return newList.Distinct().ToArray();
+        }
+
         private void WaitForManager()
         {
             var id = ConfigurationManager.AppSettings["TasksManager"].ToString();
@@ -174,7 +204,7 @@ namespace WPF.Managers.Tasks
             cnt.Dispose();
         }
 
-        private static string ConvertTab2String(List<string> tab)
+        private static string ConvertList2String(List<string> tab)
         {
             var result = "[";
             var index = 0;

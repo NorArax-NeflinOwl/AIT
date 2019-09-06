@@ -25,11 +25,17 @@ namespace WPF.Models
             array = arr;
         }
 
-        public MessageInfoModel(string message, Exception exception = null)
+        public MessageInfoModel(string message)
         {
-            if (string.IsNullOrWhiteSpace(message))
-                Message = null;
-            else
+            Message = Environment.NewLine + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " ";
+            if (!string.IsNullOrWhiteSpace(message))
+                Message += message;
+        }
+
+        public MessageInfoModel(string message, Exception exception)
+        {
+            Message = Environment.NewLine;
+            if (!string.IsNullOrWhiteSpace(message))
                 Message = message;
 
             ExceptionInfo = GetException(exception, new List<string>()).ToArray();

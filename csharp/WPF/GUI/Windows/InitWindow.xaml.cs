@@ -61,9 +61,9 @@ namespace WPF.GUI.Windows
                     var userHost = context.UsersHosts.Where(q => host.Equals(q.HostName) && q.IsActive && q.IsLoggedIn && !string.IsNullOrEmpty(q.AssignedTo)).FirstOrDefault();
 
                     stopwatch.Stop();
-                    if (stopwatch.ElapsedMilliseconds < 2000)
+                    if (stopwatch.ElapsedMilliseconds < 1000)
                     {
-                        await Task.Delay(3000);
+                        await Task.Delay(1000);
                     }
 
                     if (userHost != null)

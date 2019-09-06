@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Configuration;
 using WPF.Managers.Helpers;
 
 namespace UTW.UnitTests
@@ -9,7 +10,7 @@ namespace UTW.UnitTests
         [TestMethod]
         public void SendTest()
         {
-            Assert.IsTrue(MailSender.SendTo("ppudi7368@gmail.com", "UnitTest", "This is mail from unit test. Please don’t replay all for this email."));
+            Assert.IsTrue(MailSender.SendTo(ConfigurationManager.AppSettings["AppEmail"].ToString(), "UnitTest", "This is mail from unit test. Please don’t replay all for this email."));
         }
 
         [TestMethod]
