@@ -230,6 +230,8 @@
     <Compile Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml.cs">
       <DependentUpon>LottoNoteControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Managers\Builders\ActivateCodeBuilder.cs" />
+    <Compile Include="Managers\Builders\EntryIdentificatorBuilder.cs" />
     <Compile Include="Managers\Builders\NoteManagerControlBuilder.cs" />
     <Compile Include="Managers\FileTypesManager.cs" />
     <Compile Include="Managers\NoteFiltersManager.cs" />
@@ -371,7 +373,7 @@
     <Compile Include="Models\LogInfoModel.cs" />
     <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Managers\Validators\BasePropertiesValidator.cs" />
-    <Compile Include="Managers\Validators\GlobalValidators.cs" />
+    <Compile Include="Managers\Validators\LottoValidator.cs" />
     <Compile Include="GUI\Windows\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

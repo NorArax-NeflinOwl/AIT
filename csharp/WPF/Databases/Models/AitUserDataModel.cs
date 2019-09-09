@@ -7,6 +7,7 @@ using WPF.Managers.Validators;
 using WPF.Databases.Contexts;
 using System.Linq;
 using WPF.Managers.Helpers;
+using WPF.Managers.Builders;
 
 namespace WPF.Databases.Models
 {
@@ -116,7 +117,7 @@ namespace WPF.Databases.Models
 
         public AitUserDataModel(DBContext context) : base(context)
         {
-            ID = Generators.RecordIDGenerator(TablePrefix);
+            ID = EntryIdentificatorBuilder.RecordIDGenerator(TablePrefix);
         }
 
         public AitUserDataModel(SerializationInfo info, StreamingContext context) : base(null)

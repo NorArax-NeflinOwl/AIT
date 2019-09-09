@@ -102,7 +102,7 @@ namespace WPF.Managers.Tasks
                         foreach (var lottoModel in smallLottoResult)
                         {
                             var userLuckyNumbers = new List<string>();
-                            if (lottoModel != null && GlobalValidators.CheckNumbersInLotto(lottoModel.WiningNumbers, out var hits, out userLuckyNumbers))
+                            if (lottoModel != null && LottoValidator.CheckNumbersInLotto(lottoModel.WiningNumbers, out var hits, out userLuckyNumbers))
                             {
                                 find = true;
                                 using (var context = Context)

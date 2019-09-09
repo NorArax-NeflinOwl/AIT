@@ -9,6 +9,7 @@ using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
+using WPF.Managers.Builders;
 
 namespace WPF.GUI.Windows
 {
@@ -173,7 +174,7 @@ namespace WPF.GUI.Windows
                             Creator = account.ID,
                             Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
                             Type = FileTypesEnum.ACTIVATION_CODE,
-                            Content = Generators.GenerateActivateCode(account.GetHashCode())
+                            Content = ActivateCodeBuilder.GenerateActivateCode(account.GetHashCode())
                         };
                         userActivatedCodeFile.Insert();
 

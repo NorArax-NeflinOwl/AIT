@@ -7,6 +7,7 @@ using WPF.Models.Enums;
 using WPF.Managers.Validators;
 using System.Linq;
 using WPF.Managers.Helpers;
+using WPF.Managers.Builders;
 
 namespace WPF.Databases.Models
 {
@@ -152,7 +153,7 @@ namespace WPF.Databases.Models
 
         public AitFileModel(DBContext context) : base(context)
         {
-            ID = Generators.RecordIDGenerator(TablePrefix);
+            ID = EntryIdentificatorBuilder.RecordIDGenerator(TablePrefix);
 
             if (!string.IsNullOrEmpty(PDBContext.Instance.AccountID))
                 Creator = PDBContext.Instance.AccountID;

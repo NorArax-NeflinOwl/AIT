@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WPF.Databases.Models;
 using WPF.Managers;
+using WPF.Managers.Builders;
 using WPF.Managers.Helpers;
 using WPF.Models.Interfaces;
 
@@ -48,13 +49,13 @@ namespace WPF.Databases.Contexts
 
         public override int SaveChanges()
         {
-            Generators.ClearLocalIDs();
+            EntryIdentificatorBuilder.ClearLocalIDs();
             return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            Generators.ClearLocalIDs();
+            EntryIdentificatorBuilder.ClearLocalIDs();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

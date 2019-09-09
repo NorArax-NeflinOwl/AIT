@@ -7,7 +7,7 @@ using WPF.Models.Enums;
 
 namespace WPF.Managers.Validators
 {
-    public class GlobalValidators
+    public class LottoValidator
     {
         public static bool CheckNumbersInLotto(string winString, out int hits, out List<string> userLuckyNumber)
         {
