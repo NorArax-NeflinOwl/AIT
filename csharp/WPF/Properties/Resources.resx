@@ -411,6 +411,9 @@
   <data name="SETUP_HEADER" xml:space="preserve">
     <value>Setup</value>
   </data>
+  <data name="SHEDULER" xml:space="preserve">
+    <value>Sheduler</value>
+  </data>
   <data name="SHOWALL_HEADER" xml:space="preserve">
     <value>Show All</value>
   </data>

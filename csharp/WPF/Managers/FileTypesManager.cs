@@ -16,11 +16,12 @@ namespace WPF.Managers
             new FileTypeModel { EnumType = FileTypesEnum.NOTE, StringType = Properties.Resources.NOTE, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
             new FileTypeModel { EnumType = FileTypesEnum.TRACE, StringType = Properties.Resources.TRACE, PermitionLevel = PermitionAccountEnum.MANAGER },
             new FileTypeModel { EnumType = FileTypesEnum.QUERY, StringType = Properties.Resources.QUERY, PermitionLevel = PermitionAccountEnum.ADMIN },
-            new FileTypeModel { EnumType = FileTypesEnum.TASK, StringType = Properties.Resources.TASK, PermitionLevel = PermitionAccountEnum.MANAGER, AllowToEmptyContent = true },
+            new FileTypeModel { EnumType = FileTypesEnum.TASK, StringType = Properties.Resources.TASK, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
             new FileTypeModel { EnumType = FileTypesEnum.KEYLOGGER, StringType = Properties.Resources.KEYLOGGER, PermitionLevel = PermitionAccountEnum.ADMIN },
             new FileTypeModel { EnumType = FileTypesEnum.ACTIVATION_CODE, StringType = Properties.Resources.ACTIVATION_CODE, PermitionLevel = PermitionAccountEnum.MANAGER },
             new FileTypeModel { EnumType = FileTypesEnum.LOTTO_NOTE, StringType = Properties.Resources.LOTTO_NOTE, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
-            new FileTypeModel { EnumType = FileTypesEnum.DETACHED, StringType = Properties.Resources.DETACHED, PermitionLevel = PermitionAccountEnum.MANAGER }
+            new FileTypeModel { EnumType = FileTypesEnum.DETACHED, StringType = Properties.Resources.DETACHED, PermitionLevel = PermitionAccountEnum.MANAGER },
+            new FileTypeModel { EnumType = FileTypesEnum.SHEDULER, StringType = Properties.Resources.SHEDULER, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true }
         };
 
         public static FileTypeModel SetType(int index)

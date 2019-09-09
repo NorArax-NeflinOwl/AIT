@@ -9,17 +9,15 @@ using System.Windows.Controls;
 using WPF.Databases.Contexts;
 using WPF.Databases.Models;
 using WPF.Managers;
-using WPF.Managers.Helpers;
 using WPF.Models;
 using WPF.Models.Enums;
 using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Controls;
-using System.Collections.Generic;
-using System.Windows.Media;
 using System.Configuration;
 using System.Windows.Input;
+using WPF.Managers.Bilders;
 
 namespace WPF.GUI.Pages
 {
@@ -28,22 +26,27 @@ namespace WPF.GUI.Pages
     /// </summary>
     public partial class NoteManagerPage : Page, IDisposableExtended, IPropertizableControl
     {
-        #region CONSTRUCT
+        #region Fields
 
         private AitAccountModel account;
         private AitFileModel currentNote;
         private BackgroundWorker backgroundWorker;
+        private NoteFiltersManager filterManager;
+        private FileTypeModel type;
 
-        private List<string> luckyNumbersToSave;
+        private IBaseNoteManagerControl ctrl;
 
         private bool? CorrectlyAssign;
-        private bool IsCorrectFilled;
+        private bool IsCorrectlyFilled;
         private bool StopClock;
-        private FileTypeModel type;
 
         public bool IsDisposed { get; set; }
 
-        public IProperties Properties { get; set; }
+        public IProperties Properties { get; }
+
+        #endregion
+
+        #region Constructor
 
         public NoteManagerPage()
         {
@@ -51,43 +54,7 @@ namespace WPF.GUI.Pages
             Init();
             Subscribe();
         }
-
-        public void Init()
-        {
-            InitListView();
-            InitNoteTypeComboBox();
-
-            luckyNumbersToSave = new List<string>();
-
-            NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
-            DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
-            DetachedSelectedItems.Content = WPF.Properties.Resources.DETACHED_BTNCONTENT;
-            NoteManagerListViewEmpty.Text = WPF.Properties.Resources.LIST_EMPTY;
-
-            NoteContentTitle.Text = WPF.Properties.Resources.NOTE_CONTENT;
-            EditContentBtn.Content = WPF.Properties.Resources.EDIT_HEADER;
-            ClearContentBtn.Content = WPF.Properties.Resources.CLEAR;
-            SaveContentBtn.Content = WPF.Properties.Resources.SAVE;
-            // TODO Set note fields hits from WPF.Properties.Resources
-
-            MessageTitle.Text = WPF.Properties.Resources.MESSAGE;
-            DateTitle.Text = WPF.Properties.Resources.DATE_S;
-            MessageContent.MaxLines = int.MaxValue;
-
-            if (account != null && account.Permition.Equals(PermitionAccountEnum.ADMIN))
-            {
-                DeleteSelectedItems.Visibility = Visibility.Visible;
-            }
-
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += StartTimeTicker;
-            backgroundWorker.RunWorkerAsync();
-
-            CreateFilterPanel();
-
-            AddNewLottoTextBox();
-        }
-
+        
         public void Dispose()
         {
             NoteManagerListView.MouseDoubleClick -= NoteManagerListView_MouseDoubleClick;
@@ -109,17 +76,12 @@ namespace WPF.GUI.Pages
             NoteNameBox.LostFocus -= MessageContent_LostFocus;
             NoteTypeComboBox.LostFocus -= MessageContent_LostFocus;
             NoteAssignedToBox.LostFocus -= NoteAssignedToBox_LostFocus;
-            MessageContent.LostFocus -= MessageContent_LostFocus;
-
-            MessageContentList.SelectionChanged += MessageContentList_SelectionChanged;
 
             IsDisposed = true;
 
             account.Dispose();
             currentNote?.Dispose();
             backgroundWorker.Dispose();
-
-            ClearMessageContentListView(true);
 
             GC.Collect();
         }
@@ -145,29 +107,68 @@ namespace WPF.GUI.Pages
             NoteNameBox.LostFocus += MessageContent_LostFocus;
             NoteTypeComboBox.LostFocus += MessageContent_LostFocus;
             NoteAssignedToBox.LostFocus += NoteAssignedToBox_LostFocus;
-            MessageContent.LostFocus += MessageContent_LostFocus;
+        }
 
-            MessageContentList.SelectionChanged += MessageContentList_SelectionChanged;
+        public void Init()
+        {
+            InitListView();
+            InitNoteTypeComboBox();
+
+            NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
+            DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
+            DetachedSelectedItems.Content = WPF.Properties.Resources.DETACHED_BTNCONTENT;
+            NoteManagerListViewEmpty.Text = WPF.Properties.Resources.LIST_EMPTY;
+
+            NoteContentTitle.Text = WPF.Properties.Resources.NOTE_CONTENT;
+            EditContentBtn.Content = WPF.Properties.Resources.EDIT_HEADER;
+            ClearContentBtn.Content = WPF.Properties.Resources.CLEAR;
+            SaveContentBtn.Content = WPF.Properties.Resources.SAVE;
+            // TODO Set note fields hits from WPF.Properties.Resources
+
+            MessageTitle.Text = WPF.Properties.Resources.MESSAGE;
+            DateTitle.Text = WPF.Properties.Resources.DATE_S;
+
+            if (account != null && account.Permition.Equals(PermitionAccountEnum.ADMIN))
+            {
+                DeleteSelectedItems.Visibility = Visibility.Visible;
+            }
+
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += StartTimeTicker;
+            backgroundWorker.RunWorkerAsync();
+
+            filterManager = new NoteFiltersManager(this, ctrl);
+
+            filterManager.CreateFilterPanel(account);
+        }
+
+        #region Private Methods
+
+        private void InitNoteTypeComboBox()
+        {
+            foreach (var item in FileTypesManager.Types)
+            {
+                if ((int)account.Permition >= (int)item.PermitionLevel)
+                {
+                    NoteTypeComboBox.Items.Add(item);
+                }
+            }
         }
 
         #endregion
 
-        #region RIGHT PANEL METHODS
+        #endregion
 
-        #region RIGHT PANEL METHODS - NEW FILE
+        #region Right Panel
+
+        #region Events
 
         private void EditContentBtn_Click(object sender, RoutedEventArgs e)
         {
             NoteNameBox.IsEnabled = !NoteNameBox.IsEnabled;
             NoteTypeComboBox.IsEnabled = !NoteTypeComboBox.IsEnabled;
             NoteAssignedToBox.IsEnabled = !NoteAssignedToBox.IsEnabled;
-            MessageContent.IsEnabled = !MessageContent.IsEnabled;
-
-            foreach(ListViewItem item in MessageContentList.Items)
-            {
-                if (item?.Content is TextBox textBox)
-                    textBox.IsEnabled = !textBox.IsEnabled;
-            }
+            ctrl.EditContentBtn_Click();
         }
 
         private void StartTimeTicker(object sender, DoWorkEventArgs e)
@@ -258,33 +259,7 @@ namespace WPF.GUI.Pages
                 InitListView();
             }
         }
-
-        private string SerializableControl()
-        {
-            List<string> array = new List<string>();
-            if(type != null)
-            {
-                switch(type.EnumType)
-                {
-                    case FileTypesEnum.LOTTO_NOTE:
-                        foreach(ListViewItem item in MessageContentList.Items)
-                        {
-                            if(item.Content is TextBox textbox && !string.IsNullOrEmpty(textbox.Text))
-                            {
-                                array.Add(textbox.Text);
-                            }
-                        }
-                        break;
-                }
-            }
-
-            return CryptoJsonManager.Instance.Serialize(new MessageInfoModel(luckyNumbersToSave)
-            {
-                Message = MessageContent.Text,
-                Array = array.ToArray()
-            });
-        }
-
+        
         private void ClearContentBtn_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
@@ -303,14 +278,8 @@ namespace WPF.GUI.Pages
 
             if(type != null)
             {
-                if(FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType))
-                {
-                    MessageContentList.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    MessageContentList.Visibility = Visibility.Collapsed;
-                }
+                ctrl = NoteManagerControlBilder.Build(type);
+                NoteManagerContent.Content = ctrl;
             }
         }
 
@@ -354,18 +323,37 @@ namespace WPF.GUI.Pages
             MessageContent_LostFocus(sender, e);
         }
 
+        private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(NoteNameBox.Text) && NoteTypeComboBox.SelectedIndex != -1)
+                IsCorrectlyFilled = true;
+            else
+                IsCorrectlyFilled = false;
+
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private string SerializableControl()
+        {
+            return string.Empty;
+        }
+
         private AitAccountModel ValidateAssignedToAccount(DBContext context, string name)
         {
             var accounts = context.Accounts.ToList();
 
-            foreach(var account in accounts)
+            foreach (var account in accounts)
             {
                 account.FillObject();
                 if (name.Equals(account.Login.ToLower()))
                 {
                     return account;
                 }
-                if(account.UserData != null)
+                if (account.UserData != null)
                 {
                     if (!string.IsNullOrEmpty(account.UserData.Nick) && name.Equals(account.UserData.Nick.ToLower()))
                     {
@@ -381,34 +369,12 @@ namespace WPF.GUI.Pages
             return null;
         }
 
-        private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(NoteNameBox.Text) && NoteTypeComboBox.SelectedIndex != -1 && !string.IsNullOrEmpty(MessageContent.Text))
-                IsCorrectFilled = true;
-            else
-                IsCorrectFilled = false;
-
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
-        }
-
-        private void InitNoteTypeComboBox()
-        {
-            foreach (var item in FileTypesManager.Types)
-            {
-                if((int)account.Permition >= (int)item.PermitionLevel)
-                {
-                    NoteTypeComboBox.Items.Add(item);
-                }
-            }
-        }
-
         private bool ValidateNotDefaultNote()
         {
             if (NoteTypeComboBox.SelectedIndex >= 0
                 || !string.IsNullOrEmpty(NoteNameBox.Text)
                 || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
-                || !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent()
-                || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType)))
+                || ctrl.ValidateNotDefaultNote())
             {
                 ClearContentBtn.IsEnabled = true;
                 return true;
@@ -420,16 +386,10 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private bool TypeAllowToEmptyContent()
-        {
-            return NoteTypeComboBox.SelectedItem is FileTypeModel model && model.AllowToEmptyContent;
-        }
-
         private void ValidateRequiredFieldFillCorrectly(bool editButtonWasEnabled)
         {
             if ((string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
-                && (IsCorrectFilled || TypeAllowToEmptyContent()) 
-                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && type != null && FileTypesEnum.LOTTO_NOTE.Equals(type.EnumType)))
+                && ctrl.ValidateRequiredFieldFillCorrectly()
                 && editButtonWasEnabled)
             {
                 SaveContentBtn.IsEnabled = true;
@@ -440,384 +400,204 @@ namespace WPF.GUI.Pages
             }
         }
 
-        private void LottoTextbox_LostFocus(object sender, RoutedEventArgs e)
+        #endregion
+
+        #endregion
+
+        #region Left Panel
+
+        #region Public Methods
+
+        public void InitListView(FileTypesEnum? optionalType = null)
         {
-            try
+            NoteManagerListView.Items.Clear();
+
+            if (optionalType == null)
+                optionalType = filterManager.CheckIfFilterIsSelected();
+
+            var searchItem = SearchNoteItemTextBox.Text ?? string.Empty;
+
+            using (var context = PDBContext.Instance.Context)
             {
-                var textBox = sender as TextBox;
-                if (!string.IsNullOrEmpty(textBox?.Text))
+                account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
+                if (account != null)
                 {
-                    if (textBox.Text.Contains(",") || textBox.Text.Contains(" "))
+                    var index = 1;
+                    account.FillObject();
+                    var list = account.Files.GroupBy(q => q.Name).Select(q => q.First()).OrderBy(q => q.Name).ToList();
+                    if (!string.IsNullOrEmpty(searchItem))
                     {
-                        var spaceTab = textBox.Text.Split(' ').ToList();
-                        var dotTab = textBox.Text.Split(',').ToList();
-                        var spaceDetected = ValidateLottoNewLuckyNumber(spaceTab);
-                        if (ValidateLottoNewLuckyNumber(dotTab) || spaceDetected)
-                        {
-                            if (spaceDetected)
-                                dotTab = spaceTab;
+                        list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
+                    }
 
-                            luckyNumbersToSave.Add(ConvertTab2String(dotTab));
-
-                            AddNewLottoTextBox();
-                        }
-                        else
+                    foreach (var note in list)
+                    {
+                        if (ValidateNoteFilters(note, optionalType))
                         {
-                            throw new AitAccountExceptions.InvalidValueException(string.Format(WPF.Properties.Resources.INVALID_LOTTO_NUMBER, textBox.Text));
+                            NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
+                            index++;
                         }
                     }
-                    else
-                    {
-                        throw new AitAccountExceptions.InvalidValueException(string.Format(WPF.Properties.Resources.INVALID_LOTTO_NUMBER, textBox.Text));
-                    }
-                }
-
-                if (string.IsNullOrEmpty(textBox.Text) && MessageContentList.Items.Count != 1)
-                {
-                    MessageContentList.Items.Remove(sender);
-                }
-
-                ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
-            }
-            catch (Exception ex)
-            {
-                LogManager.Instance.LogExceptionToFileAndDB(ex);
-            }
-        }
-        
-        private void MessageContentList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var item = MessageContentList.SelectedItem as ListViewItem;
-            if (item?.Content is TextBox textBox)
-                textBox.Focus();
-        }
-
-        private bool ValidateLottoNewLuckyNumber(List<string> tab)
-        {
-            tab.ForEach(q => q = q.Replace(" ", string.Empty));
-            tab = tab.Distinct().ToList();
-
-            if (tab == null || tab.Count != 6)
-                return false;
-
-            foreach(var input in tab)
-            {
-                var number = -1;
-                if (!int.TryParse(input, out number) || number < 0 || number > 50)
-                {
-                    return false;
                 }
             }
 
-            return true;
-        }
-
-        private string ConvertTab2String(List<string> tab)
-        {
-            var result = string.Empty;
-            var index = 0;
-            foreach(var value in tab)
+            if (NoteManagerListView.Items.Count == 1)
             {
-                result += index > 0 ? ", " + value : "" + value;
-                index++;
+                NoteManagerListView.SelectedIndex = 0;
+                SetOneNoteContentAction();
             }
-
-            return result;
+            ChangeNoteManagerListViewVisibility();
         }
 
         #endregion
 
-        #region RIGHT PANEL METHODS - MULTI MODE
+        #region Private Methods
 
-        private void SetMulitModePanel()
+        private void ChangeNoteManagerListViewVisibility()
         {
-
+            if (NoteManagerListView.Items.Count == 0)
+            {
+                NoteManagerListView.Visibility = Visibility.Collapsed;
+                NoteManagerListViewEmpty.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                NoteManagerListView.Visibility = Visibility.Visible;
+                NoteManagerListViewEmpty.Visibility = Visibility.Collapsed;
+            }
         }
 
-        #endregion
-
-        #endregion
-
-        #region LEFT PANEL METHODS
-
-        #region Filter Menu
-
-        private FileTypesEnum? CheckIfFilterIsSelected()
+        private bool ChangeButtonsEditabilityAndCheckMultiMode()
         {
-            foreach (MenuItem element in NoteManagerFilter.Items)
+            if (NoteManagerListView.SelectedItems.Any())
             {
-                var index = 0;
-                var list = new List<Tuple<int, bool, string>>();
-                foreach (MenuItem subItem in element.Items)
+                DeleteSelectedItems.IsEnabled = true;
+
+                var IsAnyDetached = false;
+                foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
-                    list.Add(new Tuple<int, bool, string>(index, subItem.IsEnabled, subItem.Header.ToString()));
-                    index++;
+                    if (item.Note.IsDetached)
+                        IsAnyDetached = true;
                 }
 
-                if(list.Where(q => !q.Item2).Count() > 1)
-                {
-                    throw new InvalidProgramException("Note Manager list hava invalid enabled items!");
-                }
-
-                var item = list.Where(q => !q.Item2).FirstOrDefault();
-                if (item == null || item.Item1 == 0)
-                    return null;
+                if (!IsAnyDetached)
+                    DetachedSelectedItems.IsEnabled = true;
                 else
-                {
-                    var model = FileTypesManager.SetType(item.Item1 - 1);
-                    return model.EnumType;
-                }
+                    DetachedSelectedItems.IsEnabled = false;
             }
-            return null;
-        }
-
-        private void ALL_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView();
-        }
-
-        private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.ACTIVATION_CODE);
-        }
-
-        private void EXCEPTION_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.EXCEPTION);
-        }
-
-        private void INFORMATION_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.INFORMATION);
-        }
-
-        private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.KEYLOGGER);
-        }
-
-        private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.LOTTO_NOTE);
-        }
-
-        private void NOTE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.NOTE);
-        }
-
-        private void QUERY_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.QUERY);
-        }
-
-        private void TASK_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.TASK);
-        }
-
-        private void TRACE_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.TRACE);
-        }
-
-        private void UNDEFINED_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.UNDEFINED);
-        }
-
-        private void DETACHED_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            SetEditableMenuItem(sender);
-            InitListView(FileTypesEnum.DETACHED);
-        }
-
-        private void SetEditableMenuItem(object sender)
-        {
-            foreach (MenuItem item in NoteManagerFilter.Items)
+            else
             {
-                foreach (MenuItem subItem in item.Items)
-                {
-                    if (subItem.Header.Equals((sender as MenuItem)?.Header))
-                        subItem.IsEnabled = false;
-                    else
-                        subItem.IsEnabled = true;
-                }
-            }
-        }
-
-        private void CreateFilterPanel()
-        {
-            NoteManagerFilter.Items.Clear();
-            var noteFilter = new MenuItem
-            {
-                Header = "Filters",
-                Background = Brushes.Transparent,
-                Foreground = Brushes.White
-            };
-
-            var obj = new MenuItem
-            {
-                Header = "All",
-                Background = Brushes.LightGray,
-                Foreground = Brushes.Black,
-                IsEnabled = false
-            };
-            obj.Click += ALL_Click;
-            noteFilter.Items.Add(obj);
-
-            if (account != null)
-            {
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.UNDEFINED))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Undefined",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += UNDEFINED_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Exceptions",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += EXCEPTION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Informations",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += INFORMATION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Notes",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Traces",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += TRACE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Queries",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += QUERY_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Tasks",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += TASK_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Keys Logger",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += KEYLOGGER_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Activation codes",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += ACTIVATION_CODE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Lotto Notes",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += LOTTO_NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.DETACHED))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = "Detached",
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += DETACHED_Click;
-                    noteFilter.Items.Add(obj);
-                }
+                DetachedSelectedItems.IsEnabled = false;
+                DeleteSelectedItems.IsEnabled = false;
             }
 
-            NoteManagerFilter.Items.Add(noteFilter);
+            EditContentBtn.Visibility = Visibility.Collapsed;
+            if (!NoteManagerListView.SelectedItems.Any())
+            {
+                CreateNewNoteGrid.Visibility = Visibility.Visible;
+                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
+                ClearContentAction();
+            }
+            else if (NoteManagerListView.SelectedItems.Count == 1)
+            {
+                CreateNewNoteGrid.Visibility = Visibility.Visible;
+                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
+                SetOneNoteContentAction();
+            }
+            else
+            {
+                CreateNewNoteGrid.Visibility = Visibility.Collapsed;
+                OpenMultiNoteGrid.Visibility = Visibility.Visible;
+
+                return true;
+            }
+            return false;
+        }
+
+        private bool ValidateNoteFilters(AitFileModel note, FileTypesEnum? optionalType)
+        {
+            if (FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+            {
+                if (FileTypesEnum.DETACHED.Equals(optionalType) && note.IsDetached)
+                    return true;
+
+                if (optionalType == null || note.Type.Equals(optionalType))
+                    return true;
+
+            }
+
+            return false;
+        }
+
+        private void SetOneNoteContentAction()
+        {
+            if (NoteManagerListView.SelectedItem is NoteListViewItemControl item)
+            {
+                NoteNameBox.Text = item.Note.Name;
+                using (var context = PDBContext.Instance.Context)
+                {
+                    var names = string.Empty;
+                    var files = context.Files.Where(q => q.Name.Equals(item.Note.Name)).ToList();
+                    foreach (var file in files)
+                    {
+                        var accs = context.Accounts.Where(q => q.ID.Equals(file.Creator) || q.ID.Equals(file.AssignedTo)).ToList();
+                        if (accs != null)
+                        {
+                            var index = 0;
+                            foreach (var acc in accs)
+                            {
+                                if((int)account.Permition >= (int)acc.Permition)
+                                {
+                                    acc.FillObject();
+                                    if (!string.IsNullOrEmpty(acc.UserData?.Nick))
+                                    {
+                                        names += acc.UserData.Nick;
+                                    }
+                                    else if (!string.IsNullOrEmpty(acc.UserData?.FullName))
+                                    {
+                                        names += acc.UserData.FullName;
+                                    }
+                                    else
+                                    {
+                                        names += acc.Login;
+                                    }
+
+                                    if (accs.Count - 1 != index)
+                                        names += ", ";
+
+                                    index++;
+                                }
+                            }
+                        }
+                    }
+                    NoteAssignedToBox.Text = names;
+                }
+
+                StopClock = true;
+                type = FileTypesManager.SetType((int)item.Note.Type);
+                NoteTypeComboBox.SelectedItem = type;
+                EditContentBtn.IsEnabled = true;
+
+                ctrl.SetOneNoteContentAction(item);
+
+                var sysManager = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                if (string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
+                {
+                    EditContentBtn.Visibility = Visibility.Visible;
+                }
+
+                Date.Text = item.Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
+                currentNote = item.Note;
+
+                NoteNameBox.IsEnabled = false;
+                NoteTypeComboBox.IsEnabled = false;
+                NoteAssignedToBox.IsEnabled = false;
+            }
         }
 
         #endregion
+
+        #region Events
 
         private void SearchNoteItemTextBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -887,7 +667,7 @@ namespace WPF.GUI.Pages
 
             if (ChangeButtonsEditabilityAndCheckMultiMode())
             {
-                SetMulitModePanel();
+                //SetMulitModePanel();
             }
         }
 
@@ -896,139 +676,24 @@ namespace WPF.GUI.Pages
             ClearContentAction();
             if (ChangeButtonsEditabilityAndCheckMultiMode())
             {
-                SetMulitModePanel();
+                //TODO SetMulitModePanel();
             }
         }
 
-        private void NoteManagerListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void NoteManagerListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             NoteManagerListView.SelectedItem = null;
-            if(ChangeButtonsEditabilityAndCheckMultiMode())
+            if (ChangeButtonsEditabilityAndCheckMultiMode())
             {
-                SetMulitModePanel();
+                //TODO SetMulitModePanel();
             }
-        }
-
-        private bool ChangeButtonsEditabilityAndCheckMultiMode()
-        {
-            if (NoteManagerListView.SelectedItems.Any())
-            {
-                DeleteSelectedItems.IsEnabled = true;
-
-                var IsAnyDetached = false;
-                foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
-                {
-                    if (item.Note.IsDetached)
-                        IsAnyDetached = true;
-                }
-
-                if (!IsAnyDetached)
-                    DetachedSelectedItems.IsEnabled = true;
-                else
-                    DetachedSelectedItems.IsEnabled = false;
-            }
-            else
-            {
-                DetachedSelectedItems.IsEnabled = false;
-                DeleteSelectedItems.IsEnabled = false;
-            }
-
-            EditContentBtn.Visibility = Visibility.Collapsed;
-            if (!NoteManagerListView.SelectedItems.Any())
-            {
-                CreateNewNoteGrid.Visibility = Visibility.Visible;
-                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
-                ClearContentAction();
-            }
-            else if (NoteManagerListView.SelectedItems.Count == 1)
-            {
-                CreateNewNoteGrid.Visibility = Visibility.Visible;
-                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
-                SetOneNoteContentAction();
-            }
-            else
-            {
-                CreateNewNoteGrid.Visibility = Visibility.Collapsed;
-                OpenMultiNoteGrid.Visibility = Visibility.Visible;
-
-                return true;
-            }
-            return false;
-        }
-
-        private void InitListView(FileTypesEnum? optionalType = null)
-        {
-            NoteManagerListView.Items.Clear();
-
-            if(optionalType == null)
-                optionalType = CheckIfFilterIsSelected();
-
-            var searchItem = SearchNoteItemTextBox.Text ?? string.Empty;
-
-            using (var context = PDBContext.Instance.Context)
-            {
-                account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
-                if (account != null)
-                {
-                    var index = 1;
-                    account.FillObject();
-                    var list = account.Files.GroupBy(q => q.Name).Select(q => q.First()).OrderBy(q => q.Name).ToList();
-                    if(!string.IsNullOrEmpty(searchItem))
-                    {
-                        list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
-                    }
-
-                    foreach (var note in list)
-                    {
-                        if(ValidateNoteFilters(note, optionalType))
-                        {
-                            NoteManagerListView.Items.Add(new NoteListViewItemControl(index, note));
-                            index++;
-                        }
-                    }
-                }
-            }
-
-            if(NoteManagerListView.Items.Count == 1)
-            {
-                NoteManagerListView.SelectedIndex = 0;
-                SetOneNoteContentAction();
-            }
-            ChangeNoteManagerListViewVisibility();
-        }
-
-        private bool ValidateNoteFilters(AitFileModel note, FileTypesEnum? optionalType)
-        {
-            if(FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
-            {
-                if(FileTypesEnum.DETACHED.Equals(optionalType) && note.IsDetached)
-                    return true;
-
-                if (optionalType == null || note.Type.Equals(optionalType))
-                    return true;
-
-            }
-
-            return false;
         }
 
         #endregion
 
-        #region Private Methods
+        #endregion
 
-        private void ChangeNoteManagerListViewVisibility()
-        {
-            if (NoteManagerListView.Items.Count == 0)
-            {
-                NoteManagerListView.Visibility = Visibility.Collapsed;
-                NoteManagerListViewEmpty.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                NoteManagerListView.Visibility = Visibility.Visible;
-                NoteManagerListViewEmpty.Visibility = Visibility.Collapsed;
-            }
-        }
+        #region Private Methods
 
         private void ClearContentAction()
         {
@@ -1036,9 +701,7 @@ namespace WPF.GUI.Pages
             NoteAssignedToBox.Text = string.Empty;
             NoteTypeComboBox.SelectedIndex = -1;
             type = NoteTypeComboBox.SelectedItem as FileTypeModel;
-            MessageContent.Text = string.Empty;
             StopClock = false;
-            luckyNumbersToSave.Clear();
 
             backgroundWorker.DoWork -= StartTimeTicker;
             backgroundWorker.Dispose();
@@ -1055,204 +718,9 @@ namespace WPF.GUI.Pages
             NoteNameBox.IsEnabled = true;
             NoteTypeComboBox.IsEnabled = true;
             NoteAssignedToBox.IsEnabled = true;
-            MessageContent.IsEnabled = true;
 
             currentNote = null;
-            MessageContentList.Visibility = Visibility.Collapsed;
-            ClearMessageContentListView();
             ChangeNoteManagerListViewVisibility();
-        }
-
-        private void SetOneNoteContentAction()
-        {
-            if (NoteManagerListView.SelectedItem is NoteListViewItemControl item)
-            {
-                NoteNameBox.Text = item.Note.Name;
-                using (var context = PDBContext.Instance.Context)
-                {
-                    var names = string.Empty;
-                    var files = context.Files.Where(q => q.Name.Equals(item.Note.Name)).ToList();
-                    foreach(var file in files)
-                    {
-                        var accs = context.Accounts.Where(q => q.ID.Equals(file.Creator) || q.ID.Equals(file.AssignedTo)).ToList();
-                        if (accs != null)
-                        {
-                            var index = 0;
-                            foreach (var acc in accs)
-                            {
-                                // if acc.permition <= PDContext...
-                                acc.FillObject();
-                                if (!string.IsNullOrEmpty(acc.UserData?.Nick))
-                                {
-                                    names += acc.UserData.Nick;
-                                }
-                                else if (!string.IsNullOrEmpty(acc.UserData?.FullName))
-                                {
-                                    names += acc.UserData.FullName;
-                                }
-                                else
-                                {
-                                    names += acc.Login;
-                                }
-
-                                if (accs.Count - 1 != index)
-                                    names += ", ";
-
-                                index++;
-                            }
-                        }
-                    }
-                    NoteAssignedToBox.Text = names;
-                }
-
-                StopClock = true;
-                type = FileTypesManager.SetType((int)item.Note.Type);
-                NoteTypeComboBox.SelectedItem = type;
-                EditContentBtn.IsEnabled = true;
-
-                try
-                {
-                    if (item.Note.Content.StartsWith("[{"))
-                    {
-                        MessageContent.Text = string.Empty;
-                        var objs = CryptoJsonManager.Instance.Deserialize<List<MessageInfoModel>>(item.Note.Content, false);
-                        if (objs != null)
-                        {
-                            foreach (var obj in objs)
-                            {
-                                FillNoteFieldsFromNote(item.Note.Type, obj);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(item.Note.Content, false);
-                        if (obj != null)
-                        {
-                            FillNoteFieldsFromNote(item.Note.Type, obj);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    MessageContent.Text = item.Note.Content;
-                }
-
-                var sysManager = ConfigurationManager.AppSettings["TasksManager"].ToString();
-                if (string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
-                {
-                    EditContentBtn.Visibility = Visibility.Visible;
-                }
-
-                Date.Text = item.Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
-                currentNote = item.Note;
-
-                NoteNameBox.IsEnabled = false;
-                NoteTypeComboBox.IsEnabled = false;
-                NoteAssignedToBox.IsEnabled = false;
-                MessageContent.IsEnabled = false;
-
-                foreach (ListViewItem element in MessageContentList.Items)
-                {
-                    if (element?.Content is TextBox textbox)
-                        textbox.IsEnabled = false;
-                }
-            }
-        }
-
-        private void FillNoteFieldsFromNote(FileTypesEnum type, MessageInfoModel obj)
-        {
-            if (luckyNumbersToSave == null)
-                throw new Exception();
-
-            luckyNumbersToSave.Clear();
-
-            if (FileTypesEnum.EXCEPTION.Equals(type))
-            {
-                foreach (var exception in obj.ExceptionInfo.ToList())
-                    MessageContent.Text += exception;
-            }
-            else if (FileTypesEnum.TRACE.Equals(type))
-            {
-                foreach (var element in obj.Array.ToList())
-                    MessageContent.Text += element;
-            }
-            else if (FileTypesEnum.LOTTO_NOTE.Equals(type))
-            {
-                MessageContent.Text = obj.Message;
-
-                if (obj.Array != null)
-                {
-                    foreach (var line in obj.Array.ToList())
-                    {
-                        luckyNumbersToSave.Add(line);
-                        AddNewLottoTextBox(line);
-                    }
-                }
-            }
-            else
-            {
-                MessageContent.Text = obj.Message;
-            }
-        }
-
-        private void AddNewLottoTextBox(string text = "")
-        {
-            var lottoTextbox = new TextBox();
-            lottoTextbox.LostFocus += LottoTextbox_LostFocus;
-            lottoTextbox.HorizontalAlignment = HorizontalAlignment.Center;
-            lottoTextbox.MinWidth = 150;
-            lottoTextbox.MaxLines = 1;
-            lottoTextbox.Background = Brushes.AliceBlue;
-
-
-            var toAdd = true;
-            if (!string.IsNullOrEmpty(text))
-            {
-                lottoTextbox.Text = text;
-                lottoTextbox.IsEnabled = false;
-
-                var anyFilled = false;
-                foreach (ListViewItem item in MessageContentList.Items)
-                {
-                    var textBox = item?.Content as TextBox;
-                    if (!string.IsNullOrEmpty(textBox.Text))
-                        anyFilled = true;
-                }
-
-                if (!anyFilled)
-                    MessageContentList.Items.Clear();
-            }
-            else
-            {
-                foreach (ListViewItem item in MessageContentList.Items)
-                {
-                    var textBox = item?.Content as TextBox;
-                    if (string.IsNullOrEmpty(textBox.Text))
-                        toAdd = false;
-                }
-            }
-
-            if (toAdd)
-            {
-                MessageContentList.Items.Add(new ListViewItem { Content = lottoTextbox });
-            }
-        }
-
-        private void ClearMessageContentListView(bool fullClear = false)
-        {
-            foreach (ListViewItem item in MessageContentList.Items)
-            {
-                if (item?.Content is TextBox textbox)
-                {
-                    textbox.LostFocus -= LottoTextbox_LostFocus;
-                }
-            }
-            luckyNumbersToSave.Clear();
-            MessageContentList.Items.Clear();
-
-            if (!fullClear)
-                AddNewLottoTextBox();
         }
 
         #endregion

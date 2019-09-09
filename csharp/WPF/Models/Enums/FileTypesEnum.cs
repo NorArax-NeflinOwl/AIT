@@ -12,6 +12,7 @@
         KEYLOGGER,
         ACTIVATION_CODE,
         LOTTO_NOTE,
-        DETACHED
+        DETACHED,
+        SHEDULER
     }
 }

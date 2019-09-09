@@ -227,11 +227,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Databases\Models\AitHostDataModel.cs" />
+    <Compile Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml.cs">
+      <DependentUpon>LottoNoteControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Managers\Builders\NoteManagerControlBuilder.cs" />
     <Compile Include="Managers\FileTypesManager.cs" />
+    <Compile Include="Managers\NoteFiltersManager.cs" />
     <Compile Include="Managers\Tasks\CreateDbFileInDocumnetTask.cs" />
     <Compile Include="Models\Enums\DialogTypeEnum.cs" />
     <Compile Include="Models\Extensions\DispatcherExtension.cs" />
     <Compile Include="Models\FileTypeModel.cs" />
+    <Compile Include="Models\Interfaces\IBaseNoteManagerControl.cs" />
     <Compile Include="Models\MessageInfoModel.cs" />
     <Compile Include="Models\Interfaces\ICustomException.cs" />
     <Compile Include="Models\Interfaces\IDisposableExtended.cs" />
@@ -292,6 +298,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\NoteListViewItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -448,6 +458,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

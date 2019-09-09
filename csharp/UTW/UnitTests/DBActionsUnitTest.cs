@@ -15,7 +15,7 @@ namespace UTW.UnitTests
     [TestClass]
     public class DBActionsUnitTests
     {
-        private static readonly string id = Generators.RecordIDGenerator(TableInerfixEnum.ACC, false);
+        private static readonly string id = Generators.RecordIDGenerator(TableInerfixEnum.ACC);
 
         [TestMethod]
         public void InsertTest()

@@ -943,6 +943,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sheduler.
+        /// </summary>
+        internal static string SHEDULER {
+            get {
+                return ResourceManager.GetString("SHEDULER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show All.
         /// </summary>
         internal static string SHOWALL_HEADER {
