@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
-using System.Threading.Tasks;
 using WPF.Models.Enums;
 using WPF.Models;
 using WPF.Properties;
@@ -12,10 +10,8 @@ using WPF.GUI.Windows.Properties;
 using WPF.Models.Interfaces;
 using System.Windows;
 using WPF.Databases.Models;
-using WPF.Managers.Helpers;
 using System.Linq;
 using System.Configuration;
-using System.Threading;
 using System.Windows.Threading;
 
 namespace WPF.Managers
@@ -87,6 +83,11 @@ namespace WPF.Managers
             catch (Exception)
             {
             }
+
+            if (!FileTypesEnum.TRACE.Equals(log.Type) && LogToDB(log))
+            {
+                WindowsExtension.GetMainWindow()?.MainTabControlManager?.GetNoteManager()?.RefreshList();
+            }
         }
 
         private string GetExt(FileTypesEnum title)
@@ -115,8 +116,7 @@ namespace WPF.Managers
                 Type = FileTypesEnum.EXCEPTION,
                 MessageInfo = new MessageInfoModel(message, e)
             };
-            Dispatcher.CurrentDispatcher.Invoke(() => LogToFile(log));
-            var result = LogToDB(log);
+            LogToFile(log);
 
             try
             {
@@ -145,11 +145,6 @@ namespace WPF.Managers
 #if DEBUG
                 throw ex;
 #endif
-            }
-
-            if (result)
-            {
-                WindowsExtension.GetMainWindow()?.MainTabControlManager?.GetNoteManager()?.RefreshList();
             }
         }
 

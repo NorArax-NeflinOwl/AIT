@@ -9,12 +9,15 @@ namespace WPF.Managers.Bilders
     {
         public static IBaseNoteManagerControl Build(FileTypeModel type)
         {
-            switch(type.EnumType)
+            if(type != null)
             {
-                case FileTypesEnum.LOTTO_NOTE:
-                    return new LottoNoteControl(type);
+                switch (type.EnumType)
+                {
+                    case FileTypesEnum.LOTTO_NOTE:
+                        return new LottoNoteControl(type);
+                }
             }
-            return null;
+            return new BaseNoteControl();
         }
     }
 }

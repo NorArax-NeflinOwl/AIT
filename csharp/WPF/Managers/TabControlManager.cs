@@ -5,6 +5,7 @@ using WPF.GUI.Controls;
 using WPF.GUI.Pages.Properties;
 using WPF.Models.Interfaces;
 using WPF.GUI.Pages;
+using System;
 
 namespace WPF.Managers
 {
@@ -21,12 +22,18 @@ namespace WPF.Managers
 
         public NoteManagerPage GetNoteManager()
         {
-            foreach(var element in tabControl?.Items)
+            try
             {
-                if(element is TabItem item && item.Content is Frame frame && frame.Content is NoteManagerPage noteManager)
+                foreach (var element in tabControl?.Items)
                 {
-                    return noteManager;
+                    if (element is TabItem item && item.Content is Frame frame && frame.Content is NoteManagerPage noteManager)
+                    {
+                        return noteManager;
+                    }
                 }
+            }
+            catch(Exception)
+            {
             }
 
             return null;

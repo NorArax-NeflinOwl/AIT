@@ -8,12 +8,12 @@ using WPF.Models.Extensions.Exceptions;
 
 namespace WPF.Managers.Builders
 {
-    class EntryIdentificatorBuilder
+    public class EntryIdentificatorBuilder
     {
 
         private static readonly char separator = '-';
 
-        private static List<string> UsedByNotSavedIDs = new List<string>();
+        private static readonly List<string> UsedByNotSavedIDs = new List<string>();
 
         public static string RecordIDGenerator(TableInerfixEnum tablePrefix)
         {

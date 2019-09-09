@@ -105,7 +105,7 @@
                             <TextBlock x:Name="DateTitle" Margin="5" Text="Create Date:" Grid.Column="2" VerticalAlignment="Center"/>
                             <TextBox x:Name="Date" IsEnabled="false" Margin="5" Text="Unknown" Grid.Column="3"/>
                         </Grid>
-                        <Frame Grid.Row="1" x:Name="NoteManagerContent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Frame Grid.Row="1" x:Name="NoteManagerContent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="2" Margin="0,10,0,0">

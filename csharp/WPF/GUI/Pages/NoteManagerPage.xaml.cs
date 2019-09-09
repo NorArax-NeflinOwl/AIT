@@ -18,6 +18,7 @@ using WPF.GUI.Controls;
 using System.Configuration;
 using System.Windows.Input;
 using WPF.Managers.Bilders;
+using System.Windows.Navigation;
 
 namespace WPF.GUI.Pages
 {
@@ -43,6 +44,27 @@ namespace WPF.GUI.Pages
         public bool IsDisposed { get; set; }
 
         public IProperties Properties { get; }
+
+        public FileTypeModel Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                ctrl = NoteManagerControlBilder.Build(value);
+                NoteManagerContent = new Frame
+                {
+                    NavigationUIVisibility = NavigationUIVisibility.Hidden,
+                    Content = ctrl
+                };
+
+                filterManager = new NoteFiltersManager(this, ctrl);
+                filterManager.CreateFilterPanel(account);
+                type = value;
+            }
+        }
 
         #endregion
 
@@ -111,6 +133,9 @@ namespace WPF.GUI.Pages
 
         public void Init()
         {
+            ctrl = NoteManagerControlBilder.Build(FileTypesManager.GetType(FileTypesEnum.UNDEFINED));
+            filterManager = new NoteFiltersManager(this, ctrl);
+
             InitListView();
             InitNoteTypeComboBox();
 
@@ -132,14 +157,11 @@ namespace WPF.GUI.Pages
             {
                 DeleteSelectedItems.Visibility = Visibility.Visible;
             }
+            filterManager.CreateFilterPanel(account);
 
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += StartTimeTicker;
             backgroundWorker.RunWorkerAsync();
-
-            filterManager = new NoteFiltersManager(this, ctrl);
-
-            filterManager.CreateFilterPanel(account);
         }
 
         #region Private Methods
@@ -263,6 +285,7 @@ namespace WPF.GUI.Pages
         private void ClearContentBtn_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
+            NoteManagerListView.SelectedIndex = -1;
         }
 
         private void NoteTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -274,12 +297,18 @@ namespace WPF.GUI.Pages
             else
                 NoteAssignedToBox.IsEnabled = false;
 
-            type = NoteTypeComboBox.SelectedItem as FileTypeModel;
+            Type = NoteTypeComboBox.SelectedItem as FileTypeModel;
 
-            if(type != null)
+            if(Type != null)
             {
-                ctrl = NoteManagerControlBilder.Build(type);
-                NoteManagerContent.Content = ctrl;
+                ctrl = NoteManagerControlBilder.Build(Type);
+                filterManager = new NoteFiltersManager(this, ctrl);
+                filterManager.CreateFilterPanel(account);
+                NoteManagerContent = new Frame
+                {
+                    NavigationUIVisibility = NavigationUIVisibility.Hidden,
+                    Content = ctrl
+                };
             }
         }
 
@@ -339,7 +368,7 @@ namespace WPF.GUI.Pages
 
         private string SerializableControl()
         {
-            return string.Empty;
+            return ctrl.SerializableControl();
         }
 
         private AitAccountModel ValidateAssignedToAccount(DBContext context, string name)
@@ -533,6 +562,7 @@ namespace WPF.GUI.Pages
         {
             if (NoteManagerListView.SelectedItem is NoteListViewItemControl item)
             {
+                Type = FileTypesManager.SetType((int)item.Note.Type);
                 NoteNameBox.Text = item.Note.Name;
                 using (var context = PDBContext.Instance.Context)
                 {
@@ -574,8 +604,7 @@ namespace WPF.GUI.Pages
                 }
 
                 StopClock = true;
-                type = FileTypesManager.SetType((int)item.Note.Type);
-                NoteTypeComboBox.SelectedItem = type;
+                NoteTypeComboBox.SelectedItem = Type;
                 EditContentBtn.IsEnabled = true;
 
                 ctrl.SetOneNoteContentAction(item);
@@ -700,15 +729,7 @@ namespace WPF.GUI.Pages
             NoteNameBox.Text = string.Empty;
             NoteAssignedToBox.Text = string.Empty;
             NoteTypeComboBox.SelectedIndex = -1;
-            type = NoteTypeComboBox.SelectedItem as FileTypeModel;
             StopClock = false;
-
-            backgroundWorker.DoWork -= StartTimeTicker;
-            backgroundWorker.Dispose();
-
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += StartTimeTicker;
-            backgroundWorker.RunWorkerAsync();
 
             EditContentBtn.Visibility = Visibility.Collapsed;
             EditContentBtn.IsEnabled = false;
@@ -720,7 +741,15 @@ namespace WPF.GUI.Pages
             NoteAssignedToBox.IsEnabled = true;
 
             currentNote = null;
+            Type = NoteTypeComboBox.SelectedItem as FileTypeModel;
             ChangeNoteManagerListViewVisibility();
+
+            backgroundWorker.DoWork -= StartTimeTicker;
+            backgroundWorker.Dispose();
+
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += StartTimeTicker;
+            backgroundWorker.RunWorkerAsync();
         }
 
         #endregion

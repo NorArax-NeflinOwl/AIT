@@ -2,6 +2,7 @@
 using WPF.Models.Enums;
 using WPF.Managers.Helpers;
 using WPF.Managers.Validators;
+using WPF.Managers.Builders;
 
 namespace UTW.UnitTests
 {
@@ -27,7 +28,7 @@ namespace UTW.UnitTests
         [TestMethod]
         public void IDGeneratorTest()
         {
-            Assert.IsTrue(BasePropertiesValidator.ValidateID(Generators.RecordIDGenerator(TableInerfixEnum.ACC)));
+            Assert.IsTrue(BasePropertiesValidator.ValidateID(EntryIdentificatorBuilder.RecordIDGenerator(TableInerfixEnum.ACC)));
         }
     }
 }

@@ -227,6 +227,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Databases\Models\AitHostDataModel.cs" />
+    <Compile Include="GUI\Controls\NoteManagerControls\BaseNoteControl.xaml.cs">
+      <DependentUpon>BaseNoteControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml.cs">
       <DependentUpon>LottoNoteControl.xaml</DependentUpon>
     </Compile>
@@ -300,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\NoteListViewItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\NoteManagerControls\BaseNoteControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

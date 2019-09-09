@@ -13,8 +13,8 @@ namespace WPF.Managers
 {
     public class NoteFiltersManager : IDisposableExtended
     {
-        private NoteManagerPage page;
-        private IBaseNoteManagerControl control;
+        private readonly NoteManagerPage page;
+        private readonly IBaseNoteManagerControl control;
 
         public bool IsDisposed { get; set; }
 
@@ -44,19 +44,17 @@ namespace WPF.Managers
             obj.Click += ALL_Click;
             noteFilter.Items.Add(obj);
 
+            obj = new MenuItem
+            {
+                Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.DETACHED)).FirstOrDefault()?.ToString(),
+                Background = Brushes.LightGray,
+                Foreground = Brushes.Black
+            };
+            obj.Click += DETACHED_Click;
+            noteFilter.Items.Add(obj);
+
             if (account != null)
             {
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.UNDEFINED))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.UNDEFINED)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += UNDEFINED_Click;
-                    noteFilter.Items.Add(obj);
-                }
                 if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
                 {
                     obj = new MenuItem
@@ -156,17 +154,6 @@ namespace WPF.Managers
                     obj.Click += LOTTO_NOTE_Click;
                     noteFilter.Items.Add(obj);
                 }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.DETACHED))
-                {
-                    obj = new MenuItem
-                    {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.DETACHED)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += DETACHED_Click;
-                    noteFilter.Items.Add(obj);
-                }
                 if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.SHEDULER))
                 {
                     obj = new MenuItem
@@ -186,7 +173,7 @@ namespace WPF.Managers
         public void Dispose()
         {
             page.Dispose();
-            control.Dispose();
+            control?.Dispose();
             IsDisposed = true;
             GC.Collect();
         }
@@ -222,91 +209,91 @@ namespace WPF.Managers
 
         private void ALL_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.RefreshList();
         }
 
         private void ACTIVATION_CODE_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.ACTIVATION_CODE);
         }
 
         private void EXCEPTION_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.EXCEPTION);
         }
 
         private void INFORMATION_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.INFORMATION);
         }
 
         private void KEYLOGGER_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.KEYLOGGER);
         }
 
         private void LOTTO_NOTE_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.LOTTO_NOTE);
         }
 
         private void NOTE_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.NOTE);
         }
 
         private void QUERY_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.QUERY);
         }
 
         private void TASK_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.TASK);
         }
 
         private void TRACE_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.TRACE);
         }
 
         private void UNDEFINED_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.UNDEFINED);
         }
 
         private void DETACHED_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.DETACHED);
         }
 
         private void SHEDULER_Click(object sender, RoutedEventArgs e)
         {
-            control.ClearContentAction();
+            control?.ClearContentAction();
             SetEditableMenuItem(sender);
             page.InitListView(FileTypesEnum.SHEDULER);
         }
