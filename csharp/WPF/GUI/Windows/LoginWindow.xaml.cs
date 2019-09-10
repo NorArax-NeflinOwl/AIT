@@ -125,7 +125,7 @@ namespace WPF.GUI.Windows
 
                 DispatcherExtension.Invoke(async () =>
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(TimeSpan.FromSeconds(1));
                     MainContext.Instance.Windows.Open(new MainProperties());
                     MainContext.Instance.Windows.Hide(((IWindowsProperties)Properties).WindowName);
                 });

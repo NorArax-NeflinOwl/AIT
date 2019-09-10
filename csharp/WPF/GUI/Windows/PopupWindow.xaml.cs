@@ -57,7 +57,7 @@ namespace WPF.GUI.Windows
 
             DispatcherExtension.Invoke(async () =>
             {
-                await Task.Delay(VisibilityTimeInSecond * 1500);
+                await Task.Delay(VisibilityTimeInSecond * (int)TimeSpan.FromSeconds(1.5).TotalMilliseconds);
                 Close();
             });
         }
