@@ -13,6 +13,7 @@ namespace WPF.Models.Interfaces
         bool ValidateRequiredFieldFillCorrectly();
         void SetOneNoteContentAction(NoteListViewItemControl ctrl);
         void EditContentBtn_Click();
+        void Load();
         void ClearContentAction();
     }
 }

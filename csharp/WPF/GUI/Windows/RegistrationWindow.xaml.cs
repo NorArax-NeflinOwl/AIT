@@ -10,6 +10,10 @@ using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
 using WPF.Managers.Builders;
+using System.Windows.Input;
+using System.Windows.Controls;
+using System.Collections.Generic;
+using WPF.Managers;
 
 namespace WPF.GUI.Windows
 {
@@ -20,6 +24,8 @@ namespace WPF.GUI.Windows
     {
         private AitAccountModel account;
         private AitFileModel userActivatedCodeFile;
+
+        private List<Control> listOfFields;
 
         public IProperties Properties { get; }
         public bool IsDisposed { get; set; }
@@ -34,12 +40,13 @@ namespace WPF.GUI.Windows
 
         public void Dispose()
         {
-            KeyUp -= App.MainWindow_KeyUp;
+            KeyUp -= RegistrationWindow_KeyUp;
             Closing -= App.MainWindow_Closing;
             RegButton.Click -= RegButton_Click;
             RegAct2Button.Click -= RegAct2Button_Click;
             RegActButton.Click -= RegActButton_Click;
             RegActRepSendButton.Click -= RegActRepSendButton_Click;
+            BackButton.Click -= BackButton_Click;
 
             IsDisposed = true;
             GC.Collect();
@@ -49,37 +56,86 @@ namespace WPF.GUI.Windows
         {
             CenterWindowOnScreen();
             RegLoginTextBox.Focus();
+
+            listOfFields = new List<Control>
+            {
+                RegLoginTextBox,
+                RegPasswordBox,
+                RegRepPasswordBox,
+                RegEmailTextBox,
+                RegFirstNameTextBox,
+                RegMidleNameTextBox,
+                RegLastNameTextBox,
+                RegNickTextBox
+            };
         }
 
         public void Subscribe()
         {
-            KeyUp += App.MainWindow_KeyUp;
+            KeyUp += RegistrationWindow_KeyUp;
             Closing += App.MainWindow_Closing;
             RegButton.Click += RegButton_Click;
             RegAct2Button.Click += RegAct2Button_Click;
             RegActButton.Click += RegActButton_Click;
             RegActRepSendButton.Click += RegActRepSendButton_Click;
+            BackButton.Click += BackButton_Click;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
+            MainContext.Instance.Windows.HideAndDispose(((IWindowsProperties)Properties).WindowName);
+
+            account?.Dispose();
+        }
+
+        private void RegistrationWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            App.MainWindow_KeyUp(sender, e);
+            if (e.Key.Equals(Key.Enter))
+            {
+                var isManualFocused = false;
+                for (var i = 0; i < listOfFields.Count; i++)
+                {
+                    if (listOfFields[i].IsFocused)
+                    {
+                        listOfFields[i + 1].Focus();
+                        isManualFocused = true;
+                        break;
+                    }
+                }
+
+                if (!isManualFocused)
+                    RegButton_Click(null, null);
+            }
         }
 
         private void RegAct2Button_Click(object sender, RoutedEventArgs e)
         {
-            var login = RegLoginTextBox.Text;
-            if (string.IsNullOrEmpty(login))
-                throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EMPTY);
-
-            using (var context = PDBContext.Instance.Context)
+            try
             {
-                account = context.Accounts.Where(q => q.Login.Equals(login)).FirstOrDefault();
-                if (account == null)
-                    throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST); 
+                var login = RegLoginTextBox.Text;
+                if (string.IsNullOrEmpty(login))
+                    throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EMPTY);
 
-                userActivatedCodeFile = context.Files.Where(q => q.Creator != null && q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
-                if (userActivatedCodeFile == null)
-                    throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_NOTFIND); 
+                using (var context = PDBContext.Instance.Context)
+                {
+                    account = context.Accounts.Where(q => q.Login.Equals(login)).FirstOrDefault();
+                    if (account == null)
+                        throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_NOEXIST);
+
+                    userActivatedCodeFile = context.Files.Where(q => q.Creator != null && q.Creator.Equals(account.ID) && q.Type.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault();
+                    if (userActivatedCodeFile == null)
+                        throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_NOTFIND);
+                }
+
+                RegMainGrid.Visibility = Visibility.Collapsed;
+                RegActGrid.Visibility = Visibility.Visible;
             }
-
-            RegMainGrid.Visibility = Visibility.Collapsed;
-            RegActGrid.Visibility = Visibility.Visible;
+            catch (Exception ex)
+            {
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
+            }
         }
 
         private void CenterWindowOnScreen()
@@ -103,99 +159,113 @@ namespace WPF.GUI.Windows
 
         private void RegActButton_Click(object sender, RoutedEventArgs e)
         {
-            var code = RegActCodeTextBox.Text;
+            try
+            {
+                var code = RegActCodeTextBox.Text;
 
-            if (string.IsNullOrEmpty(code))
-                throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_EMPTY);
-            if (!userActivatedCodeFile.Content.ToLower().Equals(code.ToLower()))
-                throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_INCORECT);
+                if (string.IsNullOrEmpty(code))
+                    throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_EMPTY);
+                if (!userActivatedCodeFile.Content.ToLower().Equals(code.ToLower()))
+                    throw new AitAccountExceptions.CodeException(WPF.Properties.Resources.CODE_INCORECT);
 
-            account = (AitAccountModel)account.Clone();
-            account.IsActive = true;
-            account.Update();
-            //account.Context.SaveChanges();
+                account = (AitAccountModel)account.Clone();
+                account.IsActive = true;
+                account.Update();
+                //account.Context.SaveChanges();
 
-            MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
+                MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.ACC_ACTIVATED, 3), false);
 
-            MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
-            MainContext.Instance.Windows.HideAndDispose(((IWindowsProperties)Properties).WindowName);
+                MainContext.Instance.Windows.Show(WindowsNameEnum.LOGIN);
+                MainContext.Instance.Windows.HideAndDispose(((IWindowsProperties)Properties).WindowName);
 
-            account.Dispose();
+                account.Dispose();
+            }
+            catch (Exception ex)
+            {
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
+            }
         }
 
         private void RegButton_Click(object sender, RoutedEventArgs e)
         {
-            RegProgressGrid.Visibility = Visibility.Visible;
-
-            var login = RegLoginTextBox.Text;
-            var password = RegPasswordBox.Password;
-            var correctPassowrd = RegRepPasswordBox.Password.Equals(password);
-            var email = RegEmailTextBox.Text;
-            var nick = RegNickTextBox.Text;
-            var first = RegFirstNameTextBox.Text;
-            var middle = RegMidleNameTextBox.Text;
-            var last = RegLastNameTextBox.Text;
-            var bday = RegBDayPicker.SelectedDate;
-
-            using(var context = PDBContext.Instance.Context)
+            try
             {
-                if (correctPassowrd)
+                RegProgressGrid.Visibility = Visibility.Visible;
+
+                var login = RegLoginTextBox.Text;
+                var password = RegPasswordBox.Password;
+                var correctPassowrd = RegRepPasswordBox.Password.Equals(password);
+                var email = RegEmailTextBox.Text;
+                var nick = RegNickTextBox.Text;
+                var first = RegFirstNameTextBox.Text;
+                var middle = RegMidleNameTextBox.Text;
+                var last = RegLastNameTextBox.Text;
+                var bday = RegBDayPicker.SelectedDate;
+
+                using (var context = PDBContext.Instance.Context)
                 {
-                    if (!context.Accounts.Any(q => q.Login.Equals(login) && q.Permition.Equals(PermitionAccountEnum.NONE)))
+                    if (correctPassowrd)
                     {
-                        account = new AitAccountModel(context)
+                        if (!context.Accounts.Any(q => q.Login.Equals(login) && q.Permition.Equals(PermitionAccountEnum.NONE)))
                         {
-                            Login = login,
-                            Password = Generators.GenerateSha256Hash(password),
-                            Email = email
-                        };
-                        account.Insert();
+                            account = new AitAccountModel(context)
+                            {
+                                Login = login,
+                                Password = Generators.GenerateSha256Hash(password),
+                                Email = email
+                            };
+                            account.Insert();
+                        }
+                        else
+                        {
+                            throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EXIST);
+                        }
+
+                        if (account != null)
+                        {
+                            var userDate = new AitUserDataModel(context)
+                            {
+                                AssignedTo = account.ID,
+                                Nick = nick,
+                                FirstName = first,
+                                MiddleName = middle,
+                                LastName = last,
+                                Birthday = bday
+                            };
+                            userDate.Insert();
+
+                            userActivatedCodeFile = new AitFileModel(context)
+                            {
+                                Creator = account.ID,
+                                Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
+                                Type = FileTypesEnum.ACTIVATION_CODE,
+                                Content = ActivateCodeBuilder.GenerateActivateCode(account.GetHashCode())
+                            };
+                            userActivatedCodeFile.Insert();
+
+                            MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
+
+                            DispatcherExtension.Invoke(async () =>
+                            {
+                                if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
+                                    ShowActivationPanel();
+                                else
+                                    throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WRONG_EMAIL);
+                            });
+                        }
                     }
                     else
                     {
-                        throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EXIST);
-                    }
-
-                    if(account != null)
-                    {
-                        var userDate = new AitUserDataModel(context)
-                        {
-                            AssignedTo = account.ID,
-                            Nick = nick,
-                            FirstName = first,
-                            MiddleName = middle,
-                            LastName = last,
-                            Birthday = bday
-                        };
-                        userDate.Insert();
-
-                        userActivatedCodeFile = new AitFileModel(context)
-                        {
-                            Creator = account.ID,
-                            Name = string.Format(WPF.Properties.Resources.ACT_CODE_FOR, account.Login),
-                            Type = FileTypesEnum.ACTIVATION_CODE,
-                            Content = ActivateCodeBuilder.GenerateActivateCode(account.GetHashCode())
-                        };
-                        userActivatedCodeFile.Insert();
-
-                        MainContext.Instance.Windows.Open(new PopupProperties(WPF.Properties.Resources.INFORMATION, WPF.Properties.Resources.CREATE_ACCSUCC, 2), false);
-
-                        DispatcherExtension.Invoke(async () =>
-                        {
-                            if (await MailSender.SendActivationCodeTo(account.Email, userActivatedCodeFile.Content))
-                                ShowActivationPanel();
-                            else
-                                throw new AitAccountExceptions.EmailException(WPF.Properties.Resources.WRONG_EMAIL);
-                        });
+                        throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
                     }
                 }
-                else
-                {
-                    throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_REPPASS_INCORECT);
-                }
+
+                RegProgressGrid.Visibility = Visibility.Collapsed;
             }
-
-            RegProgressGrid.Visibility = Visibility.Collapsed;
+            catch(Exception ex)
+            {
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
+            }
         }
 
         private void ShowActivationPanel()

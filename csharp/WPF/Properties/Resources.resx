@@ -207,11 +207,17 @@
   <data name="DELETE_BTNCONTENT" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DELETE_SUCC" xml:space="preserve">
+    <value>Successful delete {0} elements.</value>
+  </data>
   <data name="DETACHED" xml:space="preserve">
     <value>Detached</value>
   </data>
   <data name="DETACHED_BTNCONTENT" xml:space="preserve">
     <value>Detach</value>
+  </data>
+  <data name="DETACHED_SUCC" xml:space="preserve">
+    <value>Successful detached {0} elements.</value>
   </data>
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>

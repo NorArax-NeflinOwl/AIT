@@ -53,15 +53,30 @@ namespace WPF.GUI.Pages
             }
             set
             {
-                ctrl = NoteManagerControlBilder.Build(value);
-                NoteManagerContent = new Frame
+                // FIX ME!!! 
+                if(type == null && value != null || value != null && type?.EnumType.Equals(value.EnumType) == false)
                 {
-                    NavigationUIVisibility = NavigationUIVisibility.Hidden,
-                    Content = ctrl
-                };
+                    ctrl = NoteManagerControlBilder.Build(value);
+                    ctrl.Load();
 
-                filterManager = new NoteFiltersManager(this, ctrl);
-                filterManager.CreateFilterPanel(account);
+                    if (NoteManagerContent == null)
+                        NoteManagerContent = new Frame();
+
+                    NoteManagerContent.Content = ctrl;
+                    NoteManagerContent.DataContext = ctrl;
+                    NoteManagerContent.Visibility = Visibility.Visible;
+
+                    filterManager = new NoteFiltersManager(this, ctrl);
+                    filterManager.CreateFilterPanel(account);
+                }
+                if(value == null)
+                {
+                    NoteManagerContent.Visibility = Visibility.Collapsed;
+                }
+
+                if(NoteManagerContent != null)
+                    NoteManagerContent.NavigationUIVisibility = NavigationUIVisibility.Hidden;
+
                 type = value;
             }
         }
@@ -298,18 +313,6 @@ namespace WPF.GUI.Pages
                 NoteAssignedToBox.IsEnabled = false;
 
             Type = NoteTypeComboBox.SelectedItem as FileTypeModel;
-
-            if(Type != null)
-            {
-                ctrl = NoteManagerControlBilder.Build(Type);
-                filterManager = new NoteFiltersManager(this, ctrl);
-                filterManager.CreateFilterPanel(account);
-                NoteManagerContent = new Frame
-                {
-                    NavigationUIVisibility = NavigationUIVisibility.Hidden,
-                    Content = ctrl
-                };
-            }
         }
 
         private void NoteTitleBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -640,10 +643,12 @@ namespace WPF.GUI.Pages
         {
             DispatcherExtension.Invoke(() =>
             {
+                var count = 0;
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
                     item.DetachNote();
                     item.Note.Update();
+                    count++;
                 }
 
                 NoteManagerListView.SelectedItems.Clear();
@@ -653,6 +658,8 @@ namespace WPF.GUI.Pages
                 NoteManagerListView.Items.Clear();
                 ClearContentAction();
                 InitListView();
+
+                MessageBox.Show(string.Format(WPF.Properties.Resources.DETACHED_SUCC, count), WPF.Properties.Resources.INFORMATION, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 
@@ -660,9 +667,11 @@ namespace WPF.GUI.Pages
         {
             DispatcherExtension.Invoke(() =>
             {
+                var count = 0;
                 foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
                 {
                     item.Note.Delete();
+                    count++;
                 }
 
                 NoteManagerListView.SelectedItems.Clear();
@@ -672,6 +681,8 @@ namespace WPF.GUI.Pages
                 NoteManagerListView.Items.Clear();
                 ClearContentAction();
                 InitListView();
+
+                MessageBox.Show(string.Format(WPF.Properties.Resources.DELETE_SUCC, count), WPF.Properties.Resources.INFORMATION, MessageBoxButton.OK, MessageBoxImage.Information);
             });
         }
 

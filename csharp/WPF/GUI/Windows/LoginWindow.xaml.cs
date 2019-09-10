@@ -12,6 +12,7 @@ using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
+using System.Windows.Input;
 
 namespace WPF.GUI.Windows
 {
@@ -45,10 +46,26 @@ namespace WPF.GUI.Windows
 
         public void Subscribe()
         {
-            KeyUp += App.MainWindow_KeyUp;
+            KeyUp += LoginWindow_KeyUp;
             Closing += App.MainWindow_Closing;
             LoginButton.Click += LoginButton_Click;
             LoginRegButton.Click += LoginRegButton_Click;
+        }
+
+        private void LoginWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            App.MainWindow_KeyUp(sender, e);
+            if (e.Key.Equals(Key.Enter))
+            {
+                if (LoginInputTextBox.IsFocused)
+                {
+                    LoginInputPasswordBox.Focus();
+                }
+                else if (LoginInputPasswordBox.IsFocused)
+                {
+                    LoginButton_Click(null, null);
+                }
+            }
         }
 
         private void LoginRegButton_Click(object sender, RoutedEventArgs e)
@@ -140,7 +157,7 @@ namespace WPF.GUI.Windows
 
         public void Dispose()
         {
-            KeyUp -= App.MainWindow_KeyUp;
+            KeyUp -= LoginWindow_KeyUp;
             Closing -= App.MainWindow_Closing;
             LoginButton.Click -= LoginButton_Click;
             LoginRegButton.Click -= LoginRegButton_Click;

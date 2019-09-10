@@ -36,6 +36,10 @@ namespace WPF.GUI.Controls.NoteManagerControls
         {
         }
 
+        public void Load()
+        {
+        }
+
         public string SerializableControl()
         {
             return string.Empty;

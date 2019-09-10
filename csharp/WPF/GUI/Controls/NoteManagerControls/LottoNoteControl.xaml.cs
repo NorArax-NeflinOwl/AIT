@@ -54,6 +54,12 @@ namespace WPF.GUI.Controls.NoteManagerControls
             MessageContent.LostFocus += MessageContent_LostFocus;
         }
 
+        public void Load()
+        {
+            if (MessageContentList.Items.Count == 0)
+                AddNewLottoTextBox();
+        }
+
         public string SerializableControl()
         {
             var array = new List<string>();
@@ -129,6 +135,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
             }
 
             MessageContent.IsEnabled = false;
+            MessageContentList.IsEnabled = false;
 
             foreach (ListViewItem element in MessageContentList.Items)
             {
@@ -140,6 +147,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
         public void EditContentBtn_Click()
         {
             MessageContent.IsEnabled = !MessageContent.IsEnabled;
+            MessageContentList.IsEnabled = !MessageContentList.IsEnabled;
 
             foreach (ListViewItem item in MessageContentList.Items)
             {
@@ -241,7 +249,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
             lottoTextbox.HorizontalAlignment = HorizontalAlignment.Center;
             lottoTextbox.MinWidth = 150;
             lottoTextbox.MaxLines = 1;
-            lottoTextbox.Background = Brushes.AliceBlue;
+            lottoTextbox.Background = Brushes.Transparent;
             
             var toAdd = true;
             if (!string.IsNullOrEmpty(text))
@@ -253,7 +261,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
                 foreach (ListViewItem item in MessageContentList.Items)
                 {
                     var textBox = item?.Content as TextBox;
-                    if (!string.IsNullOrEmpty(textBox.Text))
+                    if (textBox != null && !string.IsNullOrEmpty(textBox.Text))
                         anyFilled = true;
                 }
 

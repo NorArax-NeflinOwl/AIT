@@ -3,5 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="GUI/Windows/InitWindow.xaml">
     <Application.Resources>
+
+        <Style x:Key="ListViewItemTransparentMouseOver" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Application.Resources>
 </Application>

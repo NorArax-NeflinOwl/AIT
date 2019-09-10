@@ -331,6 +331,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successful delete {0} elements..
+        /// </summary>
+        internal static string DELETE_SUCC {
+            get {
+                return ResourceManager.GetString("DELETE_SUCC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detached.
         /// </summary>
         internal static string DETACHED {
@@ -345,6 +354,15 @@ namespace WPF.Properties {
         internal static string DETACHED_BTNCONTENT {
             get {
                 return ResourceManager.GetString("DETACHED_BTNCONTENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successful detached {0} elements..
+        /// </summary>
+        internal static string DETACHED_SUCC {
+            get {
+                return ResourceManager.GetString("DETACHED_SUCC", resourceCulture);
             }
         }
         

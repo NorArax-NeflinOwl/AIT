@@ -33,7 +33,16 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="RegTitleBlock" Text="{Binding Properties.Title}" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="RegTitleBlock" Text="{Binding Properties.Title}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"/>
+                <Button x:Name="BackButton" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0" Background="#032b86">
+                    <materialDesign:PackIcon Margin="10,3" Kind="HamburgerMenuBack" Foreground="White"/>
+                </Button>
+            </Grid>
             <TextBox x:Name="RegLoginTextBox" Grid.Row="1" materialDesign:HintAssist.Hint="Login"/>
             <PasswordBox x:Name="RegPasswordBox" Grid.Row="2" materialDesign:HintAssist.Hint="Password"/>
             <PasswordBox x:Name="RegRepPasswordBox" Grid.Row="3" materialDesign:HintAssist.Hint="Repeat Password"/>
