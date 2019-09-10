@@ -215,7 +215,7 @@ namespace WPF.GUI.Pages
                 while (!StopClock)
                 {
                     Date.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    await Task.Delay(1000);
                 }
             });
         }
