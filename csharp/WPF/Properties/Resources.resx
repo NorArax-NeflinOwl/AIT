@@ -327,6 +327,9 @@
   <data name="LOG_EXT" xml:space="preserve">
     <value>.log</value>
   </data>
+  <data name="LOTTO_LUCKYNUMBERS_S" xml:space="preserve">
+    <value>Lotto Lucky Numbers Array:</value>
+  </data>
   <data name="LOTTO_NOTE" xml:space="preserve">
     <value>Lotto Note</value>
   </data>
@@ -350,6 +353,9 @@
   </data>
   <data name="NOTE_EXT" xml:space="preserve">
     <value>.note</value>
+  </data>
+  <data name="NOTE_TREEVIEW_S" xml:space="preserve">
+    <value>Note Tree View:</value>
   </data>
   <data name="OBJDIR_SUBPATH" xml:space="preserve">
     <value>Obj</value>

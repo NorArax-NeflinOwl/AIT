@@ -691,6 +691,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lotto Lucky Numbers Array:.
+        /// </summary>
+        internal static string LOTTO_LUCKYNUMBERS_S {
+            get {
+                return ResourceManager.GetString("LOTTO_LUCKYNUMBERS_S", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lotto Note.
         /// </summary>
         internal static string LOTTO_NOTE {
@@ -750,6 +759,15 @@ namespace WPF.Properties {
         internal static string NOTE_EXT {
             get {
                 return ResourceManager.GetString("NOTE_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note Tree View:.
+        /// </summary>
+        internal static string NOTE_TREEVIEW_S {
+            get {
+                return ResourceManager.GetString("NOTE_TREEVIEW_S", resourceCulture);
             }
         }
         

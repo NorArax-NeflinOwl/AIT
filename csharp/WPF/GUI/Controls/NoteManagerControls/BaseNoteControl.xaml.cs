@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using WPF.Managers;
 using WPF.Models;
 using WPF.Models.Interfaces;
 
@@ -34,6 +35,8 @@ namespace WPF.GUI.Controls.NoteManagerControls
 
         public void Init()
         {
+            MessageContent.MaxLines = int.MaxValue;
+            MessageContentInfo.Text = WPF.Properties.Resources.NOTE_TREEVIEW_S;
         }
 
         public void Load()
@@ -42,7 +45,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
 
         public string SerializableControl()
         {
-            return string.Empty;
+            return CryptoJsonManager.Instance.Serialize(new MessageInfoModel(MessageContent.Text));
         }
 
         public void SetOneNoteContentAction(NoteListViewItemControl ctrl)
@@ -55,7 +58,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
 
         public bool TypeAllowToEmptyContent()
         {
-            return true;
+            return Type.AllowToEmptyContent;
         }
 
         public bool ValidateNotDefaultNote()

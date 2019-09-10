@@ -53,7 +53,6 @@ namespace WPF.GUI.Pages
             }
             set
             {
-                // FIX ME!!! 
                 if(type == null && value != null || value != null && type?.EnumType.Equals(value.EnumType) == false)
                 {
                     ctrl = NoteManagerControlBilder.Build(value);
@@ -69,6 +68,7 @@ namespace WPF.GUI.Pages
                     filterManager = new NoteFiltersManager(this, ctrl);
                     filterManager.CreateFilterPanel(account);
                 }
+
                 if(value == null)
                 {
                     NoteManagerContent.Visibility = Visibility.Collapsed;

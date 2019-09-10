@@ -46,6 +46,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
         {
             luckyNumbersToSave = new List<string>();
             MessageContent.MaxLines = int.MaxValue;
+            MessageContentInfo.Text = WPF.Properties.Resources.LOTTO_LUCKYNUMBERS_S;
         }
 
         public void Subscribe()
@@ -80,8 +81,8 @@ namespace WPF.GUI.Controls.NoteManagerControls
 
         public bool ValidateNotDefaultNote()
         {
-            return !string.IsNullOrEmpty(MessageContent.Text) && TypeAllowToEmptyContent()
-                || (luckyNumbersToSave.Any() && Type != null && FileTypesEnum.LOTTO_NOTE.Equals(Type.EnumType));
+            return !string.IsNullOrEmpty(MessageContent.Text)
+                || luckyNumbersToSave.Any();
         }
 
         public bool ValidateRequiredFieldFillCorrectly()
