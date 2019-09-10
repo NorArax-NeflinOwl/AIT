@@ -9,14 +9,13 @@ using WPF.Managers.Helpers;
 using System.Collections.Generic;
 using WPF.Managers;
 using System.Configuration;
-using WPF.Managers.Builders;
 
 namespace UTW.UnitTests
 {
     [TestClass]
     public class DBActionsUnitTests
     {
-        private static readonly string id = EntryIdentificatorBuilder.RecordIDGenerator(TableInerfixEnum.ACC);
+        private static readonly string id = Generators.RecordIDGenerator(TableInerfixEnum.ACC);
 
         [TestMethod]
         public void InsertTest()

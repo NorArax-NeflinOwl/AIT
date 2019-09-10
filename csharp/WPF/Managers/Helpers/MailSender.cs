@@ -20,7 +20,7 @@ namespace WPF.Managers.Helpers
 
             if(SendTo(to, title, content, showMsg))
             {
-                await Task.Delay(TimeSpan.FromSeconds(10));
+                await Task.Delay(10000);
                 var mails = MailDownloader.UnreadMailsDownload();
                 if (mails.Any(q => q.Summary.Contains(to) && q.Summary.Contains("550 5.1.1") && q.Issued > DateTime.Now.AddSeconds(-20)))
                 {

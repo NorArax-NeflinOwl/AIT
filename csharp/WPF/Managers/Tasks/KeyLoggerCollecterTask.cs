@@ -48,7 +48,7 @@ namespace WPF.Managers.Tasks
                 while (true)
                 {
                     BackgroundWorker_Collect(sender, e);
-                    await Task.Delay(TimeSpan.FromHours(1));
+                    await Task.Delay(3600000);
                 }
             });
         }
