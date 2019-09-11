@@ -15,9 +15,19 @@ namespace WPF.Managers.Bilders
                 {
                     case FileTypesEnum.LOTTO_NOTE:
                         return new LottoNoteControl(type);
+                    case FileTypesEnum.NOTE:
+                        return new BaseNoteControl(type);
+                    case FileTypesEnum.ACTIVATION_CODE:
+                        return new BaseNoteControl(type);
+                    case FileTypesEnum.EXCEPTION:
+                        return new BaseNoteControl(type);
+                    case FileTypesEnum.KEYLOGGER:
+                        return new BaseNoteControl(type);
+                    case FileTypesEnum.TRACE:
+                        return new BaseNoteControl(type);
                 }
             }
-            return new BaseNoteControl();
+            return new BaseNoteControl(null);
         }
     }
 }

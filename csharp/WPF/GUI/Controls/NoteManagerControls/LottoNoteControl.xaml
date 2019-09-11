@@ -18,14 +18,14 @@
     </UserControl.Resources>
     
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="MessageContent" Grid.Row="0" HorizontalAlignment="Stretch" FontSize="14" AcceptsReturn="True" TextWrapping="Wrap" Margin="5,0"/>
+                <TextBox x:Name="MessageContent" Grid.Row="0" HorizontalAlignment="Stretch" FontSize="14" AcceptsReturn="True" TextWrapping="Wrap" Margin="5,0" BorderBrush="DarkBlue"/>
                 <TextBlock x:Name="MessageContentInfo" Grid.Row="1" HorizontalAlignment="Stretch" Margin="3,5" Text="Template info" FontSize="10" TextWrapping="Wrap"/>
                 <ListView x:Name="MessageContentList" Grid.Row="2" HorizontalAlignment="Stretch" Margin="5" VerticalAlignment="Stretch" Background="Transparent" BorderThickness="0">
                     <ListViewItem Style="{StaticResource ListViewItemTransparentMouseOver}"/>

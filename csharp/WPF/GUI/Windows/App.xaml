@@ -11,6 +11,25 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        <Style x:Key="TextBoxDarkNotEnable" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="DarkBlue" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="BorderBrush" Value="DarkGray" />
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="MinWidth" Value="150" />
+            <Setter Property="MaxLines" Value="1" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
 
     </Application.Resources>
 </Application>

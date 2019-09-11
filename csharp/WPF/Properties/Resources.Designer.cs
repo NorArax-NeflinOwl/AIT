@@ -754,6 +754,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        internal static string NOTE_DESC {
+            get {
+                return ResourceManager.GetString("NOTE_DESC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to .note.
         /// </summary>
         internal static string NOTE_EXT {

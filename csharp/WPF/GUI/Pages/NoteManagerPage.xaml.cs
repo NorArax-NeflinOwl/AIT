@@ -37,7 +37,7 @@ namespace WPF.GUI.Pages
 
         private IBaseNoteManagerControl ctrl;
 
-        private bool? CorrectlyAssign;
+        private bool? IsCorrectlyAssign;
         private bool IsCorrectlyFilled;
         private bool StopClock;
 
@@ -324,7 +324,7 @@ namespace WPF.GUI.Pages
         {
             try
             {
-                CorrectlyAssign = false;
+                IsCorrectlyAssign = false;
                 if(!string.IsNullOrEmpty(NoteAssignedToBox.Text))
                 {
                     var exceptionName = new StringBuilder();
@@ -345,7 +345,7 @@ namespace WPF.GUI.Pages
                         throw new AitAccountExceptions.InvalidValueException(exceptionName.ToString());
                 }
 
-                CorrectlyAssign = true;
+                IsCorrectlyAssign = true;
             }
             catch (Exception ex)
             {
@@ -420,7 +420,7 @@ namespace WPF.GUI.Pages
 
         private void ValidateRequiredFieldFillCorrectly(bool editButtonWasEnabled)
         {
-            if ((string.IsNullOrEmpty(NoteNameBox.Text) || CorrectlyAssign != false)
+            if ((string.IsNullOrEmpty(NoteNameBox.Text) || IsCorrectlyAssign != false)
                 && ctrl.ValidateRequiredFieldFillCorrectly()
                 && editButtonWasEnabled)
             {
@@ -574,7 +574,7 @@ namespace WPF.GUI.Pages
                     foreach (var file in files)
                     {
                         var accs = context.Accounts.Where(q => q.ID.Equals(file.Creator) || q.ID.Equals(file.AssignedTo)).ToList();
-                        if (accs != null)
+                        if (accs != null && string.IsNullOrEmpty(names))
                         {
                             var index = 0;
                             foreach (var acc in accs)

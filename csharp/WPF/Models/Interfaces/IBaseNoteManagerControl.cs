@@ -5,7 +5,7 @@ namespace WPF.Models.Interfaces
     public interface IBaseNoteManagerControl : IDisposableExtended, IPropertizableControl
     {
         bool IsCorrectlyFilled { get; set; }
-        FileTypeModel Type { get; set; }
+        FileTypeModel NoteType { get; set; }
 
         string SerializableControl();
         bool TypeAllowToEmptyContent();

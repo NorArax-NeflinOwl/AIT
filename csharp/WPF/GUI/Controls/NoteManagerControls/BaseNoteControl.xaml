@@ -16,13 +16,17 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TextBox x:Name="MessageContent" Grid.Row="0" HorizontalAlignment="Stretch" FontSize="14" AcceptsReturn="True" TextWrapping="Wrap" Margin="5,0"/>
-        <TextBlock x:Name="MessageContentInfo" Grid.Row="1" HorizontalAlignment="Stretch" Margin="3,5" Text="Template info" FontSize="10" TextWrapping="Wrap"/>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ScrollViewer>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="MessageContent" Grid.Row="0" HorizontalAlignment="Stretch" FontSize="14" AcceptsReturn="True" TextWrapping="Wrap" Margin="5,0"/>
+                <TextBlock x:Name="MessageContentInfo" Grid.Row="1" HorizontalAlignment="Stretch" Margin="3,5" Text="Template info" FontSize="10" TextWrapping="Wrap"/>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

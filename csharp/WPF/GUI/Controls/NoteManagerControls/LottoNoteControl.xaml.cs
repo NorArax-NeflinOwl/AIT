@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using WPF.Managers;
 using WPF.Models;
 using WPF.Models.Enums;
@@ -22,13 +21,13 @@ namespace WPF.GUI.Controls.NoteManagerControls
         public bool IsDisposed { get; set; }
         public bool IsCorrectlyFilled { get; set; }
         public IProperties Properties { get; }
-        public FileTypeModel Type { get; set; }
+        public FileTypeModel NoteType { get; set; }
 
         public LottoNoteControl(FileTypeModel type)
         {
             InitializeComponent();
 
-            Type = type;
+            NoteType = type;
             Init();
             Subscribe();
         }
@@ -88,19 +87,18 @@ namespace WPF.GUI.Controls.NoteManagerControls
         public bool ValidateRequiredFieldFillCorrectly()
         {
             return (IsCorrectlyFilled || TypeAllowToEmptyContent())
-                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && Type != null && FileTypesEnum.LOTTO_NOTE.Equals(Type.EnumType)));
+                && (!luckyNumbersToSave.Any() || (luckyNumbersToSave.Any() && NoteType != null && FileTypesEnum.LOTTO_NOTE.Equals(NoteType.EnumType)));
         }
 
         public bool TypeAllowToEmptyContent()
         {
-            return Type.AllowToEmptyContent;
+            return NoteType.AllowToEmptyContent;
         }
 
         public void ClearContentAction()
         {
             MessageContent.Text = string.Empty;
             luckyNumbersToSave.Clear();
-            MessageContent.IsEnabled = true;
             MessageContentList.Visibility = Visibility.Collapsed;
             ClearMessageContentListView();
         }
@@ -117,7 +115,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
                     {
                         foreach (var obj in objs)
                         {
-                            FillNoteFieldsFromNote(ctrl.Note.Type, obj);
+                            FillNoteFieldsFromNote(obj);
                         }
                     }
                 }
@@ -126,7 +124,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
                     var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(ctrl.Note.Content, false);
                     if (obj != null)
                     {
-                        FillNoteFieldsFromNote(ctrl.Note.Type, obj);
+                        FillNoteFieldsFromNote(obj);
                     }
                 }
             }
@@ -141,7 +139,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
             foreach (ListViewItem element in MessageContentList.Items)
             {
                 if (element?.Content is TextBox textbox)
-                    textbox.IsEnabled = false;
+                    textbox.IsReadOnly = true;
             }
         }
 
@@ -153,7 +151,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
             foreach (ListViewItem item in MessageContentList.Items)
             {
                 if (item?.Content is TextBox textBox)
-                    textBox.IsEnabled = !textBox.IsEnabled;
+                    textBox.IsReadOnly = !textBox.IsReadOnly;
             }
         }
 
@@ -247,16 +245,16 @@ namespace WPF.GUI.Controls.NoteManagerControls
         {
             var lottoTextbox = new TextBox();
             lottoTextbox.LostFocus += LottoTextbox_LostFocus;
-            lottoTextbox.HorizontalAlignment = HorizontalAlignment.Center;
-            lottoTextbox.MinWidth = 150;
-            lottoTextbox.MaxLines = 1;
-            lottoTextbox.Background = Brushes.Transparent;
-            
+
+            object resource = Application.Current.FindResource("TextBoxDarkNotEnable");
+            if (resource != null && resource.GetType() == typeof(Style))
+                lottoTextbox.Style = (Style)resource;
+
             var toAdd = true;
             if (!string.IsNullOrEmpty(text))
             {
                 lottoTextbox.Text = text;
-                lottoTextbox.IsEnabled = false;
+                lottoTextbox.IsReadOnly = true;
 
                 var anyFilled = false;
                 foreach (ListViewItem item in MessageContentList.Items)
@@ -301,41 +299,24 @@ namespace WPF.GUI.Controls.NoteManagerControls
                 AddNewLottoTextBox();
         }
 
-        private void FillNoteFieldsFromNote(FileTypesEnum type, MessageInfoModel obj)
+        private void FillNoteFieldsFromNote(MessageInfoModel obj)
         {
             if (luckyNumbersToSave == null)
                 throw new Exception();
 
             luckyNumbersToSave.Clear();
 
-            if (FileTypesEnum.EXCEPTION.Equals(type))
-            {
-                foreach (var exception in obj.ExceptionInfo.ToList())
-                    MessageContent.Text += exception;
-            }
-            else if (FileTypesEnum.TRACE.Equals(type))
-            {
-                foreach (var element in obj.Array.ToList())
-                    MessageContent.Text += element;
-            }
-            else if (FileTypesEnum.LOTTO_NOTE.Equals(type))
-            {
-                MessageContent.Text = obj.Message;
+            MessageContent.Text = obj.Message;
 
-                if (obj.Array != null)
+            if (obj.Array != null)
+            {
+                foreach (var line in obj.Array.ToList())
                 {
-                    foreach (var line in obj.Array.ToList())
-                    {
-                        luckyNumbersToSave.Add(line);
-                        AddNewLottoTextBox(line);
-                    }
+                    luckyNumbersToSave.Add(line);
+                    AddNewLottoTextBox(line);
                 }
             }
-            else
-            {
-                MessageContent.Text = obj.Message;
-            }
-        }
+    }
 
         private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
         {
