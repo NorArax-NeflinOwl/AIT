@@ -54,7 +54,7 @@ namespace WPF.GUI.Windows
 
         public void Init()
         {
-            CenterWindowOnScreen();
+            WindowCentralizer.CenterWindowOnScreen(this);
             RegLoginTextBox.Focus();
 
             listOfFields = new List<Control>
@@ -136,16 +136,6 @@ namespace WPF.GUI.Windows
             {
                 LogManager.Instance.LogExceptionToFileAndDB(ex);
             }
-        }
-
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void RegActRepSendButton_Click(object sender, RoutedEventArgs e)

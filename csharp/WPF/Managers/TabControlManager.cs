@@ -138,5 +138,16 @@ namespace WPF.Managers
 
             Add(new DashboardProperties());
         }
+
+        public void SerializeSession()
+        {
+            foreach (var element in tabControl?.Items)
+            {
+                if (element is TabItem item && item.Content is Frame frame && frame.Content is ISerializableForSession page)
+                {
+                    page.SerializeSession();
+                }
+            }
+        }
     }
 }

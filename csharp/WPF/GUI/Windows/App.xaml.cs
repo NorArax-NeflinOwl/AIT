@@ -84,6 +84,8 @@ namespace WPF
                 if (msgBox == MessageBoxResult.Yes)
                 {
                     IsClosed = true;
+                    PDBContext.Instance.SaveSession();
+
                     MainContext.Instance.Windows.Hide("for close app");
                     BackgroundTasksManager.Instance.Collect().Wait();
 

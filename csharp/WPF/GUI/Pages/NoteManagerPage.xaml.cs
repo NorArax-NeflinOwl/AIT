@@ -25,7 +25,7 @@ namespace WPF.GUI.Pages
     /// <summary>
     /// Interaction logic for NoteManagerPage.xaml
     /// </summary>
-    public partial class NoteManagerPage : Page, IDisposableExtended, IPropertizableControl
+    public partial class NoteManagerPage : Page, IDisposableExtended, IPropertizableControl, ISerializableForSession
     {
         #region Fields
 
@@ -83,7 +83,7 @@ namespace WPF.GUI.Pages
 
         #endregion
 
-        #region Constructor
+        #region Constructor & Interface Implementation
 
         public NoteManagerPage()
         {
@@ -177,6 +177,18 @@ namespace WPF.GUI.Pages
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += StartTimeTicker;
             backgroundWorker.RunWorkerAsync();
+        }
+
+        public void SerializeSession()
+        {
+            var session = PDBContext.Instance.SessionDictionary;
+
+            // TODO save in dictionary mark filter, focused file and unsaved temp file
+        }
+
+        public void DeserializaSession()
+        {
+            // DOTO
         }
 
         #region Private Methods

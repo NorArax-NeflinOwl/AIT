@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using WPF.GUI.Controls;
 using WPF.Models.Enums;
+using WPF.Managers.Helpers;
 
 namespace WPF.GUI.Windows
 {
@@ -35,7 +36,7 @@ namespace WPF.GUI.Windows
 
         public void Init()
         {
-            CenterWindowOnScreen();
+            WindowCentralizer.CenterWindowOnScreen(this);
             SetProgressVisibility(true, WPF.Properties.Resources.INIT, true);
 
             MainFileMenu.Header = WPF.Properties.Resources.FILE_HEADER;
@@ -104,7 +105,7 @@ namespace WPF.GUI.Windows
 
         public void Subscribe()
         {
-            Closing += App.MainWindow_Closing;
+            Closing += MainWindow_Closing;
             KeyUp += MainWindow_KeyUp;
 
             MainTabControlManager.TabControl.SelectionChanged += MainTabControl_SelectionChanged;
@@ -124,7 +125,7 @@ namespace WPF.GUI.Windows
 
         public void Dispose()
         {
-            Closing -= App.MainWindow_Closing;
+            Closing -= MainWindow_Closing;
             KeyUp -= MainWindow_KeyUp;
 
             MainTabControlManager.TabControl.SelectionChanged -= MainTabControl_SelectionChanged;
@@ -142,6 +143,13 @@ namespace WPF.GUI.Windows
             MainTabControlManager.Clear();
             IsDisposed = true;
             GC.Collect();
+        }
+
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainTabControlManager?.SerializeSession();
+            App.MainWindow_Closing(sender, e);
         }
 
         private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -262,17 +270,7 @@ namespace WPF.GUI.Windows
         {
             Title = WPF.Properties.Resources.APP_NAME + " [" + tabName + "]";
         }
-
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
-        }
-
+        
         private void SetProgressVisibility(bool show, string info = "", bool proccess = false)
         {
             if (show)

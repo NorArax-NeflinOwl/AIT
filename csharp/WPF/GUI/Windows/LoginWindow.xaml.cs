@@ -13,6 +13,7 @@ using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
 using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace WPF.GUI.Windows
 {
@@ -37,7 +38,7 @@ namespace WPF.GUI.Windows
 
         public void Init()
         {
-            CenterWindowOnScreen();
+            WindowCentralizer.CenterWindowOnScreen(this);
             LoginImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\GUI\\Icons\\logo4x3.png"));
             LoginInputTextBox.Focus();
 
@@ -122,15 +123,24 @@ namespace WPF.GUI.Windows
                             host.IsLoggedIn = (bool)rememberMe;
 
                         host.Update();
+
+                        var hostDate = context.HostDatas.Where(q => !string.IsNullOrEmpty(q.AssignedTo) && host.ID.Equals(q.AssignedTo)).FirstOrDefault();
+                        if(hostDate == null)
+                        {
+                            CreateHostData(context, host);
+                        }
                     }
                     else
                     {
                         var newhost = new AitUserHostModel(context)
                         {
                             AssignedTo = PDBContext.Instance.AccountID,
-                            HostName = HardwareManager.GetComputerName()
+                            HostName = HardwareManager.GetComputerName(),
+                            IsLoggedIn = (bool)rememberMe
                         };
                         newhost.Insert();
+
+                        CreateHostData(context, newhost);
                     }
                 }
 
@@ -155,6 +165,20 @@ namespace WPF.GUI.Windows
             LoginProgressBar.Visibility = Visibility.Collapsed;
         }
 
+        private void CreateHostData(DBContext context, AitUserHostModel host)
+        {
+            var newHostDate = new AitHostDataModel(context)
+            {
+                UserHost = host,
+                ComputerName = PDBContext.Instance.DeviceInfo.Software?.ComputerName,
+                CurrentLanguage = PDBContext.Instance.DeviceInfo.Software?.CurrentLanguage,
+                OSInfo = PDBContext.Instance.DeviceInfo.Software?.OSInfo,
+                ProcessorInfo = PDBContext.Instance.DeviceInfo.Hardware?.ProcessorInfo,
+                PhysicalMemory = PDBContext.Instance.DeviceInfo.Hardware?.PhysicalMemory
+            };
+            newHostDate.Insert();
+        }
+
         public void Dispose()
         {
             KeyUp -= LoginWindow_KeyUp;
@@ -164,16 +188,6 @@ namespace WPF.GUI.Windows
 
             IsDisposed = true;
             GC.Collect();
-        }
-
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
         }
     }
 }

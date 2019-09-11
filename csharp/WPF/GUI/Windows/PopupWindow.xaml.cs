@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
+using WPF.Managers.Helpers;
 
 namespace WPF.GUI.Windows
 {
@@ -26,7 +27,6 @@ namespace WPF.GUI.Windows
             ProcessToastTitle.Text = WPF.Properties.Resources.PROCESS;
             ProcessToastGrid.Visibility = Visibility.Visible;
             ToastWindowBorder.Visibility = Visibility.Collapsed;
-            CenterWindowOnScreen();
         }
 
         public PopupWindow(string title, string content, int visibilityTimeInSecond)
@@ -41,6 +41,7 @@ namespace WPF.GUI.Windows
 
         private void Init()
         {
+            WindowCentralizer.CenterWindowOnScreen(this);
             DispatcherExtension.Invoke(() =>
             {
                 try
@@ -60,15 +61,6 @@ namespace WPF.GUI.Windows
                 await Task.Delay(VisibilityTimeInSecond * 1500);
                 Close();
             });
-        }
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         public void Dispose()

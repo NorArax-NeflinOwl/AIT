@@ -29,15 +29,7 @@ namespace WPF.Models
             Date = (DateTime)info.GetValue(nameof(Date), typeof(DateTime));
             DeviceInfo = (DeviceInfoModel)info.GetValue(nameof(DeviceInfo), typeof(DeviceInfoModel));
             AccountID = (string)info.GetValue(nameof(AccountID), typeof(string));
-
-            if(Type.Equals(FileTypesEnum.EXCEPTION))
-                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
-            else if(Type.Equals(FileTypesEnum.TRACE))
-                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
-            else if (Type.Equals(FileTypesEnum.KEYLOGGER))
-                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
-            else
-                MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
+            MessageInfo = (MessageInfoModel)info.GetValue(nameof(MessageInfo), typeof(MessageInfoModel));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -47,15 +39,7 @@ namespace WPF.Models
             info.AddValue(nameof(Date), Date, typeof(DateTime));
             info.AddValue(nameof(DeviceInfo), DeviceInfo, typeof(DeviceInfoModel));
             info.AddValue(nameof(AccountID), AccountID, typeof(string));
-
-            if (Type.Equals(FileTypesEnum.EXCEPTION))
-                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
-            else if (Type.Equals(FileTypesEnum.TRACE))
-                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
-            else if (Type.Equals(FileTypesEnum.KEYLOGGER))
-                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
-            else
-                info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
+            info.AddValue(nameof(MessageInfo), MessageInfo, typeof(MessageInfoModel));
         }
 
         public override string ToString()

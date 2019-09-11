@@ -9,6 +9,10 @@ using WPF.Managers;
 using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
+using WPF.Managers.Helpers;
+using WPF.Databases.Models;
+using System.Configuration;
+using System.Collections.Generic;
 
 namespace WPF.GUI.Windows
 {
@@ -38,7 +42,7 @@ namespace WPF.GUI.Windows
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            CenterWindowOnScreen();
+            WindowCentralizer.CenterWindowOnScreen(this);
             InitMessage.Text = WPF.Properties.Resources.APP_START;
             InitImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\GUI\\Icons\\logo4x3.png"));
 
@@ -60,6 +64,8 @@ namespace WPF.GUI.Windows
                 {
                     var userHost = context.UsersHosts.Where(q => host.Equals(q.HostName) && q.IsActive && q.IsLoggedIn && !string.IsNullOrEmpty(q.AssignedTo)).FirstOrDefault();
 
+                    DeserializeSession(context, userHost?.AssignedTo);
+
                     stopwatch.Stop();
                     if (stopwatch.ElapsedMilliseconds < 1000)
                     {
@@ -80,20 +86,37 @@ namespace WPF.GUI.Windows
             });
         }
 
-        private void CenterWindowOnScreen()
-        {
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            Left = (screenWidth / 2) - (windowWidth / 2);
-            Top = (screenHeight / 2) - (windowHeight / 2);
-        }
-
         public void Dispose()
         {
             IsDisposed = true;
             GC.Collect();
+        }
+
+        private void DeserializeSession(DBContext context, string accountID)
+        {
+            if(!string.IsNullOrEmpty(accountID))
+            {
+                AitAccountModel fileCreator = null;
+                var creator = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                if (!string.IsNullOrEmpty(creator))
+                {
+                    fileCreator = context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
+                }
+
+                var sessionFile = context.Files.Where(q => !string.IsNullOrEmpty(q.Creator) && q.Creator.Equals(creator)
+                                                                && !string.IsNullOrEmpty(q.AssignedTo) && q.AssignedTo.Equals(accountID)
+                                                                && q.Name.Equals("SessionDictionary")).FirstOrDefault();
+
+                if(sessionFile != null)
+                {
+                    var dictionary = CryptoJsonManager.Instance.Deserialize<Dictionary<string, string>>(sessionFile.Content);
+                    if(dictionary != null)
+                    {
+                        PDBContext.Instance.SessionDictionary = dictionary;
+                    }
+                    sessionFile.Delete();
+                }
+            }
         }
     }
 }

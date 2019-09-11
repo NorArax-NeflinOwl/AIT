@@ -21,6 +21,11 @@ namespace WPF.Models.Extensions
 
         public App App { get => app; }
 
+        public void DeserializeSession()
+        {
+            // TODO open windows from PDBContext.Instace.SessionDictionary;
+        }
+
         public IWindowsProperties Open(IWindowsProperties properties)
         {
             Open(properties, true);
