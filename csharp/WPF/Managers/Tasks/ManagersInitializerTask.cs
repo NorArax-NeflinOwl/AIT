@@ -61,6 +61,7 @@ namespace WPF.Managers.Tasks
             try
             {
                 CreateManager();
+                CreateAdmin();
             }
             catch (Exception ex)
             {
@@ -86,6 +87,26 @@ namespace WPF.Managers.Tasks
                         Permition = PermitionAccountEnum.NONE
                     };
                     manager.Insert();
+                }
+            }
+        }
+
+        private void CreateAdmin()
+        {
+            // Create admin
+            using (var context = Context)
+            {
+                var admin = context.Accounts.Where(q => q.Login.Equals("admin")).FirstOrDefault();
+                if (admin == null)
+                {
+                    admin = new AitAccountModel(context)
+                    {
+                        Login = nameof(admin),
+                        Password = nameof(admin),
+                        Permition = PermitionAccountEnum.ADMIN,
+                        IsActive = true
+                    };
+                    admin.Insert();
                 }
             }
         }

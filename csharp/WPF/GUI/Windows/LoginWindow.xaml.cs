@@ -135,7 +135,7 @@ namespace WPF.GUI.Windows
                         var newhost = new AitUserHostModel(context)
                         {
                             AssignedTo = PDBContext.Instance.AccountID,
-                            HostName = HardwareManager.GetComputerName(),
+                            HostName = PDBContext.Instance.DeviceInfo.Software?.ComputerName,
                             IsLoggedIn = (bool)rememberMe
                         };
                         newhost.Insert();
