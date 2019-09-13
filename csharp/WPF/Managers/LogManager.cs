@@ -76,7 +76,7 @@ namespace WPF.Managers
                     }
 
                     list.Add(log);
-                    var json = CryptoJsonManager.Instance.Serialize(list);
+                    var json = CryptoJsonManager.Instance.SerializeBeautified(list);
                     File.WriteAllText(filePath, json);
                 }
             }

@@ -26,148 +26,152 @@ namespace WPF.Managers
 
         public void CreateFilterPanel(AitAccountModel account)
         {
-            page.NoteManagerFilter.Items.Clear();
-            var noteFilter = new MenuItem
+            var selectedItem = CheckIfFilterIsSelected();
+            if (selectedItem == null)
             {
-                Header = "Filters",
-                Background = Brushes.Transparent,
-                Foreground = Brushes.White
-            };
+                page.NoteManagerFilter.Items.Clear();
+                var noteFilter = new MenuItem
+                {
+                    Header = "Filters",
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.White
+                };
 
-            var obj = new MenuItem
-            {
-                Header = "All",
-                Background = Brushes.LightGray,
-                Foreground = Brushes.Black,
-                IsEnabled = false
-            };
-            obj.Click += ALL_Click;
-            noteFilter.Items.Add(obj);
+                var obj = new MenuItem
+                {
+                    Header = "All",
+                    Background = Brushes.LightGray,
+                    Foreground = Brushes.Black,
+                    IsEnabled = false
+                };
+                obj.Click += ALL_Click;
+                noteFilter.Items.Add(obj);
 
-            obj = new MenuItem
-            {
-                Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.DETACHED)).FirstOrDefault()?.ToString(),
-                Background = Brushes.LightGray,
-                Foreground = Brushes.Black
-            };
-            obj.Click += DETACHED_Click;
-            noteFilter.Items.Add(obj);
+                obj = new MenuItem
+                {
+                    Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.DETACHED)).FirstOrDefault()?.ToString(),
+                    Background = Brushes.LightGray,
+                    Foreground = Brushes.Black
+                };
+                obj.Click += DETACHED_Click;
+                noteFilter.Items.Add(obj);
 
-            if (account != null)
-            {
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
+                if (account != null)
                 {
-                    obj = new MenuItem
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.EXCEPTION))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.EXCEPTION)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += EXCEPTION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.EXCEPTION)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += EXCEPTION_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.INFORMATION))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.INFORMATION)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += INFORMATION_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.INFORMATION)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += INFORMATION_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.NOTE))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.NOTE)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.NOTE)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += NOTE_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TRACE))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.TRACE)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += TRACE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.TRACE)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += TRACE_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.QUERY))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.QUERY)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += QUERY_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.QUERY)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += QUERY_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.TASK))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.TASK)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += TASK_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.TASK)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += TASK_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.KEYLOGGER))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.KEYLOGGER)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += KEYLOGGER_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.KEYLOGGER)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += KEYLOGGER_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.ACTIVATION_CODE))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += ACTIVATION_CODE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.ACTIVATION_CODE)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += ACTIVATION_CODE_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.LOTTO_NOTE))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.LOTTO_NOTE)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += LOTTO_NOTE_Click;
-                    noteFilter.Items.Add(obj);
-                }
-                if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.SHEDULER))
-                {
-                    obj = new MenuItem
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.LOTTO_NOTE)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += LOTTO_NOTE_Click;
+                        noteFilter.Items.Add(obj);
+                    }
+                    if (FileTypesManager.AccountHasPermitionToFile(account.Permition, FileTypesEnum.SHEDULER))
                     {
-                        Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.SHEDULER)).FirstOrDefault()?.ToString(),
-                        Background = Brushes.LightGray,
-                        Foreground = Brushes.Black
-                    };
-                    obj.Click += SHEDULER_Click;
-                    noteFilter.Items.Add(obj);
+                        obj = new MenuItem
+                        {
+                            Header = FileTypesManager.Types.Where(q => q.EnumType.Equals(FileTypesEnum.SHEDULER)).FirstOrDefault()?.ToString(),
+                            Background = Brushes.LightGray,
+                            Foreground = Brushes.Black
+                        };
+                        obj.Click += SHEDULER_Click;
+                        noteFilter.Items.Add(obj);
+                    }
                 }
+
+                page.NoteManagerFilter.Items.Add(noteFilter);
             }
-
-            page.NoteManagerFilter.Items.Add(noteFilter);
         }
 
         public void Dispose()

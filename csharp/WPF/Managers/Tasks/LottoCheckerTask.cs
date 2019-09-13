@@ -111,10 +111,10 @@ namespace WPF.Managers.Tasks
                                     if (account != null)
                                     {
                                         MailSender.SendTo(account.Email, Title, string.Format(Message,
-                                                    lottoModel.WiningNumbers,
+                                                    ConvertList2String(userLuckyNumbers),
                                                     lottoModel.ID.Replace(".", string.Empty),
                                                     lottoModel.Date.ToString("dd/MM/yyyy"),
-                                                    hits, ConvertList2String(userLuckyNumbers)));
+                                                    hits, lottoModel.WiningNumbers));
                                     }
                                     else
                                     {
@@ -185,10 +185,10 @@ namespace WPF.Managers.Tasks
             foreach(var item in list)
             {
                 newList.Add(string.Format(LottoLuckyNumberListItemMessage,
-                                          lottoInfo.WiningNumbers,
+                                          item,
                                           lottoInfo.ID.Replace(".", string.Empty),
                                           lottoInfo.Date.ToString("dd/MM/yyyy"),
-                                          hits, item));
+                                          hits, lottoInfo.WiningNumbers));
             }
             return newList.Distinct().ToArray();
         }

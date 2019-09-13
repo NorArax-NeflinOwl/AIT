@@ -52,6 +52,26 @@ namespace WPF.Managers
             }
         }
 
+        public string SerializeBeautified(object obj, string password = null)
+        {
+            try
+            {
+                var setting = new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    ObjectCreationHandling = ObjectCreationHandling.Replace,
+                    Formatting = Formatting.Indented
+                };
+                var json = JsonConvert.SerializeObject(obj, setting);
+                return !string.IsNullOrEmpty(password) ? CRYPTO_FLAG + m_Encrypter.Encrypt(json, password) : json;
+            }
+            catch (Exception ex)
+            {
+                LogManager.Instance.LogExceptionToFileAndDB(ex);
+                return string.Empty;
+            }
+        }
+
         public T Deserialize<T>(string text)
         {
             return Deserialize<T>(text, null, true);

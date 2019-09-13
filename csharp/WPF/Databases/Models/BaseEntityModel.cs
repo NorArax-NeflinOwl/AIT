@@ -12,11 +12,11 @@ namespace WPF.Databases.Models
 {
     public class BaseEntityModel : NotifyPropertyChangedExtension, ITriggerable, IDisposableExtended
     {
+        private bool? isDeleted;
+
         protected string BaseID;
         protected DateTime? BaseLastUpdate;
         protected DBContext Context;
-
-        private bool? isDeleted;
 
         [NotMapped]
         public bool IsDisposed { get; set; }

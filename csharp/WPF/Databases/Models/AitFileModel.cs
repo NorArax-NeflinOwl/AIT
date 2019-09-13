@@ -37,7 +37,6 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref creator, value, nameof(Creator));
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -53,7 +52,6 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref assignedTo, value, nameof(AssignedTo));
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -64,7 +62,6 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref name, value, nameof(Name));
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -75,7 +72,6 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref type, value, nameof(Type));
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -86,7 +82,6 @@ namespace WPF.Databases.Models
             set
             {
                 SetField(ref content, value, nameof(Content));
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -124,7 +119,6 @@ namespace WPF.Databases.Models
                 {
                     creator = value.ID;
                 }
-                LastUpdate = DateTime.Now;
             }
         }
 
@@ -147,7 +141,6 @@ namespace WPF.Databases.Models
                 {
                     assignedTo = value.ID;
                 }
-                LastUpdate = DateTime.Now;
             }
         }
 

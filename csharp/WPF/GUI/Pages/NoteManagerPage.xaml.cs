@@ -188,7 +188,7 @@ namespace WPF.GUI.Pages
 
         public void DeserializaSession()
         {
-            // DOTO
+            // TODO
         }
 
         #region Private Methods
@@ -253,8 +253,8 @@ namespace WPF.GUI.Pages
                             var acc = ValidateAssignedToAccount(context, name.ToLower());
                             if(acc != null)
                             {
-                                var file = context.Files.Where(q => acc.ID.Equals(q.Creator) || acc.ID.Equals(q.AssignedTo)).FirstOrDefault();
-                                if (file == null)
+                                var file = context.Files.Where(q => (acc.ID.Equals(q.Creator) || acc.ID.Equals(q.AssignedTo)) && q.Name.Equals(NoteNameBox?.Text)).ToList();
+                                if (file == null || !file.Any())
                                 {
                                     var creator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
                                     var newNote = new AitFileModel(context);
@@ -263,6 +263,7 @@ namespace WPF.GUI.Pages
                                     {
                                         newNote.FileCreator = clone.FileCreator;
                                         newNote.Create = clone.Create;
+                                        newNote.LastUpdate = DateTime.Now;
                                     }
 
                                     newNote.FileOwner = acc;
@@ -468,7 +469,7 @@ namespace WPF.GUI.Pages
                 {
                     var index = 1;
                     account.FillObject();
-                    var list = account.Files.GroupBy(q => q.Name).Select(q => q.First()).OrderBy(q => q.Name).ToList();
+                    var list = account.Files.ToList();
                     if (!string.IsNullOrEmpty(searchItem))
                     {
                         list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
@@ -782,6 +783,11 @@ namespace WPF.GUI.Pages
         public void RefreshList()
         {
             InitListView();
+        }
+
+        public void RefreshLayout()
+        {
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
         }
 
         #endregion

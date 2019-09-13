@@ -16,7 +16,8 @@ namespace WPF.GUI.Controls
             Note = note;
             InitializeComponent();
             Title.Text = index + " " + Note.Name;
-            CreateDate.Text = Properties.Resources.CREATE_S + " " + Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
+            var date = Note.LastUpdate ?? Note.Create;
+            Date.Text = Properties.Resources.CREATE_S + " " + date.ToString("dd/MM/yyyy HH:mm:ss");
             Type.Text = Properties.Resources.TYPE_S + " " + Note.Type.ToString();
 
             if(note.IsDetached)

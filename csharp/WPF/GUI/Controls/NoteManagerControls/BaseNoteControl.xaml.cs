@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using WPF.Managers;
 using WPF.Models;
 using WPF.Models.Enums;
+using WPF.Models.Extensions;
 using WPF.Models.Interfaces;
 
 namespace WPF.GUI.Controls.NoteManagerControls
@@ -131,6 +132,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
         private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
         {
             IsCorrectlyFilled = !string.IsNullOrEmpty(MessageContent.Text);
+            WindowsExtension.GetMainWindow()?.MainTabControlManager?.GetNoteManager()?.RefreshLayout();
         }
 
         private void FillNoteFieldsFromNote(FileTypesEnum type, MessageInfoModel obj)

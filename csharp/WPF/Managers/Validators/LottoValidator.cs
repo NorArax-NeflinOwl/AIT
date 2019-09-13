@@ -81,7 +81,7 @@ namespace WPF.Managers.Validators
                     }
                 }
 
-                if(hits >= 3)
+                if(hits >= 4)
                 {
                     userLuckyNumber.Add(ConvertTab2String(searchTab[i]));
                 }
