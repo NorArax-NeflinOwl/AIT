@@ -66,10 +66,18 @@ namespace WPF.Databases.Models
                 Context = PDBContext.Instance.Context;
             }
 
+            var creator = PDBContext.Instance.AccountID;
+            if(!string.IsNullOrEmpty(creator))
+            {
+                creator = ConfigurationManager.AppSettings["TasksManager"].ToString();
+            }
+
             var sts = new SysStsgenids
             {
-                ID = BaseID
+                ID = BaseID,
+                CreateBy = creator
             };
+
             Context.Add(sts);
             Context.Entry(sts).State = EntityState.Added;
             Context.Add(this);
@@ -102,20 +110,29 @@ namespace WPF.Databases.Models
             {
                 if (sts.Delete == null)
                 {
+                    var deleter = PDBContext.Instance.AccountID;
+                    if (!string.IsNullOrEmpty(deleter))
+                    {
+                        deleter = ConfigurationManager.AppSettings["TasksManager"].ToString();
+                    }
+                    sts.DeleteBy = deleter;
                     sts.Delete = DateTime.Now;
-                    Context.Update(sts);
-                    Context.Entry(sts).State = EntityState.Modified;
 
                     var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
                     if(deleteEntityMode.Equals("ON"))
                     {
                         Context.Remove(this);
                         Context.Entry(this).State = EntityState.Deleted;
+                        sts.DeleteReason = "DeleteEntryMode is ON - TODO";
                     }
                     else
                     {
                         isDeleted = true;
+                        sts.DeleteReason = "DeleteEntryMode is OFF - TODO";
                     }
+
+                    Context.Update(sts);
+                    Context.Entry(sts).State = EntityState.Modified;
 
                     Context.SaveChanges();
                 }

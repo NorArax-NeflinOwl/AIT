@@ -22,8 +22,14 @@ namespace WPF.Databases.Models
         }
         [Column("sgi_create")]
         public DateTime Create { get; set; }
+        [Column("sgi_createby")]
+        public string CreateBy { get; set; }
         [Column("sgi_delete")]
         public DateTime? Delete { get; set; }
+        [Column("sgi_deleteby")]
+        public string DeleteBy { get; set; }
+        [Column("sgi_deletereason")]
+        public string DeleteReason { get; set; }
 
         public SysStsgenids()
         {
