@@ -13,8 +13,8 @@ namespace WPF.GUI.Windows.Properties
         public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.DIALOG;
         public IPageModel PagePropertie { get; set; }
         public ResizeMode ResizeMode { get; set; } = ResizeMode.CanResize;
-        public double Width { get; set; } = 300;
-        public double Heigth { get; set; } = 200;
+        public double Width { get; set; } = 700;
+        public double Heigth { get; set; } = 250;
         public bool Topmost { get; set; } = true;
         public WindowStyle WindowStyle { get; set; } = WindowStyle.ToolWindow;
         public WindowStartupLocation WindowStartupLocation { get; set; } = WindowStartupLocation.CenterScreen;
@@ -27,18 +27,17 @@ namespace WPF.GUI.Windows.Properties
             Window = new DialogWindow(this);
         }
 
-        public DialogProperties(Exception exception)
+        public DialogProperties(Window window)
         {
-            Window = new DialogWindow(this);
-            Properties.Add(FileTypesEnum.EXCEPTION.ToString(), exception);
+            Window = window;
         }
 
-        public DialogProperties(LogInfoModel logInfo, DialogTypeEnum type)
+        public DialogProperties(DialogTypeEnum type, string key, object obj)
         {
-            Window = new DialogWindow(this);
+            Properties.Add(nameof(DialogTypeEnum), type);
+            Properties.Add(key, obj);
 
-            Properties.Add("LOG_INFO", logInfo);
-            Properties.Add("DIALOG_TYPE", type);
+            Window = new DialogWindow(this);
         }
 
         public void Dispose()

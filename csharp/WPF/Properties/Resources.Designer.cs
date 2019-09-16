@@ -187,6 +187,24 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CANCEL {
+            get {
+                return ResourceManager.GetString("CANCEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to cancel?.
+        /// </summary>
+        internal static string CANCEL_QUESTION {
+            get {
+                return ResourceManager.GetString("CANCEL_QUESTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Theme.
         /// </summary>
         internal static string CHANGETHEME_HEADER {
@@ -237,6 +255,15 @@ namespace WPF.Properties {
         internal static string CODE_NOTFIND {
             get {
                 return ResourceManager.GetString("CODE_NOTFIND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content is empty!.
+        /// </summary>
+        internal static string CONTENT_EMPTY {
+            get {
+                return ResourceManager.GetString("CONTENT_EMPTY", resourceCulture);
             }
         }
         
@@ -367,6 +394,24 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Files to delete: {0}. {1}Fill reason and save. .
+        /// </summary>
+        internal static string DIALOG_DELETE_TITLE {
+            get {
+                return ResourceManager.GetString("DIALOG_DELETE_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files to detached: {0}. {1}Fill reason and save..
+        /// </summary>
+        internal static string DIALOG_DETACHED_TITLE {
+            get {
+                return ResourceManager.GetString("DIALOG_DETACHED_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string EDIT_HEADER {
@@ -408,6 +453,15 @@ namespace WPF.Properties {
         internal static string ERR_EXT {
             get {
                 return ResourceManager.GetString("ERR_EXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string ERROR {
+            get {
+                return ResourceManager.GetString("ERROR", resourceCulture);
             }
         }
         
@@ -966,6 +1020,15 @@ namespace WPF.Properties {
         internal static string SAVE {
             get {
                 return ResourceManager.GetString("SAVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to save?.
+        /// </summary>
+        internal static string SAVE_QUESTION {
+            get {
+                return ResourceManager.GetString("SAVE_QUESTION", resourceCulture);
             }
         }
         

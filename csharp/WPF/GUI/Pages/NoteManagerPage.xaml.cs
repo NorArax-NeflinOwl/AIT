@@ -11,7 +11,6 @@ using WPF.Databases.Models;
 using WPF.Managers;
 using WPF.Models;
 using WPF.Models.Enums;
-using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Controls;
@@ -19,6 +18,7 @@ using System.Configuration;
 using System.Windows.Input;
 using WPF.Managers.Bilders;
 using System.Windows.Navigation;
+using WPF.GUI.Windows.Properties;
 
 namespace WPF.GUI.Pages
 {
@@ -654,49 +654,12 @@ namespace WPF.GUI.Pages
 
         private void DetachedSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            DispatcherExtension.Invoke(() =>
-            {
-                var count = 0;
-                foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
-                {
-                    item.DetachNote();
-                    item.Note.Update();
-                    count++;
-                }
-
-                NoteManagerListView.SelectedItems.Clear();
-                DetachedSelectedItems.IsEnabled = false;
-                DeleteSelectedItems.IsEnabled = false;
-
-                NoteManagerListView.Items.Clear();
-                ClearContentAction();
-                InitListView();
-
-                MessageBox.Show(string.Format(WPF.Properties.Resources.DETACHED_SUCC, count), WPF.Properties.Resources.INFORMATION, MessageBoxButton.OK, MessageBoxImage.Information);
-            });
+            MainContext.Instance.Windows.Open(new DialogProperties(DialogTypeEnum.NOTE_DETACHED_FOR_REASON, nameof(NoteManagerPage), this));
         }
 
         private void DeleteSelectedItems_Click(object sender, RoutedEventArgs e)
         {
-            DispatcherExtension.Invoke(() =>
-            {
-                var count = 0;
-                foreach (NoteListViewItemControl item in NoteManagerListView.SelectedItems)
-                {
-                    item.Note.Delete();
-                    count++;
-                }
-
-                NoteManagerListView.SelectedItems.Clear();
-                DetachedSelectedItems.IsEnabled = false;
-                DeleteSelectedItems.IsEnabled = false;
-
-                NoteManagerListView.Items.Clear();
-                ClearContentAction();
-                InitListView();
-
-                MessageBox.Show(string.Format(WPF.Properties.Resources.DELETE_SUCC, count), WPF.Properties.Resources.INFORMATION, MessageBoxButton.OK, MessageBoxImage.Information);
-            });
+            MainContext.Instance.Windows.Open(new DialogProperties(DialogTypeEnum.NOTE_DELETE_FOR_REASON, nameof(NoteManagerPage), this));
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -746,9 +709,19 @@ namespace WPF.GUI.Pages
 
         #endregion
 
-        #region Private Methods
+        #region Public Methods
 
-        private void ClearContentAction()
+        public void RefreshList()
+        {
+            InitListView();
+        }
+
+        public void RefreshLayout()
+        {
+            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
+        }
+
+        public void ClearContentAction()
         {
             NoteNameBox.Text = string.Empty;
             NoteAssignedToBox.Text = string.Empty;
@@ -774,20 +747,6 @@ namespace WPF.GUI.Pages
             backgroundWorker = new BackgroundWorker();
             backgroundWorker.DoWork += StartTimeTicker;
             backgroundWorker.RunWorkerAsync();
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public void RefreshList()
-        {
-            InitListView();
-        }
-
-        public void RefreshLayout()
-        {
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
         }
 
         #endregion

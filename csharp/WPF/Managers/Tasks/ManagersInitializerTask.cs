@@ -102,7 +102,6 @@ namespace WPF.Managers.Tasks
                     admin = new AitAccountModel(context)
                     {
                         Login = nameof(admin),
-                        Password = nameof(admin),
                         Permition = PermitionAccountEnum.ADMIN,
                         IsActive = true
                     };

@@ -7,17 +7,45 @@
         
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="{Binding Properties.Title}" 
-        Height="{Binding Properties.Heigth}" 
-        Width="{Binding Properties.Width}" 
-        ResizeMode="{Binding Properties.ResizeMode}"
-        WindowStyle="{Binding Properties.WindowStyle}"
-        WindowStartupLocation="{Binding Properties.WindowStartupLocation}"
-        Topmost="{Binding Properties.Topmost}" 
+        Height="{Binding Properties.Height}" 
+        MinHeight="250" MaxHeight="500"
+        MinWidth="400" Width="700" MaxWidth="700"
+        ResizeMode="CanResize"
+        WindowStyle="ToolWindow"
+        WindowStartupLocation="CenterScreen"
         ShowInTaskbar="False">
-    
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid Background="LightGray">
-        <Grid>
-            
+        <Grid x:Name="DialogMessageGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="DialogTitle" Text="Title" Margin="30,20" FontSize="24"/>
+            <ScrollViewer Grid.Row="1" Margin="3,0">
+                <TextBox Grid.Row="1" x:Name="DialogUsedContent" AcceptsReturn="True" TextWrapping="Wrap" Background="White"/>
+            </ScrollViewer>
+            <Grid Grid.Row="2" Margin="5,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Name="DialogCancelBtn" Margin="4" Content="Cancel" Background="#032b86"/>
+                <Button Grid.Column="2" Name="DialogSaveBtn" Margin="4" Content="Save" Background="#032b86"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

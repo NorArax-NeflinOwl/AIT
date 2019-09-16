@@ -233,6 +233,9 @@
     <Compile Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml.cs">
       <DependentUpon>LottoNoteControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Windows\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Managers\Builders\ActivateCodeBuilder.cs" />
     <Compile Include="Managers\Builders\EntryIdentificatorBuilder.cs" />
     <Compile Include="Managers\Builders\NoteManagerControlBuilder.cs" />
@@ -278,9 +281,6 @@
     <Compile Include="GUI\Pages\Properties\SettingsProperties.cs" />
     <Compile Include="GUI\Pages\SettingPage.xaml.cs">
       <DependentUpon>SettingPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Windows\DialogWindow.xaml.cs">
-      <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>

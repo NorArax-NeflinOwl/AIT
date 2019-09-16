@@ -159,6 +159,12 @@
   <data name="CACHE_FILE" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CANCEL_QUESTION" xml:space="preserve">
+    <value>Do you want to cancel?</value>
+  </data>
   <data name="CHANGETHEME_HEADER" xml:space="preserve">
     <value>Change Theme</value>
   </data>
@@ -176,6 +182,9 @@
   </data>
   <data name="CODE_NOTFIND" xml:space="preserve">
     <value>Error in database. Not find activation code!</value>
+  </data>
+  <data name="CONTENT_EMPTY" xml:space="preserve">
+    <value>Content is empty!</value>
   </data>
   <data name="CREATESHA256HASH_HEADER" xml:space="preserve">
     <value>Create SHA256 Hash</value>
@@ -219,6 +228,12 @@
   <data name="DETACHED_SUCC" xml:space="preserve">
     <value>Successful detached {0} elements.</value>
   </data>
+  <data name="DIALOG_DELETE_TITLE" xml:space="preserve">
+    <value>Files to delete: {0}. {1}Fill reason and save. </value>
+  </data>
+  <data name="DIALOG_DETACHED_TITLE" xml:space="preserve">
+    <value>Files to detached: {0}. {1}Fill reason and save.</value>
+  </data>
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -230,6 +245,9 @@
   </data>
   <data name="EMAIL_SEND" xml:space="preserve">
     <value>Main send</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>Error</value>
   </data>
   <data name="ERROR_HANDLEINFO" xml:space="preserve">
     <value>{0} errors handle. Check logs!</value>
@@ -419,6 +437,9 @@
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SAVE_QUESTION" xml:space="preserve">
+    <value>Do you want to save?</value>
   </data>
   <data name="SETTINGS_HEADER" xml:space="preserve">
     <value>Settings</value>

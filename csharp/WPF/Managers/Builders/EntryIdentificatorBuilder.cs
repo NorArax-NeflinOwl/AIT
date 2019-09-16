@@ -23,7 +23,6 @@ namespace WPF.Managers.Builders
         public static string RecordIDGenerator(SystemPrefixEnum systemPrefix, TableInerfixEnum tablePrefix)
         {
             var id = "0000000";
-
             if (UsedByNotSavedIDs.Any())
             {
                 var oldid = int.Parse(UsedByNotSavedIDs.Last().Split(separator)[2]);
@@ -38,10 +37,6 @@ namespace WPF.Managers.Builders
                     {
                         var oldid = int.Parse(sysid.ID.Split(separator)[2]);
                         id = Converters.Digit2StringCreate(oldid + 1, 7);
-                    }
-                    else
-                    {
-                        LogManager.Instance.LogExceptionToFileAndDB(new SqliteExceptions.EntityNotFound("Stsgenids table is empty"));
                     }
                 }
             }

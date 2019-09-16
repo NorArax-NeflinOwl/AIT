@@ -16,6 +16,8 @@ namespace WPF.Databases.Models
 
         protected string BaseID;
         protected DateTime? BaseLastUpdate;
+        protected string BaseLastActionComment;
+
         protected DBContext Context;
 
         [NotMapped]
@@ -87,18 +89,29 @@ namespace WPF.Databases.Models
 
         public void Update()
         {
+            UpdateForReason(null);
+        }
+
+        public void UpdateForReason(string reason)
+        {
             if (Context?.IsDisposed == true)
             {
                 Context = PDBContext.Instance.Context;
             }
 
             BaseLastUpdate = DateTime.Now;
+            BaseLastActionComment = reason;
             Context.Entry(this).State = EntityState.Modified;
             Context.Update(this);
             Context.SaveChanges();
         }
 
         public void Delete()
+        {
+            DeleteForReason(null);
+        }
+
+        public void DeleteForReason(string reason)
         {
             if (Context?.IsDisposed == true)
             {
@@ -123,13 +136,14 @@ namespace WPF.Databases.Models
                     {
                         Context.Remove(this);
                         Context.Entry(this).State = EntityState.Deleted;
-                        sts.DeleteReason = "DeleteEntryMode is ON - TODO";
                     }
                     else
                     {
                         isDeleted = true;
-                        sts.DeleteReason = "DeleteEntryMode is OFF - TODO";
                     }
+
+                    if(!string.IsNullOrEmpty(reason))
+                        sts.DeleteReason = reason;
 
                     Context.Update(sts);
                     Context.Entry(sts).State = EntityState.Modified;

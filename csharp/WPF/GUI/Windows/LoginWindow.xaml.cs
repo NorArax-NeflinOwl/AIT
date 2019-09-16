@@ -79,13 +79,14 @@ namespace WPF.GUI.Windows
         {
             LoginProgressBar.Visibility = Visibility.Visible;
             var login = LoginInputTextBox.Text;
-            var password = Generators.GenerateSha256Hash(LoginInputPasswordBox.Password);
+            var password = string.IsNullOrEmpty(LoginInputPasswordBox.Password) ? "" : Generators.GenerateSha256Hash(LoginInputPasswordBox.Password);
             var rememberMe = LoginRememberCheckBox.IsChecked;
 
             try
             {
                 if (string.IsNullOrEmpty(login))
                     throw new AitAccountExceptions.LoginException(WPF.Properties.Resources.LOGIN_EMPTY);
+                
                 if (string.IsNullOrEmpty(password))
                     throw new AitAccountExceptions.PasswordException(WPF.Properties.Resources.PASS_EMPTY); 
 
