@@ -163,7 +163,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
         {
             foreach (var item in FileTypesManager.Types)
             {
-                if ((int)Account.Permition >= (int)item.PermitionLevel)
+                if ((int)Account.Permition >= (int)item.PermitionLevel && item.AllowToCreate)
                 {
                     NoteTypeComboBox.Items.Add(item);
                 }
@@ -201,7 +201,7 @@ namespace WPF.GUI.Controls.NoteManagerControls
                     if (CurrentNote != null)
                     {
                         clone = (AitFileModel)CurrentNote.Clone();
-                        CurrentNote.Delete();
+                        CurrentNote.ForceDelete();
                     }
                     foreach (var value in names)
                     {

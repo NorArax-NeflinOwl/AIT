@@ -27,20 +27,17 @@ namespace WPF.Models
 
         public MessageInfoModel(string message)
         {
-            Message = Environment.NewLine + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " ";
             if (!string.IsNullOrWhiteSpace(message))
                 Message += message;
         }
 
         public MessageInfoModel(Exception exception)
         {
-            Message = Environment.NewLine + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
             ExceptionInfo = GetException(exception, new List<string>()).ToArray();
         }
 
         public MessageInfoModel(string message, Exception exception)
         {
-            Message = Environment.NewLine;
             if (!string.IsNullOrWhiteSpace(message))
                 Message = message;
 

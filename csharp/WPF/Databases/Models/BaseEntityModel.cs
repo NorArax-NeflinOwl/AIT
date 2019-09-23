@@ -106,12 +106,17 @@ namespace WPF.Databases.Models
             Context.SaveChanges();
         }
 
-        public void Delete()
+        public void ForceDelete()
         {
-            DeleteForReason(null);
+            DeleteForReason(null, true);
         }
 
-        public void DeleteForReason(string reason)
+        public void Delete()
+        {
+            DeleteForReason(null, false);
+        }
+
+        public void DeleteForReason(string reason, bool forceDelete = false)
         {
             if (Context?.IsDisposed == true)
             {
@@ -132,7 +137,7 @@ namespace WPF.Databases.Models
                     sts.Delete = DateTime.Now;
 
                     var deleteEntityMode = ConfigurationManager.AppSettings["DeleteEntryMode"].ToString();
-                    if(deleteEntityMode.Equals("ON"))
+                    if (deleteEntityMode.Equals("ON") || forceDelete)
                     {
                         Context.Remove(this);
                         Context.Entry(this).State = EntityState.Deleted;

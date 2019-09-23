@@ -28,6 +28,7 @@ namespace WPF.GUI.Pages
         public bool IsDisposed { get; set; }
         public IProperties Properties { get; }
         public NoteFiltersManager FilterManager { get; set; }
+        public RightPanelNoteControl RightPanel { get; set; }
 
         #endregion
 
@@ -86,6 +87,14 @@ namespace WPF.GUI.Pages
             {
                 DeleteSelectedItems.Visibility = Visibility.Visible;
             }
+
+
+            if (RightPanelFrame == null)
+                RightPanelFrame = new Frame();
+
+            RightPanelFrame.Content = RightPanel;
+            RightPanelFrame.DataContext = RightPanel;
+            RightPanelFrame.Visibility = Visibility.Visible;
         }
 
         public void SerializeSession()

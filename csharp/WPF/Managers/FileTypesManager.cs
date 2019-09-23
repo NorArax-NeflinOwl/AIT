@@ -10,8 +10,8 @@ namespace WPF.Managers
     {
         public static IList<FileTypeModel> Types = new List<FileTypeModel>
         {
-            new FileTypeModel { EnumType = FileTypesEnum.UNDEFINED, StringType = Properties.Resources.UNDEFINED, PermitionLevel = PermitionAccountEnum.NONE},
-            new FileTypeModel { EnumType = FileTypesEnum.DETACHED, StringType = Properties.Resources.DETACHED, PermitionLevel = PermitionAccountEnum.NONE },
+            new FileTypeModel { EnumType = FileTypesEnum.UNDEFINED, StringType = Properties.Resources.UNDEFINED, PermitionLevel = PermitionAccountEnum.NONE, AllowToCreate = false },
+            new FileTypeModel { EnumType = FileTypesEnum.DETACHED, StringType = Properties.Resources.DETACHED, PermitionLevel = PermitionAccountEnum.NONE, AllowToCreate = false },
 
             new FileTypeModel { EnumType = FileTypesEnum.INFORMATION, StringType = Properties.Resources.INFORMATION, PermitionLevel = PermitionAccountEnum.SIMPLE },
             new FileTypeModel { EnumType = FileTypesEnum.NOTE, StringType = Properties.Resources.NOTE, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
@@ -19,12 +19,12 @@ namespace WPF.Managers
             new FileTypeModel { EnumType = FileTypesEnum.TASK, StringType = Properties.Resources.TASK, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
             new FileTypeModel { EnumType = FileTypesEnum.SHEDULER, StringType = Properties.Resources.SHEDULER, PermitionLevel = PermitionAccountEnum.SIMPLE, AllowToEmptyContent = true },
 
-            new FileTypeModel { EnumType = FileTypesEnum.ACTIVATION_CODE, StringType = Properties.Resources.ACTIVATION_CODE, PermitionLevel = PermitionAccountEnum.MANAGER },
+            new FileTypeModel { EnumType = FileTypesEnum.ACTIVATION_CODE, StringType = Properties.Resources.ACTIVATION_CODE, PermitionLevel = PermitionAccountEnum.MANAGER, AllowToCreate = false },
 
-            new FileTypeModel { EnumType = FileTypesEnum.TRACE, StringType = Properties.Resources.TRACE, PermitionLevel = PermitionAccountEnum.ADMIN },
-            new FileTypeModel { EnumType = FileTypesEnum.EXCEPTION, StringType = Properties.Resources.EXCEPTION, PermitionLevel = PermitionAccountEnum.ADMIN },
-            new FileTypeModel { EnumType = FileTypesEnum.QUERY, StringType = Properties.Resources.QUERY, PermitionLevel = PermitionAccountEnum.ADMIN },
-            new FileTypeModel { EnumType = FileTypesEnum.KEYLOGGER, StringType = Properties.Resources.KEYLOGGER, PermitionLevel = PermitionAccountEnum.ADMIN }
+            new FileTypeModel { EnumType = FileTypesEnum.TRACE, StringType = Properties.Resources.TRACE, PermitionLevel = PermitionAccountEnum.ADMIN, AllowToCreate = false },
+            new FileTypeModel { EnumType = FileTypesEnum.EXCEPTION, StringType = Properties.Resources.EXCEPTION, PermitionLevel = PermitionAccountEnum.ADMIN, AllowToCreate = false },
+            new FileTypeModel { EnumType = FileTypesEnum.QUERY, StringType = Properties.Resources.QUERY, PermitionLevel = PermitionAccountEnum.ADMIN, AllowToCreate = false },
+            new FileTypeModel { EnumType = FileTypesEnum.KEYLOGGER, StringType = Properties.Resources.KEYLOGGER, PermitionLevel = PermitionAccountEnum.ADMIN, AllowToCreate = false }
         };
 
         public static FileTypeModel SetType(int index)
