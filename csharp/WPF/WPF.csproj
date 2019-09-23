@@ -233,6 +233,9 @@
     <Compile Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml.cs">
       <DependentUpon>LottoNoteControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\NoteManagerControls\RightPanelNoteControl.xaml.cs">
+      <DependentUpon>RightPanelNoteControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Windows\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
@@ -313,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\NoteManagerControls\LottoNoteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\NoteManagerControls\RightPanelNoteControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

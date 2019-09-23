@@ -108,6 +108,9 @@ namespace WPF.Databases.Models
             {
                 if(fileCreator == null && !string.IsNullOrEmpty(creator) && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     fileCreator = Context.Accounts.Where(q => q.ID.Equals(creator)).FirstOrDefault();
                 }
                 return fileCreator;
@@ -130,6 +133,9 @@ namespace WPF.Databases.Models
                     return FileCreator;
                 else if (!string.IsNullOrEmpty(assignedTo) && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     fileOwner = Context.Accounts.Where(q => q.ID.Equals(assignedTo)).FirstOrDefault();
                 }
                 return fileOwner;

@@ -2,8 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using WPF.Databases.Contexts;
@@ -11,14 +9,12 @@ using WPF.Databases.Models;
 using WPF.Managers;
 using WPF.Models;
 using WPF.Models.Enums;
-using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 using WPF.GUI.Controls;
 using System.Configuration;
 using System.Windows.Input;
-using WPF.Managers.Bilders;
-using System.Windows.Navigation;
 using WPF.GUI.Windows.Properties;
+using WPF.GUI.Controls.NoteManagerControls;
 
 namespace WPF.GUI.Pages
 {
@@ -29,57 +25,9 @@ namespace WPF.GUI.Pages
     {
         #region Fields
 
-        private AitAccountModel account;
-        private AitFileModel currentNote;
-        private BackgroundWorker backgroundWorker;
-        private NoteFiltersManager filterManager;
-        private FileTypeModel type;
-
-        private IBaseNoteManagerControl ctrl;
-
-        private bool? IsCorrectlyAssign;
-        private bool IsCorrectlyFilled;
-        private bool StopClock;
-
         public bool IsDisposed { get; set; }
-
         public IProperties Properties { get; }
-
-        public FileTypeModel Type
-        {
-            get
-            {
-                return type;
-            }
-            set
-            {
-                if(type == null && value != null || value != null && type?.EnumType.Equals(value.EnumType) == false)
-                {
-                    ctrl = NoteManagerControlBilder.Build(value);
-                    ctrl.Load();
-
-                    if (NoteManagerContent == null)
-                        NoteManagerContent = new Frame();
-
-                    NoteManagerContent.Content = ctrl;
-                    NoteManagerContent.DataContext = ctrl;
-                    NoteManagerContent.Visibility = Visibility.Visible;
-
-                    filterManager = new NoteFiltersManager(this, ctrl);
-                    filterManager.CreateFilterPanel(account);
-                }
-
-                if(value == null)
-                {
-                    NoteManagerContent.Visibility = Visibility.Collapsed;
-                }
-
-                if(NoteManagerContent != null)
-                    NoteManagerContent.NavigationUIVisibility = NavigationUIVisibility.Hidden;
-
-                type = value;
-            }
-        }
+        public NoteFiltersManager FilterManager { get; set; }
 
         #endregion
 
@@ -103,22 +51,7 @@ namespace WPF.GUI.Pages
             DeleteSelectedItems.Click -= DeleteSelectedItems_Click;
             DetachedSelectedItems.Click -= DetachedSelectedItems_Click;
 
-            NoteTypeComboBox.SelectionChanged -= NoteTypeComboBox_SelectionChanged;
-            NoteNameBox.TextChanged -= NoteTitleBox_TextChanged;
-
-            EditContentBtn.Click -= EditContentBtn_Click;
-            ClearContentBtn.Click += ClearContentBtn_Click;
-            SaveContentBtn.Click += SaveContentBtn_Click;
-
-            NoteNameBox.LostFocus -= MessageContent_LostFocus;
-            NoteTypeComboBox.LostFocus -= MessageContent_LostFocus;
-            NoteAssignedToBox.LostFocus -= NoteAssignedToBox_LostFocus;
-
             IsDisposed = true;
-
-            account.Dispose();
-            currentNote?.Dispose();
-            backgroundWorker.Dispose();
 
             GC.Collect();
         }
@@ -133,50 +66,26 @@ namespace WPF.GUI.Pages
             SelectAllCheckBox.Click += SelectAllCheckBox_Click;
             DeleteSelectedItems.Click += DeleteSelectedItems_Click;
             DetachedSelectedItems.Click += DetachedSelectedItems_Click;
-
-            NoteTypeComboBox.SelectionChanged += NoteTypeComboBox_SelectionChanged;
-            NoteNameBox.TextChanged += NoteTitleBox_TextChanged;
-
-            EditContentBtn.Click += EditContentBtn_Click;
-            ClearContentBtn.Click += ClearContentBtn_Click;
-            SaveContentBtn.Click += SaveContentBtn_Click;
-
-            NoteNameBox.LostFocus += MessageContent_LostFocus;
-            NoteTypeComboBox.LostFocus += MessageContent_LostFocus;
-            NoteAssignedToBox.LostFocus += NoteAssignedToBox_LostFocus;
         }
 
         public void Init()
         {
-            ctrl = NoteManagerControlBilder.Build(FileTypesManager.GetType(FileTypesEnum.UNDEFINED));
-            filterManager = new NoteFiltersManager(this, ctrl);
-
+            RightPanel = new RightPanelNoteControl(this);
+            FilterManager = new NoteFiltersManager(this, RightPanel.Control);
             InitListView();
-            InitNoteTypeComboBox();
+            FilterManager.CreateFilterPanel(RightPanel.Account);
 
             NoteManagerTitle.Text = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             DeleteSelectedItems.Content = WPF.Properties.Resources.DELETE_BTNCONTENT;
             DetachedSelectedItems.Content = WPF.Properties.Resources.DETACHED_BTNCONTENT;
             NoteManagerListViewEmpty.Text = WPF.Properties.Resources.LIST_EMPTY;
-
-            NoteContentTitle.Text = WPF.Properties.Resources.NOTE_CONTENT;
-            EditContentBtn.Content = WPF.Properties.Resources.EDIT_HEADER;
-            ClearContentBtn.Content = WPF.Properties.Resources.CLEAR;
-            SaveContentBtn.Content = WPF.Properties.Resources.SAVE;
+            
             // TODO Set note fields hits from WPF.Properties.Resources
 
-            MessageTitle.Text = WPF.Properties.Resources.MESSAGE;
-            DateTitle.Text = WPF.Properties.Resources.DATE_S;
-
-            if (account != null && account.Permition.Equals(PermitionAccountEnum.ADMIN))
+            if (RightPanel.Account != null && RightPanel.Account.Permition.Equals(PermitionAccountEnum.ADMIN))
             {
                 DeleteSelectedItems.Visibility = Visibility.Visible;
             }
-            filterManager.CreateFilterPanel(account);
-
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += StartTimeTicker;
-            backgroundWorker.RunWorkerAsync();
         }
 
         public void SerializeSession()
@@ -191,266 +100,6 @@ namespace WPF.GUI.Pages
             // TODO
         }
 
-        #region Private Methods
-
-        private void InitNoteTypeComboBox()
-        {
-            foreach (var item in FileTypesManager.Types)
-            {
-                if ((int)account.Permition >= (int)item.PermitionLevel)
-                {
-                    NoteTypeComboBox.Items.Add(item);
-                }
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Right Panel
-
-        #region Events
-
-        private void EditContentBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NoteNameBox.IsEnabled = !NoteNameBox.IsEnabled;
-            NoteTypeComboBox.IsEnabled = !NoteTypeComboBox.IsEnabled;
-            NoteAssignedToBox.IsEnabled = !NoteAssignedToBox.IsEnabled;
-            ctrl.EditContentBtn_Click();
-        }
-
-        private void StartTimeTicker(object sender, DoWorkEventArgs e)
-        {
-            Dispatcher.Invoke(async () =>
-            {
-                while (!StopClock)
-                {
-                    Date.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                    await Task.Delay(1000);
-                }
-            });
-        }
-
-        private void SaveContentBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (!string.IsNullOrEmpty(NoteAssignedToBox.Text))
-                {
-                    AitFileModel clone = null;
-                    var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
-                    if(currentNote != null)
-                    {
-                        clone = (AitFileModel)currentNote.Clone();
-                        currentNote.Delete();
-                    }
-                    foreach (var value in names)
-                    {
-                        var name = value.Replace(" ", string.Empty);
-                        using (var context = PDBContext.Instance.Context)
-                        {
-                            var acc = ValidateAssignedToAccount(context, name.ToLower());
-                            if(acc != null)
-                            {
-                                var file = context.Files.Where(q => (acc.ID.Equals(q.Creator) || acc.ID.Equals(q.AssignedTo)) && q.Name.Equals(NoteNameBox?.Text)).ToList();
-                                if (file == null || !file.Any())
-                                {
-                                    var creator = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
-                                    var newNote = new AitFileModel(context);
-
-                                    if (clone != null)
-                                    {
-                                        newNote.FileCreator = clone.FileCreator;
-                                        newNote.Create = clone.Create;
-                                        newNote.LastUpdate = DateTime.Now;
-                                    }
-
-                                    newNote.FileOwner = acc;
-                                    newNote.Name = NoteNameBox.Text;
-                                    newNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
-                                    newNote.Content = SerializableControl();
-                                    newNote.Insert();
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        if (currentNote != null)
-                        {
-                            currentNote.Name = NoteNameBox.Text;
-                            currentNote.Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED;
-                            currentNote.Content = SerializableControl();
-                            currentNote.Update();
-                        }
-                        else
-                        {
-                            var newNote = new AitFileModel(context)
-                            {
-                                Name = NoteNameBox.Text,
-                                Type = (NoteTypeComboBox.SelectedItem as FileTypeModel)?.EnumType ?? FileTypesEnum.UNDEFINED,
-                                Content = SerializableControl()
-                            };
-                            newNote.Insert();
-                        }
-                    }
-                }
-
-                InitListView();
-                ClearContentAction();
-            }
-            catch (Exception ex)
-            {
-                LogManager.Instance.LogExceptionToFileAndDB(ex);
-                InitListView();
-            }
-        }
-        
-        private void ClearContentBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ClearContentAction();
-            NoteManagerListView.SelectedIndex = -1;
-        }
-
-        private void NoteTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
-
-            if (NoteTypeComboBox.SelectedIndex >= 0)
-                NoteAssignedToBox.IsEnabled = true;
-            else
-                NoteAssignedToBox.IsEnabled = false;
-
-            Type = NoteTypeComboBox.SelectedItem as FileTypeModel;
-        }
-
-        private void NoteTitleBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
-        }
-
-        private void NoteAssignedToBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                IsCorrectlyAssign = false;
-                if(!string.IsNullOrEmpty(NoteAssignedToBox.Text))
-                {
-                    var exceptionName = new StringBuilder();
-                    var names = NoteAssignedToBox.Text.Split(',', ';').ToList();
-                    using (var context = PDBContext.Instance.Context)
-                    {
-                        foreach (var value in names)
-                        {
-                            var name = value.Replace(" ", string.Empty);
-                            var accs = ValidateAssignedToAccount(context, name.ToLower());
-
-                            if (accs == null)
-                                exceptionName.Append(string.Format(WPF.Properties.Resources.INVALID_ACCOUNT_NAME, name) + Environment.NewLine);
-                        }
-                    }
-
-                    if (!string.IsNullOrEmpty(exceptionName.ToString()))
-                        throw new AitAccountExceptions.InvalidValueException(exceptionName.ToString());
-                }
-
-                IsCorrectlyAssign = true;
-            }
-            catch (Exception ex)
-            {
-                LogManager.Instance.LogExceptionToFileAndDB(ex);
-            }
-
-            MessageContent_LostFocus(sender, e);
-        }
-
-        private void MessageContent_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(NoteNameBox.Text) && NoteTypeComboBox.SelectedIndex != -1)
-                IsCorrectlyFilled = true;
-            else
-                IsCorrectlyFilled = false;
-
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private string SerializableControl()
-        {
-            return ctrl.SerializableControl();
-        }
-
-        private AitAccountModel ValidateAssignedToAccount(DBContext context, string name)
-        {
-            var accounts = context.Accounts.ToList();
-
-            foreach (var account in accounts)
-            {
-                account.FillObject();
-                if (name.Equals(account.Login.ToLower()))
-                {
-                    return account;
-                }
-                if (account.UserData != null)
-                {
-                    if (!string.IsNullOrEmpty(account.UserData.Nick) && name.Equals(account.UserData.Nick.ToLower()))
-                    {
-                        return account;
-                    }
-                    if (!string.IsNullOrEmpty(account.UserData.FullName) && name.Equals(account.UserData.FullName.ToLower().Replace(" ", string.Empty)))
-                    {
-                        return account;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private bool ValidateNotDefaultNote()
-        {
-            if (NoteTypeComboBox.SelectedIndex >= 0
-                || !string.IsNullOrEmpty(NoteNameBox.Text)
-                || !string.IsNullOrEmpty(NoteAssignedToBox.Text)
-                || ctrl.ValidateNotDefaultNote())
-            {
-                ClearContentBtn.IsEnabled = true;
-                return true;
-            }
-            else
-            {
-                ClearContentBtn.IsEnabled = false;
-                return false;
-            }
-        }
-
-        private void ValidateRequiredFieldFillCorrectly(bool editButtonWasEnabled)
-        {
-            if ((string.IsNullOrEmpty(NoteNameBox.Text) || IsCorrectlyAssign != false)
-                && ctrl.ValidateRequiredFieldFillCorrectly()
-                && editButtonWasEnabled)
-            {
-                SaveContentBtn.IsEnabled = true;
-            }
-            else
-            {
-                SaveContentBtn.IsEnabled = false;
-            }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Left Panel
-
         #region Public Methods
 
         public void InitListView(FileTypesEnum? optionalType = null)
@@ -458,18 +107,17 @@ namespace WPF.GUI.Pages
             NoteManagerListView.Items.Clear();
 
             if (optionalType == null)
-                optionalType = filterManager.CheckIfFilterIsSelected();
+                optionalType = FilterManager.CheckIfFilterIsSelected();
 
             var searchItem = SearchNoteItemTextBox.Text ?? string.Empty;
 
             using (var context = PDBContext.Instance.Context)
             {
-                account = context.Accounts.Where(q => q.ID.Equals(PDBContext.Instance.AccountID)).FirstOrDefault();
-                if (account != null)
+                if (RightPanel.Account != null)
                 {
                     var index = 1;
-                    account.FillObject();
-                    var list = account.Files.ToList();
+                    RightPanel.Account.FillObject();
+                    var list = RightPanel.Account.Files.ToList();
                     if (!string.IsNullOrEmpty(searchItem))
                     {
                         list = list.Where(q => q.Name.ToLower().Contains(searchItem.ToLower()) || q.Content.ToLower().Contains(searchItem.ToLower())).ToList();
@@ -536,23 +184,23 @@ namespace WPF.GUI.Pages
                 DeleteSelectedItems.IsEnabled = false;
             }
 
-            EditContentBtn.Visibility = Visibility.Collapsed;
+            RightPanel.EditContentBtn.Visibility = Visibility.Collapsed;
             if (!NoteManagerListView.SelectedItems.Any())
             {
-                CreateNewNoteGrid.Visibility = Visibility.Visible;
-                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
+                RightPanel.CreateNewNoteGrid.Visibility = Visibility.Visible;
+                RightPanel.OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
                 ClearContentAction();
             }
             else if (NoteManagerListView.SelectedItems.Count == 1)
             {
-                CreateNewNoteGrid.Visibility = Visibility.Visible;
-                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
+                RightPanel.CreateNewNoteGrid.Visibility = Visibility.Visible;
+                RightPanel.OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
                 SetOneNoteContentAction();
             }
             else
             {
-                CreateNewNoteGrid.Visibility = Visibility.Collapsed;
-                OpenMultiNoteGrid.Visibility = Visibility.Visible;
+                RightPanel.CreateNewNoteGrid.Visibility = Visibility.Collapsed;
+                RightPanel.OpenMultiNoteGrid.Visibility = Visibility.Visible;
 
                 return true;
             }
@@ -561,7 +209,7 @@ namespace WPF.GUI.Pages
 
         private bool ValidateNoteFilters(AitFileModel note, FileTypesEnum? optionalType)
         {
-            if (FileTypesManager.Types.Where(q => (int)account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
+            if (FileTypesManager.Types.Where(q => (int)RightPanel.Account.Permition >= (int)q.PermitionLevel && q.EnumType.Equals(note.Type)).Any())
             {
                 if (FileTypesEnum.DETACHED.Equals(optionalType) && note.IsDetached)
                     return true;
@@ -578,8 +226,8 @@ namespace WPF.GUI.Pages
         {
             if (NoteManagerListView.SelectedItem is NoteListViewItemControl item)
             {
-                Type = FileTypesManager.SetType((int)item.Note.Type);
-                NoteNameBox.Text = item.Note.Name;
+                RightPanel.Type = FileTypesManager.SetType((int)item.Note.Type);
+                RightPanel.NoteNameBox.Text = item.Note.Name;
                 using (var context = PDBContext.Instance.Context)
                 {
                     var names = string.Empty;
@@ -592,7 +240,7 @@ namespace WPF.GUI.Pages
                             var index = 0;
                             foreach (var acc in accs)
                             {
-                                if((int)account.Permition >= (int)acc.Permition)
+                                if((int)RightPanel.Account.Permition >= (int)acc.Permition)
                                 {
                                     acc.FillObject();
                                     if (!string.IsNullOrEmpty(acc.UserData?.Nick))
@@ -616,27 +264,27 @@ namespace WPF.GUI.Pages
                             }
                         }
                     }
-                    NoteAssignedToBox.Text = names;
+                    RightPanel.NoteAssignedToBox.Text = names;
                 }
 
-                StopClock = true;
-                NoteTypeComboBox.SelectedItem = Type;
-                EditContentBtn.IsEnabled = true;
+                RightPanel.StopClock = true;
+                RightPanel.NoteTypeComboBox.SelectedItem = RightPanel.Type;
+                RightPanel.EditContentBtn.IsEnabled = true;
 
-                ctrl.SetOneNoteContentAction(item);
+                RightPanel.Control.SetOneNoteContentAction(item);
 
                 var sysManager = ConfigurationManager.AppSettings["TasksManager"].ToString();
                 if (string.IsNullOrEmpty(item.Note.AssignedTo) || !string.IsNullOrEmpty(item.Note.AssignedTo) && !item.Note.AssignedTo.Equals(sysManager))
                 {
-                    EditContentBtn.Visibility = Visibility.Visible;
+                    RightPanel.EditContentBtn.Visibility = Visibility.Visible;
                 }
 
-                Date.Text = item.Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
-                currentNote = item.Note;
+                RightPanel.Date.Text = item.Note.Create.ToString("dd/MM/yyyy HH:mm:ss");
+                RightPanel.CurrentNote = item.Note;
 
-                NoteNameBox.IsEnabled = false;
-                NoteTypeComboBox.IsEnabled = false;
-                NoteAssignedToBox.IsEnabled = false;
+                RightPanel.NoteNameBox.IsEnabled = false;
+                RightPanel.NoteTypeComboBox.IsEnabled = false;
+                RightPanel.NoteAssignedToBox.IsEnabled = false;
             }
         }
 
@@ -666,8 +314,8 @@ namespace WPF.GUI.Pages
         {
             if (SelectAllCheckBox.IsChecked == true)
             {
-                CreateNewNoteGrid.Visibility = Visibility.Collapsed;
-                OpenMultiNoteGrid.Visibility = Visibility.Visible;
+                RightPanel.CreateNewNoteGrid.Visibility = Visibility.Collapsed;
+                RightPanel.OpenMultiNoteGrid.Visibility = Visibility.Visible;
 
                 foreach (var item in NoteManagerListView.Items)
                     NoteManagerListView.SelectedItems.Add(item);
@@ -677,8 +325,8 @@ namespace WPF.GUI.Pages
                 NoteManagerListView.SelectedItems.Clear();
                 ClearContentAction();
 
-                CreateNewNoteGrid.Visibility = Visibility.Visible;
-                OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
+                RightPanel.CreateNewNoteGrid.Visibility = Visibility.Visible;
+                RightPanel.OpenMultiNoteGrid.Visibility = Visibility.Collapsed;
             }
 
             if (ChangeButtonsEditabilityAndCheckMultiMode())
@@ -718,35 +366,13 @@ namespace WPF.GUI.Pages
 
         public void RefreshLayout()
         {
-            ValidateRequiredFieldFillCorrectly(ValidateNotDefaultNote());
+            RightPanel.RefreshLayout();
         }
 
         public void ClearContentAction()
         {
-            NoteNameBox.Text = string.Empty;
-            NoteAssignedToBox.Text = string.Empty;
-            NoteTypeComboBox.SelectedIndex = -1;
-            StopClock = false;
-
-            EditContentBtn.Visibility = Visibility.Collapsed;
-            EditContentBtn.IsEnabled = false;
-            ClearContentBtn.IsEnabled = false;
-            SaveContentBtn.IsEnabled = false;
-
-            NoteNameBox.IsEnabled = true;
-            NoteTypeComboBox.IsEnabled = true;
-            NoteAssignedToBox.IsEnabled = true;
-
-            currentNote = null;
-            Type = NoteTypeComboBox.SelectedItem as FileTypeModel;
+            RightPanel.ClearContentAction();
             ChangeNoteManagerListViewVisibility();
-
-            backgroundWorker.DoWork -= StartTimeTicker;
-            backgroundWorker.Dispose();
-
-            backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += StartTimeTicker;
-            backgroundWorker.RunWorkerAsync();
         }
 
         #endregion

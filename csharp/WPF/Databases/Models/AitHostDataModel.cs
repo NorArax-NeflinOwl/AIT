@@ -70,6 +70,9 @@ namespace WPF.Databases.Models
             {
                 if (userHost == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     userHost = Context.UsersHosts.Where(q => q.AssignedTo.Equals(AssignedTo)).FirstOrDefault();
                 }
                 return userHost;

@@ -87,6 +87,9 @@ namespace WPF.Databases.Models
             {
                 if (accountData == null && !string.IsNullOrEmpty(AssignedTo) && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     accountData = Context.Accounts.Where(q => q.ID.Equals(AssignedTo)).FirstOrDefault();
                 }
                 return accountData;

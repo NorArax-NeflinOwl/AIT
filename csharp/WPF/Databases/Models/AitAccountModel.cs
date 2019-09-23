@@ -105,6 +105,9 @@ namespace WPF.Databases.Models
             {
                 if (userData == null && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     userData = Context.UsersDatas.Where(q => ID.Equals(q.AssignedTo)).FirstOrDefault();
                 }
                 return userData;
@@ -119,6 +122,9 @@ namespace WPF.Databases.Models
             {
                 if (files == null && Fill)
                 {
+                    if(Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     if (Permition.Equals(PermitionAccountEnum.ADMIN) || Permition.Equals(PermitionAccountEnum.MANAGER))
                     {
                         files = Context.Files.ToList();
@@ -140,6 +146,9 @@ namespace WPF.Databases.Models
             {
                 if (userHosts == null && Fill)
                 {
+                    if (Context.IsDisposed)
+                        Context = PDBContext.Instance.Context;
+
                     userHosts = Context.UsersHosts.Where(q => ID.Equals(q.AssignedTo)).ToList();
                 }
                 return userHosts;
