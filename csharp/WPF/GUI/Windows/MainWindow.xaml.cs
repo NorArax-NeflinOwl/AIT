@@ -63,6 +63,8 @@ namespace WPF.GUI.Windows
             MainNavigateDashboardMenu.IsEnabled = true;
             MainNavigateNoteManagerMenu.Header = WPF.Properties.Resources.NOTEMANAGER_HEADER;
             MainNavigateNoteManagerMenu.IsEnabled = true;
+            MainNavigateNoteMenu.Header = WPF.Properties.Resources.CREATE_NEW_NOTE;
+            MainNavigateNoteMenu.IsEnabled = true;
 
             MainQueryMenu.Header = WPF.Properties.Resources.QUERY_HEADER;
             MainQueryBuilderMenu.Header = WPF.Properties.Resources.QUERYBULIDER_HEADER;
@@ -119,6 +121,7 @@ namespace WPF.GUI.Windows
 
             MainNavigateDashboardMenu.Click += MainNavigateDashboardMenu_Click;
             MainNavigateNoteManagerMenu.Click += MainNavigateNoteManagerMenu_Click;
+            MainNavigateNoteMenu.Click += MainNavigateNoteMenu_Click;
 
             SetProgressVisibility(false);
         }
@@ -139,12 +142,17 @@ namespace WPF.GUI.Windows
 
             MainNavigateDashboardMenu.Click -= MainNavigateDashboardMenu_Click;
             MainNavigateNoteManagerMenu.Click -= MainNavigateNoteManagerMenu_Click;
+            MainNavigateNoteMenu.Click -= MainNavigateNoteMenu_Click;
 
             MainTabControlManager.Clear();
             IsDisposed = true;
             GC.Collect();
         }
 
+        private void MainNavigateNoteMenu_Click(object sender, RoutedEventArgs e)
+        {
+            MainContext.Instance.Windows.Open(new NoteProperties());
+        }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {

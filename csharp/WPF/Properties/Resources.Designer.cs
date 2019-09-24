@@ -277,6 +277,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create New Note.
+        /// </summary>
+        internal static string CREATE_NEW_NOTE {
+            get {
+                return ResourceManager.GetString("CREATE_NEW_NOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create:.
         /// </summary>
         internal static string CREATE_S {

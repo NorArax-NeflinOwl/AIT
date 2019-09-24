@@ -192,6 +192,9 @@
   <data name="CREATE_ACCSUCC" xml:space="preserve">
     <value>Creating account success</value>
   </data>
+  <data name="CREATE_NEW_NOTE" xml:space="preserve">
+    <value>Create New Note</value>
+  </data>
   <data name="CREATE_S" xml:space="preserve">
     <value>Create:</value>
   </data>

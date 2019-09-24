@@ -13,6 +13,7 @@ using WPF.Managers;
 using WPF.Managers.Bilders;
 using WPF.Models;
 using WPF.Models.Enums;
+using WPF.Models.Extensions;
 using WPF.Models.Extensions.Exceptions;
 using WPF.Models.Interfaces;
 
@@ -54,8 +55,11 @@ namespace WPF.GUI.Controls.NoteManagerControls
                     NoteManagerContent.DataContext = Control;
                     NoteManagerContent.Visibility = Visibility.Visible;
 
-                    page.FilterManager = new NoteFiltersManager(page, Control);
-                    page.FilterManager.CreateFilterPanel(Account);
+                    if(page != null)
+                    {
+                        page.FilterManager = new NoteFiltersManager(page, Control);
+                        page.FilterManager.CreateFilterPanel(Account);
+                    }
                 }
 
                 if (value == null)
@@ -258,20 +262,29 @@ namespace WPF.GUI.Controls.NoteManagerControls
                     }
                 }
 
-                page.InitListView();
+                if(page != null)
+                    page.InitListView();
+                else
+                {
+                    MainContext.Instance.Windows.Close(WindowsNameEnum.NOTE);
+                    WindowsExtension.GetMainWindow()?.MainTabControlManager?.GetNoteManager()?.RefreshList();
+                }
+
                 ClearContentAction();
             }
             catch (Exception ex)
             {
                 LogManager.Instance.LogExceptionToFileAndDB(ex);
-                page.InitListView();
+                page?.InitListView();
             }
         }
 
         private void ClearContentBtn_Click(object sender, RoutedEventArgs e)
         {
             ClearContentAction();
-            page.NoteManagerListView.SelectedIndex = -1;
+
+            if(page != null)
+                page.NoteManagerListView.SelectedIndex = -1;
         }
 
         private void NoteTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

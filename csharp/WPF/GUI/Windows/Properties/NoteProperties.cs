@@ -7,10 +7,10 @@ using WPF.Models.Interfaces;
 
 namespace WPF.GUI.Windows.Properties
 {
-    public class MainProperties : IWindowsProperties
+    public class NoteProperties : IWindowsProperties
     {
         public string Title { get; set; }
-        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.MAIN;
+        public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.NOTE;
         public IPageModel PagePropertie { get; set; }
         public ResizeMode ResizeMode { get; set; } = ResizeMode.CanResizeWithGrip;
         public double Width { get; set; } = 1200;
@@ -22,12 +22,12 @@ namespace WPF.GUI.Windows.Properties
         public IDictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
         public bool IsDisposed { get; set; }
 
-        public MainProperties()
+        public NoteProperties()
         {
-            Window = new MainWindow();
+            Window = new NoteWindow();
         }
 
-        public MainProperties(Window window)
+        public NoteProperties(Window window)
         {
             Window = window;
         }
