@@ -13,6 +13,7 @@ using WPF.Managers.Helpers;
 using WPF.Databases.Models;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace WPF.GUI.Windows
 {
@@ -46,6 +47,7 @@ namespace WPF.GUI.Windows
             InitMessage.Text = WPF.Properties.Resources.APP_START;
             InitImage.Source = new BitmapImage(new Uri($"{Environment.CurrentDirectory}\\GUI\\Icons\\logo4x3.png"));
 
+            CheckNetworkConnetion();
             DispatcherExtension.Invoke(async () =>
             {
                 await Task.Delay(200);
@@ -59,6 +61,7 @@ namespace WPF.GUI.Windows
                 InitMessage.Text = WPF.Properties.Resources.APP_STARTCOMPLETED;
                 await Task.Delay(200);
 
+                CheckNetworkConnetion();
                 var host = HardwareManager.GetComputerName();
                 using(var context = PDBContext.Instance.Context)
                 {
@@ -92,6 +95,20 @@ namespace WPF.GUI.Windows
             GC.Collect();
         }
 
+        private void CheckNetworkConnetion()
+        {
+            if (NetworkConnectionValidator.Check())
+            {
+                NetworkStatus.Text = WPF.Properties.Resources.ONLINE_STATUS;
+                NetworkStatus.Foreground = Brushes.Black;
+            }
+            else
+            {
+                NetworkStatus.Text = WPF.Properties.Resources.OFFLINE_STATUS;
+                NetworkStatus.Foreground = Brushes.Red;
+            }
+        }
+
         private void DeserializeSession(DBContext context, string accountID)
         {
             if(!string.IsNullOrEmpty(accountID))
@@ -114,7 +131,7 @@ namespace WPF.GUI.Windows
                     {
                         PDBContext.Instance.SessionDictionary = dictionary;
                     }
-                    sessionFile.Delete();
+                    sessionFile.ForceDelete();
                 }
             }
         }

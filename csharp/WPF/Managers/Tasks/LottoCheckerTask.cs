@@ -70,8 +70,12 @@ namespace WPF.Managers.Tasks
             {
                 while (true)
                 {
-                    CheckLotto();
-                    await Task.Delay(TimeSpan.FromDays(intervalDay)); //Sleep for [interval] days
+                    if(NetworkConnectionValidator.Check())
+                        CheckLotto();
+                    else
+                        Completed = true;
+
+                    await Task.Delay(TimeSpan.FromMinutes(intervalDay)); //Sleep for [interval] minutes
                 }
             });
         }
@@ -143,18 +147,22 @@ namespace WPF.Managers.Tasks
                                         }
                                         else
                                         {
-                                            foreach(var lottoFile in lottoFiles.GroupBy(q => q.AssignedTo).Select(group => group.First()).ToList())
+                                            var lastFile = lottoFiles.OrderBy(q => q.LastUpdate).FirstOrDefault();
+                                            if (lastFile.LastUpdate != null && DateTime.Now.AddHours(-1) <= lastFile.LastUpdate)
                                             {
-                                                var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(lottoFile.Content);
-                                                if(obj != null)
+                                                foreach (var lottoFile in lottoFiles.GroupBy(q => q.AssignedTo).Select(group => group.First()).ToList())
                                                 {
-                                                    obj.Array = ConvertExistsItemListToMessage(lottoModel, hits, userLuckyNumbers, obj.Array.ToList());
-                                                    lottoFile.Content = CryptoJsonManager.Instance.Serialize(obj);
+                                                    var obj = CryptoJsonManager.Instance.Deserialize<MessageInfoModel>(lottoFile.Content);
+                                                    if (obj != null)
+                                                    {
+                                                        obj.Array = ConvertExistsItemListToMessage(lottoModel, hits, userLuckyNumbers, obj.Array.ToList());
+                                                        lottoFile.Content = CryptoJsonManager.Instance.Serialize(obj);
 
-                                                    if (lottoFile.FileCreator == null && fileCreator != null)
-                                                        lottoFile.FileCreator = fileCreator;
+                                                        if (lottoFile.FileCreator == null && fileCreator != null)
+                                                            lottoFile.FileCreator = fileCreator;
 
-                                                    lottoFile.Update();
+                                                        lottoFile.Update();
+                                                    }
                                                 }
                                             }
                                         }

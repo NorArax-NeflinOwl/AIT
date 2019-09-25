@@ -384,6 +384,12 @@
   <data name="OBJDIR_SUBPATH" xml:space="preserve">
     <value>Obj</value>
   </data>
+  <data name="OFFLINE_STATUS" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="ONLINE_STATUS" xml:space="preserve">
+    <value>Online</value>
+  </data>
   <data name="PASS_EMPTY" xml:space="preserve">
     <value>Password is empty!</value>
   </data>

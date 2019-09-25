@@ -22,6 +22,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" x:Name="InitImage"/>
+        <TextBlock Grid.Row="0" x:Name="NetworkStatus" Margin="5" />
         <TextBlock Grid.Row="0" x:Name="InitMessage" Margin="0,0,0,15" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <ProgressBar Grid.Row="1" x:Name="InitProgressBar" Height="20" Style="{StaticResource MaterialDesignLinearProgressBar}" IsIndeterminate="True"/>
     </Grid>

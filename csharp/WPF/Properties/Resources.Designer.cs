@@ -862,6 +862,24 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Offline.
+        /// </summary>
+        internal static string OFFLINE_STATUS {
+            get {
+                return ResourceManager.GetString("OFFLINE_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Online.
+        /// </summary>
+        internal static string ONLINE_STATUS {
+            get {
+                return ResourceManager.GetString("ONLINE_STATUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is empty!.
         /// </summary>
         internal static string PASS_EMPTY {
