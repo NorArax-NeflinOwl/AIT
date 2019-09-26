@@ -6,6 +6,8 @@ using WPF.GUI.Pages.Properties;
 using WPF.Models.Interfaces;
 using WPF.GUI.Pages;
 using System;
+using System.Collections.Generic;
+using WPF.Databases.Contexts;
 
 namespace WPF.Managers
 {
@@ -141,13 +143,21 @@ namespace WPF.Managers
 
         public void SerializeSession()
         {
-            foreach (var element in tabControl?.Items)
+            var openTab = new List<string>();
+            foreach (TabItem item in tabControl?.Items)
             {
-                if (element is TabItem item && item.Content is Frame frame && frame.Content is ISerializableForSession page)
+                if(item.Header is TabItemHeaderControl ctrl)
+                {
+                    openTab.Add(ctrl.Header.Text);
+                }
+
+                if (item.Content is Frame frame && frame.Content is ISerializableForSession page)
                 {
                     page.SerializeSession();
                 }
             }
+
+            PDBContext.Instance.SessionDictionary[nameof(TabControlManager)] = CryptoJsonManager.Instance.Serialize(openTab);
         }
     }
 }

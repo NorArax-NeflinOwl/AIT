@@ -390,7 +390,6 @@
     <Compile Include="Managers\Tasks\ManagersInitializerTask.cs" />
     <Compile Include="Models\DeviceInfoModel.cs" />
     <Compile Include="Models\HardwareModel.cs" />
-    <Compile Include="Models\Enums\PagesNameEnum.cs" />
     <Compile Include="Models\LogInfoModel.cs" />
     <Compile Include="Models\SoftwareModel.cs" />
     <Compile Include="Managers\Validators\BasePropertiesValidator.cs" />

@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Windows.Input;
 using WPF.GUI.Windows.Properties;
 using WPF.GUI.Controls.NoteManagerControls;
+using System.Collections.Generic;
 
 namespace WPF.GUI.Pages
 {
@@ -99,9 +100,26 @@ namespace WPF.GUI.Pages
 
         public void SerializeSession()
         {
-            var session = PDBContext.Instance.SessionDictionary;
-
             // TODO save in dictionary mark filter, focused file and unsaved temp file
+            if(!string.IsNullOrEmpty(SearchNoteItemTextBox.Text))
+            {
+                PDBContext.Instance.SessionDictionary[nameof(SearchNoteItemTextBox)] = SearchNoteItemTextBox.Text;
+            }
+
+            if(NoteManagerListView.SelectedItems.Any())
+            {
+                var selectedFiles = new List<string>();
+                foreach(NoteListViewItemControl file in NoteManagerListView.SelectedItems)
+                {
+                    selectedFiles.Add(file.Note.ID);
+                }
+                PDBContext.Instance.SessionDictionary[nameof(NoteListViewItemControl)] = CryptoJsonManager.Instance.Serialize(selectedFiles);
+
+                if (PDBContext.Instance.SessionDictionary.Count == 1)
+                {
+                    RightPanel.SerializeSession();
+                }
+            }
         }
 
         public void DeserializaSession()

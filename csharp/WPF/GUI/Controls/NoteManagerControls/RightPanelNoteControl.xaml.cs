@@ -153,8 +153,6 @@ namespace WPF.GUI.Controls.NoteManagerControls
 
         public void SerializeSession()
         {
-            var session = PDBContext.Instance.SessionDictionary;
-
             // TODO save in dictionary mark filter, focused file and unsaved temp file
         }
 
