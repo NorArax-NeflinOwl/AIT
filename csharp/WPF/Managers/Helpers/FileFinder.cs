@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using WPF.Models;
@@ -8,9 +9,9 @@ namespace WPF.Managers.Helpers
 
     public class FileFinder
     {
-        public static List<FileResultModel> GetPaths(string dirPath, string searchString, string extension)
+        public static List<FileResultModel> GetPaths(string dirPath, string searchString, string additionalParam)
         {
-            return GetPath(dirPath, searchString, extension);
+            return GetPath(dirPath, searchString, additionalParam);
         }
 
         public static List<FileResultModel> GetPaths(string dirPath, string searchString)
@@ -18,12 +19,12 @@ namespace WPF.Managers.Helpers
             return GetPath(dirPath, searchString, "*");
         }
 
-        private static List<FileResultModel> GetPath(string dirPath, string searchingString, string extension)
+        private static List<FileResultModel> GetPath(string dirPath, string searchingString, string additionalParam)
         {
             if (Directory.Exists(dirPath))
             {
                 var result = new List<FileResultModel>();
-                var filesPaths = Directory.GetFiles(dirPath, extension, SearchOption.AllDirectories).ToList();
+                var filesPaths = Directory.GetFiles(dirPath, additionalParam, SearchOption.AllDirectories).ToList();
                 if (filesPaths?.Any() == true)
                 {
                     foreach (var filePath in filesPaths)
@@ -37,7 +38,11 @@ namespace WPF.Managers.Helpers
                                 {
                                     var lineContent = sr.ReadLine();
                                     if (lineContent.ToLower().Contains(searchingString.ToLower()))
-                                        result.Add(new FileResultModel(filePath, lineNumber, lineContent));
+                                    {
+                                        var find = new FileResultModel(filePath, lineNumber, lineContent);
+                                        result.Add(find);
+                                        Debug.WriteLine(find);
+                                    }
 
                                     lineNumber++;
                                 }
