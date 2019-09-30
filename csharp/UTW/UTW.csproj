@@ -162,6 +162,7 @@
     <Compile Include="UnitTests\JsonActionUnitTest.cs" />
     <Compile Include="UnitTests\MainSenderUnitTest.cs" />
     <Compile Include="UnitTests\EncrypterUnitTest.cs" />
+    <Compile Include="UnitTests\DirectoryConteinFileWithSearchString.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WPF\WPF.csproj">
