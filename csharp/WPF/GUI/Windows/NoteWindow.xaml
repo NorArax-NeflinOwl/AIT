@@ -9,13 +9,13 @@
         Height="{Binding Properties.Heigth}" 
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
-    
-    <Grid>
-        <Frame x:Name="MainNoteFrame" Background="#FF9C9C9C"/>
+
+    <Grid Background="#FF9C9C9C">
+        <Frame x:Name="MainNoteFrame"/>
         <controls:MaterialDesignProgressCircleControl x:Name="ProgressControl" Opacity="0.8" Visibility="Collapsed" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"/>
         <ScrollViewer x:Name="ResultText" Visibility="Collapsed" Margin="5">
-            <TextBlock x:Name="ResultTextControl"/>
+            <TextBlock x:Name="ResultTextControl" Foreground="White"/>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using WPF.GUI.Controls.NoteManagerControls;
@@ -14,6 +15,7 @@ namespace WPF.GUI.Windows
     public partial class NoteWindow : Window, IDisposableExtended, IPropertizableControl
     {
         private readonly string path;
+        private BackgroundWorker bw;
 
         public bool IsDisposed { get; set; }
 
@@ -65,11 +67,25 @@ namespace WPF.GUI.Windows
                 MainNoteFrame.Visibility = Visibility.Collapsed;
                 ProgressControl.Visibility = Visibility.Visible;
 
-                ResultTextControl.Text = DirectoryInfoProvider.GetString2PrintDirectorySize(path);
-
-                ResultText.Visibility = Visibility.Visible;
-                ProgressControl.Visibility = Visibility.Collapsed;
+                bw = new BackgroundWorker();
+                bw.DoWork += BackgroundWorker_DoWork;
+                bw.RunWorkerAsync();
             }
+        }
+
+        private void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            bw.DoWork -= BackgroundWorker_DoWork;
+
+            var result = DirectoryInfoProvider.GetString2PrintDirectorySize(path);
+            Dispatcher.Invoke(() => StopInit(result));
+        }
+
+        private void StopInit(string result)
+        {
+            ResultTextControl.Text = result;
+            ResultText.Visibility = Visibility.Visible;
+            ProgressControl.Visibility = Visibility.Collapsed;
         }
 
         public void Subscribe()

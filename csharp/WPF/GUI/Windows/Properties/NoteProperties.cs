@@ -32,6 +32,7 @@ namespace WPF.GUI.Windows.Properties
             Width = 400;
             Heigth = 300;
             Title = WPF.Properties.Resources.RESULT;
+            ResizeMode = ResizeMode.CanResize;
             Window = window ?? new NoteWindow(path);
         }
 
