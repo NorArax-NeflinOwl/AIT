@@ -214,6 +214,15 @@ namespace WPF.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check Directory Size.
+        /// </summary>
+        internal static string CHECKDIRECTORYSIZE_HEADER {
+            get {
+                return ResourceManager.GetString("CHECKDIRECTORYSIZE_HEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         internal static string CLEAR {
@@ -417,6 +426,15 @@ namespace WPF.Properties {
         internal static string DIALOG_DETACHED_TITLE {
             get {
                 return ResourceManager.GetString("DIALOG_DETACHED_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DIrectory is not selected..
+        /// </summary>
+        internal static string DIRECTORYISNOTSELECTED {
+            get {
+                return ResourceManager.GetString("DIRECTORYISNOTSELECTED", resourceCulture);
             }
         }
         
@@ -1029,6 +1047,15 @@ namespace WPF.Properties {
         internal static string REOPEN_ZERO_WINDOW {
             get {
                 return ResourceManager.GetString("REOPEN_ZERO_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        internal static string RESULT {
+            get {
+                return ResourceManager.GetString("RESULT", resourceCulture);
             }
         }
         

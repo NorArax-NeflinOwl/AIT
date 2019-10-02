@@ -13,8 +13,8 @@ namespace WPF.GUI.Windows.Properties
         public WindowsNameEnum WindowName { get; set; } = WindowsNameEnum.NOTE;
         public IPageModel PagePropertie { get; set; }
         public ResizeMode ResizeMode { get; set; } = ResizeMode.CanResizeWithGrip;
-        public double Width { get; set; } = 1200;
-        public double Heigth { get; set; } = 800;
+        public double Width { get; set; } = 600;
+        public double Heigth { get; set; } = 400;
         public bool Topmost { get; set; }
         public WindowStyle WindowStyle { get; set; }
         public WindowStartupLocation WindowStartupLocation { get; set; } = WindowStartupLocation.CenterScreen;
@@ -27,8 +27,17 @@ namespace WPF.GUI.Windows.Properties
             Window = new NoteWindow();
         }
 
+        public NoteProperties(Window window, string path)
+        {
+            Width = 400;
+            Heigth = 300;
+            Title = WPF.Properties.Resources.RESULT;
+            Window = window ?? new NoteWindow(path);
+        }
+
         public NoteProperties(Window window)
         {
+            Title = WPF.Properties.Resources.NOTE;
             Window = window;
         }
 

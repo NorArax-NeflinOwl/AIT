@@ -6,7 +6,6 @@ using WPF.Models;
 
 namespace WPF.Managers.Helpers
 {
-
     public class FileFinder
     {
         public static List<FileResultModel> GetPaths(string dirPath, string searchString, string additionalParam)
@@ -59,7 +58,7 @@ namespace WPF.Managers.Helpers
             return null;
         }
 
-        private static bool IsFileLocked(string path)
+        public static bool IsFileLocked(string path)
         {
             FileStream stream = null;
 

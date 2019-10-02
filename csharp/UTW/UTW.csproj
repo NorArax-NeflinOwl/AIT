@@ -163,6 +163,7 @@
     <Compile Include="UnitTests\MainSenderUnitTest.cs" />
     <Compile Include="UnitTests\EncrypterUnitTest.cs" />
     <Compile Include="UnitTests\DirectoryConteinFileWithSearchString.cs" />
+    <Compile Include="UnitTests\DirectoryInfoStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WPF\WPF.csproj">

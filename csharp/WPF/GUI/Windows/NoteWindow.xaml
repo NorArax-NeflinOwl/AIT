@@ -3,11 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:WPF.GUI.Controls"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="AIT Nano: Note" 
         Height="{Binding Properties.Heigth}" 
         Width="{Binding Properties.Width}" 
         ResizeMode="{Binding Properties.ResizeMode}">
-    <Frame x:Name="MainNoteFrame" Background="#FF9C9C9C"/>
+    
+    <Grid>
+        <Frame x:Name="MainNoteFrame" Background="#FF9C9C9C"/>
+        <controls:MaterialDesignProgressCircleControl x:Name="ProgressControl" Opacity="0.8" Visibility="Collapsed" 
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"/>
+        <ScrollViewer x:Name="ResultText" Visibility="Collapsed" Margin="5">
+            <TextBlock x:Name="ResultTextControl"/>
+        </ScrollViewer>
+    </Grid>
 </Window>

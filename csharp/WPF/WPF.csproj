@@ -248,6 +248,7 @@
     <Compile Include="Managers\Builders\NoteManagerControlBuilder.cs" />
     <Compile Include="Managers\FileTypesManager.cs" />
     <Compile Include="Managers\Helpers\FileFinder.cs" />
+    <Compile Include="Managers\Helpers\DirectoryInfoProvider.cs" />
     <Compile Include="Managers\Helpers\NetworkConnectionValidator.cs" />
     <Compile Include="Managers\Helpers\WindowCentralizer.cs" />
     <Compile Include="Managers\NoteFiltersManager.cs" />

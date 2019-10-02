@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using WPF.GUI.Controls;
 using WPF.Models.Enums;
 using WPF.Managers.Helpers;
+using System.Windows.Forms;
 
 namespace WPF.GUI.Windows
 {
@@ -74,6 +75,9 @@ namespace WPF.GUI.Windows
             MainToolsCryptPTMenu.Header = WPF.Properties.Resources.CRYPTPLAINTEXT_HEADER;
             MainToolsDecryptCTMenu.Header = WPF.Properties.Resources.DECRYPTCRYPTTEXT_HEADER;
 
+            MainToolsCheckDirectorySize.Header = WPF.Properties.Resources.CHECKDIRECTORYSIZE_HEADER;
+            MainToolsCheckDirectorySize.IsEnabled = true;
+
             MainSetupMenu.Header = WPF.Properties.Resources.SETUP_HEADER;
             MainSetupChangeThemeMenu.Header = WPF.Properties.Resources.CHANGETHEME_HEADER;
 
@@ -123,6 +127,8 @@ namespace WPF.GUI.Windows
             MainNavigateNoteManagerMenu.Click += MainNavigateNoteManagerMenu_Click;
             MainNavigateNoteMenu.Click += MainNavigateNoteMenu_Click;
 
+            MainToolsCheckDirectorySize.Click += MainToolsCheckDirectorySize_Click;
+
             SetProgressVisibility(false);
         }
 
@@ -144,9 +150,23 @@ namespace WPF.GUI.Windows
             MainNavigateNoteManagerMenu.Click -= MainNavigateNoteManagerMenu_Click;
             MainNavigateNoteMenu.Click -= MainNavigateNoteMenu_Click;
 
+            MainToolsCheckDirectorySize.Click -= MainToolsCheckDirectorySize_Click;
+
             MainTabControlManager.Clear();
             IsDisposed = true;
             GC.Collect();
+        }
+
+        private void MainToolsCheckDirectorySize_Click(object sender, RoutedEventArgs e)
+        {
+            using (var openDialog = new FolderBrowserDialog())
+            {
+                var result = openDialog.ShowDialog();
+                if (result.Equals(System.Windows.Forms.DialogResult.OK))
+                    MainContext.Instance.Windows.Open(new NoteProperties(null, openDialog.SelectedPath));
+                else
+                    System.Windows.MessageBox.Show(WPF.Properties.Resources.DIRECTORYISNOTSELECTED, WPF.Properties.Resources.INFORMATION, MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void MainNavigateNoteMenu_Click(object sender, RoutedEventArgs e)

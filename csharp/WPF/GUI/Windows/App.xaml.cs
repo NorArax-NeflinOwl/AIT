@@ -7,6 +7,7 @@ using WPF.Databases.Contexts;
 using WPF.Managers;
 using WPF.Models.Interfaces;
 using WPF.GUI.Windows.Properties;
+using WPF.Managers.Helpers;
 
 namespace WPF
 {
@@ -33,11 +34,11 @@ namespace WPF
 
             if (result == true)
             {
-                path = openFileDialog.FileName;
+                dirPath = openFileDialog.FileName;
             }
 #endif
 
-            using (new DBContext(path))
+            using (new DBContext(dirPath))
             {
                 Thread.Sleep(10);
             }

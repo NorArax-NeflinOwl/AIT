@@ -44,6 +44,7 @@
                     <MenuItem x:Name="MainToolsCSHA256HashMenu" Header="Create SHA256 hash" IsEnabled="False"/>
                     <MenuItem x:Name="MainToolsCryptPTMenu" Header="Crypt Plain Text" IsEnabled="False"/>
                     <MenuItem x:Name="MainToolsDecryptCTMenu" Header="Decrypt Crypt Text" IsEnabled="False"/>
+                    <MenuItem x:Name="MainToolsCheckDirectorySize" Header="Check Directory Size" IsEnabled="False"/>
                 </MenuItem>
                 <MenuItem x:Name="MainSetupMenu" Header="Setup">
                     <MenuItem x:Name="MainSetupChangeThemeMenu" Header="Change Theme" IsEnabled="False"/>

@@ -168,6 +168,9 @@
   <data name="CHANGETHEME_HEADER" xml:space="preserve">
     <value>Change Theme</value>
   </data>
+  <data name="CHECKDIRECTORYSIZE_HEADER" xml:space="preserve">
+    <value>Check Directory Size</value>
+  </data>
   <data name="CLEAR" xml:space="preserve">
     <value>Clear</value>
   </data>
@@ -236,6 +239,9 @@
   </data>
   <data name="DIALOG_DETACHED_TITLE" xml:space="preserve">
     <value>Files to detached: {0}. {1}Fill reason and save.</value>
+  </data>
+  <data name="DIRECTORYISNOTSELECTED" xml:space="preserve">
+    <value>DIrectory is not selected.</value>
   </data>
   <data name="EDIT_HEADER" xml:space="preserve">
     <value>Edit</value>
@@ -440,6 +446,9 @@
   </data>
   <data name="REOPEN_ZERO_WINDOW" xml:space="preserve">
     <value>All window is already open.</value>
+  </data>
+  <data name="RESULT" xml:space="preserve">
+    <value>Result</value>
   </data>
   <data name="SAMETHING_WRONG" xml:space="preserve">
     <value>Samethings go wrong!</value>
