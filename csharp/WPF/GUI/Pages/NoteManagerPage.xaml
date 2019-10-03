@@ -61,6 +61,6 @@
                         VerticalAlignment="Center" IsEnabled="False" Height="30" Background="#032b86"/>
             </Grid>
         </Grid>
-        <Frame x:Name="RightPanelFrame" Margin="10" Grid.Column="1"/>
+        <Frame x:Name="RightPanelFrame" Margin="10" Grid.Column="1" Navigating="HandleNavigating" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Page>

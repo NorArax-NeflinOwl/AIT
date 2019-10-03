@@ -16,6 +16,7 @@ using System.Windows.Input;
 using WPF.GUI.Windows.Properties;
 using WPF.GUI.Controls.NoteManagerControls;
 using System.Collections.Generic;
+using System.Windows.Navigation;
 
 namespace WPF.GUI.Pages
 {
@@ -377,6 +378,14 @@ namespace WPF.GUI.Pages
             if (ChangeButtonsEditabilityAndCheckMultiMode())
             {
                 //TODO SetMulitModePanel();
+            }
+        }
+
+        private void HandleNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Forward)
+            {
+                e.Cancel = true;
             }
         }
 

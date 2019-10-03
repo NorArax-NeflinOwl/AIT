@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using WPF.GUI.Controls.NoteManagerControls;
 using WPF.GUI.Windows.Properties;
 using WPF.Managers.Helpers;
@@ -70,6 +71,13 @@ namespace WPF.GUI.Windows
                 bw = new BackgroundWorker();
                 bw.DoWork += BackgroundWorker_DoWork;
                 bw.RunWorkerAsync();
+            }
+        }
+        private void HandleNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Forward)
+            {
+                e.Cancel = true;
             }
         }
 

@@ -11,7 +11,7 @@
         ResizeMode="{Binding Properties.ResizeMode}">
 
     <Grid Background="#FF9C9C9C">
-        <Frame x:Name="MainNoteFrame"/>
+        <Frame x:Name="MainNoteFrame" Navigating="HandleNavigating" NavigationUIVisibility="Hidden"/>
         <controls:MaterialDesignProgressCircleControl x:Name="ProgressControl" Opacity="0.8" Visibility="Collapsed" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"/>
         <ScrollViewer x:Name="ResultText" Visibility="Collapsed" Margin="5">
