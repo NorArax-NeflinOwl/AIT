@@ -15,7 +15,7 @@
         <controls:MaterialDesignProgressCircleControl x:Name="ProgressControl" Opacity="0.8" Visibility="Collapsed" 
                                                       HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"/>
         <ScrollViewer x:Name="ResultText" Visibility="Collapsed" Margin="5">
-            <TextBlock x:Name="ResultTextControl" Foreground="White"/>
+            <TextBlock x:Name="ResultTextControl" Foreground="White"/> <!-- <<<== Use Tree View!!! -->
         </ScrollViewer>
     </Grid>
 </Window>

@@ -17,15 +17,16 @@ namespace WPF.GUI.Windows
     {
         private readonly string path;
         private BackgroundWorker bw;
+        private NoteProperties properties;
 
         public bool IsDisposed { get; set; }
 
-        public IProperties Properties { get; }
+        public IProperties Properties { get => properties; }
         public RightPanelNoteControl RightPanel { get; set; }
 
         public NoteWindow()
         {
-            Properties = new NoteProperties(this);
+            properties = new NoteProperties(this);
             InitializeComponent();
             Init();
             Subscribe();
@@ -33,7 +34,7 @@ namespace WPF.GUI.Windows
 
         public NoteWindow(string path)
         {
-            Properties = new NoteProperties(this, path);
+            properties = new NoteProperties(this, path);
             this.path = path;
 
             InitializeComponent();
@@ -49,11 +50,11 @@ namespace WPF.GUI.Windows
 
         public void Init()
         {
-            WindowCentralizer.CenterWindowOnScreen(this);
-            Title = (Properties as NoteProperties).Title;
+            Title = properties.Title;
 
             if (string.IsNullOrEmpty(path))
             {
+                WindowCentralizer.CenterWindowOnScreen(this);
                 RightPanel = new RightPanelNoteControl(null);
 
                 if (MainNoteFrame == null)

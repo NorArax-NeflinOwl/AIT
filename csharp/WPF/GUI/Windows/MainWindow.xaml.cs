@@ -74,7 +74,6 @@ namespace WPF.GUI.Windows
             MainToolsCSHA256HashMenu.Header = WPF.Properties.Resources.CREATESHA256HASH_HEADER;
             MainToolsCryptPTMenu.Header = WPF.Properties.Resources.CRYPTPLAINTEXT_HEADER;
             MainToolsDecryptCTMenu.Header = WPF.Properties.Resources.DECRYPTCRYPTTEXT_HEADER;
-
             MainToolsCheckDirectorySize.Header = WPF.Properties.Resources.CHECKDIRECTORYSIZE_HEADER;
             MainToolsCheckDirectorySize.IsEnabled = true;
 
