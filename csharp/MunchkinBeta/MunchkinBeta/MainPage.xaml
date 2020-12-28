@@ -1,0 +1,128 @@
+﻿<Page x:Class="MunchkinBeta.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1400"
+      Title="MainPage">
+
+    <Grid Margin="5">
+        <Grid.Background>
+            <ImageBrush ImageSource="Assets/table.jpeg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="17"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Nowe karty Skarbów:" HorizontalAlignment="Center" Margin="1"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Nowe karty Drzwi:" HorizontalAlignment="Center" Margin="1"/>
+
+        <Grid Grid.Row="1" Grid.Column="0" Margin="6" Background="LightGray">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Empty" FontSize="20"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1" Margin="6" Background="LightGray">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Empty" FontSize="20"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0" Margin="4" x:Name="TreasureCardsStackGrid">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/back.png"/>
+            </Grid.Background>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1" Margin="4" x:Name="DoorCardsStackGrid">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/backDoor.png"/>
+            </Grid.Background>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Minimalize" Click="MinimalizationButton_Click" Margin="2,0"/>
+            <Button Grid.Column="1" Content="Exit" Click="ExitButton_Click" Margin="2,0"/>
+        </Grid>
+
+        <TextBlock Grid.Row="0" Grid.Column="7" Text="Odrzucone karty Skarbów:" HorizontalAlignment="Center" Margin="1"/>
+        <TextBlock Grid.Row="0" Grid.Column="8" Text="Odrzucone karty Drzwi:" HorizontalAlignment="Center" Margin="1"/>
+
+        <Grid Grid.Row="1" Grid.Column="7" Margin="6" Background="LightGray">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Empty" FontSize="20"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="8" Margin="6" Background="LightGray">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Empty" FontSize="20"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="7" Margin="4" x:Name="RejectedTreasureCardsStackGrid" Visibility="Hidden">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/back.png"/>
+            </Grid.Background>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="8" Margin="4" x:Name="RejectedDoorCardsStackGrid" Visibility="Hidden">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/backDoor.png"/>
+            </Grid.Background>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Lista kart przed tobą:" HorizontalAlignment="Left" Margin="5,1"/>
+        <Button Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="17" Click="UnsellectInGameItemButton_Click">
+            <TextBlock Text="X" VerticalAlignment="Center"/>
+        </Button>
+
+        <TextBlock Grid.Row="3" Grid.Column="4" Text="Opis karty (zakryty):" HorizontalAlignment="Left" Margin="1" Name="DetailTitle" Visibility="Hidden"/>
+        <Button Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Width="17" Click="CloseDetailButton_Click" Name="CloseDetailButton" Visibility="Hidden">
+            <TextBlock Text="X" VerticalAlignment="Center"/>
+        </Button>
+
+        <TextBlock Grid.Row="3" Grid.Column="7" Text="Lista kart w ręce (zakryta):" HorizontalAlignment="Left" Margin="0,1"/>
+        <Button Grid.Row="3" Grid.Column="7" HorizontalAlignment="Right" VerticalAlignment="Center" Width="17" Click="UnsellectInHandButton_Click">
+            <TextBlock Text="X" VerticalAlignment="Center"/>
+        </Button>
+        <TextBlock Grid.Row="3" Grid.Column="8" Text="Przyciski akcji:" HorizontalAlignment="Center" Margin="1"/>
+
+        <Grid Grid.Row="4" Grid.Column="0">
+            <ListView x:Name="CardsInGame" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightYellow" 
+                      SelectionChanged="CardsInGame_SelectionChanged" SelectionMode="Single"/>
+        </Grid>
+
+        
+        <Grid Grid.Row="4" Grid.Column="4" Margin="6" x:Name="CardDetails" Visibility="Hidden"> <!-- Dodać panel z detalami dla karty -->
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/back.png"/>
+            </Grid.Background>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="7">
+            <ListView x:Name="CardsInHand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightYellow" 
+                      SelectionChanged="CardsInHand_SelectionChanged" SelectionMode="Single"/>
+        </Grid>
+        
+        <Grid Grid.Row="4" Grid.Column="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Name="FirstButton" Content="First Button" Margin="5" FontSize="20" FontStyle="Italic" Click="FirstButton_Click"/>
+            <Button Grid.Row="1" Name="SecondButton" Content="Second Button" Margin="5" FontSize="20" FontStyle="Italic" Click="SecondButton_Click"/>
+            <Button Grid.Row="2" Name="ThirdButton" Content="Third Button" Margin="5" FontSize="20" FontStyle="Italic" Click="ThirdButton_Click"/>
+        </Grid>
+    </Grid>
+</Page>

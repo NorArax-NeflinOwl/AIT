@@ -367,6 +367,7 @@ namespace WPF.Managers
             }
             return GHz;
         }
+
         /// <summary>
         /// Retrieving Current Language
         /// </summary>
@@ -376,21 +377,22 @@ namespace WPF.Managers
 
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM Win32_BIOS");
 
+            var result = "BIOS Maker: Unknown";
             foreach (ManagementObject wmi in searcher.Get())
             {
                 try
                 {
-                    return wmi.GetPropertyValue("CurrentLanguage").ToString();
-
+                    var currentLanguage = wmi.GetPropertyValue("CurrentLanguage");
+                    if(string.IsNullOrWhiteSpace(currentLanguage?.ToString()))
+                    {
+                        result = currentLanguage?.ToString();
+                    }
                 }
-
                 catch { }
-
             }
-
-            return "BIOS Maker: Unknown";
-
+            return result;
         }
+
         /// <summary>
         /// Retrieving Current Language.
         /// </summary>

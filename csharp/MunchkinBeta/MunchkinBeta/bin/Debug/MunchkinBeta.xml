@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MunchkinBeta</name>
+    </assembly>
+    <members>
+        <member name="T:MunchkinBeta.App">
+            <summary>
+            Logika interakcji dla klasy App.xaml
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.CardPage">
+            <summary>
+            Logika interakcji dla klasy CardPage.xaml
+            </summary>
+            <summary>
+            CardPage
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.CardPage.#ctor(MunchkinBeta.CardView)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.CardPage.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.CardView">
+            <summary>
+            Type of card view
+            </summary>
+        </member>
+        <member name="F:MunchkinBeta.CardView.BackDoor">
+            <summary>
+            Back Door view
+            </summary>
+        </member>
+        <member name="F:MunchkinBeta.CardView.BackTreasure">
+            <summary>
+            Back Treasure view
+            </summary>
+        </member>
+        <member name="F:MunchkinBeta.CardView.FrontDoor">
+            <summary>
+            Front Door view
+            </summary>
+        </member>
+        <member name="F:MunchkinBeta.CardView.FrontTreasure">
+            <summary>
+            Front Treasure view
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.MainPage">
+            <summary>
+            Logika interakcji dla klasy MainPage.xaml
+            </summary>
+            <summary>
+            MainPage
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.MainPage.#ctor(MunchkinBeta.MainWindow,MunchkinLib.Models.Player)">
+            <summary>
+            Inictialization of MainPages
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.MainPage.UpdateTable">
+            <summary>
+            Check if game master have some stack on the table and update visibility of stacks
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.MainPage.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.MainWindow">
+            <summary>
+            Logika interakcji dla klasy MainWindow.xaml
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.MainWindow.#ctor">
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.Properties.Resources">
+            <summary>
+              Silnie typizowana klasa zasobów do wyszukiwania zlokalizowanych ciągów itd.
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Properties.Resources.ResourceManager">
+            <summary>
+              Zwraca buforowane wystąpienie składnika ResourceManager używane przez tę klasę.
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Properties.Resources.Culture">
+            <summary>
+              Przesłania właściwość CurrentUICulture bieżącego wątku dla wszystkich
+              przypadków przeszukiwania zasobów za pomocą tej silnie typizowanej klasy zasobów.
+            </summary>
+        </member>
+    </members>
+</doc>

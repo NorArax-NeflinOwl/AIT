@@ -1,0 +1,27 @@
+﻿<Window x:Class="MunchkinBeta.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Height="300" Width="1600" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Page Name="MainPage">
+        <Grid x:Name="MainGrid">
+            <Grid.Background>
+                <ImageBrush ImageSource="Assets/banner.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <CheckBox Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Name="IsFemaleCheckbox" Margin="10,5">
+                    <TextBlock Text="IsFemale?" FontSize="15" FontStyle="Italic"/>
+                </CheckBox>
+                <Button Grid.Row="2" Margin="20,20,10,5" Name="StartButton" Click="StartButton_Click" Width="200" HorizontalAlignment="Right">
+                    <TextBlock Text="Start" HorizontalAlignment="Center" VerticalAlignment="Center" Name="StartButtomTextBlock" FontSize="15" FontStyle="Italic"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Page>
+</Window>

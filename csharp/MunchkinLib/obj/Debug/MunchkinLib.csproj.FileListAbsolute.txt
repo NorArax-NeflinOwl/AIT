@@ -1,0 +1,6 @@
+A:\Dokumenty\AIT\csharp\MunchkinLib\obj\Debug\MunchkinLib.csproj.CoreCompileInputs.cache
+A:\Dokumenty\AIT\csharp\MunchkinLib\bin\Debug\MunchkinLib.dll
+A:\Dokumenty\AIT\csharp\MunchkinLib\bin\Debug\MunchkinLib.pdb
+A:\Dokumenty\AIT\csharp\MunchkinLib\obj\Debug\MunchkinLib.dll
+A:\Dokumenty\AIT\csharp\MunchkinLib\obj\Debug\MunchkinLib.pdb
+A:\Dokumenty\AIT\csharp\MunchkinLib\obj\Debug\MunchkinLib.csprojAssemblyReference.cache

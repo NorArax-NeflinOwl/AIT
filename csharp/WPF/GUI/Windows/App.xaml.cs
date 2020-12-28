@@ -22,9 +22,11 @@ namespace WPF
 
         public App()
         {
+            var date = new DateTime(2020, 6, 20);
+
             string path = string.Empty;
 #if DEBUG
-            var dirPath = @"D:\AIT\csharp\WPF\Databases";
+            var dirPath = @"A:\Dokumenty\AIT\csharp\WPF\Databases";
             var openFileDialog = new Microsoft.Win32.OpenFileDialog() { DefaultExt = ".db" };
             if (!Directory.Exists(dirPath))
             {

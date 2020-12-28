@@ -33,7 +33,7 @@ namespace WPF.Managers
 
         public int Completed
         {
-            get { return tasks.Where(q => q.Completed).ToList().Count; }
+            get { return tasks.Where(q => q.Completed || !q.MustBeCollected).ToList().Count; }
         }
 
         public int Count
