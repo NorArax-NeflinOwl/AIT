@@ -26,7 +26,7 @@
     {
         public Pathfinder() : base()
         {
-            base.Name = nameof(Pathfinder);
+            base.Name = "Pathfinder";
             base.Description = BaseCardsDescriptions.PathfinderDescription;
             base.HasSpecialEfect = true;
         }
@@ -41,7 +41,7 @@
     {
         public EagleKnight() : base()
         {
-            base.Name = nameof(EagleKnight);
+            base.Name = "Rycecz Orła";
             base.Description = BaseCardsDescriptions.EagleKnightDescription;
             base.HiddenBonus = 2;
             base.HiddenEscapeBonus = -1;
@@ -58,7 +58,7 @@
     {
         public HellKnight() : base()
         {
-            base.Name = nameof(HellKnight);
+            base.Name = "Przeklęty Rycerz";
             base.Description = BaseCardsDescriptions.HellKnightDescription;
             base.Bonus = 5;
             base.HasSpecialEfect = true;
@@ -74,7 +74,7 @@
     {
         public DeadlyRedMantis() : base()
         {
-            base.Name = nameof(DeadlyRedMantis);
+            base.Name = "Zabójca Czerwonej Modliszki";
             base.Description = BaseCardsDescriptions.DeadlyRedMantisDescription;
             base.EscapeBonus = 1;
             base.HiddenBonus = 2;

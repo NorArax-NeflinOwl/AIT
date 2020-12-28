@@ -24,7 +24,7 @@
     {
         public Halfling() : base()
         {
-            base.Name = nameof(Halfling);
+            base.Name = "Niziołek";
             base.Description = BaseCardsDescriptions.HalflingDescription;
             base.HasSpecialEfect = true;
         }
@@ -39,7 +39,7 @@
     {
         public Elf() : base()
         {
-            base.Name = nameof(Elf);
+            base.Name = "Elf";
             base.Description = BaseCardsDescriptions.ElfDescription;
             base.HasSpecialEfect = true;
         }
@@ -54,7 +54,7 @@
     {
         public Dwarf() : base()
         {
-            base.Name = nameof(Dwarf);
+            base.Name = "Krasnolód";
             base.Description = BaseCardsDescriptions.DwarfDescription;
             base.HasSpecialEfect = true;
         }

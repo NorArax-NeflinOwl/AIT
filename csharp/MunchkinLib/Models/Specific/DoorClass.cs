@@ -24,7 +24,7 @@
     {
         public Warrior() : base()
         {
-            base.Name = nameof(Warrior);
+            base.Name = "Wojownik";
             base.Description = BaseCardsDescriptions.WarriorDescription;
             base.HasSpecialEfect = true;
             base.HiddenBonus = 1;
@@ -40,7 +40,7 @@
     {
         public Wizard() : base()
         {
-            base.Name = nameof(Wizard);
+            base.Name = "Czarodziej";
             base.Description = BaseCardsDescriptions.WizardDescription;
             base.HasSpecialEfect = true;
             base.HiddenEscapeBonus = 1;
@@ -56,7 +56,7 @@
     {
         public Priest() : base()
         {
-            base.Name = nameof(Priest);
+            base.Name = "Kapłan";
             base.Description = BaseCardsDescriptions.PriestDescription;
             base.HasSpecialEfect = true;
             base.HiddenBonus = 3;
@@ -72,7 +72,7 @@
     {
         public Thief() : base()
         {
-            base.Name = nameof(Thief);
+            base.Name = "Złodziej";
             base.Description = BaseCardsDescriptions.ThiefDescription;
             base.HasSpecialEfect = true;
             base.HiddenBonus = -2;
