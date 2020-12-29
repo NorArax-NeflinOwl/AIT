@@ -163,6 +163,11 @@ namespace MunchkinLib.Mediators
                 rejectedDoorCards = new List<BaseCard>();
             }
 
+            if (doorCards.Any())
+            {
+                card = doorCards.Pop();
+            }
+
             return card;
         }
 
@@ -187,6 +192,35 @@ namespace MunchkinLib.Mediators
                 }
 
                 rejectedDoorCards = new List<BaseCard>();
+            }
+
+            if(treasureCards.Any())
+            {
+                card = treasureCards.Pop();
+            }
+
+            return card;
+        }
+
+        public CardDoor ShowOneRejectedDoorCard(int backIndex = 0)
+        {
+            int index = 1 + backIndex;
+            CardDoor card = null;
+            if (rejectedDoorCards.Any())
+            {
+                card = (CardDoor)rejectedDoorCards[rejectedDoorCards.Count - index];
+            }
+
+            return card;
+        }
+
+        public CardTreasure ShowOneRejectedTreasureCard(int backIndex = 0)
+        {
+            int index = 1 + backIndex;
+            CardTreasure card = null;
+            if (rejectedTreasureCards.Any())
+            {
+                card = (CardTreasure)rejectedTreasureCards[rejectedTreasureCards.Count - index];
             }
 
             return card;

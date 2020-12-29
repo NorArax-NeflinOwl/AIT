@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("table.jpeg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("assets/iconadditionalcard.png")]
 
 

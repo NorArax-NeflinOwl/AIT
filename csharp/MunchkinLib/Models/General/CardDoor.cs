@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MunchkinLib.Helpers;
+using MunchkinLib.Mediators;
+using System;
 
 namespace MunchkinLib.Models
 {
@@ -27,11 +29,32 @@ namespace MunchkinLib.Models
             set { isAdditional = value; }
         }
 
+        private int level = 0;
+        public int Level
+        {
+            get { return level; }
+            set { level = value; }
+        }
+
         private int bonus = 0;
         public int Bonus
         {
             get { return bonus; }
             set { bonus = value; }
+        }
+
+        private int reword = 0;
+        public int Reword
+        {
+            get { return reword; }
+            set { reword = value; }
+        }
+
+        private int additionalLevel = 0;
+        public int AdditionalLevel
+        {
+            get { return additionalLevel; }
+            set { additionalLevel = value; }
         }
 
         private int hiddenBonus = 0;
@@ -62,6 +85,13 @@ namespace MunchkinLib.Models
             set { haveSpecialEfect = value; }
         }
 
+        public virtual bool CheckSpecialEfectHandler()
+        {
+            if (haveSpecialEfect)
+                throw new NotImplementedException("Special effect not implemented");
+            return true;
+        }
+
         public virtual bool SpecialEfectHandler()
         {
             if (haveSpecialEfect)
@@ -83,7 +113,7 @@ namespace MunchkinLib.Models
 
         public override string ToString()
         {
-            return "Karta Drzwi, " + Name;
+            return $"Drzwi, {CustomConverter.ConvertTypeToString(this)}, {Name}";
         }
     }
 }

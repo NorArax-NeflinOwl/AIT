@@ -16,7 +16,7 @@ A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MunchkinLib.dll
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MunchkinLib.pdb
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MunchkinBeta.csproj.CopyComplete
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MunchkinBeta.xml
-A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardPage.baml
-A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardPage.g.cs
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MainPage.baml
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MainPage.g.cs
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardControl.baml
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardControl.g.cs

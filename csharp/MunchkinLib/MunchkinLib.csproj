@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CustomConverter.cs" />
     <Compile Include="Mediators\FightReferee.cs" />
     <Compile Include="Mediators\GameMaster.cs" />
     <Compile Include="Helpers\Randomizer.cs" />

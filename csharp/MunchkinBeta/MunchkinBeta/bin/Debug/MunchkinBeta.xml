@@ -22,20 +22,20 @@
             Application Entry Point.
             </summary>
         </member>
-        <member name="T:MunchkinBeta.CardPage">
+        <member name="T:MunchkinBeta.CardControl">
             <summary>
-            Logika interakcji dla klasy CardPage.xaml
+            Logika interakcji dla klasy CardControl.xaml
             </summary>
             <summary>
-            CardPage
+            CardControl
             </summary>
         </member>
-        <member name="M:MunchkinBeta.CardPage.#ctor(MunchkinBeta.CardView)">
+        <member name="M:MunchkinBeta.CardControl.#ctor(MunchkinBeta.CardView,MunchkinLib.Models.BaseCard,System.Windows.Controls.Grid)">
             <summary>
             
             </summary>
         </member>
-        <member name="M:MunchkinBeta.CardPage.InitializeComponent">
+        <member name="M:MunchkinBeta.CardControl.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>
@@ -65,6 +65,26 @@
             Front Treasure view
             </summary>
         </member>
+        <member name="T:MunchkinBeta.StateManager">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.StateManager.SetButtons(MunchkinBeta.MainPage,MunchkinLib.Models.Player)">
+            <summary>
+            
+            </summary>
+            <param name="page"></param>
+            <param name="player"></param>
+        </member>
+        <member name="M:MunchkinBeta.StateManager.UpdatePlayerPhase(MunchkinLib.Models.Player,MunchkinLib.Models.PlayerActions,MunchkinLib.Models.DoorType)">
+            <summary>
+            
+            </summary>
+            <param name="mainPlayer"></param>
+            <param name="action"></param>
+            <param name="type"></param>
+        </member>
         <member name="T:MunchkinBeta.MainPage">
             <summary>
             Logika interakcji dla klasy MainPage.xaml
@@ -76,11 +96,6 @@
         <member name="M:MunchkinBeta.MainPage.#ctor(MunchkinBeta.MainWindow,MunchkinLib.Models.Player)">
             <summary>
             Inictialization of MainPages
-            </summary>
-        </member>
-        <member name="M:MunchkinBeta.MainPage.UpdateTable">
-            <summary>
-            Check if game master have some stack on the table and update visibility of stacks
             </summary>
         </member>
         <member name="M:MunchkinBeta.MainPage.InitializeComponent">

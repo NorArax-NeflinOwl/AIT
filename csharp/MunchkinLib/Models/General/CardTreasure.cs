@@ -1,9 +1,12 @@
-﻿using System;
+﻿using MunchkinLib.Mediators;
+using System;
 
 namespace MunchkinLib.Models
 {
     public class CardTreasure : BaseCard
     {
+        public uint ID { get; }
+
         public bool IsDoorCard { get; }
 
         private string name;
@@ -11,6 +14,13 @@ namespace MunchkinLib.Models
         {
             get { return name; }
             set { name = value; }
+        }
+
+        private string requirement;
+        public string Requirement
+        {
+            get { return requirement; }
+            set { requirement = value; }
         }
 
         private string description;
@@ -62,11 +72,32 @@ namespace MunchkinLib.Models
             set { hiddenEscapeBonus = value; }
         }
 
+        private string itemType;
+        public string ItemType
+        {
+            get { return itemType; }
+            set { itemType = value; }
+        }
+
+        private bool isBig;
+        public bool IsBig
+        {
+            get { return isBig; }
+            set { isBig = value; }
+        }
+
         private bool haveSpecialEfect = false;
         public bool HasSpecialEfect
         {
             get { return haveSpecialEfect; }
             set { haveSpecialEfect = value; }
+        }
+
+        public virtual bool CheckSpecialEfectHandler()
+        {
+            if (haveSpecialEfect)
+                throw new NotImplementedException("Special effect not implemented");
+            return true;
         }
 
         public virtual bool SpecialEfectHandler()

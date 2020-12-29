@@ -81,7 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CardPage.xaml">
+    <Page Include="CardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -97,10 +97,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CardPage.xaml.cs">
-      <DependentUpon>CardPage.xaml</DependentUpon>
+    <Compile Include="CardControl.xaml.cs">
+      <DependentUpon>CardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\CardPageInfo.cs" />
+    <Compile Include="Classes\StateManager.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -170,6 +171,13 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\table.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\frontdoor.png" />
+    <Resource Include="Assets\fronttreasure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\iconadditionalcard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
