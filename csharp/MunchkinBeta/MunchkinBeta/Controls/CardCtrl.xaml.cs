@@ -1,32 +1,39 @@
 ﻿using MunchkinLib.Helpers;
 using MunchkinLib.Models;
+using MunchkinLib.Models.Source;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-namespace MunchkinBeta
+
+namespace MunchkinBeta.Controls
 {
     /// <summary>
     /// Logika interakcji dla klasy CardControl.xaml
     /// </summary>
-    public partial class CardControl : UserControl
+    public partial class CardCtrl : UserControl
     {
+        private ICard card;
+        private CardView view;
+
         /// <summary>
-        /// 
+        /// Konstruktor controlki carty
         /// </summary>
-        public CardControl(CardView view, BaseCard card, Grid grid)
+        public CardCtrl(ICard card, Grid grid)
         {
             InitializeComponent();
 
+            this.card = card;
             this.Height = grid.Height;
             this.Width = grid.Width;
+            view = card.CardType.HasFlag(CardTypeFlags.Door) ? CardView.FrontDoor : CardView.FrontTreasure;
 
-            SetView(view);
-            SetCardInfo(card);
+            SetView();
+            SetCardInfo();
         }
 
-        private void SetView(CardView view)
+        private void SetView()
         {
             switch (view)
             {
@@ -57,32 +64,32 @@ namespace MunchkinBeta
             }
         }
 
-        private void SetCardInfo(BaseCard card)
+        private void SetCardInfo()
         {
-            if (card is CardDoor doorCard)
+            if (card.CardType.HasFlag(CardTypeFlags.Door))
             {
-                NameFrontDoor.Text = doorCard.Name;
-                if (doorCard.Bonus > 0)
+                NameFrontDoor.Text = card.Name;
+                if (card.IntegerAttributes[CardAttributes.Bonus] > 0)
                 {
                     TopDescFrontDoor.Visibility = Visibility.Visible;
-                    TopDescFrontDoor.Text = $"+{doorCard.Bonus} Bonus";
+                    TopDescFrontDoor.Text = $"+{card.IntegerAttributes[CardAttributes.Bonus]} Bonus";
                 }
-                else if (doorCard.Level > 0)
+                else if (card.IntegerAttributes[CardAttributes.Level] > 0)
                 {
                     TopDescFrontDoor.Visibility = Visibility.Visible;
-                    TopDescFrontDoor.Text = "Poziom " + doorCard.Level;
+                    TopDescFrontDoor.Text = "Poziom " + card.IntegerAttributes[CardAttributes.Level];
                 }
-                else if (doorCard.EscapeBonus > 0)
+                else if (card.IntegerAttributes[CardAttributes.EscapeBonus] > 0)
                 {
                     TopDescFrontDoor.Visibility = Visibility.Visible;
-                    TopDescFrontDoor.Text = $"+{doorCard.Level} do Ucieczki.";
+                    TopDescFrontDoor.Text = $"+{card.IntegerAttributes[CardAttributes.EscapeBonus]} do Ucieczki.";
                 }
                 else
                 {
                     TopDescFrontDoor.Visibility = Visibility.Hidden;
                 }
 
-                var descriptions = SepareteDescription(doorCard.Description);
+                var descriptions = SepareteDescription(card.Description);
                 if (descriptions.Count == 2)
                 {
                     CenterDescFrontDoor.Visibility = Visibility.Visible;
@@ -94,14 +101,14 @@ namespace MunchkinBeta
                 {
                     CenterDescFrontDoor.Visibility = Visibility.Hidden;
                     BottomDescFrontDoor.Visibility = Visibility.Visible;
-                    BottomDescFrontDoor.Text = doorCard.Description;
+                    BottomDescFrontDoor.Text = card.Description;
                 }
 
-                var membership = CustomConverter.MembershipCardsToString(doorCard.Type);
-                if (doorCard.Reword > 0)
+                var membership = CustomConverter.MembershipCardsToString(card.CardType);
+                if (card.IntegerAttributes[CardAttributes.Reword] > 0)
                 {
                     RightInfoFronDoor.Visibility = Visibility.Visible;
-                    RightInfoFronDoor.Text = doorCard.Reword + " Skarb";
+                    RightInfoFronDoor.Text = card.IntegerAttributes[CardAttributes.Reword] + " Skarb";
                 }
                 else if (!string.IsNullOrEmpty(membership))
                 {
@@ -113,17 +120,17 @@ namespace MunchkinBeta
                     RightInfoFronDoor.Visibility = Visibility.Hidden;
                 }
 
-                if (doorCard.AdditionalLevel > 0)
+                if (card.IntegerAttributes[CardAttributes.LevelReword] > 0)
                 {
                     LeftInfoFronDoor.Visibility = Visibility.Visible;
-                    LeftInfoFronDoor.Text = doorCard.Reword + " Poziomy";
+                    LeftInfoFronDoor.Text = card.IntegerAttributes[CardAttributes.LevelReword] + " Poziomy";
                 }
                 else
                 {
                     LeftInfoFronDoor.Visibility = Visibility.Hidden;
                 }
 
-                if (doorCard.IsAdditional)
+                if (card.IsAdditional)
                 {
                     IconFronDoor.Visibility = Visibility.Visible;
                 }
@@ -132,30 +139,30 @@ namespace MunchkinBeta
                     IconFronDoor.Visibility = Visibility.Hidden;
                 }
             }
-            else if (card is CardTreasure treasureCard)
+            else if (card.CardType.HasFlag(CardTypeFlags.Treasure))
             {
-                NameFrontDoor.Text = treasureCard.Name;
-                if (treasureCard.Bonus > 0)
+                NameFrontDoor.Text = card.Name;
+                if (card.IntegerAttributes[CardAttributes.Bonus] > 0)
                 {
                     TopDescFrontTreasure.Visibility = Visibility.Visible;
-                    TopDescFrontTreasure.Text = $"Bonus +{treasureCard.Bonus}";
+                    TopDescFrontTreasure.Text = $"Bonus +{card.IntegerAttributes[CardAttributes.Bonus]}";
                 }
                 else
                 {
                     TopDescFrontTreasure.Visibility = Visibility.Hidden;
                 }
 
-                if (!string.IsNullOrWhiteSpace(treasureCard.Requirement))
+                if (!string.IsNullOrWhiteSpace(card.StringAttributes[CardAttributes.Requirement]))
                 {
                     RequirementFrontTreasure.Visibility = Visibility.Visible;
-                    RequirementFrontTreasure.Text = treasureCard.Requirement;
+                    RequirementFrontTreasure.Text = card.StringAttributes[CardAttributes.Requirement];
                 }
                 else
                 {
                     RequirementFrontTreasure.Visibility = Visibility.Hidden;
                 }
 
-                var descriptions = SepareteDescription(treasureCard.Description);
+                var descriptions = SepareteDescription(card.Description);
                 if (descriptions.Count == 1)
                 {
                     CenterDescFrontTreasure.Visibility = Visibility.Visible;
@@ -170,33 +177,34 @@ namespace MunchkinBeta
                     BottomDescFrontTreasure.Text = descriptions[1];
                 }
 
-                if (treasureCard.Price > 0)
+                if (card.IntegerAttributes[CardAttributes.Price] > 0)
                 {
                     RightInfoFronTreasure.Visibility = Visibility.Visible;
-                    RightInfoFronTreasure.Text = treasureCard.Price + " Sztuk Złota";
+                    RightInfoFronTreasure.Text = card.IntegerAttributes[CardAttributes.Price] + MunchkinGlobals.Instance.CardsInfoParts[CardFlags.HasPrice];
                 }
                 else
                 {
                     RightInfoFronTreasure.Visibility = Visibility.Hidden;
                 }
 
-                if (treasureCard.IsBig)
+                var item = CustomConverter.GetCardStringWeaponType(card.CardFlags);
+                if (card.CardFlags.HasFlag(CardFlags.IsBig))
                 {
-                    if (!string.IsNullOrWhiteSpace(treasureCard.ItemType))
+                    if (!string.IsNullOrWhiteSpace(item))
                     {
                         LeftUpInfoFronTreasure.Visibility = Visibility.Visible;
-                        LeftUpInfoFronTreasure.Text = "Duża";
+                        LeftUpInfoFronTreasure.Text = MunchkinGlobals.Instance.CardsInfoParts[CardFlags.IsBig];
                         LeftInfoFronTreasure.Visibility = Visibility.Visible;
-                        LeftUpInfoFronTreasure.Text = treasureCard.ItemType;
+                        LeftUpInfoFronTreasure.Text = item;
                         LeftInfoFronTreasure.Visibility = Visibility.Visible;
                     }
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(treasureCard.ItemType))
+                    if (!string.IsNullOrWhiteSpace(item))
                     {
                         LeftInfoFronTreasure.Visibility = Visibility.Visible;
-                        LeftInfoFronTreasure.Text = treasureCard.ItemType;
+                        LeftInfoFronTreasure.Text = item;
                     }
                     else
                     {
@@ -205,7 +213,7 @@ namespace MunchkinBeta
                     LeftUpInfoFronTreasure.Visibility = Visibility.Hidden;
                 }
 
-                if (treasureCard.IsAdditional)
+                if (card.IsAdditional)
                 {
                     IconFronTreasure.Visibility = Visibility.Visible;
                 }
@@ -215,7 +223,6 @@ namespace MunchkinBeta
                 }
             }
         }
-
 
         private List<string> SepareteDescription(string description)
         {

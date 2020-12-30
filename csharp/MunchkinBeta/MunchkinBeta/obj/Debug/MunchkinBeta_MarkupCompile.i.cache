@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\App.xaml
-3-701165649
+5-1462968167
 
-10-557957037
-15665726143
-CardControl.xaml;MainPage.xaml;MainWindow.xaml;
+12-1714869120
+17-20369918
+Controls\CardCtrl.xaml;Controls\CardListItemCtrl.xaml;Dashboard.xaml;MainPage.xaml;MainWindow.xaml;
 
 False
 

@@ -4,6 +4,97 @@
         <name>MunchkinBeta</name>
     </assembly>
     <members>
+        <member name="T:MunchkinBeta.Controls.CardListItemCtrl">
+            <summary>
+            Logika interakcji dla klasy CardListItem.xaml
+            </summary>
+            <summary>
+            CardListItemCtrl
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.Controls.CardListItemCtrl.#ctor">
+            <summary>
+            Konstruktor dla obiektu karty na liście
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.Controls.CardListItemCtrl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.Controls.CardCtrl">
+            <summary>
+            Logika interakcji dla klasy CardControl.xaml
+            </summary>
+            <summary>
+            CardCtrl
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.Controls.CardCtrl.#ctor(MunchkinLib.Models.ICard,System.Windows.Controls.Grid)">
+            <summary>
+            Konstruktor controlki carty
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.Controls.CardCtrl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MunchkinBeta.Controllers.ViewModel">
+            <summary>
+            View model do kontroli dashboardu.
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.Player">
+            <summary>
+            Główny obiekt gracza
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.CardsInHand">
+            <summary>
+            Lista wyświetlanych kart w ręce gracza
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.CardsOnGame">
+            <summary>
+            Lista wyświetlanych przedmiotów przed grzeczem
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.TreasureInRooms">
+            <summary>
+            Stos ze skarbami
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.DoorOfRooms">
+            <summary>
+            Stos z drzwiami
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.RejectedTreasureInRooms">
+            <summary>
+            Stos ze skarbami wykorzystanymi
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.RejectedDoorOfRooms">
+            <summary>
+            Stos z drzwiami wykorzystanymi
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.FirstButton">
+            <summary>
+            Pierwszy programowalny przycisk na planszy
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.SecondButton">
+            <summary>
+            Drugi programowalny przycisk na planszy
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.Controllers.ViewModel.ThirdButton">
+            <summary>
+            Trzeci programowalny przycisk na planszy
+            </summary>
+        </member>
         <member name="T:MunchkinBeta.App">
             <summary>
             Logika interakcji dla klasy App.xaml
@@ -22,49 +113,6 @@
             Application Entry Point.
             </summary>
         </member>
-        <member name="T:MunchkinBeta.CardControl">
-            <summary>
-            Logika interakcji dla klasy CardControl.xaml
-            </summary>
-            <summary>
-            CardControl
-            </summary>
-        </member>
-        <member name="M:MunchkinBeta.CardControl.#ctor(MunchkinBeta.CardView,MunchkinLib.Models.BaseCard,System.Windows.Controls.Grid)">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:MunchkinBeta.CardControl.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:MunchkinBeta.CardView">
-            <summary>
-            Type of card view
-            </summary>
-        </member>
-        <member name="F:MunchkinBeta.CardView.BackDoor">
-            <summary>
-            Back Door view
-            </summary>
-        </member>
-        <member name="F:MunchkinBeta.CardView.BackTreasure">
-            <summary>
-            Back Treasure view
-            </summary>
-        </member>
-        <member name="F:MunchkinBeta.CardView.FrontDoor">
-            <summary>
-            Front Door view
-            </summary>
-        </member>
-        <member name="F:MunchkinBeta.CardView.FrontTreasure">
-            <summary>
-            Front Treasure view
-            </summary>
-        </member>
         <member name="T:MunchkinBeta.StateManager">
             <summary>
             
@@ -77,13 +125,36 @@
             <param name="page"></param>
             <param name="player"></param>
         </member>
-        <member name="M:MunchkinBeta.StateManager.UpdatePlayerPhase(MunchkinLib.Models.Player,MunchkinLib.Models.PlayerActions,MunchkinLib.Models.DoorType)">
+        <member name="M:MunchkinBeta.StateManager.UpdatePlayerPhase(MunchkinLib.Models.Player,MunchkinLib.Models.Source.Actions,MunchkinLib.Models.Source.CardTypeFlags)">
             <summary>
-            
+            Motoda do update fazy gry danego playera
             </summary>
-            <param name="mainPlayer"></param>
+            <param name="player"></param>
             <param name="action"></param>
             <param name="type"></param>
+        </member>
+        <member name="T:MunchkinBeta.DashboarPage">
+            <summary>
+            Logika interakcji dla klasy Dashboard.xaml
+            </summary>
+            <summary>
+            DashboarPage
+            </summary>
+        </member>
+        <member name="P:MunchkinBeta.DashboarPage.ViewModel">
+            <summary>
+            Controler miedzy view a modelem
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.DashboarPage.#ctor(MunchkinBeta.Controllers.ViewModel)">
+            <summary>
+            Plansza do gry przez użytkownika
+            </summary>
+        </member>
+        <member name="M:MunchkinBeta.DashboarPage.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
         </member>
         <member name="T:MunchkinBeta.MainPage">
             <summary>

@@ -1,17 +1,19 @@
-﻿namespace MunchkinLib.Models
+﻿using MunchkinLib.Models.Source;
+
+namespace MunchkinLib.Models
 {
-    public class RaceBase : CardDoor
+    public class RaceBase : Card
     {
         public RaceBase() : base()
         {
-            Type = DoorType.Race;
+            CardType |= CardTypeFlags.Race;
         }
 
         public RaceBase(string name, string description) : base()
         {
             Name = name;
             Description = description;
-            Type = DoorType.Race;
+            CardType |= CardTypeFlags.Race;
         }
 
         public override bool SpecialEfectHandler()
@@ -24,9 +26,9 @@
     {
         public Halfling() : base()
         {
-            base.Name = "Niziołek";
-            base.Description = BaseCardsDescriptions.HalflingDescription;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.HalflingName;
+            base.Description = Resources.HalflingDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()
@@ -39,9 +41,9 @@
     {
         public Elf() : base()
         {
-            base.Name = "Elf";
-            base.Description = BaseCardsDescriptions.ElfDescription;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.ElfName;
+            base.Description = Resources.ElfDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()
@@ -54,9 +56,9 @@
     {
         public Dwarf() : base()
         {
-            base.Name = "Krasnolód";
-            base.Description = BaseCardsDescriptions.DwarfDescription;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.DwarfName;
+            base.Description = Resources.DwarfDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()

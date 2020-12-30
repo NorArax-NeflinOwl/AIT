@@ -1,4 +1,5 @@
 ﻿using MunchkinLib.Models;
+using MunchkinLib.Models.Source;
 using System;
 using System.Windows;
 
@@ -19,9 +20,18 @@ namespace MunchkinBeta
             switch(player.ActualPhace)
             {
                 case QueuePhase.OutOfRound:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.StartRound];
-                    page.SecondButton.Content = MunchkinGlobals.GeneralPlayerActions[GeneralPlayerActions.SellCardForLevel];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.StartRound];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.GeneralPlayerActions[GeneralActions.SellCardForLevel];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = true;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -29,18 +39,37 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.OpenDoor:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.OpenDoor];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.OpenDoor];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.GeneralPlayerActions[GeneralActions.HideCard];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = true;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
-                    page.ThirdButton.Visibility = Visibility.Hidden;
+                    page.ThirdButton.Visibility = Visibility.Visible;
                     break;
 
                 case QueuePhase.FightPhase:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.Fight];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.Escape];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.Fight];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.Escape];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -48,9 +77,18 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.FindProblem:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.NextPhase];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.FindTreasure];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.NextPhase];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.FindTreasure];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -58,9 +96,18 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.FightPhaseAfterFindProblem:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.Fight];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.Escape];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.Fight];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.Escape];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -68,9 +115,18 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.PickUpTreasure:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.NextPhase];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.PickUpCard];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.NextPhase];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.PickUpCard];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = true;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -78,9 +134,18 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.GiveCardsForFree:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.UseCardsFromHand];
-                    page.SecondButton.Content = MunchkinGlobals.GeneralPlayerActions[GeneralPlayerActions.SellCardForLevel];
-                    page.ThirdButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.EndRound];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.UseCardsFromHand];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.GeneralPlayerActions[GeneralActions.SellCardForLevel];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.EndRound];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = false;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = false;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -88,9 +153,18 @@ namespace MunchkinBeta
                     break;
 
                 case QueuePhase.ShowStack:
-                    page.FirstButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.NextPhase];
-                    page.SecondButton.Content = MunchkinGlobals.PlayerActions[PlayerActions.PickUpCard];
-                    page.ThirdButton.Content = MunchkinGlobals.GeneralPlayerActions[GeneralPlayerActions.HideCard];
+                    page.FirstButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.NextPhase];
+                    page.SecondButton.Content = MunchkinGlobals.Instance.PlayerActions[Actions.PickUpCard];
+                    page.ThirdButton.Content = MunchkinGlobals.Instance.GeneralPlayerActions[GeneralActions.HideCard];
+
+                    page.FirstButton.IsEnabled = true;
+                    page.SecondButton.IsEnabled = true;
+                    page.ThirdButton.IsEnabled = true;
+
+                    page.TreasureCardsStackGrid.IsEnabled = false;
+                    page.DoorCardsStackGrid.IsEnabled = false;
+                    page.RejectedTreasureCardsStackGrid.IsEnabled = true;
+                    page.RejectedDoorCardsStackGrid.IsEnabled = true;
 
                     page.FirstButton.Visibility = Visibility.Visible;
                     page.SecondButton.Visibility = Visibility.Visible;
@@ -100,135 +174,135 @@ namespace MunchkinBeta
         }
 
         /// <summary>
-        /// 
+        /// Motoda do update fazy gry danego playera
         /// </summary>
-        /// <param name="mainPlayer"></param>
+        /// <param name="player"></param>
         /// <param name="action"></param>
         /// <param name="type"></param>
-        public static void UpdatePlayerPhase(Player mainPlayer, PlayerActions action, DoorType type = DoorType.Unknown)
+        public static void UpdatePlayerPhase(Player player, Actions action, CardTypeFlags type = CardTypeFlags.Unknown)
         {
-            var actualPhase = mainPlayer.ActualPhace;
+            var actualPhase = player.ActualPhace;
             switch(actualPhase)
             {
                 case QueuePhase.OutOfRound:
-                    if(PlayerActions.StartRound.Equals(action))
+                    if(Actions.StartRound.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.OpenDoor;
+                        player.ActualPhace = QueuePhase.OpenDoor;
                     }
-                    else if(PlayerActions.UseCardsFromHand.Equals(action))
+                    else if(Actions.UseCardsFromHand.Equals(action))
                     {
-                        if (DoorType.Special.Equals(type))
+                        if (CardTypeFlags.Special.Equals(type))
                         {
-                            mainPlayer.ActualPhace = QueuePhase.ShowStack;
+                            player.ActualPhace = QueuePhase.ShowStack;
                         }
                     }
                     break;
 
                 case QueuePhase.OpenDoor:
-                    if(PlayerActions.OpenDoor.Equals(action))
+                    if(Actions.OpenDoor.Equals(action))
                     {
-                        if (DoorType.Monster.Equals(type))
+                        if (CardTypeFlags.Monster.Equals(type))
                         {
-                            mainPlayer.ActualPhace = QueuePhase.FightPhase;
+                            player.ActualPhace = QueuePhase.FightPhase;
                         }
                     }
-                    else if (PlayerActions.UseCardsFromHand.Equals(action))
+                    else if (Actions.UseCardsFromHand.Equals(action))
                     {
-                        if (DoorType.Monster.Equals(type))
+                        if (CardTypeFlags.Monster.Equals(type))
                         {
-                            mainPlayer.ActualPhace = QueuePhase.FindProblem;
+                            player.ActualPhace = QueuePhase.FindProblem;
                         }
                     }
                     break;
 
                 case QueuePhase.FightPhase:
-                    if (PlayerActions.Fight.Equals(action))
+                    if (Actions.Fight.Equals(action))
                     {
-                        if (DoorType.Unknown.Equals(type)) // znak nie walka została wygrana
+                        if (CardTypeFlags.Unknown.Equals(type)) // znak nie walka została wygrana
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.UseCardsFromHand.Equals(action))
+                    else if (Actions.UseCardsFromHand.Equals(action))
                     {
-                        if (DoorType.Unknown.Equals(type)) // znak nie walka została wygrana
+                        if (CardTypeFlags.Unknown.Equals(type)) // znak nie walka została wygrana
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.Escape.Equals(action))
+                    else if (Actions.Escape.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.GiveCardsForFree;
+                        player.ActualPhace = QueuePhase.GiveCardsForFree;
                     }
                     break;
 
                 case QueuePhase.FindProblem:
-                    if (PlayerActions.NextPhase.Equals(action))
+                    if (Actions.NextPhase.Equals(action))
                     {
-                        if (DoorType.Unknown.Equals(type)) // znak że nie walczylem wcześniej wiec moge zajrzeć do pokoju
+                        if (CardTypeFlags.Unknown.Equals(type)) // znak że nie walczylem wcześniej wiec moge zajrzeć do pokoju
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.FindTreasure.Equals(action))
+                    else if (Actions.FindTreasure.Equals(action))
                     {
-                        if(DoorType.Unknown.Equals(type)) // znak że nie walczylem wcześniej wiec moge zajrzeć do pokoju
+                        if(CardTypeFlags.Unknown.Equals(type)) // znak że nie walczylem wcześniej wiec moge zajrzeć do pokoju
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.UseCardsFromHand.Equals(action))
+                    else if (Actions.UseCardsFromHand.Equals(action))
                     {
-                        if(DoorType.Monster.Equals(type))
+                        if(CardTypeFlags.Monster.Equals(type))
                         {
-                            mainPlayer.ActualPhace = QueuePhase.FightPhaseAfterFindProblem;
+                            player.ActualPhace = QueuePhase.FightPhaseAfterFindProblem;
                         }
                     }
                     break;
 
                 case QueuePhase.FightPhaseAfterFindProblem:
-                    if (PlayerActions.Fight.Equals(action))
+                    if (Actions.Fight.Equals(action))
                     {
-                        if (DoorType.Unknown.Equals(type)) // znak nie walka została wygrana
+                        if (CardTypeFlags.Unknown.Equals(type)) // znak nie walka została wygrana
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.UseCardsFromHand.Equals(action))
+                    else if (Actions.UseCardsFromHand.Equals(action))
                     {
-                        if (DoorType.Unknown.Equals(type)) // znak nie walka została wygrana
+                        if (CardTypeFlags.Unknown.Equals(type)) // znak nie walka została wygrana
                         {
-                            mainPlayer.ActualPhace = QueuePhase.PickUpTreasure;
+                            player.ActualPhace = QueuePhase.PickUpTreasure;
                         }
                     }
-                    else if (PlayerActions.Escape.Equals(action))
+                    else if (Actions.Escape.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.GiveCardsForFree;
+                        player.ActualPhace = QueuePhase.GiveCardsForFree;
                     }
                     break;
 
                 case QueuePhase.PickUpTreasure:
-                    if (PlayerActions.NextPhase.Equals(action))
+                    if (Actions.NextPhase.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.GiveCardsForFree;
+                        player.ActualPhace = QueuePhase.GiveCardsForFree;
                     }
-                    else if (PlayerActions.PickUpCard.Equals(action))
+                    else if (Actions.PickUpCard.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.GiveCardsForFree;
+                        player.ActualPhace = QueuePhase.GiveCardsForFree;
                     }
                     break;
 
                 case QueuePhase.GiveCardsForFree:
-                    if (PlayerActions.EndRound.Equals(action))
+                    if (Actions.EndRound.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.OutOfRound;
+                        player.ActualPhace = QueuePhase.OutOfRound;
                     }
                     break;
 
                 case QueuePhase.ShowStack:
-                    if (PlayerActions.NextPhase.Equals(action))
+                    if (Actions.NextPhase.Equals(action))
                     {
-                        mainPlayer.ActualPhace = QueuePhase.GiveCardsForFree;
+                        player.ActualPhace = QueuePhase.GiveCardsForFree;
                     }
                     break;
             }

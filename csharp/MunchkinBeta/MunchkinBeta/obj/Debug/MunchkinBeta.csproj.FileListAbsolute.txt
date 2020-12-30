@@ -18,5 +18,14 @@ A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MunchkinBeta.csproj.
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MunchkinBeta.xml
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MainPage.baml
 A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MainPage.g.cs
-A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardControl.baml
-A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\CardControl.g.cs
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Dashboard.baml
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Dashboard.g.cs
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\MunchkinBeta_MarkupCompile.lref
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MaterialDesignColors.dll
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\Newtonsoft.Json.dll
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\MaterialDesignColors.pdb
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\bin\Debug\Newtonsoft.Json.xml
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Controls\CardCtrl.baml
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Controls\CardCtrl.g.cs
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Controls\CardListItemCtrl.g.cs
+A:\Dokumenty\AIT\csharp\MunchkinBeta\MunchkinBeta\obj\Debug\Controls\CardListItemCtrl.baml

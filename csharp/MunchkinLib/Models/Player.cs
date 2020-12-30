@@ -1,6 +1,5 @@
-﻿using MunchkinLib.Helpers;
-using MunchkinLib.Mediators;
-using System;
+﻿using MunchkinLib.Mediators;
+using MunchkinLib.Models.Source;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -37,23 +36,16 @@ namespace MunchkinLib.Models
             set { isFemale = value; }
         }
 
-        private bool helper = false;
-        public bool Helper
-        {
-            get { return helper; }
-            set { helper = value; }
-        }
-
-        private ObservableCollection<BaseCard> cardsInHand;
-        public ObservableCollection<BaseCard> CardsInHand
+        private ObservableCollection<ICard> cardsInHand;
+        public ObservableCollection<ICard> CardsInHand
         {
             get { return cardsInHand; }
         }
 
-        private int minimunCardsCountInHand;
-        public int MinimunCardsCountInHand
+        private ObservableCollection<ICard> cardsInGame;
+        public ObservableCollection<ICard> CardsInGame
         {
-            get { return minimunCardsCountInHand; }
+            get { return cardsInGame; }
         }
 
         public int CardsCount
@@ -61,30 +53,19 @@ namespace MunchkinLib.Models
             get { return cardsInHand.Count; }
         }
 
-        public bool PlayerCanEndTour
+        public List<ICard> PlayerRaces
         {
-            get { return minimunCardsCountInHand >= CardsCount; }
+            get { return cardsInGame.Where(card => card is Card doorCard && CardTypeFlags.Race.Equals(doorCard.CardType)).ToList(); }
         }
 
-        private ObservableCollection<BaseCard> cardsInGame;
-        public ObservableCollection<BaseCard> CardsInGame
+        public List<ICard> PlayerClasses
         {
-            get { return cardsInGame; }
+            get { return cardsInGame.Where(card => card is Card doorCard && CardTypeFlags.Class.Equals(doorCard.CardType)).ToList(); }
         }
 
-        public List<BaseCard> PlayerRaces
+        public List<ICard> PlayerFractions
         {
-            get { return cardsInGame.Where(card => card is CardDoor doorCard && DoorType.Race.Equals(doorCard.Type)).ToList(); }
-        }
-
-        public List<BaseCard> PlayerClasses
-        {
-            get { return cardsInGame.Where(card => card is CardDoor doorCard && DoorType.Class.Equals(doorCard.Type)).ToList(); }
-        }
-
-        public List<BaseCard> PlayerFractions
-        {
-            get { return cardsInGame.Where(card => card is CardDoor doorCard && DoorType.Fraction.Equals(doorCard.Type)).ToList(); }
+            get { return cardsInGame.Where(card => card is Card doorCard && CardTypeFlags.Fraction.Equals(doorCard.CardType)).ToList(); }
         }
 
         public int BonusCount
@@ -94,29 +75,7 @@ namespace MunchkinLib.Models
                 int couter = 0;
                 foreach(var card in cardsInGame)
                 {
-                    couter += card.Bonus;
-                }
-
-                return couter;
-            }
-        }
-
-        public int ArmorBonusCount
-        {
-            get
-            {
-                throw new NotImplementedException("Armor not implemented");
-            }
-        }
-
-        public int EscapeBonus
-        {
-            get
-            {
-                int couter = 0;
-                foreach (var card in cardsInGame)
-                {
-                    couter += card.EscapeBonus;
+                    couter += card.IntegerAttributes[CardAttributes.Bonus];
                 }
 
                 return couter;
@@ -127,12 +86,11 @@ namespace MunchkinLib.Models
         {
             this.isFemale = isFemale;
 
-            money = 0;
+            money = GameProperties.MoneyStart;
             level = LevelProperties.START;
-            minimunCardsCountInHand = GameProperties.MinimunCardsCountInHand;
 
-            cardsInHand = new ObservableCollection<BaseCard>();
-            cardsInGame = new ObservableCollection<BaseCard>();
+            cardsInHand = new ObservableCollection<ICard>();
+            cardsInGame = new ObservableCollection<ICard>();
 
             GameMaster.Instance.GiveCardsToNewPlayer(cardsInHand);
         }
@@ -146,24 +104,23 @@ namespace MunchkinLib.Models
             atributes.Add("Rasa/y", PlayerMembershipsAsString(PlayerRaces));
             atributes.Add("Klasa/y", PlayerMembershipsAsString(PlayerClasses));
             atributes.Add("Frakcja/ie", PlayerMembershipsAsString(PlayerFractions));
-            atributes.Add("Moc przedmiotów", BonusCount.ToString());
 
             return atributes;
         }
 
-        private string PlayerMembershipsAsString(List<BaseCard> list)
+        private string PlayerMembershipsAsString(List<ICard> list)
         {
             string result = string.Empty;
 
             for (var i = 0; i < list.Count - 1; i++)
             {
-                if (list[i] is CardDoor door)
+                if (list[i] is Card door)
                     result += door.Name + ", ";
             }
 
             if(list.Count >= 1)
             {
-                var card = list[list.Count - 1] as CardDoor;
+                var card = list[list.Count - 1] as Card;
                 if (null != card)
                     result += card.Name;
             }

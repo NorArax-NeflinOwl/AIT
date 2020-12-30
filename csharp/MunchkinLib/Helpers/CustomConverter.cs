@@ -1,53 +1,80 @@
 ﻿using MunchkinLib.Models;
+using MunchkinLib.Models.Source;
 
 namespace MunchkinLib.Helpers
 {
     public class CustomConverter
     {
-        public static string ConvertTypeToString(BaseCard card)
+        public static string ConvertTypeToString(ICard card)
         {
-            if(card is CardDoor door)
-            {
-                return DoorTypeToString(door.Type);
-            }
+            return DoorTypeToString(card.CardType);
+        }
 
+        private static string DoorTypeToString(CardTypeFlags type)
+        {
+            if (type.HasFlag(CardTypeFlags.Class))
+            {
+                return "Klasa";
+            }
+            if (type.HasFlag(CardTypeFlags.Race))
+            {
+                return "Rasa";
+            }
+            if (type.HasFlag(CardTypeFlags.Fraction))
+            {
+                return "Frakcja";
+            }
+            if (type.HasFlag(CardTypeFlags.Curse))
+            {
+                return "Klątwa!";
+            }
+            if (type.HasFlag(CardTypeFlags.Monster))
+            {
+                return "Potwór!";
+            }
+            if (type.HasFlag(CardTypeFlags.Special))
+            {
+                return "Specjalna";
+            }
             return string.Empty;
         }
 
-        private static string DoorTypeToString(DoorType type)
+        public static string MembershipCardsToString(CardTypeFlags type)
         {
-            switch (type)
+            if (type.HasFlag(CardTypeFlags.Class))
             {
-                case DoorType.Class:
-                    return "Klasa";
-                case DoorType.Race:
-                    return "Rasa";
-                case DoorType.Fraction:
-                    return "Frakcja";
-                case DoorType.Curse:
-                    return "Klątwa!";
-                case DoorType.Monster:
-                    return "Potwór!";
-                case DoorType.Special:
-                    return "Specjalna";
-                default:
-                    return string.Empty;
+                return "Klasa";
             }
+            if (type.HasFlag(CardTypeFlags.Race))
+            {
+                return "Rasa";
+            }
+            if (type.HasFlag(CardTypeFlags.Fraction))
+            {
+                return "Frakcja";
+            }
+            return string.Empty;
         }
 
-        public static string MembershipCardsToString(DoorType type)
+        public static string GetCardStringWeaponType(CardFlags flag)
         {
-            switch (type)
+            if (flag.HasFlag(CardFlags.IsHead))
             {
-                case DoorType.Class:
-                    return "Klasa";
-                case DoorType.Race:
-                    return "Rasa";
-                case DoorType.Fraction:
-                    return "Frakcja";
-                default:
-                    return string.Empty;
+                return MunchkinGlobals.Instance.CardsInfoParts[CardFlags.IsHead];
             }
+            if (flag.HasFlag(CardFlags.IsArmor))
+            {
+                return MunchkinGlobals.Instance.CardsInfoParts[CardFlags.IsArmor];
+            }
+            if (flag.HasFlag(CardFlags.IsOneHandWeaponLeft))
+            {
+                return MunchkinGlobals.Instance.CardsInfoParts[CardFlags.IsOneHandWeaponLeft];
+            }
+            if (flag.HasFlag(CardFlags.IsOneHandWeaponRight))
+            {
+                return MunchkinGlobals.Instance.CardsInfoParts[CardFlags.IsOneHandWeaponRight];
+            }
+            return string.Empty;
         }
     }
 }

@@ -107,10 +107,15 @@
             <ItemsControl x:Name="PlayerAtributes" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2"/>
         </Grid>
 
-        <Grid Grid.Row="4" Grid.Column="4" Margin="-50,-175,-50,20" x:Name="CardDetails" Visibility="Hidden">
-            <ContentControl Name="CardDetailsControl"/>
+        <Grid Grid.Row="3" Grid.Column="3" Margin="-50,-175,-50,20" x:Name="CardFromStack" Visibility="Hidden">
+            <ContentControl Name="CardFromStackControl"/>
         </Grid>
-        <TextBlock Grid.Row="4" Grid.Column="4" HorizontalAlignment="Center" Name="DetailTitle" Visibility="Hidden" VerticalAlignment="Bottom" Margin="0,0,0,3"/>
+        <Grid Grid.Row="4" Grid.Column="3" Margin="-50,-175,-50,20" x:Name="CardTableDetails" Visibility="Hidden">
+            <ContentControl Name="CardTableDetailsControl"/>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="5" Margin="-50,-175,-50,20" x:Name="CardHandDetails" Visibility="Hidden">
+            <ContentControl Name="CardHandDetailsControl"/>
+        </Grid>
 
         <Grid Grid.Row="4" Grid.Column="7">
             <ListView x:Name="CardsInHand" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="LightYellow" 

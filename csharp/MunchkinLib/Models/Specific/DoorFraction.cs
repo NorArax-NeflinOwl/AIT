@@ -1,10 +1,12 @@
-﻿namespace MunchkinLib.Models
+﻿using MunchkinLib.Models.Source;
+
+namespace MunchkinLib.Models
 {
-    public class FractionBase : CardDoor
+    public class FractionBase : Card
     {
         public FractionBase() : base()
         {
-            Type = DoorType.Fraction;
+            CardType |= CardTypeFlags.Fraction;
             IsAdditional = true;
         }
 
@@ -12,7 +14,7 @@
         {
             Name = name;
             Description = description;
-            Type = DoorType.Fraction;
+            CardType |= CardTypeFlags.Fraction;
             IsAdditional = true;
         }
 
@@ -26,9 +28,9 @@
     {
         public Pathfinder() : base()
         {
-            base.Name = "Pathfinder";
-            base.Description = BaseCardsDescriptions.PathfinderDescription;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.PathfinderName;
+            base.Description = Resources.PathfinderDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()
@@ -41,11 +43,11 @@
     {
         public EagleKnight() : base()
         {
-            base.Name = "Rycecz Orła";
-            base.Description = BaseCardsDescriptions.EagleKnightDescription;
-            base.HiddenBonus = 2;
-            base.HiddenEscapeBonus = -1;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.EagleKnightName;
+            base.Description = Resources.EagleKnightDescription;
+            StringAttributes.Add(CardAttributes.HiddenBonus, "2");
+            StringAttributes.Add(CardAttributes.HiddenEscapeBonus, "-1");
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()
@@ -58,10 +60,10 @@
     {
         public HellKnight() : base()
         {
-            base.Name = "Przeklęty Rycerz";
-            base.Description = BaseCardsDescriptions.HellKnightDescription;
-            base.Bonus = 5;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.HellKnightName;
+            base.Description = Resources.HellKnightDescription;
+            StringAttributes.Add(CardAttributes.Bonus, "5");
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()
@@ -74,11 +76,11 @@
     {
         public DeadlyRedMantis() : base()
         {
-            base.Name = "Zabójca Czerwonej Modliszki";
-            base.Description = BaseCardsDescriptions.DeadlyRedMantisDescription;
-            base.EscapeBonus = 1;
-            base.HiddenBonus = 2;
-            base.HasSpecialEfect = true;
+            base.Name = Resources.DeadlyRedMantisName;
+            base.Description = Resources.DeadlyRedMantisDescription;
+            StringAttributes.Add(CardAttributes.HiddenBonus, "2");
+            StringAttributes.Add(CardAttributes.EscapeBonus, "1");
+            CardFlags |= CardFlags.HasSpecialEfects;
         }
 
         public override bool SpecialEfectHandler()

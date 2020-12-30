@@ -1,4 +1,5 @@
 ﻿using MunchkinLib.Models;
+using MunchkinLib.Models.Source;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -7,7 +8,7 @@ namespace MunchkinLib.Helpers
 {
     public class Randomizer
     {
-        public static void Shuffling(List<BaseCard> list)
+        public static void Shuffling(List<ICard> list)
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
             int n = list.Count;
@@ -18,7 +19,7 @@ namespace MunchkinLib.Helpers
                 while (!(box[0] < n * (Byte.MaxValue / n)));
                 int k = (box[0] % n);
                 n--;
-                BaseCard value = list[k];
+                ICard value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }

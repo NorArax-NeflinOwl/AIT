@@ -45,16 +45,20 @@
     <Compile Include="Mediators\FightReferee.cs" />
     <Compile Include="Mediators\GameMaster.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
-    <Compile Include="Models\Source\BaseVariable.cs" />
-    <Compile Include="Models\Interface\BaseCard.cs" />
-    <Compile Include="Models\Source\BaseCardsDescriptions.cs" />
-    <Compile Include="Models\General\CardDoor.cs" />
+    <Compile Include="Models\Source\Globals.cs" />
+    <Compile Include="Models\Interface\ICard.cs" />
+    <Compile Include="Models\Source\Resources.cs" />
+    <Compile Include="Models\General\Card.cs" />
+    <Compile Include="Models\Source\Enums.cs" />
+    <Compile Include="Models\Source\Flags.cs" />
+    <Compile Include="Models\Source\Properties.cs" />
     <Compile Include="Models\Specific\DoorClass.cs" />
     <Compile Include="Models\Specific\DoorFraction.cs" />
     <Compile Include="Models\Specific\DoorRace.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\General\CardTreasure.cs" />
+    <Compile Include="Overrides\MunchkinDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,17 +1,19 @@
-﻿namespace MunchkinLib.Models
+﻿using MunchkinLib.Models.Source;
+
+namespace MunchkinLib.Models
 {
-    public class DoorClass : CardDoor
+    public class DoorClass : Card
     {
         public DoorClass() : base()
         {
-            Type = DoorType.Class;
+            CardType |= CardTypeFlags.Class;
         }
 
         public DoorClass(string name, string description) : base()
         {
             Name = name;
             Description = description;
-            Type = DoorType.Class;
+            CardType |= CardTypeFlags.Class;
         }
 
         public override bool SpecialEfectHandler()
@@ -24,10 +26,10 @@
     {
         public Warrior() : base()
         {
-            base.Name = "Wojownik";
-            base.Description = BaseCardsDescriptions.WarriorDescription;
-            base.HasSpecialEfect = true;
-            base.HiddenBonus = 1;
+            Name = Resources.WarriorName;
+            Description = Resources.WarriorDescription;
+            StringAttributes.Add(CardAttributes.Secial, "Remis Win");
+            StringAttributes.Add(CardAttributes.HiddenBonusAfterGiveCardFromHand, "+1, 3");
         }
 
         public override bool SpecialEfectHandler()
@@ -40,10 +42,11 @@
     {
         public Wizard() : base()
         {
-            base.Name = "Czarodziej";
-            base.Description = BaseCardsDescriptions.WizardDescription;
-            base.HasSpecialEfect = true;
-            base.HiddenEscapeBonus = 1;
+            Name = Resources.WizardName;
+            Description = Resources.WizardDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
+            StringAttributes.Add(CardAttributes.HiddenExcapeBonusAfterGiveCardFromHand, "+1, 3");
+            StringAttributes.Add(CardAttributes.HiddenPassFightWithOneMosterAndPickTreasure, "3");
         }
 
         public override bool SpecialEfectHandler()
@@ -56,10 +59,11 @@
     {
         public Priest() : base()
         {
-            base.Name = "Kapłan";
-            base.Description = BaseCardsDescriptions.PriestDescription;
-            base.HasSpecialEfect = true;
-            base.HiddenBonus = 3;
+            Name = Resources.PriestName;
+            Description = Resources.PriestDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
+            StringAttributes.Add(CardAttributes.HiddenBonusAfterGiveCardFromHand, "+3, 3");
+            StringAttributes.Add(CardAttributes.HiddenExchangeCardsWithRejectedStack, "+3, 3");
         }
 
         public override bool SpecialEfectHandler()
@@ -72,11 +76,11 @@
     {
         public Thief() : base()
         {
-            base.Name = "Złodziej";
-            base.Description = BaseCardsDescriptions.ThiefDescription;
-            base.HasSpecialEfect = true;
-            base.HiddenBonus = -2;
-            base.HiddenEscapeBonus = 1;
+            base.Name = Resources.ThiefName;
+            base.Description = Resources.ThiefDescription;
+            CardFlags |= CardFlags.HasSpecialEfects;
+            StringAttributes.Add(CardAttributes.HiddenBonusByCardFromCard, "-2");
+            StringAttributes.Add(CardAttributes.HiddenThiefBonus, "4, -1lvl");
         }
 
         public override bool SpecialEfectHandler()

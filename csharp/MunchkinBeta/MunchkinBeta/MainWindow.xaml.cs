@@ -32,6 +32,9 @@ namespace MunchkinBeta
             catch (Exception)
             { }
 #if DEBUG
+            Title += "Aplha";
+#endif
+#if RELEASE
             Title += "Beta";
 #endif
         }

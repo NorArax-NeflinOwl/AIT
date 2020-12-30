@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using MunchkinLib.Helpers;
 using MunchkinLib.Models;
+using MunchkinLib.Models.Source;
 
 namespace MunchkinLib.Mediators
 {
@@ -27,11 +28,11 @@ namespace MunchkinLib.Mediators
             }
         }
 
-        private Stack<CardDoor> doorCards;
-        private Stack<CardTreasure> treasureCards;
+        private Stack<Card> doorCards;
+        private Stack<Card> treasureCards;
 
-        private List<BaseCard> rejectedDoorCards;
-        private List<BaseCard> rejectedTreasureCards;
+        private List<ICard> rejectedDoorCards;
+        private List<ICard> rejectedTreasureCards;
 
         public bool DoorCardStackIsNotEmpty
         {
@@ -55,11 +56,11 @@ namespace MunchkinLib.Mediators
 
         private GameMaster()
         {
-            doorCards = new Stack<CardDoor>();
-            treasureCards = new Stack<CardTreasure>();
+            doorCards = new Stack<Card>();
+            treasureCards = new Stack<Card>();
 
-            rejectedDoorCards = new List<BaseCard>();
-            rejectedTreasureCards = new List<BaseCard>();
+            rejectedDoorCards = new List<ICard>();
+            rejectedTreasureCards = new List<ICard>();
 
             fillStacks();
         }
@@ -72,7 +73,7 @@ namespace MunchkinLib.Mediators
 
         private void fillDoorCardStack()
         {
-            var tempCardDoor = new List<BaseCard>();
+            var tempCardDoor = new List<ICard>();
 
             for (var i = 0; i < 3; i++)
             {
@@ -92,36 +93,36 @@ namespace MunchkinLib.Mediators
 
             Randomizer.Shuffling(tempCardDoor);
 
-            foreach (CardDoor card in tempCardDoor)
+            foreach (Card card in tempCardDoor)
                 doorCards.Push(card);
         }
 
         private void fillTreasureCardStack()
         {
-            var tempCard = new List<BaseCard>();
+            var tempCard = new List<ICard>();
 
 
             Randomizer.Shuffling(tempCard);
 
-            foreach (CardTreasure card in tempCard)
+            foreach (Card card in tempCard)
                 treasureCards.Push(card);
         }
 
-        public void Add2RejectDoorCard(BaseCard card)
+        public void Add2RejectDoorCard(ICard card)
         {
             rejectedDoorCards.Add(card);
         }
 
-        public void Add2RejectTreasureCard(BaseCard card)
+        public void Add2RejectTreasureCard(ICard card)
         {
             rejectedDoorCards.Add(card);
         }
 
-        public void GiveCardsToNewPlayer(ObservableCollection<BaseCard> cards)
+        public void GiveCardsToNewPlayer(ObservableCollection<ICard> cards)
         {
             for(var i = 0; i < GameProperties.DoorCardNumber; i++)
             {
-                BaseCard card = GiveOneDoorCard();
+                ICard card = GiveOneDoorCard();
 
                 if (null != card)
                 {
@@ -131,7 +132,7 @@ namespace MunchkinLib.Mediators
 
             for (var i = 0; i < GameProperties.TreasureCardNumber; i++)
             {
-                BaseCard card = GiveOneTreasureCard();
+                ICard card = GiveOneTreasureCard();
 
                 if(null != card)
                 {
@@ -140,9 +141,9 @@ namespace MunchkinLib.Mediators
             }
         }
 
-        public CardDoor GiveOneDoorCard()
+        public Card GiveOneDoorCard()
         {
-            CardDoor card = null;
+            Card card = null;
             try
             {
                 card = doorCards.Pop();
@@ -155,12 +156,12 @@ namespace MunchkinLib.Mediators
             if (null == card && rejectedDoorCards.Any())
             {
                 Randomizer.Shuffling(rejectedDoorCards);
-                foreach (BaseCard c in rejectedDoorCards)
+                foreach (ICard c in rejectedDoorCards)
                 {
-                    doorCards.Push((CardDoor)c);
+                    doorCards.Push((Card)c);
                 }
 
-                rejectedDoorCards = new List<BaseCard>();
+                rejectedDoorCards = new List<ICard>();
             }
 
             if (doorCards.Any())
@@ -171,9 +172,9 @@ namespace MunchkinLib.Mediators
             return card;
         }
 
-        public CardTreasure GiveOneTreasureCard()
+        public Card GiveOneTreasureCard()
         {
-            CardTreasure card = null;
+            Card card = null;
             try
             {
                 card = treasureCards.Pop();
@@ -186,12 +187,12 @@ namespace MunchkinLib.Mediators
             if (null == card && rejectedTreasureCards.Any())
             {
                 Randomizer.Shuffling(rejectedTreasureCards);
-                foreach (BaseCard c in rejectedTreasureCards)
+                foreach (ICard c in rejectedTreasureCards)
                 {
-                    treasureCards.Push((CardTreasure)c);
+                    treasureCards.Push((Card)c);
                 }
 
-                rejectedDoorCards = new List<BaseCard>();
+                rejectedDoorCards = new List<ICard>();
             }
 
             if(treasureCards.Any())
@@ -202,25 +203,25 @@ namespace MunchkinLib.Mediators
             return card;
         }
 
-        public CardDoor ShowOneRejectedDoorCard(int backIndex = 0)
+        public Card ShowOneRejectedDoorCard(int backIndex = 0)
         {
             int index = 1 + backIndex;
-            CardDoor card = null;
+            Card card = null;
             if (rejectedDoorCards.Any())
             {
-                card = (CardDoor)rejectedDoorCards[rejectedDoorCards.Count - index];
+                card = (Card)rejectedDoorCards[rejectedDoorCards.Count - index];
             }
 
             return card;
         }
 
-        public CardTreasure ShowOneRejectedTreasureCard(int backIndex = 0)
+        public Card ShowOneRejectedTreasureCard(int backIndex = 0)
         {
             int index = 1 + backIndex;
-            CardTreasure card = null;
+            Card card = null;
             if (rejectedTreasureCards.Any())
             {
-                card = (CardTreasure)rejectedTreasureCards[rejectedTreasureCards.Count - index];
+                card = (Card)rejectedTreasureCards[rejectedTreasureCards.Count - index];
             }
 
             return card;
