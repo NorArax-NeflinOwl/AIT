@@ -1,0 +1,5 @@
+System.OutOfMemoryException: Exception of type 'System.OutOfMemoryException' was thrown.
+   at System.Convert.ToBase64String(Byte[] inArray, Int32 offset, Int32 length, Base64FormattingOptions options)
+   at System.Convert.ToBase64String(Byte[] inArray)
+   at AITLib.Helpers.AitEncryptionHelper.Encrypt(String clearText, String password) in D:\C#\AIT\AITLib\Helpers\AitEncryptionHelper.cs:line 28
+   at AIT.Helpers.AitCryptJsonManager.Serialize(Object obj, String password) in D:\C#\AIT\AIT\Helpers\AitCryptJsonManager.cs:line 43

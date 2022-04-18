@@ -1,0 +1,7 @@
+System.Security.Cryptography.CryptographicException: The input data is not a complete block.
+   at System.Security.Cryptography.CapiSymmetricAlgorithm.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   at System.Security.Cryptography.CryptoStream.FlushFinalBlock()
+   at System.Security.Cryptography.CryptoStream.Dispose(Boolean disposing)
+   at System.IO.Stream.Close()
+   at AITLib.Helpers.AitEncryptionHelper.Decrypt(String cipherText, String password) in D:\C#\AIT\AITLib\Helpers\AitEncryptionHelper.cs:line 48
+   at AIT.Helpers.AitCryptJsonManager.Deserialize[T](String text, String password) in D:\C#\AIT\AIT\Helpers\AitCryptJsonManager.cs:line 57

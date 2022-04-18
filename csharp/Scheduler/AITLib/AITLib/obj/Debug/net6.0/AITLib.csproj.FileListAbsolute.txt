@@ -1,0 +1,15 @@
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\bin\Debug\net6.0\AITLib.deps.json
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\bin\Debug\net6.0\AITLib.runtimeconfig.json
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\bin\Debug\net6.0\AITLib.dll
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\bin\Debug\net6.0\AITLib.pdb
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.csproj.AssemblyReference.cache
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.GeneratedMSBuildEditorConfig.editorconfig
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.AssemblyInfoInputs.cache
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.AssemblyInfo.cs
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.csproj.CoreCompileInputs.cache
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.dll
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\refint\AITLib.dll
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.pdb
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\AITLib.genruntimeconfig.cache
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\obj\Debug\net6.0\ref\AITLib.dll
+A:\Dokumenty\AIT\csharp\Scheduler\AITLib\AITLib\bin\Debug\net6.0\AITLib.dll.config

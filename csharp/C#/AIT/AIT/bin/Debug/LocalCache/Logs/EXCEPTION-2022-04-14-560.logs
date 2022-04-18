@@ -1,0 +1,13 @@
+System.IO.DirectoryNotFoundException: Nie można odnaleźć części ścieżki „D:\C#\AIT\AITLib\Constants\Icons\information.png”.
+   w System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   w System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   w System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
+   w System.Windows.Media.Imaging.BitmapDecoder.SetupDecoderFromUriOrStream(Uri uri, Stream stream, BitmapCacheOption cacheOption, Guid& clsId, Boolean& isOriginalWritable, Stream& uriStream, UnmanagedMemoryStream& unmanagedMemoryStream, SafeFileHandle& safeFilehandle)
+   w System.Windows.Media.Imaging.BitmapDecoder.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy, Boolean insertInDecoderCache)
+   w System.Windows.Media.Imaging.BitmapImage.FinalizeCreation()
+   w System.Windows.Media.Imaging.BitmapImage.EndInit()
+   w System.Windows.Media.Imaging.BitmapImage..ctor(Uri uriSource, RequestCachePolicy uriCachePolicy)
+   w System.Windows.Media.Imaging.BitmapImage..ctor(Uri uriSource)
+   w AIT.Models.AitDialogModel.Init(DialogType type)
+   w AIT.Models.AitDialogModel..ctor(DialogType type, String message)
+   w AIT.Windows.QuickNoteWindow.<AitQuickNoteSaveBtn_Click>d__7.MoveNext()

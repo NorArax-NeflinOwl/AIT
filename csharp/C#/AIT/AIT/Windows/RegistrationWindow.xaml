@@ -1,0 +1,17 @@
+﻿<Window x:Class="AIT.Windows.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" Title="Rejestration"
+        Height="600" Width="320" ResizeMode="NoResize" Background="LightGray">
+    <Grid>
+        <Label x:Name="TitleLabel" Content="Rejestration: " HorizontalAlignment="Left" 
+               Margin="10,10,0,0" VerticalAlignment="Top" Width="254"
+               FontSize="30" Foreground="#032b86"/>
+        <Frame x:Name="aitAccountFrame" Margin="0,30"/>
+        <Button x:Name="aitCreateBtn" Content="Create" FontSize="20" Height="40" Background="#032b86"
+                HorizontalAlignment="Right" Margin="10" VerticalAlignment="Bottom" Width="150" 
+                BorderBrush="LightGray"/>
+    </Grid>
+</Window>

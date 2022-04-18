@@ -1,0 +1,130 @@
+{
+  "format": 1,
+  "restore": {
+    "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj": {}
+  },
+  "projects": {
+    "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj",
+        "projectName": "AITLib",
+        "projectPath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj",
+        "packagesPath": "C:\\Users\\pudwe\\.nuget\\packages\\",
+        "outputPath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\pudwe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj",
+        "projectName": "ModelTest",
+        "projectPath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj",
+        "packagesPath": "C:\\Users\\pudwe\\.nuget\\packages\\",
+        "outputPath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\pudwe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj": {
+                "projectPath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AIT.DataBases.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AitPersons">
+    <Key>
+      <PropertyRef Name="prnID" />
+    </Key>
+    <Property Name="prnID" Type="int" Nullable="false" />
+    <Property Name="prnLogin" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="prnEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="prnPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AitPersonsDetails">
+    <Key>
+      <PropertyRef Name="prdID" />
+    </Key>
+    <Property Name="prdID" Type="int" Nullable="false" />
+    <Property Name="prdPersonID" Type="int" Nullable="false" />
+    <Property Name="prdFName" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="prdLName" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="prdBDate" Type="date" Nullable="false" />
+    <Property Name="prdPesel" Type="numeric" Precision="11" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="AITDataBasesStoreContainer">
+    <EntitySet Name="AitPersons" EntityType="Self.AitPersons" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AitPersonsDetails" EntityType="Self.AitPersonsDetails" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

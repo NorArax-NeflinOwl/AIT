@@ -1,0 +1,8 @@
+System.Security.Cryptography.CryptographicException: Uzupełnienie jest nieprawidłowe i nie można go usunąć.
+   w System.Security.Cryptography.CapiSymmetricAlgorithm.DepadBlock(Byte[] block, Int32 offset, Int32 count)
+   w System.Security.Cryptography.CapiSymmetricAlgorithm.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   w System.Security.Cryptography.CryptoStream.FlushFinalBlock()
+   w System.Security.Cryptography.CryptoStream.Dispose(Boolean disposing)
+   w System.IO.Stream.Close()
+   w AITLib.Helpers.AitEncryptionHelper.Decrypt(String cipherText, String password) w A:\Dokumenty\AIT\csharp\C#\AIT\AITLib\Helpers\AitEncryptionHelper.cs:wiersz 48
+   w AIT.Helpers.AitCryptJsonManager.Deserialize[T](String text, String password) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Helpers\AitCryptJsonManager.cs:wiersz 57

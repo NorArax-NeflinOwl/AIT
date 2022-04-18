@@ -1,0 +1,9 @@
+Newtonsoft.Json.JsonReaderException: Additional text encountered after finished reading JSON content: ਊ. Path '', line 1, position 235.
+   w Newtonsoft.Json.JsonTextReader.ReadInternal()
+   w Newtonsoft.Json.JsonTextReader.Read()
+   w Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   w Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   w Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   w Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   w Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   w AIT.Helpers.AitCryptJsonManager.Deserialize[T](String text, String password) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Helpers\AitCryptJsonManager.cs:wiersz 58

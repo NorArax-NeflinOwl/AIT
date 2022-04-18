@@ -1,0 +1,13 @@
+System.NotSupportedException: Prefiks URI nie został rozpoznany.
+   w System.Net.WebRequest.Create(Uri requestUri, Boolean useUriBase)
+   w System.Net.WebRequest.Create(Uri requestUri)
+   w MS.Internal.WpfWebRequestHelper.CreateRequest(Uri uri)
+   w System.Windows.Media.Imaging.BitmapDecoder.SetupDecoderFromUriOrStream(Uri uri, Stream stream, BitmapCacheOption cacheOption, Guid& clsId, Boolean& isOriginalWritable, Stream& uriStream, UnmanagedMemoryStream& unmanagedMemoryStream, SafeFileHandle& safeFilehandle)
+   w System.Windows.Media.Imaging.BitmapDecoder.CreateFromUriOrStream(Uri baseUri, Uri uri, Stream stream, BitmapCreateOptions createOptions, BitmapCacheOption cacheOption, RequestCachePolicy uriCachePolicy, Boolean insertInDecoderCache)
+   w System.Windows.Media.Imaging.BitmapImage.FinalizeCreation()
+   w System.Windows.Media.Imaging.BitmapImage.EndInit()
+   w System.Windows.Media.Imaging.BitmapImage..ctor(Uri uriSource, RequestCachePolicy uriCachePolicy)
+   w System.Windows.Media.Imaging.BitmapImage..ctor(Uri uriSource)
+   w AIT.Models.AitDialogModel.Init(DialogType type) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Models\AitDialogModel.cs:wiersz 37
+   w AIT.Models.AitDialogModel..ctor(DialogType type, String message) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Models\AitDialogModel.cs:wiersz 24
+   w AIT.Windows.LogInWindow.<AitLoginButton_Click>d__3.MoveNext() w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Windows\LogInWindow.cs:wiersz 110

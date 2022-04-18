@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DBContext">
+    <EntitySetMapping Name="AitPersons">
+      <EntityTypeMapping TypeName="DatabaseModel.AitPerson">
+        <MappingFragment StoreEntitySet="AitPersons">
+          <ScalarProperty Name="prnPassword" ColumnName="prnPassword" />
+          <ScalarProperty Name="prnEmail" ColumnName="prnEmail" />
+          <ScalarProperty Name="prnLogin" ColumnName="prnLogin" />
+          <ScalarProperty Name="prnID" ColumnName="prnID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AitPersonsDetails">
+      <EntityTypeMapping TypeName="DatabaseModel.AitPersonsDetail">
+        <MappingFragment StoreEntitySet="AitPersonsDetails">
+          <ScalarProperty Name="prdPesel" ColumnName="prdPesel" />
+          <ScalarProperty Name="prdBDate" ColumnName="prdBDate" />
+          <ScalarProperty Name="prdLName" ColumnName="prdLName" />
+          <ScalarProperty Name="prdFName" ColumnName="prdFName" />
+          <ScalarProperty Name="prdPersonID" ColumnName="prdPersonID" />
+          <ScalarProperty Name="prdID" ColumnName="prdID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AitQuickNotes">
+      <EntityTypeMapping TypeName="DatabaseModel.AitQuickNote">
+        <MappingFragment StoreEntitySet="AitQuickNotes">
+          <ScalarProperty Name="qknCDate" ColumnName="qknCDate" />
+          <ScalarProperty Name="qknNote" ColumnName="qknNote" />
+          <ScalarProperty Name="qknTitle" ColumnName="qknTitle" />
+          <ScalarProperty Name="qknPersonID" ColumnName="qknPersonID" />
+          <ScalarProperty Name="qknID" ColumnName="qknID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

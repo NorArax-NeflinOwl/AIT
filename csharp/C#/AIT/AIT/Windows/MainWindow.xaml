@@ -1,0 +1,135 @@
+﻿<Window x:Name="MainWindow1" x:Class="AIT.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="AIT" Height="600" Width="1080" WindowState="Maximized" 
+        WindowStartupLocation="CenterScreen" MinWidth="600" MinHeight="450" Background="Black">
+
+    <Window.Resources>
+        <Storyboard x:Key="MenuOpen">
+            <DoubleAnimationUsingKeyFrames 
+                Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.5" Value="160"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuClose">
+            <DoubleAnimationUsingKeyFrames 
+                Storyboard.TargetProperty="(FrameworkElement.Width)" 
+                Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="160"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="aitOpenSideMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="aitCloseSideMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid Background="LightGray">
+        <Frame x:Name="aitMainWindowPage" HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch" Margin="60,50,0,0" NavigationUIVisibility="Hidden"/>
+        <Grid x:Name="aitProgressGrid" Background="LightGray" Visibility="Collapsed">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         IsIndeterminate="True" Width="70" Height="70"/>
+        </Grid>
+        <Grid Height="50" VerticalAlignment="Top" Background="#FF4151FF">
+            <TextBlock x:Name="aitTitleMainWindow" Foreground="White"
+                       Text="Main Window" FontSize="30"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
+                <TextBlock x:Name="aitUserFullName" Text="Admin" 
+                           VerticalAlignment="Center" FontSize="18"  
+                           Foreground="White" />
+                <materialDesign:PopupBox Margin="10"
+                                     PlacementMode="BottomAndAlignRightEdges"
+                                     StaysOpen="False" Foreground="White">
+                    <StackPanel>
+                        <Button x:Name="aitAccountBtn" Content="Account"/>
+                        <Button x:Name="aitSettingsBtn" Content="Settings"/>
+                        <Button x:Name="aitHelpBtn" Content="Help"/>
+                        <Separator/>
+                        <Button x:Name="aitLogOutBtn" Content="LogOut"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF0B1F86">
+            <StackPanel>
+                <Grid Height="120" Background="#FF1c3142">
+                    <Image Source="D:\Projects\C#\AIT\AITLib\Constants\Icons\Logo.png"
+                           VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <Button x:Name="aitCloseSideMenu" Visibility="Collapsed"
+                            VerticalAlignment="Top"  HorizontalAlignment="Right" 
+                            Width="50" Height="50" 
+                            Background="Transparent" BorderBrush="Transparent">
+                        <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF0E2BC7"
+                                                 Width="25" Height="25"/>
+                    </Button>
+                    <Button x:Name="aitOpenSideMenu" 
+                            VerticalAlignment="Top" HorizontalAlignment="Right" 
+                            Width="60" Height="60" 
+                            Background="Transparent" BorderBrush="Transparent">
+                        <materialDesign:PackIcon Kind="Menu" Foreground="#FF4151FF"
+                                                 Width="25" Height="25"/>
+                    </Button>
+                </Grid>
+                <ListView Background="Transparent" Foreground="#FF4151FF" BorderBrush="Transparent"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="aitMenuList">
+                    <ListViewItem Height="50">
+                        <StackPanel Orientation="Horizontal" Margin="7,0">
+                            <materialDesign:PackIcon Kind="ViewDashboard" 
+                                                     Width="25" Height="25"/>
+                            <TextBlock x:Name="aitHomeButton" Text="Dashboard"
+                                       VerticalAlignment="Center" Margin="15,0"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="50">
+                        <StackPanel Orientation="Horizontal" Margin="7,0">
+                            <materialDesign:PackIcon Kind="Schedule" 
+                                                     Width="25" Height="25"/>
+                            <TextBlock x:Name="aitSchedulerButton" Text="Scheduler"
+                                       VerticalAlignment="Center" Margin="15,0"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="50">
+                        <StackPanel Orientation="Horizontal" Margin="7,0">
+                            <materialDesign:PackIcon Kind="Calculator" 
+                                                     Width="25" Height="25"/>
+                            <TextBlock x:Name="aitCalVatButton" Text="Vat Calculator"
+                                       VerticalAlignment="Center" Margin="15,0"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="50">
+                        <StackPanel Orientation="Horizontal" Margin="7,0">
+                            <materialDesign:PackIcon Kind="Calendar" 
+                                                     Width="25" Height="25"/>
+                            <TextBlock x:Name="aitCalendarButton" Text="Calendar"
+                                       VerticalAlignment="Center" Margin="15,0"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="50">
+                        <StackPanel Orientation="Horizontal" Margin="7,0">
+                            <materialDesign:PackIcon Kind="Note" 
+                                                     Width="25" Height="25"/>
+                            <TextBlock x:Name="aitQuickNoteButton" Text="Quick Note"
+                                       VerticalAlignment="Center" Margin="15,0"/>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

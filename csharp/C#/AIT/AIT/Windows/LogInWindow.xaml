@@ -1,0 +1,82 @@
+﻿<Window x:Class="AIT.Windows.LogInWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d" Background="LightGray"
+        Title="Login" Height="250" Width="400" ResizeMode="NoResize">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBox x:Name="aitLoginTextBox"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Bottom"
+                             Height="50" Margin="10,0" FontSize="20"
+                             materialDesign:HintAssist.Hint="Login"
+                             Foreground="#032b86"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <PasswordBox x:Name="aitPasswordBox"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Bottom"
+                                 Height="50" Margin="10,5" FontSize="20"  
+                                 materialDesign:HintAssist.Hint="Password" 
+                                 Foreground="#032b86"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton Grid.Column="0" x:Name="aitRememberMeCheckBox"
+                    Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
+                    ToolTip="MaterialDesignSwitchDarkToggleButton"
+                    IsChecked="false" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="aitRememberMeTextButton" Grid.Column="1"
+                               Foreground="#032b86" Text="Remember me?"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Margin="5,0"/>
+                </Grid>
+            </Grid>
+            <Button x:Name="aitLoginButton" Grid.Row="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                Margin="20,0" Background="#032b86" Height="40"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
+                <TextBlock x:Name="aitLoginTextButton"
+                       FontSize="18" Text="Login"/>
+            </Button>
+            <Button x:Name="aitRegistrationButton" 
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                Cursor="Hand" BorderBrush="Transparent">
+                <TextBlock x:Name="aitRegistrationTextButton"
+                       Foreground="#032b86" Text="If you do not have an account? Register!"
+                       TextDecorations="Underline"/>
+            </Button>
+        </Grid>
+        <Grid x:Name="aitProgressGrid" Background="LightGray" Visibility="Collapsed">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         IsIndeterminate="True" Width="70" Height="70"/>
+        </Grid>
+    </Grid>
+</Window>
