@@ -31,10 +31,15 @@
 /csharp/MunchkinLib/obj
 
 /csharp/Scheduler/AITLib/.vs
+/csharp/Scheduler/AITLib/.vs/
 /csharp/Scheduler/AITLib/AITLib/bin
+/csharp/Scheduler/AITLib/AITLib/bin/
 /csharp/Scheduler/AITLib/AITLib/obj
+/csharp/Scheduler/AITLib/AITLib/obj/
 /csharp/Scheduler/ModelTest/bin
+/csharp/Scheduler/ModelTest/bin/
 /csharp/Scheduler/ModelTest/obj
+/csharp/Scheduler/ModelTest/obj/
 
 /csharp/C#/AIT/.vs
 /csharp/C#/AIT/AIT/bin
@@ -43,4 +48,5 @@
 /csharp/C#/AIT/AITLib/obj
 /csharp/C#/AITConsole/bin
 /csharp/C#/AITConsole/obj
+
 *.user

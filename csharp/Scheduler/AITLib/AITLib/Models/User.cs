@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace AITLib.Models
 {
+    [Table("Users")]
     public class User : BaseObject
     {
         private uint id;
@@ -19,15 +20,20 @@ namespace AITLib.Models
 
         [Key, Column("usrID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public uint ID { get => id; }
-        public virtual uint ParentID => throw new NotImplementedException();
+
         [Required, Column("usrLogin", Order = 1)]
         public string Login { get => login; }
+
         [Column("usrPasswordHash", Order = 2)]
         public string PasswordHash { get => passwordHash; }
+
         [Column("usrCreatedDate", Order = 3)]
         public DateTime CreatedDate { get => createdDate; }
+
         [Column("usrUpdatedDate", Order = 4)]
         public DateTime UpdatedDate { get => updatedDate ?? createdDate; }
+
+        public uint ParentID { get; set; }
         public virtual UserInfo UserInfo { get => userInfo; }
         public virtual ICollection<Note> Notes { get => notes; }
         public virtual ICollection<Mission> Missions { get => missions; }

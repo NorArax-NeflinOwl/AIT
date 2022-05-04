@@ -15,6 +15,7 @@ namespace AITLib.Models
         EXPIRED,
     }
 
+    [Table("Missions")]
     public class Mission : BaseObject
     {
         private uint id;
@@ -24,16 +25,22 @@ namespace AITLib.Models
         private DateTime? updatedDate;
         private Status status;
 
-        public uint ID { get => id; }
-        [Key, ForeignKey("User"), Column("msnParentID", Order = 0)]
+        [Key, Column("msnID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public uint ID { get => id; set => id = value; }
+
+        [ForeignKey("User"), Column("msnParentID", Order = 1)]
         public uint ParentID { get => parent.ID; }
-        [Column("usiName", Order = 1)]
+
+        [Column("usiName", Order = 2)]
         public string Name { get => name; }
-        [Column("usiCreatedDate", Order = 2)]
+
+        [Column("usiCreatedDate", Order = 3)]
         public DateTime CreatedDate { get => createdDate; }
-        [Column("usiUpdatedDate", Order = 3)]
+
+        [Column("usiUpdatedDate", Order = 4)]
         public DateTime UpdatedDate { get => updatedDate ?? createdDate; }
-        [Column("usiStatus", Order = 4)]
+
+        [Column("usiStatus", Order = 5)]
         public Status Status { get => status; }
 
         private Mission()

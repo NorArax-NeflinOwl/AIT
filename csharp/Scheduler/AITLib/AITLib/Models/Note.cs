@@ -1,8 +1,11 @@
 ﻿using AITLib.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 
 namespace AITLib.Models
 {
+    [Table("Notes")]
     public class Note : BaseObject
     {
         private uint id;
@@ -13,11 +16,22 @@ namespace AITLib.Models
         private DateTime? updatedDate;
         private ICollection<Comment> comments;
 
+        [Key, Column("nteID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public uint ID { get => id; }
+
+        [ForeignKey("Note"), Column("nteParentID", Order = 1)]
         public uint ParentID { get => parent.ID; }
+
+        [Column("nteTitle", Order = 2)]
         public string Title { get => title; }
+
+        [Column("nteDesc", Order = 3)]
         public string Description { get => description; }
+
+        [Column("nteCreateDate", Order = 4)]
         public DateTime CreatedDate { get => createdDate; }
+
+        [Column("nteUpdateDate", Order = 5)]
         public DateTime UpdatedDate { get => updatedDate ?? CreatedDate; }
         public virtual ICollection<Comment> Comments { get => comments; }
 

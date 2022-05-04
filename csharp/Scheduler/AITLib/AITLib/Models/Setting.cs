@@ -5,14 +5,18 @@ using System.Runtime.Serialization;
 
 namespace AITLib.Models
 {
+    [Table("Settings")]
     public class Setting : BaseObject
     {
         private uint id;
         private User parent;
 
-        public uint ID { get => id; }
-        [Key, ForeignKey("User"), Column("setParentID", Order = 0)]
-        public uint ParentID { get => parent.ID; }
+        [Key, Column("setID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public uint ID { get => id; set => id = value; }
+
+        [ForeignKey("User"), Column("setParentID", Order = 1)]
+        public uint ParentID { get => parent.ID;}
+
         public IEnumerable<Mission> Missions { get => parent.Missions; }
 
         private Setting()

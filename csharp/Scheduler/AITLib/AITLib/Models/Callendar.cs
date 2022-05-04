@@ -5,14 +5,18 @@ using System.Runtime.Serialization;
 
 namespace AITLib.Models
 {
+    [Table("Callendars")]
     public class Callendar : BaseObject
     {
         private uint id;
         private User parent;
 
+        [Key, Column("cldID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public uint ID { get => id; }
-        [Key, ForeignKey("User"), Column("cldParentID", Order = 0)]
+
+        [ForeignKey("User"), Column("cldParentID", Order = 1)]
         public uint ParentID { get => parent.ID; }
+
         public IEnumerable<Mission> Missions { get => parent.Missions; }
 
         private Callendar()

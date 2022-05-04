@@ -32,7 +32,7 @@ namespace AITLib.Databases
             return new User(login, passwordHashed);
         }
 
-        public void CreateUserWithInfo(string login, string password, string firstName, string middleName, string lastName, int? pesel, DateTime? birthDate, string email, string phone, string nick)
+        public void CreateUserWithInfo(string login, string password, string firstName, string middleName, string lastName, string pesel, DateTime? birthDate, string email, string phone, string nick)
         {
             var user = CreateSimpleUser(login, password);
             var userInfo = new UserInfo(user, firstName, middleName, lastName, pesel, birthDate, email, phone, nick);

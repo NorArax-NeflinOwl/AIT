@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace AITLib.Models
 {
+    [Table("Comments")]
     public class Comment : BaseObject
     {
         private uint id;
@@ -13,13 +14,18 @@ namespace AITLib.Models
         private DateTime createdDate;
         private bool isDeleted;
 
+        [Key, Column("cmnID", Order = 0), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public uint ID { get => id; }
-        [Key, ForeignKey("Note"), Column("cmnParentID", Order = 0)]
+
+        [ForeignKey("Note"), Column("cmnParentID", Order = 1)]
         public uint ParentID { get => parent.ID; }
-        [Column("cmnText", Order = 1)]
-        public string Text { get => text; }
-        [Column("cmnCreatedDate", Order = 2)]
-        public DateTime CreatedDate { get => createdDate; }
+
+        [Column("cmnText", Order = 2)]
+        public string Text { get => text; set => text = value; }
+
+        [Column("cmnCreatedDate", Order = 3)]
+        public DateTime CreatedDate { get => createdDate; set => createdDate = value; }
+
         public virtual bool IsDeleted { get => isDeleted; }
 
         private Comment()
