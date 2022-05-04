@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ae8hPozTQwAD7g2fKHvQweTRefxYzAG7FZsqCDK1qeLViYxLgL+Jy64cWoHSZ09BzXKbv4FfnUeurLVyvrTnPg==",
+  "dgSpecHash": "+9mzMp0anfHHyWA4KWD1qWBJyH4sNPDDU6L6i6pJ+oRPiMv/uQwYqbq0YuKF3rUB7//HagLTBBnOblgI6rNn/A==",
   "success": true,
-  "projectFilePath": "A:\\Dokumenty\\AIT\\csharp\\C#\\AIT\\AITLib\\AITLib.csproj",
+  "projectFilePath": "A:\\GIT\\AIT\\csharp\\C#\\AIT\\AITLib\\AITLib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pudwe\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\pudwe\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"

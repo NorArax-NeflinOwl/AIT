@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nMAP22/95bqN5WceKxB9fzwaaImuU+TCMhhafmXRSA+WuKqCm/U2G4l7ngwCIOZILz2807//35YRNmh+VhGZXA==",
+  "dgSpecHash": "4GSPQHKo/+D12efsyVb5DlyvF3lUPf+m3uQKY7CkNFgQyGNFcXRcwMAe70pYsHDMflhdZDAaCeC9Nomb8VroSw==",
   "success": true,
-  "projectFilePath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj",
+  "projectFilePath": "A:\\GIT\\AIT\\csharp\\Scheduler\\AITLib\\AITLib\\AITLib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pudwe\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\pudwe\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

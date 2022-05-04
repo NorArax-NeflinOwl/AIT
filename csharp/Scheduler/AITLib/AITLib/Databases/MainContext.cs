@@ -12,6 +12,7 @@ namespace AITLib.Databases
         private MainContext()
         {
             context = new PrivateContext();
+            context.Database.CreateIfNotExists();
         }
 
         public static MainContext Instance

@@ -16,11 +16,12 @@ namespace AITLib.Databases
 
         public PrivateContext() : base("DBConnection")
         {
+            AitFileManager.Init();
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<User>().Property(q => q.ID).IsRequired();
+            modelBuilder.Entity<User>().Property(q => q.ID).IsRequired();
             modelBuilder.Entity<User>().Property(q => q.Login).IsRequired();
             modelBuilder.Entity<User>().Property(q => q.PasswordHash).IsRequired();
             modelBuilder.Entity<User>().Property(q => q.CreatedDate).IsRequired();
@@ -30,7 +31,7 @@ namespace AITLib.Databases
             modelBuilder.Entity<Mission>().Property(q => q.ParentID).IsRequired();
             modelBuilder.Entity<Comment>().Property(q => q.ParentID).IsRequired();
             modelBuilder.Entity<Callendar>().Property(q => q.ParentID).IsRequired();
-            modelBuilder.Entity<Setting>().Property(q => q.ParentID).IsRequired();*/
+            modelBuilder.Entity<Setting>().Property(q => q.ParentID).IsRequired();
 
             base.OnModelCreating(modelBuilder);
         }

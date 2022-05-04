@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-A:\Dokumenty\AIT\csharp\C#\AIT\AIT\obj\Debug\
+A:\GIT\AIT\csharp\C#\AIT\AIT\obj\Debug\
 AIT
 none
 false
 DEBUG;TRACE
-A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Windows\App.xaml
+A:\GIT\AIT\csharp\C#\AIT\AIT\Windows\App.xaml
 14-401402922
 
-37939817609
-23903236008
+38-1142271009
+231894539200
 Pages\PartlyPages\AccountFieldFrame.xaml;Pages\AccountPage.xaml;Pages\CalendarPage.xaml;Pages\DashboardPage.xaml;Pages\HelpPage.xaml;Pages\QuickNoteExplorerPage.xaml;Pages\SchedulerPage.xaml;Pages\SettingsPage.xaml;Pages\VatCalculatorPage.xaml;Windows\DialogWindow.xaml;Windows\MainWindow.xaml;Windows\LogInWindow.xaml;Windows\QuickNoteWindow.xaml;Windows\RegistrationWindow.xaml;
 
-False
+True
 

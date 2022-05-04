@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Ern+2wwPE/MBJheT0zVrYLhmO58LPHfjTtyih18o1wxpfYtOb2niAurFNiWzD1gI0VhY9XIIglv08HLwjuKFSg==",
+  "dgSpecHash": "TL4O7s4l5C2UdazglOJh3Gswvp0dQb4FX+ZB+FyPJrRNnaqIoCPWHtfKvr8cvCjIyUQhxTvh5Z5f9J7I6qyC8Q==",
   "success": true,
-  "projectFilePath": "A:\\Dokumenty\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj",
+  "projectFilePath": "A:\\GIT\\AIT\\csharp\\Scheduler\\ModelTest\\ModelTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pudwe\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\pudwe\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
