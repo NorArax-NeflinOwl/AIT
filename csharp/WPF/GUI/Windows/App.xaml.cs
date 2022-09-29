@@ -26,7 +26,7 @@ namespace WPF
 
             string path = string.Empty;
 #if DEBUG
-            var dirPath = @"A:\Dokumenty\AIT\csharp\WPF\Databases";
+            var dirPath = @"A:\GIT\AIT\csharp\WPF\Databases";
             var openFileDialog = new Microsoft.Win32.OpenFileDialog() { DefaultExt = ".db" };
             if (!Directory.Exists(dirPath))
             {

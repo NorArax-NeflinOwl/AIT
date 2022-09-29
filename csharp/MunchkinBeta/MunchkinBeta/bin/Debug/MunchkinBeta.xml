@@ -127,7 +127,7 @@
         </member>
         <member name="M:MunchkinBeta.StateManager.UpdatePlayerPhase(MunchkinLib.Models.Player,MunchkinLib.Models.Source.Actions,MunchkinLib.Models.Source.CardTypeFlags)">
             <summary>
-            Motoda do update fazy gry danego playera
+            Metoda do update fazy gry danego playera
             </summary>
             <param name="player"></param>
             <param name="action"></param>

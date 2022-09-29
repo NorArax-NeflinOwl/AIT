@@ -244,7 +244,7 @@ namespace MunchkinBeta
 
                     var accession = Math.Floor(Convert.ToDouble(mainPlayer.Money + sum) / GameProperties.MinimalPriceForNewLevel);
 
-                    result = MessageBox.Show($"Zystałeś {sum} sztuk złota, możesz teraz kupić {accession} poziomów. Czy chcesz teraz je wydać?", 
+                    result = MessageBox.Show($"Zyskałeś {sum} sztuk złota, możesz teraz kupić {accession} poziomów. Czy chcesz teraz je wydać?", 
                         MunchkinGlobals.Instance.GeneralPlayerActions[GeneralActions.SellCardForLevel], 
                         MessageBoxButton.YesNo);
 

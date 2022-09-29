@@ -16,7 +16,7 @@
 
     public class LevelProperties
     {
-        public static int MIN = 0;
+        public static int MIN = 1;
         public static int START = 1;
         public static int MAX = GameProperties.MaxLevel;
     }

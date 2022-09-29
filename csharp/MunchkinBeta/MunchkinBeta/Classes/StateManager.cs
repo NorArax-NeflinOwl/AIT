@@ -174,7 +174,7 @@ namespace MunchkinBeta
         }
 
         /// <summary>
-        /// Motoda do update fazy gry danego playera
+        /// Metoda do update fazy gry danego playera
         /// </summary>
         /// <param name="player"></param>
         /// <param name="action"></param>

@@ -27,7 +27,7 @@ namespace MunchkinBeta.Controls
             this.card = card;
             this.Height = grid.Height;
             this.Width = grid.Width;
-            view = card.CardType.HasFlag(CardTypeFlags.Door) ? CardView.FrontDoor : CardView.FrontTreasure;
+            view = card.CardType.HasFlag(CardTypeFlags.Door) ? CardView.FrontDoor : CardView.FrontTreasure; // what about backDoor and backTreasure?
 
             SetView();
             SetCardInfo();

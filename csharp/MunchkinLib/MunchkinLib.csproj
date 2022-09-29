@@ -45,6 +45,7 @@
     <Compile Include="Mediators\FightReferee.cs" />
     <Compile Include="Mediators\GameMaster.cs" />
     <Compile Include="Helpers\Randomizer.cs" />
+    <Compile Include="Models\General\BaseCard.cs" />
     <Compile Include="Models\Source\Globals.cs" />
     <Compile Include="Models\Interface\ICard.cs" />
     <Compile Include="Models\Source\Resources.cs" />
