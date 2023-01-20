@@ -20,7 +20,7 @@ public class AitHibernateUtil {
     private AitHibernateUtil() {
         AitLogger.getInstance().logInfoToFile("opening: AitHibernateUtil.AitHibernateUtil()");
         try {
-            String workStation = "pcppudwel";
+            String workStation = "MSI_PC";
             InetAddress addr = InetAddress.getLocalHost();
             String hostname = addr.getHostName();
 

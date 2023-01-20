@@ -21,11 +21,11 @@ namespace MunchkinLib.Models
             protected set { description = value; }
         }
 
-        private bool isAdditional = false;
-        public bool IsAdditional
+        private bool isFromAdditional = false;
+        public bool IsFromAdditional
         {
-            get { return isAdditional; }
-            protected set { isAdditional = value; }
+            get { return isFromAdditional; }
+            protected set { isFromAdditional = value; }
         }
 
         private CardTypeFlags cardType;

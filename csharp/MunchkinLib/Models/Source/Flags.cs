@@ -2,23 +2,31 @@
 
 namespace MunchkinLib.Models.Source
 {
+
+    [Flags]
+    public enum CardType
+    {
+        UNKNOWN,
+        DOOR,
+        TREASURE
+    }
+
     [Flags]
     public enum CardTypeFlags
     {
-        Unknown = 0,
-        Door = 1,
-        Treasure = 2,
-        Class = 4,
-        Race = 8,
-        Fraction = 16,
-        Special = 32,
-        Monster = 64,
-        Curse = 128,
+        UNKNOWN,
+        Class,
+        Race,
+        Fraction,
+        Special,
+        Monster,
+        Curse,
     }
 
     [Flags]
     public enum CardAttributes
     {
+        UNKNOWN = 0,
         Level = 1,
         Price = 2,
         Reword = 4,
@@ -31,14 +39,14 @@ namespace MunchkinLib.Models.Source
         OppositeRequirement = 512,
         SpecialAgainsTo = 1042,
 
-        Secial = 1048576, // opis skilla
+        Secial = 1048576,                                                                                   // opis skilla
         HiddenEscapeBonus = 2097152,
-        HiddenExcapeBonusAfterGiveCardFromHand = 4194304, // jaki bonus, max kart mozliwych do oddania
-        HiddenBonusAfterGiveCardFromHand = 8388608, // jaki bonus, max kart mozliwych do oddania
-        HiddenPassFightWithOneMosterAndPickTreasure = 16777216, // ile minimum kard do oddania aby zabrac skarb potworowi bez jego pokonywania
+        HiddenExcapeBonusAfterGiveCardFromHand = 4194304,                                                   // jaki bonus, max kart mozliwych do oddania
+        HiddenBonusAfterGiveCardFromHand = 8388608,                                                         // jaki bonus, max kart mozliwych do oddania
+        HiddenPassFightWithOneMosterAndPickTreasure = 16777216,                                             // ile minimum kard do oddania aby zabrac skarb potworowi bez jego pokonywania
         HiddenExchangeCardsWithRejectedStack = 33554432,
         HiddenBonusByCardFromCard = 67108864,
-        HiddenThiefBonus = 134217728, // minimum aby wygrać rzut kostką, przegrana oznacza strate poziomu
+        HiddenThiefBonus = 134217728,                                                                       // minimum aby wygrać rzut kostką, przegrana oznacza strate poziomu
     }
 
     [Flags]

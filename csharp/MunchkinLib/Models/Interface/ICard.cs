@@ -1,20 +1,20 @@
 ﻿using MunchkinLib.Models.Source;
 using MunchkinLib.Overrides;
-using System.Collections.Generic;
 
 namespace MunchkinLib.Models
 {
     public interface ICard
     {
-        CardTypeFlags CardType { get; }
+        CardType CardType { get; }
 
         CardFlags CardFlags { get; }
+        CardTypeFlags CardTypeFlags { get; }
 
         string Name { get; }
 
         string Description { get; }
 
-        bool IsAdditional { get; }
+        bool IsFromAdditional { get; }
 
         MunchkinDictionary<CardAttributes, int> IntegerAttributes { get; }
 

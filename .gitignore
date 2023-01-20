@@ -24,8 +24,9 @@
 /csharp/UTW/obj
 /csharp/UTW/bin
 
-/csharp/MunchkinBeta/MunchkinBeta/bin
-/csharp/MunchkinBeta/MunchkinBeta/obj
+/csharp/MunchkinBeta/.vs/
+/csharp/MunchkinBeta/MunchkinBeta/bin/
+/csharp/MunchkinBeta/MunchkinBeta/obj/
 
 /csharp/MunchkinLib/bin
 /csharp/MunchkinLib/obj
@@ -50,3 +51,7 @@
 /csharp/C#/AITConsole/obj
 
 *.user
+*.suo
+*.exe
+*.pdb
+*.cache

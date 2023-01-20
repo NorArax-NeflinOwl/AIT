@@ -37,3 +37,13 @@ A:\Dokumenty\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.AssemblyIn
 A:\Dokumenty\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.csproj.CoreCompileInputs.cache
 A:\Dokumenty\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.dll
 A:\Dokumenty\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.pdb
+A:\GIT\AIT\csharp\C#\AIT\AITLib\bin\Debug\netstandard2.0\AITLib.deps.json
+A:\GIT\AIT\csharp\C#\AIT\AITLib\bin\Debug\netstandard2.0\AITLib.dll
+A:\GIT\AIT\csharp\C#\AIT\AITLib\bin\Debug\netstandard2.0\AITLib.pdb
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.csproj.AssemblyReference.cache
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.GeneratedMSBuildEditorConfig.editorconfig
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.AssemblyInfoInputs.cache
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.AssemblyInfo.cs
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.csproj.CoreCompileInputs.cache
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.dll
+A:\GIT\AIT\csharp\C#\AIT\AITLib\obj\Debug\netstandard2.0\AITLib.pdb
