@@ -1,0 +1,1 @@
+A:\GIT\AIT\csharp\Boomer\Boomer\Boomer.csproj;x64

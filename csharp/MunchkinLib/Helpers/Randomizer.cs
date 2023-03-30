@@ -28,7 +28,7 @@ namespace MunchkinLib.Helpers
         public static bool ThrowDice(int bonus)
         {
             Random random = new Random();
-            int randomNumber = random.Next(GameProperties.MinDiceScore, GameProperties.MaxDiceScore);
+            int randomNumber = random.Next(GameProperties.MinDiceScore, GameProperties.MaxDiceScore +1);
 
             return randomNumber + bonus >= GameProperties.MinToWinThrowDice;
         }

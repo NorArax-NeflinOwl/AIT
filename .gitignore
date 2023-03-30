@@ -6,9 +6,10 @@
 */.vs/
 */bin/
 */packages/
+/java/CRD/target
 /java/GUI/target
 /java/HBM/target
-/java/PTL/target
+/java/WMS/target
 
 
 # VS
@@ -50,8 +51,26 @@
 /csharp/C#/AITConsole/bin
 /csharp/C#/AITConsole/obj
 
+
 *.user
 *.suo
 *.exe
 *.pdb
 *.cache
+
+
+#UNITY
+/unity/2d/First/Logs
+/unity/2d/First/Library
+/unity/2d/First/obj
+
+
+/unity/2d/Second/Logs
+/unity/2d/Second/Library
+/unity/2d/Second/obj
+
+
+/unity/2d/Kingdom/Logs
+/unity/2d/Kingdom/Library
+/unity/2d/Kingdom/obj
+
