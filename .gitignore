@@ -63,27 +63,19 @@
 /unity/2d/First/Logs
 /unity/2d/First/Library
 /unity/2d/First/obj
+/unity/2d/First/.vs
+/unity/2d/First/Temp
 
 
 /unity/2d/Second/Logs
 /unity/2d/Second/Library
 /unity/2d/Second/obj
+/unity/2d/Second/.vs
+/unity/2d/Second/Temp
 
 
 /unity/2d/Kingdom/Logs
 /unity/2d/Kingdom/Library
 /unity/2d/Kingdom/obj
-
-/unity/2d/Kingdom/Temp/FSTimeGet-7ffdca56884d4e145a04eefb4ce725fc
-/unity/2d/Kingdom/Temp/UnityLockfile
-/unity/2d/Kingdom/Temp/workerlic
-/unity/2d/Second/.vs/Second/FileContentIndex/766809f2-68c7-447f-bc71-e5e71e415cfa.vsidx
-/unity/2d/Second/.vs/Second/FileContentIndex/9ac48859-7110-4459-9663-dca46ca8f275.vsidx
-/unity/2d/Second/.vs/Second/FileContentIndex/bcaa11f8-08a1-4ba2-b5f5-12a3eee33037.vsidx
-/unity/2d/Second/.vs/Second/FileContentIndex/eea6b845-5724-4e96-b51d-06341e264ddd.vsidx
-/unity/2d/Second/Temp/__Backupscenes/0.backup
-/unity/2d/Second/Temp/FSTimeGet-c23d8376c5263a24788cb8b1162653eb
-/unity/2d/Second/Temp/FSTimeGet-d4e670932919c7049a72ab93070547e1
-/unity/2d/Second/Temp/FSTimeGet-eb13867dbfbe3724a910e249a930ebc4
-/unity/2d/Second/Temp/UnityLockfile
-/unity/2d/Second/Temp/workerlic
+/unity/2d/Kingdom/.vs
+/unity/2d/Kingdom/Temp
