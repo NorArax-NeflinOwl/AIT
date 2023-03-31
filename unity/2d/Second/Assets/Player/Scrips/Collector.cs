@@ -9,7 +9,14 @@ public class Collector : MonoBehaviour
         GunPickup gunPickup = collision.GetComponent<GunPickup>();
         if(null != gunPickup)
         {
-            Instantiate(gunPickup.PickUp(), GunHolder);
+            Gun gun = gunPickup.PickUp();
+            GunHolder holder = GunHolder.GetComponent<GunHolder>();
+            if(!holder.HasGunAlready(gun.name))
+            {
+                Gun newGun = Instantiate(gun, GunHolder);
+                newGun.SetPickUp(gunPickup);
+                holder.AddGun(newGun);
+            }
         }
     }
 }

@@ -57,12 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scrips\CameraFollow.cs" />
-    <Compile Include="Assets\Scrips\HealthPoints.cs" />
+    <Compile Include="Assets\Enemy\Scrips\HealthPoints.cs" />
     <Compile Include="Assets\Player\Scrips\Collector.cs" />
     <Compile Include="Assets\Player\Scrips\PlayerMovement.cs" />
     <Compile Include="Assets\Guns\Scrips\Gun.cs" />
     <Compile Include="Assets\Guns\Scrips\GunPickup.cs" />
     <Compile Include="Assets\Guns\Scrips\Bullet.cs" />
+    <Compile Include="Assets\Player\Scrips\GunHolder.cs" />
+    <Compile Include="Assets\UI\Scrips\UIGunInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

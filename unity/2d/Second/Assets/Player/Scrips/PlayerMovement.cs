@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 JumpForce;
     public int JumpMaxNumber = 2;
 
-    private Rigidbody2D rigidbody;
+    private new Rigidbody2D rigidbody;
     private float horizontalMovement;
     private bool canJump;
     private int jumpCounter;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GunPickup : MonoBehaviour
 {
@@ -9,8 +10,15 @@ public class GunPickup : MonoBehaviour
 
     public Gun PickUp()
     {
-        Destroy(gameObject, 0.1f);
+        //Destroy(gameObject, 0.1f);
+        gameObject.SetActive(false);
         return GunPrefab;
+    }
+
+    public void Drop(Vector3 position)
+    {
+        gameObject.SetActive(true);
+        gameObject.GetComponent<Transform>().position = position;
     }
 
     void Start()

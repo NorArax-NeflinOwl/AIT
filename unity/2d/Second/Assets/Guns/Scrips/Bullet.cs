@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -5,14 +6,20 @@ public class Bullet : MonoBehaviour
     [SerializeField] int Damage = 1;
     [SerializeField] int Speed = 30;
 
-    Rigidbody2D rigidbody;
-    void Start()
+    private new Rigidbody2D rigidbody;
+    private Transform bulletParent;
+
+    private void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, 1f);
     }
 
-    void FixedUpdate()
+    private void OnEnable()
+    {
+        StartCoroutine(Return2Pool(1f));
+    }
+
+    private void FixedUpdate()
     {
         rigidbody.velocity = Vector2.right * Speed;
     }
@@ -23,7 +30,21 @@ public class Bullet : MonoBehaviour
         if(null != healthPoints )
         {
             healthPoints.TakeDamege(Damage);
-            Destroy(gameObject, 0.01f);
+            StartCoroutine(Return2Pool(0.01f));
         }
+    }
+
+    IEnumerator Return2Pool(float time)
+    {
+        yield return new WaitForSeconds(time);
+        gameObject.transform.SetParent(bulletParent);
+        gameObject.SetActive(false);
+    }
+
+    public void Initialize(int damage, int speed, Transform bulletParent)
+    {
+        Damage = damage;
+        Speed = speed;
+        this.bulletParent = bulletParent;
     }
 }

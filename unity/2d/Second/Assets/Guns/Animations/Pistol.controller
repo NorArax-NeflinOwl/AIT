@@ -128,7 +128,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 443f4f36f0927ee4193aafaa360f11a6, type: 2}
-  m_Tag: 
+  m_Tag: GunAnimation
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -181,7 +181,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: GunReload
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3411034027043412057}
@@ -195,7 +195,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 0d3acd44d5e873f419d6e269be26df83, type: 2}
-  m_Tag: 
+  m_Tag: gunAnim
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
