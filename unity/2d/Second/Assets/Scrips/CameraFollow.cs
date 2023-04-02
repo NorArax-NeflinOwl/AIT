@@ -13,8 +13,14 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        gameObject.transform.position = new Vector3(playerMovement.transform.position.x + offset.x, 
-                                                    gameObject.transform.position.y, 
-                                                    gameObject.transform.position.z);
+        if(playerMovement)
+        {
+            if(playerMovement.transform.position.x > transform.position.x - offset.x)
+            {
+                transform.position = new Vector3(playerMovement.transform.position.x + offset.x,
+                                                            gameObject.transform.position.y,
+                                                            gameObject.transform.position.z);
+            }
+        }
     }
 }

@@ -27,9 +27,9 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         HealthPoints healthPoints = collision.gameObject.GetComponent<HealthPoints>();
-        if(null != healthPoints )
+        if(healthPoints )
         {
-            healthPoints.TakeDamege(Damage);
+            healthPoints.TakeDamege(Damage, transform.position);
             StartCoroutine(Return2Pool(0.01f));
         }
     }

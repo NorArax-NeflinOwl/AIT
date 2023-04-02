@@ -7,13 +7,18 @@ public class Gun : MonoBehaviour
     [SerializeField] Transform Aim;
     [SerializeField] Transform AmmoHolder;
     [SerializeField] Sprite Sprite;
+    [SerializeField] AudioClip ShootAudioClip;
+    [SerializeField] AudioClip EmptyAudioClip;
+    [SerializeField] AudioClip ReloadClip;
+    [SerializeField] ParticleSystem Muzzle;
 
     public int MagazineCapasity;
     public int BulletSpeed;
     public int BulletDamage;
 
-    private int BulletsLeftInMagazine;
+    private int bulletsLeftInMagazine;
     private Animator animator;
+    private new AudioSource audio;
     private GunPickup gunPickup;
     private GunHolder gunHolder;
 
@@ -22,14 +27,14 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        bulletsLeftInMagazine = MagazineCapasity;
+
+        audio = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         animator.keepAnimatorStateOnDisable = true;
 
         gunHolder = GetComponentInParent<GunHolder>();
-
-        BulletsLeftInMagazine = MagazineCapasity;
-
-        gunHolder.InformAboutBulletsLeftInMagazineActiveGun(BulletsLeftInMagazine);
+        gunHolder.InformAboutBulletsLeftInMagazineActiveGun(bulletsLeftInMagazine);
 
         poolQuantity = 15;
         bullets = new List<Bullet>();
@@ -38,7 +43,7 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        if (IsGunAnimationInProccess())
+        if (IsBusy())
             return;
 
         TryShoot();
@@ -65,26 +70,35 @@ public class Gun : MonoBehaviour
                 bullets[i].gameObject.SetActive(true);
                 bullets[i].transform.parent = null;
                 bullets[i].transform.position = Aim.position;
+                bullets[i].transform.eulerAngles = Vector2.right;
                 return;
             }
         }
     }
 
+    private void Shoot()
+    {
+        TrySetAnimation("GunShoot");
+        gunHolder.InformAboutBulletsLeftInMagazineActiveGun(--bulletsLeftInMagazine);
+        audio.PlayOneShot(ShootAudioClip);
+        Muzzle.Play();
+        GetBullet();
+    }
+
     private bool TryShoot()
     {
-        if (BulletsLeftInMagazine == 0)
-            return false;
-
         if (Input.GetMouseButtonDown(0))
         {
-            TrySetAnimation("GunShoot");
-            BulletsLeftInMagazine--;
+            if(bulletsLeftInMagazine == 0)
+            {
+                audio.PlayOneShot(EmptyAudioClip);
+            }
+            else
+            {
+                Shoot();
+            }
 
-            gunHolder.InformAboutBulletsLeftInMagazineActiveGun(BulletsLeftInMagazine);
-
-            GetBullet();
-
-            if (BulletsLeftInMagazine == 0)
+            if (bulletsLeftInMagazine == 0)
             {
                 TrySetAnimation("GunEmpty");
             }
@@ -98,9 +112,10 @@ public class Gun : MonoBehaviour
         if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
         {
             TrySetAnimation("GunReload");
-            BulletsLeftInMagazine = MagazineCapasity;
+            bulletsLeftInMagazine = MagazineCapasity;
 
-            gunHolder.InformAboutBulletsLeftInMagazineActiveGun(BulletsLeftInMagazine);
+            gunHolder.InformAboutBulletsLeftInMagazineActiveGun(bulletsLeftInMagazine);
+            audio.PlayOneShot(ReloadClip);
             return true;
         }
         return false;
@@ -108,7 +123,7 @@ public class Gun : MonoBehaviour
 
     private bool TrySetAnimation(string animationName)
     {
-        if(null != animator)
+        if(animator)
         {
             animator.SetTrigger(animationName);
             return true;
@@ -116,7 +131,7 @@ public class Gun : MonoBehaviour
         return false;
     }
 
-    public bool IsGunAnimationInProccess()
+    public bool IsBusy()
     {
         return animator != null && animator.GetCurrentAnimatorStateInfo(0).IsTag("GunAnimation");
     }
@@ -131,12 +146,12 @@ public class Gun : MonoBehaviour
         float pickupSize = gunPickup.GetComponent<SpriteRenderer>().size.x;
         Vector3 position = new Vector3(transform.position.x - (pickupSize * 2), transform.position.y, 0f);
         gunPickup.Drop(position);
-        Destroy(gameObject, 0.1f);
+        gameObject.SetActive(false);  //Destroy(gameObject, 0.1f);
     }
 
     public int GetBulletsLeftInMagazine()
     {
-        return BulletsLeftInMagazine;
+        return bulletsLeftInMagazine;
     }
 
     public Sprite GetGunSprite()

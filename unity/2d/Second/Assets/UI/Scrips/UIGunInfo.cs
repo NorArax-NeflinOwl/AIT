@@ -3,35 +3,55 @@ using UnityEngine.UI;
 
 public class UIGunInfo : MonoBehaviour
 {
-    public Image ImagageMagazineCapacity;
-    public Image ImagageBulletsInMagazine;
+    public Image ImageHeartsFull;
+    public Image ImageHearts;
+    public Image ImageMagazineCapacity;
+    public Image ImageBulletsInMagazine;
     public Image ImageGun;
 
     private void Start()
     {
         GunHolder.InformAboutActiveGunAction += UpdateUIMagazineCapacity;
         GunHolder.InformAboutBulletsLeftInMagazineActiveGunAction += UpdateUIBulletsLeftInMagazine;
+        HealthPoints.InformAboutHeartsFullAction += UpdateUIHeartsFull;
+        HealthPoints.InformAboutHeartsLeftAction += UpdateUIHearts;
 
         UpdateUIBulletsLeftInMagazine(0);
         UpdateUIMagazineCapacity(0, null);
     }
 
+    private void UpdateUIHeartsFull(int hearts)
+    {
+        if (ImageHeartsFull)
+        {
+            ImageHeartsFull.fillAmount = hearts / 10f;
+        }
+    }
+
+    private void UpdateUIHearts(int hearts)
+    {
+        if (ImageHearts)
+        {
+            ImageHearts.fillAmount = hearts / 10f;
+        }
+    }
+
     private void UpdateUIBulletsLeftInMagazine(int bulletInMagazine)
     {
-        if (null != ImagageBulletsInMagazine)
+        if (ImageBulletsInMagazine)
         {
-            ImagageBulletsInMagazine.fillAmount = bulletInMagazine / 50f;
+            ImageBulletsInMagazine.fillAmount = bulletInMagazine / 50f;
         }
     }
 
     private void UpdateUIMagazineCapacity(int magazineCapasity, Sprite gunSprite)
     {
-        if(null != ImagageMagazineCapacity)
+        if(ImageMagazineCapacity)
         {
-            ImagageMagazineCapacity.fillAmount = magazineCapasity / 50f;
+            ImageMagazineCapacity.fillAmount = magazineCapasity / 50f;
         }
 
-        if(null != gunSprite)
+        if(gunSprite)
         {
             ImageGun.gameObject.SetActive(true);
             ImageGun.sprite = gunSprite;

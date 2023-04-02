@@ -7,12 +7,14 @@ public class GunHolder : MonoBehaviour
     public static System.Action<int, Sprite> InformAboutActiveGunAction;
     public static System.Action<int> InformAboutBulletsLeftInMagazineActiveGunAction;
 
+    private AudioSource audioSource;
     private List<Gun> gunList;
     private int activeGun = 0;
 
     private void Start()
     {
         gunList = new List<Gun>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -29,8 +31,10 @@ public class GunHolder : MonoBehaviour
 
     private void SwitchGun()
     {
-        if(gunList.Any() && CheckAnimation())
+        if(gunList.Any() && !IsBusy())
         {
+            audioSource.Play();
+
             gunList[activeGun].gameObject.SetActive(false);
             if(activeGun < gunList.Count - 1) 
             {
@@ -41,14 +45,18 @@ public class GunHolder : MonoBehaviour
                 activeGun = 0;
             }
             gunList[activeGun].gameObject.SetActive(true);
+            
             InformAboutActiveGun(gunList[activeGun].MagazineCapasity, gunList[activeGun].GetGunSprite());
             InformAboutBulletsLeftInMagazineActiveGun(gunList[activeGun].GetBulletsLeftInMagazine());
         }
     }
 
-    private bool CheckAnimation()
+    private bool IsBusy()
     {
-        return gunList[activeGun].IsGunAnimationInProccess() == false;
+        if (!gunList.Any())
+            return true;
+
+        return gunList[activeGun].IsBusy();
     }
 
     private void InformAboutActiveGun(int magazineCapacity, Sprite gunSprite)
@@ -57,6 +65,18 @@ public class GunHolder : MonoBehaviour
         {
             InformAboutActiveGunAction.Invoke(magazineCapacity, gunSprite);
         }
+    }
+
+    private bool HasGunAlready(string gunName)
+    {
+        for (int i = 0; i < gunList.Count; i++)
+        {
+            if (gunList[i].name == gunName)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void InformAboutBulletsLeftInMagazineActiveGun(int bulletsLeftInMagazine)
@@ -90,15 +110,8 @@ public class GunHolder : MonoBehaviour
         }
     }
 
-    public bool HasGunAlready(string gunName)
+    public bool CanAddGun(string gunName)
     {
-        for(int i = 0; i < gunList.Count; i++)
-        {
-            if (gunList[i].name == gunName)
-            {
-                return true;
-            }
-        }
-        return false;
+        return !IsBusy() && HasGunAlready(gunName);
     }
 }
