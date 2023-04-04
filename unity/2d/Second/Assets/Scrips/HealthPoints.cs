@@ -39,14 +39,21 @@ public class HealthPoints : MonoBehaviour
 
         if (healthPoints <= 0)
         {
-            if(animator)
+            if (gameObject.TryGetComponent(out MainPlayer mainPlayer))
             {
-                animator.SetTrigger("EnemyDie");
-                Destroy(gameObject, 0.6f);
+                mainPlayer.GameOver();
             }
             else
             {
-                Destroy(gameObject);
+                if (animator)
+                {
+                    animator.SetTrigger("EnemyDie");
+                    Destroy(gameObject, 0.6f);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
         else

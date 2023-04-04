@@ -1,25 +1,42 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
+    [SerializeField] PlayerMovement playerMovement;
+
+    public float zoomSpeed = 1f;
+    public float minZoom = 10f;      // Minimalna odległość kamery
+    public float maxZoom = 50f;     // Maksymalna odległość kamery
 
     private Vector3 offset;
+    private Camera m_Camera;
 
     void Start()
     {
-        offset = gameObject.transform.position - playerMovement.transform.position;
+        offset = new Vector3(3,2,-10f);
+        m_Camera = GetComponent<Camera>();
     }
 
     void Update()
     {
-        if(playerMovement)
+        if (playerMovement && null != offset)
         {
-            if(playerMovement.transform.position.x > transform.position.x - offset.x)
+            transform.position = playerMovement.transform.position + offset;
+        }
+
+
+        // Pobranie wartości pokrętła myszy
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        if(scroll != 0f)
+        {
+            if (scroll > 0 && m_Camera.orthographicSize <= maxZoom)
             {
-                transform.position = new Vector3(playerMovement.transform.position.x + offset.x,
-                                                            gameObject.transform.position.y,
-                                                            gameObject.transform.position.z);
+                m_Camera.orthographicSize += zoomSpeed;
+            }
+            else if (scroll < 0 && m_Camera.orthographicSize > minZoom)
+            {
+                m_Camera.orthographicSize -= zoomSpeed;
             }
         }
     }

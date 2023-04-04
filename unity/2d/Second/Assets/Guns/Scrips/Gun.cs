@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     public int MagazineCapasity;
     public int BulletSpeed;
     public int BulletDamage;
+    public bool IsMachineGun;
 
     private int bulletsLeftInMagazine;
     private Animator animator;
@@ -70,7 +71,7 @@ public class Gun : MonoBehaviour
                 bullets[i].gameObject.SetActive(true);
                 bullets[i].transform.parent = null;
                 bullets[i].transform.position = Aim.position;
-                bullets[i].transform.eulerAngles = Vector2.right;
+                bullets[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
                 return;
             }
         }
@@ -80,17 +81,20 @@ public class Gun : MonoBehaviour
     {
         TrySetAnimation("GunShoot");
         gunHolder.InformAboutBulletsLeftInMagazineActiveGun(--bulletsLeftInMagazine);
+        audio.Stop();
         audio.PlayOneShot(ShootAudioClip);
+        Muzzle.Stop();
         Muzzle.Play();
         GetBullet();
     }
 
     private bool TryShoot()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && IsMachineGun))
         {
             if(bulletsLeftInMagazine == 0)
             {
+                audio.Stop();
                 audio.PlayOneShot(EmptyAudioClip);
             }
             else
@@ -115,6 +119,7 @@ public class Gun : MonoBehaviour
             bulletsLeftInMagazine = MagazineCapasity;
 
             gunHolder.InformAboutBulletsLeftInMagazineActiveGun(bulletsLeftInMagazine);
+            audio.Stop();
             audio.PlayOneShot(ReloadClip);
             return true;
         }
@@ -146,7 +151,7 @@ public class Gun : MonoBehaviour
         float pickupSize = gunPickup.GetComponent<SpriteRenderer>().size.x;
         Vector3 position = new Vector3(transform.position.x - (pickupSize * 2), transform.position.y, 0f);
         gunPickup.Drop(position);
-        gameObject.SetActive(false);  //Destroy(gameObject, 0.1f);
+        gameObject.SetActive(false);
     }
 
     public int GetBulletsLeftInMagazine()

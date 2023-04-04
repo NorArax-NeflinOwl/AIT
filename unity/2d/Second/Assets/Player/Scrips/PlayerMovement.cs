@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -7,12 +8,14 @@ public class PlayerMovement : MonoBehaviour
     public int JumpMaxNumber = 2;
 
     private new Rigidbody2D rigidbody;
+    private SpriteRenderer spriteRenderer;
     private float horizontalMovement;
     private bool canJump;
     private int jumpCounter;
 
     private void Start()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         canJump = false;
         jumpCounter = 0;
@@ -33,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (horizontalMovement != 0)
         {
+            Flip();
             rigidbody.velocity = new Vector2(horizontalMovement * Speed, rigidbody.velocity.y);
         }
 
@@ -46,6 +50,15 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCounter = 0;
             canJump = false;
+        }
+    }
+
+    private void Flip()
+    {
+        bool flipX = horizontalMovement < 0;
+        if (spriteRenderer.flipX != flipX)
+        {
+            spriteRenderer.flipX = flipX;
         }
     }
 }

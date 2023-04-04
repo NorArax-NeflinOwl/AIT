@@ -10,7 +10,6 @@ public class GunPickup : MonoBehaviour
 
     public Gun PickUp()
     {
-        //Destroy(gameObject, 0.1f);
         gameObject.SetActive(false);
         GunPrefab.gameObject.SetActive(true);
         return GunPrefab;

@@ -311,6 +311,7 @@ MonoBehaviour:
   MagazineCapasity: 30
   BulletSpeed: 60
   BulletDamage: 3
+  IsMachineGun: 1
 --- !u!82 &5214612065682056027
 AudioSource:
   m_ObjectHideFlags: 0

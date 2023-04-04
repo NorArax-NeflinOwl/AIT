@@ -31,12 +31,12 @@ public class GunHolder : MonoBehaviour
 
     private void SwitchGun()
     {
-        if(gunList.Any() && !IsBusy())
+        if (gunList.Any() && !IsBusy())
         {
             audioSource.Play();
 
             gunList[activeGun].gameObject.SetActive(false);
-            if(activeGun < gunList.Count - 1) 
+            if (activeGun < gunList.Count - 1)
             {
                 activeGun++;
             }
@@ -45,7 +45,7 @@ public class GunHolder : MonoBehaviour
                 activeGun = 0;
             }
             gunList[activeGun].gameObject.SetActive(true);
-            
+
             InformAboutActiveGun(gunList[activeGun].MagazineCapasity, gunList[activeGun].GetGunSprite());
             InformAboutBulletsLeftInMagazineActiveGun(gunList[activeGun].GetBulletsLeftInMagazine());
         }
@@ -61,7 +61,7 @@ public class GunHolder : MonoBehaviour
 
     private void InformAboutActiveGun(int magazineCapacity, Sprite gunSprite)
     {
-        if(null != InformAboutActiveGunAction)
+        if (null != InformAboutActiveGunAction)
         {
             InformAboutActiveGunAction.Invoke(magazineCapacity, gunSprite);
         }
@@ -81,7 +81,7 @@ public class GunHolder : MonoBehaviour
 
     public void InformAboutBulletsLeftInMagazineActiveGun(int bulletsLeftInMagazine)
     {
-        if(null != InformAboutBulletsLeftInMagazineActiveGunAction)
+        if (null != InformAboutBulletsLeftInMagazineActiveGunAction)
         {
             InformAboutBulletsLeftInMagazineActiveGunAction.Invoke(bulletsLeftInMagazine);
         }
@@ -95,7 +95,7 @@ public class GunHolder : MonoBehaviour
 
     public void DropGun()
     {
-        if(gunList.Any())
+        if (gunList.Any())
         {
             gunList[activeGun].Drop();
             gunList.RemoveAt(activeGun);
@@ -103,7 +103,7 @@ public class GunHolder : MonoBehaviour
             SwitchGun();
         }
 
-        if(gunList.Count == 0)
+        if (gunList.Count == 0)
         {
             InformAboutActiveGun(0, null);
             InformAboutBulletsLeftInMagazineActiveGun(0);

@@ -56,6 +56,7 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Enemy\Scrips\Attack.cs" />
     <Compile Include="Assets\Scrips\CameraFollow.cs" />
     <Compile Include="Assets\Player\Scrips\GunHolder.cs" />
     <Compile Include="Assets\Scrips\HealthPoints.cs" />
@@ -66,7 +67,7 @@
     <Compile Include="Assets\Guns\Scrips\GunPickup.cs" />
     <Compile Include="Assets\UI\Scrips\UIGunInfo.cs" />
     <Compile Include="Assets\Guns\Scrips\Bullet.cs" />
-    <Compile Include="Assets\Enemy\Scrips\Attack.cs" />
+    <Compile Include="Assets\Player\Scrips\MainPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

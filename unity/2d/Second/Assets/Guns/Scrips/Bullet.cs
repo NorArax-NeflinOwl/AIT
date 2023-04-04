@@ -21,7 +21,9 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidbody.velocity = Vector2.right * Speed;
+        float rotationZ = transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+        Vector2 direction = new Vector2(Mathf.Cos(rotationZ), Mathf.Sin(rotationZ));
+        rigidbody.velocity = direction * Speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

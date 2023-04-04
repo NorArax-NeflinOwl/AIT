@@ -51,15 +51,18 @@ public class UIGunInfo : MonoBehaviour
             ImageMagazineCapacity.fillAmount = magazineCapasity / 50f;
         }
 
-        if(gunSprite)
+        if(ImageGun)
         {
-            ImageGun.gameObject.SetActive(true);
-            ImageGun.sprite = gunSprite;
-            ImageGun.rectTransform.sizeDelta = gunSprite.bounds.size * 50;
-        }
-        else
-        {
-            ImageGun.gameObject.SetActive(false);
+            if (gunSprite)
+            {
+                ImageGun.gameObject.SetActive(true);
+                ImageGun.sprite = gunSprite;
+                ImageGun.rectTransform.sizeDelta = gunSprite.bounds.size * 50;
+            }
+            else
+            {
+                ImageGun.gameObject.SetActive(false);
+            }
         }
     }
 }
