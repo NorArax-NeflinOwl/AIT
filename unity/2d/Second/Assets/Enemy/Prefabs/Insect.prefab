@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 902094353395300915}
   - component: {fileID: 902094353395300925}
   - component: {fileID: 902094353395300924}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,8 @@ GameObject:
   - component: {fileID: 8537126669556920419}
   - component: {fileID: 7258553062915248842}
   - component: {fileID: 166721659746419166}
-  m_Layer: 0
+  - component: {fileID: 1752042173}
+  m_Layer: 7
   m_Name: Insect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4919,7 +4920,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0069417953, y: 0.0069410205}
+  m_Offset: {x: -0.0035629272, y: -0.9496114}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4930,7 +4931,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4025822, y: 1.9856313}
+  m_Size: {x: 0.34127045, y: 0.07262635}
   m_EdgeRadius: 0
 --- !u!50 &7258553062915248842
 Rigidbody2D:
@@ -4967,6 +4968,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealthPoints: 10
   DamageEffect: {fileID: 902094353395300925}
+--- !u!114 &1752042173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175289553081356620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9096933a20d05d49968c4d0cdba9ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 2
 --- !u!1 &8663519623873017621
 GameObject:
   m_ObjectHideFlags: 0
@@ -4977,7 +4991,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5478679042763839753}
   - component: {fileID: 6848512508820384916}
-  m_Layer: 0
+  - component: {fileID: 1381847903}
+  - component: {fileID: 1381847902}
+  m_Layer: 7
   m_Name: bat-2029809_640
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5051,3 +5067,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1381847903
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663519623873017621}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.01, y: 6.4}
+    newSize: {x: 4.58, y: 6.4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 6.01, y: 6.4}
+  m_EdgeRadius: 0
+--- !u!95 &1381847902
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663519623873017621}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e476045d6565f7a4d82393feb3bad733, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

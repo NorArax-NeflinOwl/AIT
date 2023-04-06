@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6467454640384914588}
   - component: {fileID: 7693792155166053230}
   - component: {fileID: 8165316447192837742}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Machinegun Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8377409275798388641}
   - component: {fileID: 8173458406520257561}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pistolParts_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}

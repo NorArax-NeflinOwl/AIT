@@ -29,10 +29,7 @@ public class MainPlayer : MonoBehaviour
     // Metoda resetująca grę
     void ResetGame()
     {
-        // Pobranie numeru aktualnej sceny
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-
         // Ładowanie sceny o danym numerze po opóźnieniu
-        SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene(2, LoadSceneMode.Single);
     }
 }

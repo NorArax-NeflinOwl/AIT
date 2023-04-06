@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     [SerializeField] AudioClip EmptyAudioClip;
     [SerializeField] AudioClip ReloadClip;
     [SerializeField] ParticleSystem Muzzle;
+    [SerializeField] int GunMass = 10;
 
     public int MagazineCapasity;
     public int BulletSpeed;
@@ -162,5 +163,10 @@ public class Gun : MonoBehaviour
     public Sprite GetGunSprite()
     {
         return Sprite;
+    }
+
+    public int GetGunMass()
+    {
+        return GunMass;
     }
 }

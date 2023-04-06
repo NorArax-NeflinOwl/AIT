@@ -21,17 +21,17 @@ public class GunPickup : MonoBehaviour
         gameObject.GetComponent<Transform>().position = position;
     }
 
-    void Start()
+    private void Start()
     {
         InvokeRepeating("ChangeSpeed", 0f, Distance);
     }
 
-    void Update()
+    private void Update()
     {
         transform.Translate(new Vector3(0f, Speed, 0f) * Time.deltaTime);
         transform.Rotate(new Vector3(0f, RotationSpeed, 0f) * Time.deltaTime);
     }
-    void ChangeSpeed()
+    private void ChangeSpeed()
     {
         Speed *= -1f;
     }

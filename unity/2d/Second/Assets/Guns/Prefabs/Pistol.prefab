@@ -76,9 +76,11 @@ MonoBehaviour:
   EmptyAudioClip: {fileID: 8300000, guid: 00b9f46591a9fe448a33eee8493c3fc3, type: 3}
   ReloadClip: {fileID: 8300000, guid: 557893111324fea4fba7eab08461dbb4, type: 3}
   Muzzle: {fileID: 8288797958355182589}
+  GunMass: 5
   MagazineCapasity: 10
   BulletSpeed: 40
   BulletDamage: 1
+  IsMachineGun: 0
 --- !u!82 &8288797957285834318
 AudioSource:
   m_ObjectHideFlags: 0

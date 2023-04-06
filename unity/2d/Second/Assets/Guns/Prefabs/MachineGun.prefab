@@ -308,6 +308,7 @@ MonoBehaviour:
   EmptyAudioClip: {fileID: 8300000, guid: 00b9f46591a9fe448a33eee8493c3fc3, type: 3}
   ReloadClip: {fileID: 8300000, guid: 4dae1cf2738ec4c458aea97781ccd813, type: 3}
   Muzzle: {fileID: 5214612065167510332}
+  GunMass: 20
   MagazineCapasity: 30
   BulletSpeed: 60
   BulletDamage: 3

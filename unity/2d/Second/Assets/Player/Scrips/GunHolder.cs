@@ -7,6 +7,7 @@ public class GunHolder : MonoBehaviour
     public static System.Action<int, Sprite> InformAboutActiveGunAction;
     public static System.Action<int> InformAboutBulletsLeftInMagazineActiveGunAction;
 
+    Rigidbody2D rigidbody;
     private AudioSource audioSource;
     private List<Gun> gunList;
     private int activeGun = 0;
@@ -15,6 +16,7 @@ public class GunHolder : MonoBehaviour
     {
         gunList = new List<Gun>();
         audioSource = GetComponent<AudioSource>();
+        rigidbody = GetComponentInParent<Rigidbody2D>();
     }
 
     private void Update()
@@ -91,12 +93,14 @@ public class GunHolder : MonoBehaviour
     {
         gunList.Add(gun);
         SwitchGun();
+        rigidbody.mass += gunList[activeGun].GetGunMass();
     }
 
     public void DropGun()
     {
         if (gunList.Any())
         {
+            rigidbody.mass -= gunList[activeGun].GetGunMass();
             gunList[activeGun].Drop();
             gunList.RemoveAt(activeGun);
             activeGun = 0;

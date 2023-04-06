@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1324372728}
   - component: {fileID: 1324372726}
   - component: {fileID: 1324372727}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HitEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,8 @@ GameObject:
   - component: {fileID: 8862263220359354536}
   - component: {fileID: 7511843121954585089}
   - component: {fileID: 1068675274008160533}
-  m_Layer: 0
+  - component: {fileID: 1114677169}
+  m_Layer: 7
   m_Name: Bat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4919,7 +4920,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0069417953, y: 0.0069410205}
+  m_Offset: {x: -0.027404785, y: -0.8988392}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4930,7 +4931,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4025822, y: 1.9856313}
+  m_Size: {x: 0.46134567, y: 0.025740027}
   m_EdgeRadius: 0
 --- !u!50 &7511843121954585089
 Rigidbody2D:
@@ -4947,7 +4948,7 @@ Rigidbody2D:
   m_Mass: 50
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -4967,6 +4968,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealthPoints: 10
   DamageEffect: {fileID: 1324372726}
+--- !u!114 &1114677169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2347509065977903495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9096933a20d05d49968c4d0cdba9ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackDamage: 1
 --- !u!1 &8412692471147978718
 GameObject:
   m_ObjectHideFlags: 0
@@ -4977,7 +4991,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4651320695381537218}
   - component: {fileID: 6020802387721946207}
-  m_Layer: 0
+  - component: {fileID: 18928676}
+  - component: {fileID: 18928673}
+  m_Layer: 7
   m_Name: bat-2029809_640
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5051,3 +5067,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &18928676
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412692471147978718}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.58, y: 6.4}
+    newSize: {x: 4.58, y: 6.4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.58, y: 6.4}
+  m_EdgeRadius: 0
+--- !u!95 &18928673
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8412692471147978718}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e476045d6565f7a4d82393feb3bad733, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

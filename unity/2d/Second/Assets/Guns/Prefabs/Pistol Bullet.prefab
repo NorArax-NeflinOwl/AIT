@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8656260594088318750}
   - component: {fileID: 4367930101621316399}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pistolParts_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 5447015002236771992}
   - component: {fileID: 4599437920945963554}
   - component: {fileID: 7127247724990066640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pistol Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
