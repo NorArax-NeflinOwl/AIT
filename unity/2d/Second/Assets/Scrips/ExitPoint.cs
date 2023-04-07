@@ -15,7 +15,7 @@ public class ExitPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(activeScene <= allScenesCount)
+        if(activeScene < allScenesCount - 1)
         {
             SceneManager.LoadScene(++activeScene, LoadSceneMode.Single);
         }

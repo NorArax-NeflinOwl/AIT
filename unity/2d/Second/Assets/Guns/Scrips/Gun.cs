@@ -72,7 +72,7 @@ public class Gun : MonoBehaviour
                 bullets[i].gameObject.SetActive(true);
                 bullets[i].transform.parent = null;
                 bullets[i].transform.position = Aim.position;
-                bullets[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+                bullets[i].GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionY;
                 return;
             }
         }

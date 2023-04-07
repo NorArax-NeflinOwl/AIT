@@ -30,6 +30,6 @@ public class MainPlayer : MonoBehaviour
     void ResetGame()
     {
         // Ładowanie sceny o danym numerze po opóźnieniu
-        SceneManager.LoadScene(2, LoadSceneMode.Single);
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 }

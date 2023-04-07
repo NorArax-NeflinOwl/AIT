@@ -57,21 +57,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Enemy\Scrips\Attack.cs" />
+    <Compile Include="Assets\Scrips\GameInstance.cs" />
     <Compile Include="Assets\Scrips\CameraFollow.cs" />
     <Compile Include="Assets\Player\Scrips\GunHolder.cs" />
     <Compile Include="Assets\Scrips\HealthPoints.cs" />
     <Compile Include="Assets\Scrips\SoundPlayer.cs" />
     <Compile Include="Assets\Player\Scrips\WeaponCollector.cs" />
+    <Compile Include="Assets\Scrips\ExitPoint.cs" />
     <Compile Include="Assets\Player\Scrips\PlayerMovement.cs" />
     <Compile Include="Assets\Guns\Scrips\Gun.cs" />
+    <Compile Include="Assets\Scrips\GameManager.cs" />
+    <Compile Include="Assets\Enemy\Scrips\EnemyShoot.cs" />
     <Compile Include="Assets\Guns\Scrips\GunPickup.cs" />
     <Compile Include="Assets\UI\Scrips\UIGunInfo.cs" />
     <Compile Include="Assets\Player\Scrips\MainPlayer.cs" />
     <Compile Include="Assets\Guns\Scrips\Bullet.cs" />
-    <Compile Include="Assets\Scrips\GameManager.cs" />
-    <Compile Include="Assets\Scrips\ExitPoint.cs" />
-    <Compile Include="Assets\Scrips\GameInstance.cs" />
-    <Compile Include="Assets\Enemy\Scrips\EnemyShoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

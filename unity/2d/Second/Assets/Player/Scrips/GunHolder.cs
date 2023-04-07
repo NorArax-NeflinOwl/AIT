@@ -7,7 +7,7 @@ public class GunHolder : MonoBehaviour
     public static System.Action<int, Sprite> InformAboutActiveGunAction;
     public static System.Action<int> InformAboutBulletsLeftInMagazineActiveGunAction;
 
-    Rigidbody2D rigidbody;
+    new Rigidbody2D rigidbody;
     private AudioSource audioSource;
     private List<Gun> gunList;
     private int activeGun = 0;
