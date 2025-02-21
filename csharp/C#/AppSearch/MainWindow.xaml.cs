@@ -11,6 +11,7 @@ namespace AppSearch
     public partial class MainWindow : Window
     {
         private readonly MainController _controller;
+
         public ICollectionView FilteredData { get; set; }
 
         private ObservableCollection<EnviromentModel> _data;
@@ -53,6 +54,11 @@ namespace AppSearch
             DataContext = this;
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _controller.SaveConfig();
+        }
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _controller.SearchTextBoxTextChanged();
@@ -65,12 +71,12 @@ namespace AppSearch
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MainController.DataGridMouseDoubleClick(sender);
+            _controller.DataGridMouseDoubleClick();
         }
 
         private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MainController.TreeViewMouseDoubleClick(sender);
+            _controller.TreeViewMouseDoubleClick(sender);
         }
 
         private void ConfigButton_Click(object sender, RoutedEventArgs e)
@@ -101,6 +107,21 @@ namespace AppSearch
         private void ShowTreeViewButton_Click(object sender, RoutedEventArgs e)
         {
             _controller.ShowTreeViewButtonClick();
+        }
+
+        private void ExpandButton_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.ExpandButtonClick();
+        }
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.DataGridMouseDoubleClick();
+        }
+
+        private void EditMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.EditMenuItemClicked();
         }
     }
 }

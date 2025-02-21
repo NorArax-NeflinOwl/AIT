@@ -79,6 +79,15 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string CancelName {
+            get {
+                return ResourceManager.GetString("CancelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clients.
         /// </summary>
         internal static string Clients {
@@ -97,11 +106,20 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit config.
+        ///   Looks up a localized string similar to http{0}://{1}{2}.softsystem.pl:{3}/gcm/GcmWebServices/.
         /// </summary>
-        internal static string EditConfig {
+        internal static string DefaultWebServicesUrl {
             get {
-                return ResourceManager.GetString("EditConfig", resourceCulture);
+                return ResourceManager.GetString("DefaultWebServicesUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit.
+        /// </summary>
+        internal static string EditText {
+            get {
+                return ResourceManager.GetString("EditText", resourceCulture);
             }
         }
         
@@ -124,11 +142,47 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https?.
+        /// </summary>
+        internal static string HttpsText {
+            get {
+                return ResourceManager.GetString("HttpsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Linux.
+        /// </summary>
+        internal static string LinuxName {
+            get {
+                return ResourceManager.GetString("LinuxName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lxc.
+        /// </summary>
+        internal static string LinuxUrlPrefix {
+            get {
+                return ResourceManager.GetString("LinuxUrlPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to local.
         /// </summary>
         internal static string LocalEnvName {
             get {
                 return ResourceManager.GetString("LocalEnvName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name: .
+        /// </summary>
+        internal static string NameText {
+            get {
+                return ResourceManager.GetString("NameText", resourceCulture);
             }
         }
         
@@ -142,6 +196,33 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Path:.
+        /// </summary>
+        internal static string PathName {
+            get {
+                return ResourceManager.GetString("PathName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port (1024:49151):.
+        /// </summary>
+        internal static string PortName {
+            get {
+                return ResourceManager.GetString("PortName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SaveName {
+            get {
+                return ResourceManager.GetString("SaveName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search: .
         /// </summary>
         internal static string SearchLabel {
@@ -151,11 +232,29 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Config.
+        /// </summary>
+        internal static string ShowConfig {
+            get {
+                return ResourceManager.GetString("ShowConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show Tree View.
         /// </summary>
         internal static string ShowTreeView {
             get {
                 return ResourceManager.GetString("ShowTreeView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System:.
+        /// </summary>
+        internal static string SystemName {
+            get {
+                return ResourceManager.GetString("SystemName", resourceCulture);
             }
         }
         
@@ -174,6 +273,24 @@ namespace AppSearch.Properties {
         internal static string Verify {
             get {
                 return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows.
+        /// </summary>
+        internal static string WindowsName {
+            get {
+                return ResourceManager.GetString("WindowsName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to wp.
+        /// </summary>
+        internal static string WindowsUrlPrefix {
+            get {
+                return ResourceManager.GetString("WindowsUrlPrefix", resourceCulture);
             }
         }
     }

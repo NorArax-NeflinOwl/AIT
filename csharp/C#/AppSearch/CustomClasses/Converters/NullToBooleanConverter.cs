@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace AppSearch.CustomClasses
+namespace AppSearch.CustomClasses.Converters
 {
     public class NullToBooleanConverter : IValueConverter
     {

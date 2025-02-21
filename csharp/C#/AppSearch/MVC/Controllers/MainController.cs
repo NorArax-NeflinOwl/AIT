@@ -8,10 +8,12 @@ using System.Windows.Data;
 using System.Windows.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Net.Http;
+using AppSearch.MVC.Views;
 
 namespace AppSearch.MVC.Controllers
 {
-    internal class MainController(MainWindow view)
+    public class MainController(MainWindow view)
     {
         private readonly MainWindow _mainView = view;
         private DispatcherTimer _refreshTimer;
@@ -19,6 +21,12 @@ namespace AppSearch.MVC.Controllers
         private string _mainDirAppPath;
         private bool _envButtonClicked;
         private bool _clientsButtonClicked;
+        private bool _mainTreeIsExpandedFlag;
+
+        public ConfigurationModel Config
+        {
+            get { return _config; }
+        }
 
         public void Initialize()
         {
@@ -38,15 +46,15 @@ namespace AppSearch.MVC.Controllers
             _mainView.SearchTextBox.Focus();
         }
 
-        public static void DataGridMouseDoubleClick(object sender)
+        public void DataGridMouseDoubleClick()
         {
-            if (sender is DataGrid data && data.SelectedItem is EnviromentModel row)
+            if (_mainView.DataGrid.SelectedItem is EnviromentModel row)
             {
                 RunApp(row.AppModel.TargetPath);
             }
         }
 
-        public static void TreeViewMouseDoubleClick(object sender)
+        public void TreeViewMouseDoubleClick(object sender)
         {
             if (sender is TreeView treeView && treeView.SelectedItem is SimpleNodeModel node && node.Childs?.Any() == false)
             {
@@ -64,7 +72,7 @@ namespace AppSearch.MVC.Controllers
         {
             foreach(var item in _mainView.Data)
             {
-                item.UpdateActive(CheckIfActive(item));
+                item.UpdateActive(PingAsync(item?.TargetUri));
             }
             _mainView.OnPropertyChanged(nameof(_mainView.Data));
         }
@@ -109,12 +117,83 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
+        public void ExpandButtonClick()
+        {
+            _mainTreeIsExpandedFlag = !_mainTreeIsExpandedFlag;
+            ExpandAllNodes(_mainView.TreeData, _mainTreeIsExpandedFlag);
+
+            _mainView.ExpandIcon.Kind = _mainTreeIsExpandedFlag ?
+                MaterialDesignThemes.Wpf.PackIconKind.CollapseAll
+                : MaterialDesignThemes.Wpf.PackIconKind.ExpandAll;
+
+            _mainView.OnPropertyChanged(nameof(_mainView.TreeData));
+        }
+
+        public void SaveConfig()
+        {
+            ConfigHelper.SaveConfig(_config);
+        }
+
+        public void EditMenuItemClicked()
+        {
+            if(_mainView.DataGrid.SelectedItem is EnviromentModel row)
+            {
+                var editor = new AppConfigEditor(this, row);
+                editor.Show();
+            }
+        }
+
+        public bool UpdateData(string envName, string url)
+        {
+            bool changed = false;
+            foreach(var item in _mainView.DataGrid.ItemsSource)
+            {
+                if(item is EnviromentModel envModel && envModel.EnvName.Equals(envName))
+                {
+                    envModel.UpdateTargetUri(url);
+                    changed = true;
+                }
+            }
+            if(changed)
+            {
+                bool savedInConfig = false;
+                foreach(var item in _config.EnvList)
+                {
+                    if(item.EnvName.Equals(envName))
+                    {
+                        item.Url = url;
+                        savedInConfig = true;
+                    }
+                }
+                if(!savedInConfig)
+                {
+                    _config.EnvList.Add(new ConfigurationModel.EnviromentUrl
+                    {
+                        EnvName = envName,
+                        Url = url
+                    });
+                }
+            }
+            return changed;
+        }
+
+        public string GetWebServiceUrl(string envNo, int port, bool hasHttps = false)
+        {
+            return string.Format(_config.WebServicesUrl,
+                hasHttps ? "s" : string.Empty,
+                envNo.StartsWith('Q') ?
+                _config.EnvPrefix.WindowsPrefix : _config.EnvPrefix.LinuxPrefix,
+                envNo.Remove(0, 1), port);
+        }
+
+        #region Private Methods
+
         private void InitializeResources()
         {
             _mainView.Title = Properties.Resources.ApplicationName;
 
             _mainView.SearchLabel.Content = Properties.Resources.SearchLabel;
-            _mainView.ConfigButton.Content = Properties.Resources.EditConfig;
+            _mainView.ConfigButton.Content = Properties.Resources.ShowConfig;
             _mainView.ConfigButton.FontSize = 15;
             _mainView.VerifyButton.Content = Properties.Resources.Verify;
             _mainView.VerifyButton.FontSize = 20;
@@ -151,17 +230,18 @@ namespace AppSearch.MVC.Controllers
 
         private void InitializeData()
         {
+            _mainTreeIsExpandedFlag = true;
             _mainView.Data = [];
             _mainView.TreeData = [];
 
 #if DEBUG
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612637, null), true));
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612637, null), true));
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftFlw", "3.5.73.63", 612637, null), true));
-            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612612, null)));
-            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612612, null)));
-            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null, null, null), false));
-            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null, null, null), false));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612637, null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612637, null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftFlw", "3.5.73.63", 612637, null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612612, null), null, null));
+            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612612, null), null, null));
+            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null, null, null), false, null));
+            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null, null, null), false, null));
 #endif
 
             _envButtonClicked = false;
@@ -170,6 +250,7 @@ namespace AppSearch.MVC.Controllers
             _mainView.ClientsButtonText.FontWeight = FontWeights.Bold;
 
             FillData();
+            UpdateDataFromConfig();
 
             _mainView.FilteredData = CollectionViewSource.GetDefaultView(_mainView.Data);
             _mainView.FilteredData.Filter = FilterData;
@@ -269,8 +350,9 @@ namespace AppSearch.MVC.Controllers
                     string envName = GetEnvName(targetPath);
                     string clientName = GetClientName(targetPath);
                     AppModel appModel = new(GetAppName(targetPath), GetVersion(fileInfo), GetRevision(fileInfo), targetPath);
-                    bool? isActive = CheckIfActive(fileInfo);
-                    EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, isActive);
+                    string url = GetWebServiceUrl(envName, _config.DefaulPort);
+                    bool? isActive = Ping(url);
+                    EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, isActive, url);
                     return envModel;
                 }
             }
@@ -345,7 +427,7 @@ namespace AppSearch.MVC.Controllers
                 {
                     if (fileInfo.ProductVersion.Contains('+'))
                     {
-                        version = fileInfo.ProductVersion.Substring(0, fileInfo.ProductVersion.IndexOf('+'));
+                        version = fileInfo.ProductVersion[..fileInfo.ProductVersion.IndexOf('+')]; //.Substring(0, fileInfo.ProductVersion.IndexOf('+'))
                     }
                     else
                     {
@@ -383,16 +465,26 @@ namespace AppSearch.MVC.Controllers
             return null;
         }
 
-        private bool? CheckIfActive(FileVersionInfo fileInfo)
+        private async Task<bool> PingAsync(string? url)
         {
-            //TODO
-            return null;
-        }
+            if (string.IsNullOrEmpty(url)) return false;
 
-        private bool? CheckIfActive(EnviromentModel? item)
-        {
-            //TODO
-            return null;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(url);
+                    httpClient.Timeout = TimeSpan.FromSeconds(_config.Timeout);
+
+                    var response = await httpClient.GetAsync(url);
+                    return response.IsSuccessStatusCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_config.EnableLogging) Debug.WriteLine(ex);
+            }
+            return false;
         }
 
         private static void RunApp(string? targetPath)
@@ -439,18 +531,18 @@ namespace AppSearch.MVC.Controllers
                     _mainView.TreeData.Add(node);
                 }
             }
-            ExpandAllNodes(_mainView.TreeData);
+            ExpandAllNodes(_mainView.TreeData, _mainTreeIsExpandedFlag);
             _mainView.OnPropertyChanged(nameof(_mainView.TreeData));
         }
 
-        private static void ExpandAllNodes(IEnumerable<SimpleNodeModel> nodes)
+        private static void ExpandAllNodes(IEnumerable<SimpleNodeModel> nodes, bool isExpanded)
         {
             foreach (var node in nodes)
             {
                 if (node.Childs?.Any() == true)
                 {
-                    node.IsExpanded = true;
-                    ExpandAllNodes(node.Childs);
+                    node.IsExpanded = isExpanded;
+                    ExpandAllNodes(node.Childs, isExpanded);
                 }
             }
         }
@@ -482,6 +574,22 @@ namespace AppSearch.MVC.Controllers
                 tree.Add(newNode);
             }
         }
+
+        private void UpdateDataFromConfig()
+        {
+            foreach(var item in _mainView.Data)
+            {
+                var enviroment = _config.EnvList.FirstOrDefault(q => q.EnvName.Equals(item.EnvName));
+                if (enviroment != null)
+                {
+                    item.UpdateTargetUri(enviroment.Url);
+                    item.UpdateActive(Ping(enviroment.Url));
+                }
+            }
+            _mainView.OnPropertyChanged(nameof(_mainView.Data));
+        }
+
+        #endregion
 
     }
 }

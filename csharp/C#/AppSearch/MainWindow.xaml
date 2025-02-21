@@ -3,13 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AppSearch" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:AppSearch" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="SearchApp" 
         Height="500" Width="450"
         MinWidth="300" MinHeight="450"
         MaxWidth="600" 
-        Background="LightGray" Loaded="Window_Loaded">
+        Background="LightGray" 
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
     <Grid Margin="2" Background="Gray">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,7 +32,15 @@
                      Loaded="SearchTextBox_Loaded"/>
         </Grid>
         <DataGrid Grid.Row="1" Margin="5" Background="DarkGray" ItemsSource="{Binding Data}"
-          AutoGenerateColumns="False" HeadersVisibility="Column" Name="DataGrid" MouseDoubleClick="DataGrid_MouseDoubleClick">
+          AutoGenerateColumns="False" HeadersVisibility="Column" Name="DataGrid" 
+                  MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RowContextMenu">
+                    <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
+                    <MenuItem Header="Edit Url" Click="EditMenuItem_Click"/>
+                    <MenuItem Header="Delete"/>
+                </ContextMenu>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Environment" Binding="{Binding EnvName}" Width="*" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="*" IsReadOnly="True"/>
@@ -39,6 +50,7 @@
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsActive, Converter={StaticResource NullToBooleanConverter}}" Value="True">
                             <DataTrigger.Setters>
@@ -67,7 +79,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Button Grid.Row="0" Margin="10,0" Background="DarkGray" Foreground="White" 
-                    Name="ShowHideTreeViewButton" Click="ShowTreeViewButton_Click"/>
+                    Name="ShowHideTreeViewButton" Click="ShowTreeViewButton_Click" Content="Show Tree View"/>
             <Grid Name="TreeViewGrid" Grid.Row="1" Height="250" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
@@ -76,8 +88,9 @@
                 <Grid Grid.Row="0" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="0.5*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Content="TreeView by:" FontWeight="Bold"/>
                     <Button Grid.Column="1" Background="DarkGray" Foreground="White" Name="EnvTreeView" Click="EnvTreeView_Click">
@@ -85,6 +98,9 @@
                     </Button>
                     <Button Grid.Column="2" Background="DarkGray" Foreground="White" Name="ClientTreeView" Click="ClientTreeView_Click">
                         <TextBlock Name="ClientsButtonText"/>
+                    </Button>
+                    <Button Grid.Column="3" Background="DarkGray" Foreground="White" Name="ExpandButton" Click="ExpandButton_Click">
+                        <materialDesign:PackIcon Kind="CollapseAll" Width="20" Height="20" Name="ExpandIcon"/>
                     </Button>
                 </Grid>
                 <TreeView Grid.Row="1" Margin="5" Background="DimGray" ItemsSource="{Binding TreeData}" 
@@ -111,11 +127,13 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ConfigButton" Click="ConfigButton_Click" Grid.Column="0"/>
+            <Button Name="ConfigButton" Click="ConfigButton_Click" Grid.Column="0" 
+                    Content="Show Config" FontSize="15"/>
             <Button Name="RefreshButton" Click="RefreshButton_Click" Grid.Column="1">
                 <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20"/>
             </Button>
-            <Button Name="VerifyButton" Click="VerifyButton_Click" Grid.Column="2"/>
+            <Button Name="VerifyButton" Click="VerifyButton_Click" Grid.Column="2" 
+                    Content="Verify" FontSize="20"/>
         </Grid>
     </Grid>
 </Window>

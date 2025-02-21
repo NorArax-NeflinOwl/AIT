@@ -1,0 +1,131 @@
+﻿<Window x:Class="AppSearch.MVC.Views.AppConfigEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AppSearch.MVC.Views"
+        xmlns:validators="clr-namespace:AppSearch.CustomClasses.Validators"
+        mc:Ignorable="d"
+        Title="AppConfigEditor" Height="180" Width="400"
+        Background="Gray" >
+
+    <Window.Resources>
+        <validators:UrlValidationRule x:Key="UrlValidationRule" />
+        <validators:RangeValidationRule x:Key="RangeValidationRule" Min="1024" Max="49151" />
+        <ControlTemplate x:Key="ErrorTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" FontSize="20">!</TextBlock>
+                <AdornedElementPlaceholder />
+            </DockPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    
+    <Grid Background="LightGray" Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="1" Content="Edit"
+               HorizontalAlignment="Center" VerticalAlignment="Center" 
+               Name="EditLabel"/>
+        <Label Grid.Row="0" Grid.Column="2" Content="Enviroment example" FontWeight="Bold"
+               HorizontalAlignment="Right" VerticalAlignment="Center"
+               Name="EnvNameEdited"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Path:"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Name="PathLabel"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Name="EditPathCheckBox" 
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Checked="EditPathCheckBox_Checked" Unchecked="EditPathCheckBox_Checked"/>
+        <TextBox Grid.Row="1" Grid.Column="2" Name="PathTextBox" 
+               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,4,2,4">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                            <Setter Property="BorderBrush" Value="Red" />
+                            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+            <TextBox.Text>
+                <Binding Path="Url" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <StaticResource ResourceKey="UrlValidationRule" />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <CheckBox Grid.Row="2" Grid.Column="1" Name="EditTypePortCheckBox" 
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Checked="EditTypePortCheckBox_Checked" Unchecked="EditTypePortCheckBox_Checked"/>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="System: "
+                   HorizontalAlignment="Right" VerticalAlignment="Center"
+                   Name="EnviromentSystemLabel"/>
+            <CheckBox Grid.Column="1" Name="WindowsCheckBox" Content="Windows"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                      IsChecked="{Binding IsChecked, ElementName=LinuxTypeCheckBox, Converter={StaticResource InverseBoolConverter}}"/>
+            <CheckBox Grid.Column="2" Name="LinuxCheckBox" Content="Linux" Margin="10,0"
+                      HorizontalAlignment="Left" VerticalAlignment="Center"
+                      IsChecked="{Binding IsChecked, ElementName=WindowsTypeCheckBox, Converter={StaticResource InverseBoolConverter}}"/>
+        </Grid>
+        <Label Grid.Row="3" Grid.Column="0" Content="Https?" Name="HttpsLabel"
+               HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <CheckBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                  Name="HttpsCheckBox" />
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Name="PortLabel" Content="Port (1024:49151):"
+                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Column="1" Margin="0,4,2,4" Name="PortTextBox">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                                <Setter Property="BorderBrush" Value="Red" />
+                                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+                <TextBox.Text>
+                    <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <StaticResource ResourceKey="RangeValidationRule" />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
+
+        <Grid Grid.Row="4" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Name="SaveButton" Margin="2" Content="Save" Click="SaveButton_Click"/>
+            <Button Grid.Column="1" Name="CancelButton" Margin="2" Content="Cancel" Click="CancelButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -8,18 +8,26 @@
         public string EnvName { get; private set; }
         public string ClientName { get; private set; }
         public AppModel AppModel { get; private set; }
+        public string? TargetUri { get; private set; }
 
-        public EnviromentModel(string name, string client, AppModel model, bool? isActive = null)
+
+        public EnviromentModel(string name, string client, AppModel model, bool? isActive, string? url)
         {
             EnvName = name;
             AppModel = model;
             ClientName = client;
             IsActive = isActive;
+            TargetUri = url;
         }
 
         public void UpdateActive(bool? isActive)
         {
             IsActive = isActive;
+        }
+
+        public void UpdateTargetUri(string targetUri)
+        {
+            TargetUri = targetUri;
         }
 
         public override bool Equals(object? obj)

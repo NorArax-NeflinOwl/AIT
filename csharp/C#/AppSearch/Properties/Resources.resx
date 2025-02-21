@@ -150,10 +150,49 @@
   <data name="Verify" xml:space="preserve">
     <value>Verify</value>
   </data>
-  <data name="EditConfig" xml:space="preserve">
-    <value>Edit config</value>
+  <data name="ShowConfig" xml:space="preserve">
+    <value>Show Config</value>
   </data>
   <data name="SearchLabel" xml:space="preserve">
     <value>Search: </value>
+  </data>
+  <data name="WindowsUrlPrefix" xml:space="preserve">
+    <value>wp</value>
+  </data>
+  <data name="LinuxUrlPrefix" xml:space="preserve">
+    <value>lxc</value>
+  </data>
+  <data name="DefaultWebServicesUrl" xml:space="preserve">
+    <value>http{0}://{1}{2}.softsystem.pl:{3}/gcm/GcmWebServices/</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="NameText" xml:space="preserve">
+    <value>Name: </value>
+  </data>
+  <data name="PathName" xml:space="preserve">
+    <value>Path:</value>
+  </data>
+  <data name="SystemName" xml:space="preserve">
+    <value>System:</value>
+  </data>
+  <data name="WindowsName" xml:space="preserve">
+    <value>Windows</value>
+  </data>
+  <data name="LinuxName" xml:space="preserve">
+    <value>Linux</value>
+  </data>
+  <data name="PortName" xml:space="preserve">
+    <value>Port (1024:49151):</value>
+  </data>
+  <data name="SaveName" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="CancelName" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="HttpsText" xml:space="preserve">
+    <value>https?</value>
   </data>
 </root>

@@ -7,15 +7,22 @@ namespace AppSearch.MVC.Helpers
 {
     public class ConfigHelper
     {
+        public static void SaveConfig(ConfigurationModel config)
+        {
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                Properties.Resources.ApplicationName,
+                Properties.Resources.ConfigFileName + ".xml");
+
+            SaveConfig(config, path);
+        }
+
         public static void SaveConfig(ConfigurationModel config, string filePath)
         {
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(ConfigurationModel));
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    serializer.Serialize(writer, config);
-                }
+                XmlSerializer serializer = new(typeof(ConfigurationModel));
+                using StreamWriter writer = new(filePath);
+                serializer.Serialize(writer, config);
             }
             catch (Exception ex)
             {
@@ -38,11 +45,9 @@ namespace AppSearch.MVC.Helpers
 
                 if (File.Exists(filePath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(ConfigurationModel));
-                    using (StreamReader reader = new StreamReader(filePath))
-                    {
-                        return serializer.Deserialize(reader) as ConfigurationModel;
-                    }
+                    XmlSerializer serializer = new(typeof(ConfigurationModel));
+                    using StreamReader reader = new(filePath);
+                    return serializer.Deserialize(reader) as ConfigurationModel;
                 }
                 else
                 {
