@@ -34,7 +34,7 @@ public class AppGUI extends Application {
 
     //<editor-fold desc="override methods">
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
         AppGUI.stage = stage;
         if(AitInitializer.getInstance().testDBConnection()) {
             initStage();
@@ -68,6 +68,7 @@ public class AppGUI extends Application {
         setRoot(pair.getKey(), pair.getValue());
     }
 
+    @SuppressWarnings("exports")
     public static Parent loadFXML(AitNamespaceInterface namespace) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(AppGUI.class.getResource(AitFramesStrings.panelsSlash + namespace.getPanel() + AitFramesStrings.fxmlExt));
         return fxmlLoader.load();
@@ -78,7 +79,7 @@ public class AppGUI extends Application {
         launch();
     }
 
-    public static void addStage(Stage stage) {
+    public static void addStage(@SuppressWarnings("exports") Stage stage) {
         stages.add(stage);
     }
 

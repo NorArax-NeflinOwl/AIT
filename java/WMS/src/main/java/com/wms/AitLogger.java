@@ -46,34 +46,35 @@ public class AitLogger {
         File file = createFile(dicFolderName, fileExt);
 
         FileReader fr = new FileReader(file.getAbsoluteFile());
-        BufferedReader br = new BufferedReader(fr);
-        StringBuilder builder = new StringBuilder();
-        String line;
+        try (BufferedReader br = new BufferedReader(fr)) {
+            StringBuilder builder = new StringBuilder();
+            String line;
 
-        do {
-            line = br.readLine();
-            if(line != null) {
-                builder.append(line);
-                builder.append(System.getProperty("line.separator"));
-            }
-        } while(line != null);
+            do {
+                line = br.readLine();
+                if(line != null) {
+                    builder.append(line);
+                    builder.append(System.getProperty("line.separator"));
+                }
+            } while(line != null);
 
-        builder.append(String.format(convertDateTimeToString() + "[ERR]: %s", title));
-        builder.append(System.getProperty("line.separator"));
-
-        if(params != null && params.length > 0) {
-            for (Object arg : params) {
-                String msg = arg.toString();
-                builder.append(msg);
-                builder.append(System.getProperty("line.separator"));
-            }
+            builder.append(String.format(convertDateTimeToString() + "[ERR]: %s", title));
             builder.append(System.getProperty("line.separator"));
-        }
 
-        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(builder.toString());
-        bw.close();
+            if(params != null && params.length > 0) {
+                for (Object arg : params) {
+                    String msg = arg.toString();
+                    builder.append(msg);
+                    builder.append(System.getProperty("line.separator"));
+                }
+                builder.append(System.getProperty("line.separator"));
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(builder.toString());
+            bw.close();
+        }
     }
 
     private String convertDateTimeToString(){

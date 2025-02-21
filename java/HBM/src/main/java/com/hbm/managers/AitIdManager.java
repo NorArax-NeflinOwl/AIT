@@ -22,9 +22,6 @@ public class AitIdManager {
     private static Session sessionObj;
     private static AitIdManager instance = new AitIdManager();
 
-    private static final String OK = "<OK>";
-    private static final String ERROR = "<ERROR>";
-
     public static AitIdManager getInstance() {
         return instance;
     }

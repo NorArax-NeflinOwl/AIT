@@ -12,6 +12,7 @@ public class Main {
         }
     }
 
+    @SuppressWarnings("unused")
     private static void test1() {
         SetsCardCreator creator = new SetsCardCreator();
         creator.createSet();

@@ -65,7 +65,7 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
         redoItem.setDisable(true);
 
         dashboardItem.setText(AitCultureManager.getInstance().getLanguage().getDashboardContent());
-        dashboardItem.setOnAction(actionEvent -> onDoshboardAction());
+        dashboardItem.setOnAction(actionEvent -> onDashboardAction());
 
         createAccountItem.setText(AitCultureManager.getInstance().getLanguage().getCreateAccountContent());
         createAccountItem.setOnAction(actionEvent -> onCreateAccountAction());
@@ -118,7 +118,7 @@ public class AitDashboardController extends AitGenericController<AitDashboardCon
         // TODO before starting write code, change AppGUI.stage to list of stage and add id or samething like that to managment their.
     }
 
-    private void onDoshboardAction() {
+    private void onDashboardAction() {
         AitLogger.getInstance().logInfoToFile("exiting: AitDashboardController.onCreateAccountAction()");
         Alert dialog = new Alert(Alert.AlertType.NONE, "Do you want open new dashboard?", ButtonType.YES, ButtonType.NO);
         dialog.showAndWait();

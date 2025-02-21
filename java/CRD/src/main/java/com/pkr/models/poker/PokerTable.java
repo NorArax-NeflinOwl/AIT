@@ -2,11 +2,8 @@ package com.pkr.models.poker;
 
 import com.pkr.helpers.Randomizer;
 import com.pkr.helpers.SetsCardCreator;
-import com.pkr.helpers.poker.PokerResultComparer;
 import com.pkr.models.GeneralCard;
 import com.pkr.models.interfaces.ISetsCard;
-import com.pkr.models.poker.enums.PokerSetResult;
-
 import java.util.ArrayList;
 
 public class PokerTable {

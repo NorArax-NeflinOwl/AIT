@@ -6,6 +6,7 @@
 */.vs
 */bin
 */packages
+*.class
 /java/CRD/target
 /java/GUI/target
 /java/HBM/target
@@ -75,3 +76,9 @@
 /unity/2d/Kingdom/obj
 /unity/2d/Kingdom/.vs
 /unity/2d/Kingdom/Temp
+
+
+#AppSearch
+/csharp/C#/AppSearch/.vs
+/csharp/C#/AppSearch/bin
+/csharp/C#/AppSearch/obj

@@ -2,7 +2,6 @@ package com.gui.context;
 
 import com.gui.managers.AitCultureManager;
 import com.gui.strings.AitEnglishStrings;
-import com.gui.strings.AitPolishStrings;
 import com.hbm.managers.AitLogger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

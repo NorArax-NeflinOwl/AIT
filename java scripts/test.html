@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>JavaScript Test</title>
+    </head>
+    <body style="background-color: black; color: white;" >
+        <script>
+            var dlugosc = 4.5;
+            var szerokosc = 2.7;
+            var wysokosc = 2.5;
+
+            var pole_powierzchni_scian = dlugosc * szerokosc * wysokosc;
+            document.write("Pole powierzchni ścian pokoju: " + pole_powierzchni_scian + " m² <br>");
+
+            var ilosc = 0;
+
+            for (var i = 100; i <= 999; i++) {
+                if (i % 7 == 0 && i % 2 == 0) {
+                    ilosc++;
+                }
+            }
+
+            document.write("Ilość liczb parzystych podzielnych przez 7 z zakresu 99-999: " + ilosc + "<br>");
+
+            var liczba = 32;
+
+            while (Math.abs(liczba) >= 2) {
+                document.write(liczba + " "); // Wyświetlanie liczby w nowych liniach
+                liczba /= 2;
+                liczba *= -1; // Zmiana znaku
+            }
+            document.write("<br>");
+
+            var i = 1; // Zaczynamy od 1
+            var suma = 0; // Zmienna suma musi być zainicjalizowana liczbą
+
+            while (true)
+            { // Dopóki suma jest mniejsza lub równa 100
+                document.write(i + ", ");// Wyświetlanie wartości i
+                suma += i; // Dodajemy i do sumy
+                if(suma >= 100) break;
+                i += 4; // Zwiększamy i o 4
+            }
+            document.write("<br>");
+
+            var liczba1 = parseFloat(prompt("Podaj pierwszą liczbę:"));
+            var liczba2 = parseFloat(prompt("Podaj drugą liczbę:"));
+            var znak = prompt("Podaj znak operacji (+, -, *, /):");
+
+            if (znak == "+") {
+                document.write("Suma: " + (liczba1 + liczba2));
+            } else if (znak == "-") {
+                document.write("Różnica: " + (liczba1 - liczba2));
+            } else if (znak == "*") {
+                document.write("Iloczyn: " + (liczba1 * liczba2));
+            } else if (znak == "/") {
+                if (liczba2 != 0) {
+                    document.write("Iloraz: " + (liczba1 / liczba2));
+                } else {
+                    document.write("Nie można dzielić przez 0!");
+                }
+            } else {
+                document.write("Niepoprawny znak operacji!");
+            }
+            document.write("<br>");
+
+            function najmniejsza(a,b,c)
+            {
+                return Math.min(a,b,c);
+            }
+
+            var a = parseFloat(prompt("Podaj a"));
+            var b = parseFloat(prompt("Podaj b"));
+            var c = parseFloat(prompt("Podaj c"));
+
+            var min = najmniejsza(a,b,c);
+            document.write("Najmniejsza liczba: " + min + "<br>");
+        </script>
+    </body>
+</html>
