@@ -10,6 +10,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Net.Http;
 using AppSearch.MVC.Views;
+using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace AppSearch.MVC.Controllers
 {
@@ -22,6 +24,9 @@ namespace AppSearch.MVC.Controllers
         private bool _envButtonClicked;
         private bool _clientsButtonClicked;
         private bool _mainTreeIsExpandedFlag;
+        private CancellationTokenSource _cancellationTokenSource;
+        private Storyboard _spinAnimation;
+        private bool _urlChecking;
 
         public ConfigurationModel Config
         {
@@ -33,6 +38,7 @@ namespace AppSearch.MVC.Controllers
             InitializeConfig();
             InitializeData();
             InitializeResources();
+            StartBackgroundTaskAsync();
         }
 
         public void SearchTextBoxTextChanged()
@@ -72,13 +78,21 @@ namespace AppSearch.MVC.Controllers
         {
             foreach(var item in _mainView.Data)
             {
-                item.UpdateActive(PingAsync(item?.TargetUri));
+                item.UpdateActive(PingAsync(item?.TargetUri).Result);
             }
             _mainView.OnPropertyChanged(nameof(_mainView.Data));
         }
 
         public void RefreshButtonClick()
         {
+            if(_urlChecking)
+            {
+                CancelTasks();
+            }
+            else
+            {
+                StartBackgroundTaskAsync();
+            }
             _mainView.Data.Clear();
             FillData();
         }
@@ -261,6 +275,8 @@ namespace AppSearch.MVC.Controllers
             };
             _refreshTimer.Tick += TimerTick;
             _refreshTimer.Start();
+
+            _spinAnimation = (Storyboard)_mainView.RefreshButton.Resources["SpinAnimation"];
         }
 
         private bool FilterData(object item)
@@ -351,8 +367,8 @@ namespace AppSearch.MVC.Controllers
                     string clientName = GetClientName(targetPath);
                     AppModel appModel = new(GetAppName(targetPath), GetVersion(fileInfo), GetRevision(fileInfo), targetPath);
                     string url = GetWebServiceUrl(envName, _config.DefaulPort);
-                    bool? isActive = Ping(url);
-                    EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, isActive, url);
+                    //bool? isActive = PingAsync(url).Result;
+                    EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null, url);
                     return envModel;
                 }
             }
@@ -583,10 +599,54 @@ namespace AppSearch.MVC.Controllers
                 if (enviroment != null)
                 {
                     item.UpdateTargetUri(enviroment.Url);
-                    item.UpdateActive(Ping(enviroment.Url));
+                    //item.UpdateActive(PingAsync(enviroment.Url).Result);
                 }
             }
             _mainView.OnPropertyChanged(nameof(_mainView.Data));
+        }
+
+        private async void StartBackgroundTaskAsync()
+        {
+            _urlChecking = true;
+            _spinAnimation.Begin();
+            _cancellationTokenSource = new CancellationTokenSource();
+            try
+            {
+                await Parallel.ForEachAsync(_mainView.Data, _cancellationTokenSource.Token, async (item, ct) =>
+                {
+                    try
+                    {
+
+                        bool isActive = await PingAsync(item.TargetUri);
+                        item.UpdateActive(isActive);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (_config.EnableLogging)
+                            Debug.WriteLine(ex);
+                    }
+                    finally
+                    {
+                        _mainView.OnPropertyChanged(nameof(_mainView.Data));
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                if( _config.EnableLogging)
+                    Debug.WriteLine(ex);
+            }
+            finally
+            {
+                _mainView.OnPropertyChanged(nameof(_mainView.Data));
+            }
+        }
+
+        public void CancelTasks()
+        {
+            _urlChecking = false;
+            _spinAnimation.Stop();
+            _cancellationTokenSource.Cancel();
         }
 
         #endregion

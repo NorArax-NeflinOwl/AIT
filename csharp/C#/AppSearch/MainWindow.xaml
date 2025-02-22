@@ -129,8 +129,25 @@
             </Grid.ColumnDefinitions>
             <Button Name="ConfigButton" Click="ConfigButton_Click" Grid.Column="0" 
                     Content="Show Config" FontSize="15"/>
-            <Button Name="RefreshButton" Click="RefreshButton_Click" Grid.Column="1">
-                <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20"/>
+            <Button Grid.Column="1" Click="RefreshButton_Click" >
+                <Grid>
+                    <Button Name="RefreshButton"
+                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                            Background="Transparent" BorderThickness="0">
+                            <Button.RenderTransform>
+                                <RotateTransform x:Name="RotateIcon" CenterX="10" CenterY="10"/>
+                            </Button.RenderTransform>
+                            <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20"/>
+                            <Button.Resources>
+                                <Storyboard x:Key="SpinAnimation" RepeatBehavior="Forever">
+                                <DoubleAnimation Storyboard.TargetName="RotateIcon"
+                                    Storyboard.TargetProperty="Angle"
+                                    From="0" To="360"
+                                    Duration="0:0:1"/>      
+                            </Storyboard>
+                        </Button.Resources>
+                    </Button>
+                </Grid>
             </Button>
             <Button Name="VerifyButton" Click="VerifyButton_Click" Grid.Column="2" 
                     Content="Verify" FontSize="20"/>
