@@ -119,6 +119,11 @@ namespace AppSearch
             _controller.DataGridMouseDoubleClick();
         }
 
+        public void OpenUrlMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.OpenUrlMenuItemClick();
+        }
+
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
             _controller.EditMenuItemClicked();

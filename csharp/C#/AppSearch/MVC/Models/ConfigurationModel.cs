@@ -7,19 +7,19 @@ namespace AppSearch.MVC.Models
     {
         public class EnviromentPrefix
         {
-            public string WindowsPrefix { get; set; }
-            public string LinuxPrefix { get; set; }
+            public required string WindowsPrefix { get; set; }
+            public required string LinuxPrefix { get; set; }
         }
 
         public class EnviromentUrl
         {
-            public string EnvName { get; set; }
-            public string Url { get; set; }
+            public required string EnvName { get; set; }
+            public required string Url { get; set; }
         }
 
         public int RefreshTimerInterval { get; set; }
         public string AppsDir { get; set; }
-        public bool EnableLogging { get; set; }
+        public LogginLevel EnableLogging { get; set; }
         public int Timeout { get; set; }
         public int DefaulPort { get; set; }
         public EnviromentPrefix EnvPrefix { get; set; }
@@ -55,5 +55,13 @@ namespace AppSearch.MVC.Models
         {
             return Path.Combine(AppsDir, Properties.Resources.AppsDirName);
         }
+    }
+
+    public enum LogginLevel
+    {
+        NONE,
+        ERROR,
+        WARNING,
+        INFO
     }
 }

@@ -124,6 +124,24 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target path is empty.
+        /// </summary>
+        internal static string EmptyTargetPath {
+            get {
+                return ResourceManager.GetString("EmptyTargetPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url path is empty.
+        /// </summary>
+        internal static string EmptyUrl {
+            get {
+                return ResourceManager.GetString("EmptyUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enviroment.
         /// </summary>
         internal static string Enviroment {
@@ -255,6 +273,24 @@ namespace AppSearch.Properties {
         internal static string SystemName {
             get {
                 return ResourceManager.GetString("SystemName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task {0}.
+        /// </summary>
+        internal static string TaskEnded {
+            get {
+                return ResourceManager.GetString("TaskEnded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task {0} on {1}:{2}. Ping to: {3}.
+        /// </summary>
+        internal static string TaskEndedOnPing {
+            get {
+                return ResourceManager.GetString("TaskEndedOnPing", resourceCulture);
             }
         }
         

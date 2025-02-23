@@ -1,16 +1,20 @@
 ﻿using AppSearch.MVC.Controllers;
 using AppSearch.MVC.Models;
 using System.Windows;
+using System.Windows.Media;
 
 namespace AppSearch.MVC.Views
 {
     public partial class AppConfigEditor : Window
     {
-        private EnviromentModel _data;
-        private MainController _controller;
+        private readonly EnviromentModel _data;
+        private readonly MainController _controller;
 
-        public int Port { get; set; }
-        public string Url { get; set; }
+        private Thickness _defaultThickness;
+        private Brush _defaultBrush;
+
+        private static Thickness _errorThickess = new Thickness(2);
+        private readonly SolidColorBrush _errorBrush = Brushes.Red;
 
         public AppConfigEditor(MainController controller, EnviromentModel data)
         {
@@ -34,17 +38,24 @@ namespace AppSearch.MVC.Views
             PortLabel.Content = Properties.Resources.PortName;
             SaveButton.Content = Properties.Resources.SaveName;
             CancelButton.Content = Properties.Resources.CancelName;
+
+            _defaultThickness = PathTextBox.BorderThickness;
+            _defaultBrush = PathTextBox.BorderBrush;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if(EditPathCheckBox.IsChecked == true && ValidateUrl() == false)
             {
+                PathTextBox.BorderThickness = _errorThickess;
+                PathTextBox.BorderBrush = _errorBrush;
                 MessageBox.Show("Url path is invalid", "Validation");
                 return;
             }
             if(EditTypePortCheckBox.IsChecked == true && ValidatePort() == false)
             {
+                PortTextBox.BorderThickness = _errorThickess;
+                PortTextBox.BorderBrush = _errorBrush;
                 MessageBox.Show("Port is invalid", "Validation");
                 return;
             }
@@ -52,7 +63,7 @@ namespace AppSearch.MVC.Views
             bool updated = false;
             if (EditPathCheckBox.IsChecked == true)
             {
-                updated = _controller.UpdateData(_data.EnvName, Url);
+                updated = _controller.UpdateData(_data.EnvName, PathTextBox.Text);
             }
             else if (EditTypePortCheckBox.IsChecked == true)
             {
@@ -94,6 +105,9 @@ namespace AppSearch.MVC.Views
                 LinuxCheckBox.IsEnabled = false;
                 HttpsCheckBox.IsEnabled = false;
                 PortTextBox.IsEnabled = false;
+
+                PathTextBox.BorderThickness = _defaultThickness;
+                PathTextBox.BorderBrush = _defaultBrush;
             }
             if(EditPathCheckBox.IsChecked == false)
             {
@@ -111,6 +125,9 @@ namespace AppSearch.MVC.Views
                 LinuxCheckBox.IsEnabled = true;
                 HttpsCheckBox.IsEnabled = true;
                 PortTextBox.IsEnabled = true;
+
+                PortTextBox.BorderThickness = _defaultThickness;
+                PortTextBox.BorderBrush = _defaultBrush;
             }
             if (EditTypePortCheckBox.IsChecked == false)
             {
@@ -118,6 +135,34 @@ namespace AppSearch.MVC.Views
                 LinuxCheckBox.IsEnabled = false;
                 HttpsCheckBox.IsEnabled = false;
                 PortTextBox.IsEnabled = false;
+            }
+        }
+
+        private void PathTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if(string.IsNullOrWhiteSpace(PathTextBox.Text) || ValidateUrl() || EditPathCheckBox.IsChecked != true)
+            {
+                PathTextBox.BorderThickness = _defaultThickness;
+                PathTextBox.BorderBrush = _defaultBrush;
+            }
+            else
+            {
+                PathTextBox.BorderThickness = _errorThickess;
+                PathTextBox.BorderBrush = _errorBrush;
+            }
+        }
+
+        private void PortTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(PortTextBox.Text) || ValidatePort() || EditTypePortCheckBox.IsChecked != true)
+            {
+                PortTextBox.BorderThickness = _defaultThickness;
+                PortTextBox.BorderBrush = _defaultBrush;
+            }
+            else
+            {
+                PortTextBox.BorderThickness = _errorThickess;
+                PortTextBox.BorderBrush = _errorBrush;
             }
         }
     }

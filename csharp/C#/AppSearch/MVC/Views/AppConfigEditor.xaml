@@ -46,26 +46,8 @@
                HorizontalAlignment="Center" VerticalAlignment="Center"
                Checked="EditPathCheckBox_Checked" Unchecked="EditPathCheckBox_Checked"/>
         <TextBox Grid.Row="1" Grid.Column="2" Name="PathTextBox" 
-               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,4,2,4">
-            <TextBox.Style>
-                <Style TargetType="TextBox">
-                    <Style.Triggers>
-                        <Trigger Property="Validation.HasError" Value="True">
-                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                            <Setter Property="BorderBrush" Value="Red" />
-                            <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
-            <TextBox.Text>
-                <Binding Path="Url" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <StaticResource ResourceKey="UrlValidationRule" />
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,4,2,4"
+                 TextChanged="PathTextBox_TextChanged"/>
 
         <CheckBox Grid.Row="2" Grid.Column="1" Name="EditTypePortCheckBox" 
                 HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -97,26 +79,8 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Name="PortLabel" Content="Port (1024:49151):"
                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Margin="0,4,2,4" Name="PortTextBox">
-                <TextBox.Style>
-                    <Style TargetType="TextBox">
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="True">
-                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                                <Setter Property="BorderBrush" Value="Red" />
-                                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBox.Style>
-                <TextBox.Text>
-                    <Binding Path="Port" UpdateSourceTrigger="PropertyChanged">
-                        <Binding.ValidationRules>
-                            <StaticResource ResourceKey="RangeValidationRule" />
-                        </Binding.ValidationRules>
-                    </Binding>
-                </TextBox.Text>
-            </TextBox>
+            <TextBox Grid.Column="1" Margin="0,4,2,4" Name="PortTextBox"
+                     TextChanged="PortTextBox_TextChanged"/>
         </Grid>
 
         <Grid Grid.Row="4" Grid.Column="2">

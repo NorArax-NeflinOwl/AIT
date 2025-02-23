@@ -37,6 +37,7 @@
             <DataGrid.Resources>
                 <ContextMenu x:Key="RowContextMenu">
                     <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
+                    <MenuItem Header="Open Url" Click="OpenUrlMenuItem_Click"/>
                     <MenuItem Header="Edit Url" Click="EditMenuItem_Click"/>
                     <MenuItem Header="Delete"/>
                 </ContextMenu>

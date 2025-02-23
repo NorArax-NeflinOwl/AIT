@@ -195,4 +195,16 @@
   <data name="HttpsText" xml:space="preserve">
     <value>https?</value>
   </data>
+  <data name="TaskEnded" xml:space="preserve">
+    <value>Task {0}</value>
+  </data>
+  <data name="TaskEndedOnPing" xml:space="preserve">
+    <value>Task {0} on {1}:{2}. Ping to: {3}</value>
+  </data>
+  <data name="EmptyUrl" xml:space="preserve">
+    <value>Url path is empty</value>
+  </data>
+  <data name="EmptyTargetPath" xml:space="preserve">
+    <value>Target path is empty</value>
+  </data>
 </root>
