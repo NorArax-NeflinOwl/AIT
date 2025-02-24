@@ -22,6 +22,11 @@ namespace AppSearch.MVC.Models
             public string From { get; set; }
             public string To { get; set; }
 
+            public ExchangeName()
+            {
+
+            }
+
             public ExchangeName(string from, string to)
             {
                 From = from;

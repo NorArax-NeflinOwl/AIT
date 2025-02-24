@@ -409,7 +409,7 @@ namespace AppSearch.MVC.Controllers
                 return null;
 
             var list = new List<EnviromentModel>();
-            for (var i = 0; i < filesList.Length - 1; i++)
+            for (var i = 0; i < filesList.Length; i++)
             {
                 var envModel = GetEnvModel(filesList[i]);
                 if (envModel != null)
@@ -418,17 +418,17 @@ namespace AppSearch.MVC.Controllers
                 }
             }
 
-            var directoriesList = Directory.GetDirectories(_config.GetAppsPath());
+            var directoriesList = GetAppListRecursive(new List<string>(), _config.GetAppsPath());
             if (directoriesList != null)
             {
-                for (var i = 0; i < directoriesList.Length; i++)
+                foreach (var directory in directoriesList)
                 {
-                    filesList = Directory.GetFiles(directoriesList[i]);
+                    filesList = Directory.GetFiles(directory);
                     if (filesList != null)
                     {
-                        for (var j = 0; j < filesList.Length - 1; j++)
+                        for (var i = 0; i < filesList.Length; i++)
                         {
-                            var envModel = GetEnvModel(filesList[j]);
+                            var envModel = GetEnvModel(filesList[i]);
                             if (envModel != null)
                             {
                                 list.Add(envModel);
@@ -436,6 +436,28 @@ namespace AppSearch.MVC.Controllers
                         }
                     }
                 }
+            }
+
+            return list;
+        }
+
+        private List<string> GetAppListRecursive(List<string> list, string dirPath)
+        {
+            try
+            {
+                foreach (var subDir in Directory.EnumerateDirectories(dirPath))
+                {
+                    list.Add(subDir);
+                    GetAppListRecursive(list, subDir);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
 
             return list;
