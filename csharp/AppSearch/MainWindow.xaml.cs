@@ -61,72 +61,87 @@ namespace AppSearch
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _controller.SearchTextBoxTextChanged();
+            _controller.SearchBoxValueChanged();
         }
 
         private void SearchTextBox_Loaded(object sender, RoutedEventArgs e)
         {
-            _controller.SearchTextBoxLoaded();
+            _controller.FocusSearchBox();
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _controller.DataGridMouseDoubleClick();
+            _controller.RunApplication();
         }
 
         private void TreeView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _controller.TreeViewMouseDoubleClick(sender);
+            _controller.RunApplicationFromTree(sender);
         }
 
         private void ConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            _controller.ConfigButtonClick();
+            _controller.ShowConfig();
         }
 
         private void VerifyButton_Click(object sender, RoutedEventArgs e)
         {
-            _controller.VerifyButtonClick();
+            _controller.Verify();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            _controller.RefreshButtonClick();
+            _controller.Refresh();
         }
 
         private void EnvTreeView_Click(object sender, RoutedEventArgs e)
         {
-            _controller.EnvTreeViewClick();
+            _controller.ShowEnviromentTree();
         }
 
         private void ClientTreeView_Click(object sender, RoutedEventArgs e)
         {
-            _controller.ClientTreeViewClick();
+            _controller.ShowClientTree();
         }
 
         private void ShowTreeViewButton_Click(object sender, RoutedEventArgs e)
         {
-            _controller.ShowTreeViewButtonClick();
+            _controller.ShowTree();
         }
 
         private void ExpandButton_Click(object sender, RoutedEventArgs e)
         {
-            _controller.ExpandButtonClick();
+            _controller.ExpandTree();
         }
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _controller.DataGridMouseDoubleClick();
+            _controller.RunApplication();
         }
 
-        public void OpenUrlMenuItem_Click(object sender, RoutedEventArgs e)
+        public void OpenSpecificMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _controller.OpenUrlMenuItemClick();
+            _controller.OpenUrl(OpenUrlKind.SPECIFIC);
+        }
+
+        public void OpenGcmMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.OpenUrl(OpenUrlKind.GCM);
+        }
+
+        public void OpenMomMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.OpenUrl(OpenUrlKind.MOM);
         }
 
         private void EditMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            _controller.EditMenuItemClicked();
+            _controller.EditUrl();
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.DeleteItem();
         }
     }
 }

@@ -8,7 +8,7 @@
         public string EnvName { get; private set; }
         public string ClientName { get; private set; }
         public AppModel AppModel { get; private set; }
-        public string? TargetUri { get; private set; }
+        public string? WebServiceUrl { get; private set; }
         public WebServiceVersionModel GcmWebServiceVersion { get; private set; }
 
         public EnviromentModel(ConfigurationModel config, string name, string client, AppModel model, bool? isActive)
@@ -17,8 +17,8 @@
             AppModel = model;
             ClientName = client;
             IsActive = isActive;
-            TargetUri = GetGcmWebServiceUrl(config, false, null, name, config.DefaulPort);
-            model.SetWebServiceUrl(TargetUri);
+            WebServiceUrl = GetGcmWebServiceUrl(config, false, null, name, config.DefaulPort);
+            model.SetWebServiceUrl(WebServiceUrl);
         }
 
         public EnviromentModel(string name, string client, AppModel model, bool? isActive, string? url)
@@ -27,7 +27,7 @@
             AppModel = model;
             ClientName = client;
             IsActive = isActive;
-            TargetUri = url;
+            WebServiceUrl = url;
         }
 
         public void UpdateActive(bool? isActive)
@@ -37,7 +37,7 @@
 
         public void UpdateTargetUri(string targetUri)
         {
-            TargetUri = targetUri;
+            WebServiceUrl = targetUri;
         }
 
         public void GenerateGcmVersion(ConfigurationModel config, string websiteoutPut)

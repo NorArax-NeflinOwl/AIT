@@ -41,7 +41,7 @@ namespace AppSearch.MVC.Helpers
                     else
                         logger.Info(message);
 
-                    MessageBox.Show(message.ToString(), Properties.Resources.Warning);
+                    MessageBox.Show(message.ToString(), Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Hand);
                     break;
                 case LogginLevel.INFO:
                     logger.Info(message);

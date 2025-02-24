@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using AppSearch.MVC.Views;
 using System.Windows.Media.Animation;
 using AppSearch.CustomClasses.Tasks;
+using static AppSearch.MVC.Models.ConfigurationModel;
 
 namespace AppSearch.MVC.Controllers
 {
@@ -39,18 +40,18 @@ namespace AppSearch.MVC.Controllers
             InitializeResources();
         }
 
-        public void SearchTextBoxTextChanged()
+        public void SearchBoxValueChanged()
         {
             _mainView.FilteredData.Refresh();
             FillTreeView();
         }
 
-        public void SearchTextBoxLoaded()
+        public void FocusSearchBox()
         {
             _mainView.SearchTextBox.Focus();
         }
 
-        public void DataGridMouseDoubleClick()
+        public void RunApplication()
         {
             if (_mainView.DataGrid.SelectedItem is EnviromentModel row)
             {
@@ -58,15 +59,29 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        public void OpenUrlMenuItemClick()
+        public void OpenUrl(OpenUrlKind kind)
         {
             if (_mainView.DataGrid.SelectedItem is EnviromentModel row)
             {
-                OpenWebsite(row.TargetUri);
+                string? url = null;
+                switch(kind)
+                {
+                    case OpenUrlKind.SPECIFIC:
+                        url = row.AppModel.WebServiceUrl;
+                        break;
+                    case OpenUrlKind.GCM:
+                        url = row.WebServiceUrl;
+                        break;
+                    case OpenUrlKind.MOM:
+                        if(!string.IsNullOrEmpty(row.WebServiceUrl))
+                            url = row.WebServiceUrl.Remove(row.WebServiceUrl.IndexOf("gcm")) + "mom/console";
+                        break;
+                }
+                OpenWebsite(url);
             }
         }
 
-        public void TreeViewMouseDoubleClick(object sender)
+        public void RunApplicationFromTree(object sender)
         {
             if (sender is TreeView treeView && treeView.SelectedItem is SimpleNodeModel node && node.Childs?.Any() == false)
             {
@@ -74,25 +89,25 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        public void ConfigButtonClick()
+        public void ShowConfig()
         {
             string filePath = Path.Combine(_mainDirAppPath, Properties.Resources.ConfigFileName + ".xml");
             Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
-            MessageBox.Show(Properties.Resources.EditConfigFileWarning, Properties.Resources.Warning);
+            MessageBox.Show(Properties.Resources.EditConfigFileWarning, Properties.Resources.Warning, MessageBoxButton.OK, MessageBoxImage.Hand);
         }
 
-        public void VerifyButtonClick()
+        public void Verify()
         {
             _spinAnimation.Begin();
             _ = _pingBackgroundTask.StartAsync();
         }
 
-        public void RefreshButtonClick()
+        public void Refresh()
         {
             RefreshGUI();
         }
 
-        public void EnvTreeViewClick()
+        public void ShowEnviromentTree()
         {
             _envButtonClicked = true;
             _clientsButtonClicked = false;
@@ -101,7 +116,7 @@ namespace AppSearch.MVC.Controllers
             FillTreeView();
         }
 
-        public void ClientTreeViewClick()
+        public void ShowClientTree()
         {
             _envButtonClicked = false;
             _clientsButtonClicked = true;
@@ -110,7 +125,7 @@ namespace AppSearch.MVC.Controllers
             FillTreeView();
         }
 
-        public void ShowTreeViewButtonClick()
+        public void ShowTree()
         {
             if (_mainView.TreeViewGrid.Visibility == Visibility.Visible)
             {
@@ -126,7 +141,7 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        public void ExpandButtonClick()
+        public void ExpandTree()
         {
             _mainTreeIsExpandedFlag = !_mainTreeIsExpandedFlag;
             ExpandAllNodes(_mainView.TreeData, _mainTreeIsExpandedFlag);
@@ -150,12 +165,32 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        public void EditMenuItemClicked()
+        public void EditUrl()
         {
             if(_mainView.DataGrid.SelectedItem is EnviromentModel row && _editor?.Activate() != true)
             {
                 _editor = new AppConfigEditor(this, row);
                 _editor.Show();
+            }
+        }
+
+        public void DeleteItem()
+        {
+            if (_mainView.DataGrid.SelectedItem is EnviromentModel row)
+            {
+                var result = MessageBox.Show(string.Format(Properties.Resources.DeleteQuestion, row.AppModel.Name), 
+                    Properties.Resources.Question, MessageBoxButton.YesNoCancel, MessageBoxImage.Hand);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _mainView.Data.RemoveAt(_mainView.DataGrid.SelectedIndex);
+                    FileHelper.RemoveFile(row.AppModel.TargetPath);
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        _mainView.FilteredData.Refresh();
+                    });
+                }
             }
         }
 
@@ -251,7 +286,9 @@ namespace AppSearch.MVC.Controllers
             _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", null), null, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null), false, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));*/
-            _config.UnwantedPartsAppNames.Add("Chem");
+            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftBioChem", "SoftBio"));
+            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftPathDx", "SoftDxp"));
+            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftHLA", "SoftHla"));
 #endif
 
             _envButtonClicked = false;
@@ -304,8 +341,9 @@ namespace AppSearch.MVC.Controllers
         {
             if(_config.EnableLogging == LogginLevel.INFO)
             {
-                MessageBox.Show(GetInfo(Properties.Resources.TaskEndedOnPing, Properties.Resources.TaskEnded,
-                nameof(BackgroundTask.TaskCompleted), arg));
+                MessageBox.Show(GetInfo(Properties.Resources.TaskEndedOnPing, 
+                    Properties.Resources.TaskEnded, nameof(BackgroundTask.TaskCompleted), arg), Properties.Resources.Info,
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
             }
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -326,7 +364,7 @@ namespace AppSearch.MVC.Controllers
             if (arg is EnviromentModel env)
             {
                 info = string.Format(resources, methodName,
-                    env.EnvName, env.AppModel.Name, env.TargetUri);
+                    env.EnvName, env.AppModel.Name, env.WebServiceUrl);
             }
             else
             {
@@ -502,9 +540,9 @@ namespace AppSearch.MVC.Controllers
         {
             foreach (var item in _config.UnwantedPartsAppNames)
             {
-                if (appName.Contains(item))
+                if (appName.Contains(item.From))
                 {
-                    return appName.Remove(appName.IndexOf(item), item.Length);
+                    return appName.Replace(item.From, item.To);
                 }
             }
             return appName;
@@ -628,7 +666,8 @@ namespace AppSearch.MVC.Controllers
         private void RunApp(string? targetPath)
         {
             if (string.IsNullOrEmpty(targetPath))
-                MessageBox.Show(Properties.Resources.EmptyTargetPath);
+                MessageBox.Show(Properties.Resources.EmptyTargetPath, Properties.Resources.Info, 
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
             else
             {
                 try
@@ -646,7 +685,8 @@ namespace AppSearch.MVC.Controllers
         public void OpenWebsite(string? websiteUrl)
         {
             if (string.IsNullOrEmpty(websiteUrl) || !Uri.IsWellFormedUriString(websiteUrl, UriKind.Absolute))
-                MessageBox.Show(Properties.Resources.EmptyUrl);
+                MessageBox.Show(Properties.Resources.EmptyUrl, Properties.Resources.Info, 
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
             else
             {
                 try

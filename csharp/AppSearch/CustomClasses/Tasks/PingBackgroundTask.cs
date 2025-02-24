@@ -57,7 +57,7 @@ namespace AppSearch.CustomClasses.Tasks
             bool result = false;
             try
             {
-                bool? isActive = await PingAsync(item.TargetUri, _cancellationTokenSource.Token);
+                bool? isActive = await PingAsync(item.WebServiceUrl, _cancellationTokenSource.Token);
                 item.UpdateActive(isActive);
                 if (isActive.HasValue)
                 {

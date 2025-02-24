@@ -17,6 +17,18 @@ namespace AppSearch.MVC.Models
             public required string Url { get; set; }
         }
 
+        public class ExchangeName
+        {
+            public string From { get; set; }
+            public string To { get; set; }
+
+            public ExchangeName(string from, string to)
+            {
+                From = from;
+                To = to;
+            }
+        }
+
         public class WebServiceFixes
         {
             static readonly string _DefFullVerBegin = "Full Version: <b>";
@@ -46,7 +58,7 @@ namespace AppSearch.MVC.Models
         public EnviromentPrefix EnvPrefix { get; set; }
         public List<EnviromentUrl> EnvList { get; set; }
         public WebServiceFixes WebServiceInfo { get; set; }
-        public List<string> UnwantedPartsAppNames { get; set; }
+        public List<ExchangeName> UnwantedPartsAppNames { get; set; }
 
         public ConfigurationModel()
         {
@@ -61,7 +73,7 @@ namespace AppSearch.MVC.Models
             };
             EnvList = [];
             WebServiceInfo = new WebServiceFixes();
-            UnwantedPartsAppNames = new List<string>();
+            UnwantedPartsAppNames = new List<ExchangeName>();
         }
 
         public ConfigurationModel(string appsDir) : this()

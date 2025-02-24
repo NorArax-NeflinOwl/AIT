@@ -30,7 +30,7 @@ namespace AppSearch.MVC.Views
             EnvNameEdited.Content = string.Format("{0} <{1}>", _data.EnvName, _data.AppModel.GetWebServiceName());
             PathLabel.Content = Properties.Resources.PathName;
             EditPathCheckBox.IsChecked = true;
-            PathTextBox.Text = _data.TargetUri;
+            PathTextBox.Text = _data.WebServiceUrl;
             HttpsLabel.Content = Properties.Resources.HttpsText;
             EnviromentSystemLabel.Content = Properties.Resources.SystemName;
             WindowsCheckBox.Content = Properties.Resources.WindowsName;
@@ -49,7 +49,7 @@ namespace AppSearch.MVC.Views
             {
                 PathTextBox.BorderThickness = _errorThickess;
                 PathTextBox.BorderBrush = _errorBrush;
-                MessageBox.Show("Url path is invalid", "Validation");
+                MessageBox.Show("Url path is invalid", "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
             if(EditTypePortCheckBox.IsChecked == true)
@@ -70,7 +70,7 @@ namespace AppSearch.MVC.Views
                     PortTextBox.BorderBrush = _errorBrush;
                     message += "\n" + "Port is invalid";
                 }
-                MessageBox.Show(message, "Validation");
+                MessageBox.Show(message, "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
 
@@ -93,7 +93,7 @@ namespace AppSearch.MVC.Views
             if (updated)
                 Close();
             else
-                MessageBox.Show("Nothing Saved", "Info");
+                MessageBox.Show("Nothing Saved", "Info", MessageBoxButton.OK, MessageBoxImage.Hand);
         }
 
         private string? GetSystem(ConfigurationModel config)

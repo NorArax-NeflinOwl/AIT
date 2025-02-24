@@ -220,4 +220,13 @@ Config file will be override after application close!</value>
   <data name="DefaultAppWebServicesUrl" xml:space="preserve">
     <value>http{0}://{1}{2}.softsystem.pl:{3}/gcm/{4}WebServices/</value>
   </data>
+  <data name="Info" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="DeleteQuestion" xml:space="preserve">
+    <value>Do you want to remove {0} file?</value>
+  </data>
+  <data name="Question" xml:space="preserve">
+    <value>Question</value>
+  </data>
 </root>
