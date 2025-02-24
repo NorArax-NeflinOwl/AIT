@@ -85,15 +85,16 @@ namespace AppSearch.CustomClasses.Tasks
                 var response = await httpClient.GetAsync(url, token);
                 return response.IsSuccessStatusCode;
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
-                return null;
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                return false;
             }
             catch (Exception ex)
             {
                 LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
-            return null;
+            return false;
         }
     }
 }

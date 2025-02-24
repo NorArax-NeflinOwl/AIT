@@ -39,13 +39,13 @@
 /csharp/Scheduler/ModelTest/bin
 /csharp/Scheduler/ModelTest/obj
 
-/csharp/C#/AIT/.vs
-/csharp/C#/AIT/AIT/bin
-/csharp/C#/AIT/AIT/obj
-/csharp/C#/AIT/AITLib/bin
-/csharp/C#/AIT/AITLib/obj
-/csharp/C#/AITConsole/bin
-/csharp/C#/AITConsole/obj
+/csharp/AIT/.vs
+/csharp/AIT/AIT/bin
+/csharp/AIT/AIT/obj
+/csharp/AIT/AITLib/bin
+/csharp/AIT/AITLib/obj
+/csharp/AITConsole/bin
+/csharp/AITConsole/obj
 
 
 *.user
@@ -79,6 +79,6 @@
 
 
 #AppSearch
-/csharp/C#/AppSearch/.vs
-/csharp/C#/AppSearch/bin
-/csharp/C#/AppSearch/obj
+/csharp/AppSearch/.vs
+/csharp/AppSearch/bin
+/csharp/AppSearch/obj
