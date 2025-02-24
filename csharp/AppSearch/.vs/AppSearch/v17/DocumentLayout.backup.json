@@ -1,0 +1,170 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\models\\configurationmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\models\\configurationmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\models\\appmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\models\\appmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\views\\appconfigeditor.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\views\\appconfigeditor.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\models\\webserviceversionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\models\\webserviceversionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\views\\appconfigeditor.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\views\\appconfigeditor.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|a:\\dokumenty\\dokumenty\\git\\ait\\csharp\\c#\\appsearch\\mvc\\models\\enviromentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C2B8FE2B-BA80-462C-96B0-58700D74C7A7}|AppSearch.csproj|solutionrelative:mvc\\models\\enviromentmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 1077,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{93c5e7ad-af06-49e6-a756-b8f3eaca790d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ConfigurationModel.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\ConfigurationModel.cs",
+              "RelativeDocumentMoniker": "MVC\\Models\\ConfigurationModel.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\ConfigurationModel.cs",
+              "RelativeToolTip": "MVC\\Models\\ConfigurationModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:12:09.714Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WebServiceVersionModel.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\WebServiceVersionModel.cs",
+              "RelativeDocumentMoniker": "MVC\\Models\\WebServiceVersionModel.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\WebServiceVersionModel.cs",
+              "RelativeToolTip": "MVC\\Models\\WebServiceVersionModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:32:43.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppConfigEditor.xaml.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Views\\AppConfigEditor.xaml.cs",
+              "RelativeDocumentMoniker": "MVC\\Views\\AppConfigEditor.xaml.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Views\\AppConfigEditor.xaml.cs",
+              "RelativeToolTip": "MVC\\Views\\AppConfigEditor.xaml.cs",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAkwCIAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:13:01.234Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainController.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Controllers\\MainController.cs",
+              "RelativeDocumentMoniker": "MVC\\Controllers\\MainController.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Controllers\\MainController.cs",
+              "RelativeToolTip": "MVC\\Controllers\\MainController.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAiwFgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-21T07:58:27.893Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 966,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-24T14:15:14.961Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AppConfigEditor.xaml",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Views\\AppConfigEditor.xaml",
+              "RelativeDocumentMoniker": "MVC\\Views\\AppConfigEditor.xaml",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Views\\AppConfigEditor.xaml",
+              "RelativeToolTip": "MVC\\Views\\AppConfigEditor.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-24T13:29:17.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AppModel.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\AppModel.cs",
+              "RelativeDocumentMoniker": "MVC\\Models\\AppModel.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\AppModel.cs",
+              "RelativeToolTip": "MVC\\Models\\AppModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:25:39.862Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EnviromentModel.cs",
+              "DocumentMoniker": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\EnviromentModel.cs",
+              "RelativeDocumentMoniker": "MVC\\Models\\EnviromentModel.cs",
+              "ToolTip": "A:\\Dokumenty\\Dokumenty\\Git\\AIT\\csharp\\C#\\AppSearch\\MVC\\Models\\EnviromentModel.cs",
+              "RelativeToolTip": "MVC\\Models\\EnviromentModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-24T13:13:19.61Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
