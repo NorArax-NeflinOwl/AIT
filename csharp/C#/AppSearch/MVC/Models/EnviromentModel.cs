@@ -11,6 +11,16 @@
         public string? TargetUri { get; private set; }
         public WebServiceVersionModel GcmWebServiceVersion { get; private set; }
 
+        public EnviromentModel(ConfigurationModel config, string name, string client, AppModel model, bool? isActive)
+        {
+            EnvName = name;
+            AppModel = model;
+            ClientName = client;
+            IsActive = isActive;
+            TargetUri = GetGcmWebServiceUrl(config, false, null, name, config.DefaulPort);
+            model.SetWebServiceUrl(TargetUri);
+        }
+
         public EnviromentModel(string name, string client, AppModel model, bool? isActive, string? url)
         {
             EnvName = name;
@@ -55,6 +65,17 @@
         public override string ToString()
         {
             return string.Format("{0} | {1}", EnvName, ClientName);
+        }
+
+        public static string GetGcmWebServiceUrl(ConfigurationModel config, 
+            bool hasHttps, string? system, string envNo, int port)
+        {
+            return string.Format(Properties.Resources.DefaultGcmWebServicesUrl,
+                hasHttps ? "s" : string.Empty,
+                system ?? string.Empty,
+                envNo.Equals(Properties.Resources.LocalEnvName) ? envNo 
+                    : envNo.Remove(0, 1), 
+                port);
         }
     }
 }

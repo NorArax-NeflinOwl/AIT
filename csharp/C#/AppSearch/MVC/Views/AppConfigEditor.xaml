@@ -63,9 +63,13 @@
                    Name="EnviromentSystemLabel"/>
             <CheckBox Grid.Column="1" Name="WindowsCheckBox" Content="Windows"
                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                      Checked="SystemCheckBox_Checked"
+                      Unchecked="SystemCheckBox_Checked"
                       IsChecked="{Binding IsChecked, ElementName=LinuxTypeCheckBox, Converter={StaticResource InverseBoolConverter}}"/>
             <CheckBox Grid.Column="2" Name="LinuxCheckBox" Content="Linux" Margin="10,0"
                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                      Checked="SystemCheckBox_Checked"
+                      Unchecked="SystemCheckBox_Checked"
                       IsChecked="{Binding IsChecked, ElementName=WindowsTypeCheckBox, Converter={StaticResource InverseBoolConverter}}"/>
         </Grid>
         <Label Grid.Row="3" Grid.Column="0" Content="Https?" Name="HttpsLabel"

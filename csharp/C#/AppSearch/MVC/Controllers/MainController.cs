@@ -25,6 +25,7 @@ namespace AppSearch.MVC.Controllers
         private bool _mainTreeIsExpandedFlag;
         private Storyboard _spinAnimation;
         private PingBackgroundTask _pingBackgroundTask;
+        private AppConfigEditor _editor;
 
         public ConfigurationModel Config
         {
@@ -91,24 +92,6 @@ namespace AppSearch.MVC.Controllers
             RefreshGUI();
         }
 
-        private void RefreshGUI()
-        {
-            _mainView.Data.Clear();
-            FillData();
-
-            int activeTasks = _pingBackgroundTask.ActiveTasks;
-            if (activeTasks > 0)
-            {
-                _spinAnimation.Stop();
-                _pingBackgroundTask.CancelTask();
-            }
-            else
-            {
-                _spinAnimation.Begin();
-                _ = _pingBackgroundTask.StartAsync();
-            }
-        }
-
         public void EnvTreeViewClick()
         {
             _envButtonClicked = true;
@@ -169,10 +152,10 @@ namespace AppSearch.MVC.Controllers
 
         public void EditMenuItemClicked()
         {
-            if(_mainView.DataGrid.SelectedItem is EnviromentModel row)
+            if(_mainView.DataGrid.SelectedItem is EnviromentModel row && _editor?.Activate() != true)
             {
-                var editor = new AppConfigEditor(this, row);
-                editor.Show();
+                _editor = new AppConfigEditor(this, row);
+                _editor.Show();
             }
         }
 
@@ -184,6 +167,7 @@ namespace AppSearch.MVC.Controllers
                 if(item is EnviromentModel envModel && envModel.EnvName.Equals(envName))
                 {
                     envModel.UpdateTargetUri(url);
+                    envModel.AppModel.SetWebServiceUrl(url);
                     changed = true;
                 }
             }
@@ -208,15 +192,6 @@ namespace AppSearch.MVC.Controllers
                 }
             }
             return changed;
-        }
-
-        public string GetWebServiceUrl(string envNo, int port, bool hasHttps = false)
-        {
-            return string.Format(_config.WebServicesUrl,
-                hasHttps ? "s" : string.Empty,
-                envNo.StartsWith('Q') ?
-                _config.EnvPrefix.WindowsPrefix : _config.EnvPrefix.LinuxPrefix,
-                envNo.Remove(0, 1), port);
         }
 
         #region Private Methods
@@ -269,13 +244,14 @@ namespace AppSearch.MVC.Controllers
             _mainView.TreeData = [];
 
 #if DEBUG
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", null), true, null));
+            /*_mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", null), true, null));
             _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftDxp", null), true, null));
             _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftFlw", null), true, null));
             _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftMol", null), null, null));
             _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", null), null, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null), false, null));
-            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));
+            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));*/
+            _config.UnwantedPartsAppNames.Add("Chem");
 #endif
 
             _envButtonClicked = false;
@@ -373,12 +349,6 @@ namespace AppSearch.MVC.Controllers
             return false;
         }
 
-        private void TimerTick(object? sender, EventArgs e)
-        {
-            LogHelper.WriteLine("Timer Tick", _config, LogginLevel.INFO);
-            RefreshGUI();
-        }
-
         private void FillData()
         {
             var applicationList = GetAppList();
@@ -413,9 +383,9 @@ namespace AppSearch.MVC.Controllers
             var directoriesList = Directory.GetDirectories(_config.GetAppsPath());
             if (directoriesList != null)
             {
-                for (var i = 0; i < directoriesList.Length - 1; i++)
+                for (var i = 0; i < directoriesList.Length; i++)
                 {
-                    filesList = Directory.GetFiles(_config.GetAppsPath());
+                    filesList = Directory.GetFiles(directoriesList[i]);
                     if (filesList != null)
                     {
                         for (var j = 0; j < filesList.Length - 1; j++)
@@ -447,9 +417,10 @@ namespace AppSearch.MVC.Controllers
                     FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(targetPath);
                     string envName = GetEnvName(targetPath);
                     string clientName = GetClientName(targetPath);
-                    AppModel appModel = new(GetAppName(targetPath), targetPath);
-                    string url = GetWebServiceUrl(envName, _config.DefaulPort);
-                    EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null, url);
+                    string appName = GetAppName(targetPath);
+                    AppModel appModel = new(appName, targetPath);
+                    appModel.SetShortName(GetShortName(appName));
+                    EnviromentModel envModel = new(_config, envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null);
                     return envModel;
                 }
             }
@@ -502,7 +473,8 @@ namespace AppSearch.MVC.Controllers
         {
             try
             {
-                return (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[1];
+                string clientName = (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[1];
+                return clientName.Contains('.') ? clientName.Remove(clientName.IndexOf('.')) : clientName;
             }
             catch (Exception ex)
             {
@@ -515,7 +487,9 @@ namespace AppSearch.MVC.Controllers
         {
             try
             {
-                return Path.GetFileNameWithoutExtension(filePath) ?? Properties.Resources.Unknow;
+                return filePath.Contains(' ') ? 
+                    Path.GetFileNameWithoutExtension(filePath).Split(' ')[0] ?? Properties.Resources.Unknow
+                    : Path.GetFileNameWithoutExtension(filePath) ?? Properties.Resources.Unknow;
             }
             catch (Exception ex)
             {
@@ -524,44 +498,16 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        private void RunApp(string? targetPath)
+        private string GetShortName(string appName)
         {
-            if (string.IsNullOrEmpty(targetPath))
-                MessageBox.Show(Properties.Resources.EmptyTargetPath);
-            else
+            foreach (var item in _config.UnwantedPartsAppNames)
             {
-                try
+                if (appName.Contains(item))
                 {
-                    OuterAppsManaging outerAppsManaging = new(targetPath);
-                    outerAppsManaging.StartApp(out _);
-                }
-                catch(Exception ex)
-                {
-                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                    return appName.Remove(appName.IndexOf(item), item.Length);
                 }
             }
-        }
-
-        public void OpenWebsite(string? websiteUrl)
-        {
-            if (string.IsNullOrEmpty(websiteUrl) || !Uri.IsWellFormedUriString(websiteUrl, UriKind.Absolute))
-                MessageBox.Show(Properties.Resources.EmptyUrl);
-            else
-            {
-                try
-                {
-                    var psi = new ProcessStartInfo
-                    {
-                        FileName = websiteUrl,
-                        UseShellExecute = true
-                    };
-                    Process.Start(psi);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
-                }
-            }
+            return appName;
         }
 
         private void FillTreeView()
@@ -649,9 +595,74 @@ namespace AppSearch.MVC.Controllers
                 if (enviroment != null)
                 {
                     item.UpdateTargetUri(enviroment.Url);
+                    item.AppModel.SetWebServiceUrl(enviroment.Url);
                 }
             }
             _mainView.OnPropertyChanged(nameof(_mainView.Data));
+        }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            LogHelper.WriteLine("Timer Tick", _config, LogginLevel.INFO);
+            RefreshGUI();
+        }
+
+        private void RefreshGUI()
+        {
+            _mainView.Data.Clear();
+            FillData();
+
+            int activeTasks = _pingBackgroundTask.ActiveTasks;
+            if (activeTasks > 0)
+            {
+                _spinAnimation.Stop();
+                _pingBackgroundTask.CancelTask();
+            }
+            else
+            {
+                _spinAnimation.Begin();
+                _ = _pingBackgroundTask.StartAsync();
+            }
+        }
+
+        private void RunApp(string? targetPath)
+        {
+            if (string.IsNullOrEmpty(targetPath))
+                MessageBox.Show(Properties.Resources.EmptyTargetPath);
+            else
+            {
+                try
+                {
+                    OuterAppsManaging outerAppsManaging = new(targetPath);
+                    outerAppsManaging.StartApp(out _);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                }
+            }
+        }
+
+        public void OpenWebsite(string? websiteUrl)
+        {
+            if (string.IsNullOrEmpty(websiteUrl) || !Uri.IsWellFormedUriString(websiteUrl, UriKind.Absolute))
+                MessageBox.Show(Properties.Resources.EmptyUrl);
+            else
+            {
+                try
+                {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = websiteUrl,
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                }
+            }
         }
 
         #endregion

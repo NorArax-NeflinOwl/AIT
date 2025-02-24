@@ -9,12 +9,19 @@
         public string? Version => WebServiceVersion?.Version;
         public uint? Revision => WebServiceVersion?.Revision;
         public string? TargetPath { get; private set; }
+        public string? WebServiceUrl { get; private set; }
         public WebServiceVersionModel? WebServiceVersion { get; private set; }
+        public string ShortName { get; private set; }
 
         public AppModel(string name, string? targetPath)
         {
             Name = name;
             TargetPath = targetPath;
+        } 
+
+        public void SetShortName(string shortName)
+        {
+            ShortName = shortName;
         }
 
         public void GenerateAppVersion(ConfigurationModel config, string websiteoutPut)
@@ -23,6 +30,23 @@
             {
                 WebServiceVersion = new WebServiceVersionModel(config, websiteoutPut);
             }
+        }
+
+        public void SetWebServiceUrl(string gcmWebService)
+        {
+            WebServiceUrl = gcmWebService.Replace("Gcm", ShortName);
+        }
+
+        public string GetWebServiceName()
+        {
+            string webserviceName = string.Empty;
+            string gcmPart = "gcm/";
+            if (!string.IsNullOrEmpty(WebServiceUrl) && WebServiceUrl.Contains(gcmPart))
+            {
+                webserviceName = WebServiceUrl.Substring(WebServiceUrl.IndexOf(gcmPart) + gcmPart.Length)
+                    .Substring(0, (ShortName + "WebServices").Length);
+            }
+            return webserviceName;
         }
 
         public override string ToString()

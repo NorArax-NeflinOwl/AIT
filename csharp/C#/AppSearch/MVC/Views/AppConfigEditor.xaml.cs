@@ -27,7 +27,7 @@ namespace AppSearch.MVC.Views
         private void InitializeContent()
         {
             EditLabel.Content = Properties.Resources.EditText;
-            EnvNameEdited.Content = string.Format("Editing: {0}", _data.EnvName);
+            EnvNameEdited.Content = string.Format("{0} <{1}>", _data.EnvName, _data.AppModel.GetWebServiceName());
             PathLabel.Content = Properties.Resources.PathName;
             EditPathCheckBox.IsChecked = true;
             PathTextBox.Text = _data.TargetUri;
@@ -52,11 +52,25 @@ namespace AppSearch.MVC.Views
                 MessageBox.Show("Url path is invalid", "Validation");
                 return;
             }
-            if(EditTypePortCheckBox.IsChecked == true && ValidatePort() == false)
+            if(EditTypePortCheckBox.IsChecked == true)
             {
-                PortTextBox.BorderThickness = _errorThickess;
-                PortTextBox.BorderBrush = _errorBrush;
-                MessageBox.Show("Port is invalid", "Validation");
+                string message = string.Empty;
+                if(ValidateSystem())
+                {
+                    WindowsCheckBox.BorderBrush = _errorBrush;
+                    WindowsCheckBox.BorderThickness = _errorThickess;
+                    LinuxCheckBox.BorderBrush = _errorBrush;
+                    LinuxCheckBox.BorderThickness = _errorThickess;
+                    message += "Choose the system";
+                }
+
+                if(ValidatePort() == false)
+                {
+                    PortTextBox.BorderThickness = _errorThickess;
+                    PortTextBox.BorderBrush = _errorBrush;
+                    message += "\n" + "Port is invalid";
+                }
+                MessageBox.Show(message, "Validation");
                 return;
             }
 
@@ -67,14 +81,33 @@ namespace AppSearch.MVC.Views
             }
             else if (EditTypePortCheckBox.IsChecked == true)
             {
-                updated = _controller.UpdateData(_data.EnvName,
-                    _controller.GetWebServiceUrl(_data.EnvName, Int32.Parse(PortTextBox.Text), HttpsCheckBox.IsChecked == true));
+                string gcmUrl = EnviromentModel.GetGcmWebServiceUrl(_controller.Config, 
+                    HttpsCheckBox.IsChecked == true,
+                    GetSystem(_controller.Config),
+                    _data.EnvName, 
+                    Int32.Parse(PortTextBox.Text));
+
+                updated = _controller.UpdateData(_data.EnvName, gcmUrl);
             }
 
             if (updated)
                 Close();
             else
                 MessageBox.Show("Nothing Saved", "Info");
+        }
+
+        private string? GetSystem(ConfigurationModel config)
+        {
+            string? system = null;
+            if(WindowsCheckBox.IsChecked == true)
+            {
+                system = config.EnvPrefix.WindowsPrefix;
+            }
+            if (LinuxCheckBox.IsChecked == true)
+            {
+                system = config.EnvPrefix.LinuxPrefix;
+            }
+            return system;
         }
 
         public bool ValidateUrl()
@@ -88,6 +121,12 @@ namespace AppSearch.MVC.Views
             return !string.IsNullOrWhiteSpace(PortTextBox.Text) 
                 && Int32.TryParse(PortTextBox.Text, out int port) 
                 && port >= 1024 && port <= 49151;
+        }
+
+        private bool ValidateSystem()
+        {
+            return (WindowsCheckBox.IsChecked == false && LinuxCheckBox.IsChecked == false)
+                || (WindowsCheckBox.IsChecked == true && LinuxCheckBox.IsChecked == true);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -163,6 +202,24 @@ namespace AppSearch.MVC.Views
             {
                 PortTextBox.BorderThickness = _errorThickess;
                 PortTextBox.BorderBrush = _errorBrush;
+            }
+        }
+
+        private void SystemCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if(ValidateSystem())
+            {
+                WindowsCheckBox.BorderBrush = _errorBrush;
+                WindowsCheckBox.BorderThickness = _errorThickess;
+                LinuxCheckBox.BorderBrush = _errorBrush;
+                LinuxCheckBox.BorderThickness = _errorThickess;
+            }
+            else
+            {
+                WindowsCheckBox.BorderBrush = _defaultBrush;
+                WindowsCheckBox.BorderThickness = _defaultThickness;
+                LinuxCheckBox.BorderBrush = _defaultBrush;
+                LinuxCheckBox.BorderThickness = _defaultThickness;
             }
         }
     }

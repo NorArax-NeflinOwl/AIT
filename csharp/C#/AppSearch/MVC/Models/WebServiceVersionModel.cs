@@ -16,7 +16,12 @@
         private string GetFullVersion(ConfigurationModel config, string input)
         {
             string version = input.Substring(input.IndexOf(config.WebServiceInfo.FullVerBegin) + config.WebServiceInfo.FullVerBegin.Length);
-            return version.Remove(version.IndexOf(config.WebServiceInfo.FullVerEnd));
+            if(version.Contains(config.WebServiceInfo.FullVerEnd))
+                return version.Remove(version.IndexOf(config.WebServiceInfo.FullVerEnd));
+            else if(version.Contains(config.WebServiceInfo.AppFullVerEnd))
+                return version.Remove(version.IndexOf(config.WebServiceInfo.AppFullVerEnd));
+            else
+                return version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd));
         }
 
         private string GetVersion(ConfigurationModel config, string input)
@@ -37,11 +42,14 @@
         private uint? GetRevision(ConfigurationModel config, string input)
         {
             uint? rev = null;
-            string revision = input.Substring(input.IndexOf(config.WebServiceInfo.RevBegin) + config.WebServiceInfo.RevBegin.Length);
-            string result = revision.Remove(revision.IndexOf(config.WebServiceInfo.RevEnd));
-            if (Int32.TryParse(result, out int integer))
+            if(input.Contains(config.WebServiceInfo.RevBegin))
             {
-                rev = (uint?)integer;
+                string revision = input.Substring(input.IndexOf(config.WebServiceInfo.RevBegin) + config.WebServiceInfo.RevBegin.Length);
+                string result = revision.Remove(revision.IndexOf(config.WebServiceInfo.RevEnd));
+                if (Int32.TryParse(result, out int integer))
+                {
+                    rev = (uint?)integer;
+                }
             }
             return rev;
         }
@@ -56,6 +64,17 @@
 
 
 /*
+3.5.73.0.67-2024.04.15_07.28
+3.5.73.0.67-2024.04.15_07.28 <!-- HF_nr -->
+
+3.5.73.0.67-2024.04.15_07.28 -HF2024_04_15__10_04.1
+3.5.73.0.67
+653724
+
+http://wp373.softsystem.pl:7700/gcm/GcmWebServices/
+http://wp373.softsystem.pl:7700/gcm/SoftFlwWebServices/
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 

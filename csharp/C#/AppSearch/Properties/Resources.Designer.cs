@@ -106,11 +106,20 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http{0}://{1}{2}.softsystem.pl:{3}/gcm/{4}WebServices/.
+        /// </summary>
+        internal static string DefaultAppWebServicesUrl {
+            get {
+                return ResourceManager.GetString("DefaultAppWebServicesUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http{0}://{1}{2}.softsystem.pl:{3}/gcm/GcmWebServices/.
         /// </summary>
-        internal static string DefaultWebServicesUrl {
+        internal static string DefaultGcmWebServicesUrl {
             get {
-                return ResourceManager.GetString("DefaultWebServicesUrl", resourceCulture);
+                return ResourceManager.GetString("DefaultGcmWebServicesUrl", resourceCulture);
             }
         }
         

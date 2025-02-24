@@ -19,16 +19,18 @@ namespace AppSearch.MVC.Models
 
         public class WebServiceFixes
         {
-            static string _DefFullVerBegin = "Full Version: <b>";
-            static string _DefFullVerEnd = "-UNSIGNED</b>";
-            static string _DefCurVerBegin = "Version: <b>";
-            static string _DefCurVerEnd = "</b>";
-            static string _DefHFstamp = " -HF";
-            static string _DefRevBegin = "SVN Revision: <b>";
-            static string _DefRevEnd = "</b> ";
+            static readonly string _DefFullVerBegin = "Full Version: <b>";
+            static readonly string _DefFullVerEnd = "-UNSIGNED</b>";
+            static readonly string _DefAppFullVerEnd = " <!-- HF_nr --></b>";
+            static readonly string _DefCurVerBegin = "Version: <b>";
+            static readonly string _DefCurVerEnd = "</b>";
+            static readonly string _DefHFstamp = " -HF";
+            static readonly string _DefRevBegin = "SVN Revision: <b>";
+            static readonly string _DefRevEnd = "</b> ";
 
             public string FullVerBegin { get; set; } = _DefFullVerBegin;
             public string FullVerEnd { get; set; } = _DefFullVerEnd;
+            public string AppFullVerEnd { get; set; } = _DefAppFullVerEnd;
             public string CurVerBegin { get; set; } = _DefCurVerBegin;
             public string CurVerEnd { get; set; } = _DefCurVerEnd;
             public string HFstamp { get; set; } = _DefHFstamp;
@@ -42,13 +44,14 @@ namespace AppSearch.MVC.Models
         public int Timeout { get; set; }
         public int DefaulPort { get; set; }
         public EnviromentPrefix EnvPrefix { get; set; }
-        public string WebServicesUrl { get; set; }
         public List<EnviromentUrl> EnvList { get; set; }
         public WebServiceFixes WebServiceInfo { get; set; }
+        public List<string> UnwantedPartsAppNames { get; set; }
 
         public ConfigurationModel()
         {
             RefreshTimerInterval = 60;
+            EnableLogging = LogginLevel.ERROR;
             Timeout = 500;
             DefaulPort = 7700;
             EnvPrefix = new()
@@ -56,9 +59,9 @@ namespace AppSearch.MVC.Models
                 WindowsPrefix = Properties.Resources.WindowsUrlPrefix,
                 LinuxPrefix = Properties.Resources.LinuxUrlPrefix
             };
-            WebServicesUrl = Properties.Resources.DefaultWebServicesUrl;
             EnvList = [];
             WebServiceInfo = new WebServiceFixes();
+            UnwantedPartsAppNames = new List<string>();
         }
 
         public ConfigurationModel(string appsDir) : this()

@@ -162,7 +162,7 @@
   <data name="LinuxUrlPrefix" xml:space="preserve">
     <value>lxc</value>
   </data>
-  <data name="DefaultWebServicesUrl" xml:space="preserve">
+  <data name="DefaultGcmWebServicesUrl" xml:space="preserve">
     <value>http{0}://{1}{2}.softsystem.pl:{3}/gcm/GcmWebServices/</value>
   </data>
   <data name="EditText" xml:space="preserve">
@@ -216,5 +216,8 @@ Config file will be override after application close!</value>
   </data>
   <data name="LoggerFileName" xml:space="preserve">
     <value>log.txt</value>
+  </data>
+  <data name="DefaultAppWebServicesUrl" xml:space="preserve">
+    <value>http{0}://{1}{2}.softsystem.pl:{3}/gcm/{4}WebServices/</value>
   </data>
 </root>
