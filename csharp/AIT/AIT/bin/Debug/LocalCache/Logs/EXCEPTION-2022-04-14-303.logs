@@ -1,6 +1,0 @@
-System.UriFormatException: Nieprawidłowy identyfikator URI: nie można określić formatu identyfikatora URI.
-   w System.Uri.CreateThis(String uri, Boolean dontEscape, UriKind uriKind)
-   w System.Uri..ctor(String uriString)
-   w AIT.Models.AitDialogModel.Init(DialogType type) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Models\AitDialogModel.cs:wiersz 43
-   w AIT.Models.AitDialogModel..ctor(DialogType type, String message) w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Models\AitDialogModel.cs:wiersz 24
-   w AIT.Windows.QuickNoteWindow.<AitQuickNoteSaveBtn_Click>d__7.MoveNext() w A:\Dokumenty\AIT\csharp\C#\AIT\AIT\Windows\QuickNoteWindow.xaml.cs:wiersz 91

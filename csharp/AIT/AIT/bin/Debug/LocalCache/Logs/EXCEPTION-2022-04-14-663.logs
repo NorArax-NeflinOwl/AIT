@@ -1,3 +1,0 @@
-System.NullReferenceException: Object reference not set to an instance of an object.
-   at AITLib.Helpers.AitEncryptionHelper.Decrypt(String cipherText, String password) in D:\C#\AIT\AITLib\Helpers\AitEncryptionHelper.cs:line 36
-   at AIT.Helpers.AitCryptJsonManager.Deserialize[T](String text, String password) in D:\C#\AIT\AIT\Helpers\AitCryptJsonManager.cs:line 57
