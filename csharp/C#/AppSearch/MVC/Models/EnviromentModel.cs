@@ -9,7 +9,7 @@
         public string ClientName { get; private set; }
         public AppModel AppModel { get; private set; }
         public string? TargetUri { get; private set; }
-
+        public WebServiceVersionModel GcmWebServiceVersion { get; private set; }
 
         public EnviromentModel(string name, string client, AppModel model, bool? isActive, string? url)
         {
@@ -28,6 +28,19 @@
         public void UpdateTargetUri(string targetUri)
         {
             TargetUri = targetUri;
+        }
+
+        public void GenerateGcmVersion(ConfigurationModel config, string websiteoutPut)
+        {
+            if (!string.IsNullOrEmpty(websiteoutPut))
+            {
+                GcmWebServiceVersion = new WebServiceVersionModel(config, websiteoutPut);
+            }
+        }
+
+        public void GenerateAppVersion(ConfigurationModel config, string websiteOutput)
+        {
+            AppModel.GenerateAppVersion(config, websiteOutput);
         }
 
         public override bool Equals(object? obj)

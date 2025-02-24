@@ -115,6 +115,16 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BEWARE!
+        ///Config file will be override after application close!.
+        /// </summary>
+        internal static string EditConfigFileWarning {
+            get {
+                return ResourceManager.GetString("EditConfigFileWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string EditText {
@@ -192,6 +202,15 @@ namespace AppSearch.Properties {
         internal static string LocalEnvName {
             get {
                 return ResourceManager.GetString("LocalEnvName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log.txt.
+        /// </summary>
+        internal static string LoggerFileName {
+            get {
+                return ResourceManager.GetString("LoggerFileName", resourceCulture);
             }
         }
         
@@ -309,6 +328,15 @@ namespace AppSearch.Properties {
         internal static string Verify {
             get {
                 return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        internal static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

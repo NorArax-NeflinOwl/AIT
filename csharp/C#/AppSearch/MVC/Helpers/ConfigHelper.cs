@@ -1,5 +1,4 @@
 ﻿using AppSearch.MVC.Models;
-using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -18,16 +17,9 @@ namespace AppSearch.MVC.Helpers
 
         public static void SaveConfig(ConfigurationModel config, string filePath)
         {
-            try
-            {
-                XmlSerializer serializer = new(typeof(ConfigurationModel));
-                using StreamWriter writer = new(filePath);
-                serializer.Serialize(writer, config);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Error during config saving: " + ex.Message);
-            }
+            XmlSerializer serializer = new(typeof(ConfigurationModel));
+            using StreamWriter writer = new(filePath);
+            serializer.Serialize(writer, config);
         }
 
         public static ConfigurationModel? LoadConfig(string dirPath, string filePath = "")
@@ -58,8 +50,9 @@ namespace AppSearch.MVC.Helpers
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Error during config reading: " + ex.Message);
-                return new ConfigurationModel(dirPath);
+                var config = new ConfigurationModel(dirPath);
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+                return config;
             }
         }
     }

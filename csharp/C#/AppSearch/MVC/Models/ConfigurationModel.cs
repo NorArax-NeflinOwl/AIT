@@ -17,6 +17,25 @@ namespace AppSearch.MVC.Models
             public required string Url { get; set; }
         }
 
+        public class WebServiceFixes
+        {
+            static string _DefFullVerBegin = "Full Version: <b>";
+            static string _DefFullVerEnd = "-UNSIGNED</b>";
+            static string _DefCurVerBegin = "Version: <b>";
+            static string _DefCurVerEnd = "</b>";
+            static string _DefHFstamp = " -HF";
+            static string _DefRevBegin = "SVN Revision: <b>";
+            static string _DefRevEnd = "</b> ";
+
+            public string FullVerBegin { get; set; } = _DefFullVerBegin;
+            public string FullVerEnd { get; set; } = _DefFullVerEnd;
+            public string CurVerBegin { get; set; } = _DefCurVerBegin;
+            public string CurVerEnd { get; set; } = _DefCurVerEnd;
+            public string HFstamp { get; set; } = _DefHFstamp;
+            public string RevBegin { get; set; } = _DefRevBegin;
+            public string RevEnd { get; set; } = _DefRevEnd;
+        }
+
         public int RefreshTimerInterval { get; set; }
         public string AppsDir { get; set; }
         public LogginLevel EnableLogging { get; set; }
@@ -25,6 +44,7 @@ namespace AppSearch.MVC.Models
         public EnviromentPrefix EnvPrefix { get; set; }
         public string WebServicesUrl { get; set; }
         public List<EnviromentUrl> EnvList { get; set; }
+        public WebServiceFixes WebServiceInfo { get; set; }
 
         public ConfigurationModel()
         {
@@ -38,6 +58,7 @@ namespace AppSearch.MVC.Models
             };
             WebServicesUrl = Properties.Resources.DefaultWebServicesUrl;
             EnvList = [];
+            WebServiceInfo = new WebServiceFixes();
         }
 
         public ConfigurationModel(string appsDir) : this()
@@ -59,9 +80,10 @@ namespace AppSearch.MVC.Models
 
     public enum LogginLevel
     {
-        NONE,
-        ERROR,
-        WARNING,
-        INFO
+        NONE = 0,
+        ERROR = 1,
+        WARNING = 2,
+        INFO = 3,
+        SHOW = 4
     }
 }

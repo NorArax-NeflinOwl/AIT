@@ -77,6 +77,7 @@ namespace AppSearch.MVC.Controllers
         {
             string filePath = Path.Combine(_mainDirAppPath, Properties.Resources.ConfigFileName + ".xml");
             Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+            MessageBox.Show(Properties.Resources.EditConfigFileWarning, Properties.Resources.Warning);
         }
 
         public void VerifyButtonClick()
@@ -86,6 +87,11 @@ namespace AppSearch.MVC.Controllers
         }
 
         public void RefreshButtonClick()
+        {
+            RefreshGUI();
+        }
+
+        private void RefreshGUI()
         {
             _mainView.Data.Clear();
             FillData();
@@ -151,7 +157,14 @@ namespace AppSearch.MVC.Controllers
 
         public void SaveConfig()
         {
-            ConfigHelper.SaveConfig(_config);
+            try
+            {
+                ConfigHelper.SaveConfig(_config);
+            }
+            catch(Exception ex)
+            {
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+            }
         }
 
         public void EditMenuItemClicked()
@@ -246,6 +259,7 @@ namespace AppSearch.MVC.Controllers
             {
                 throw new Exception("Error durring cofing reading");
             }
+            LogHelper.Initialize(_mainDirAppPath);
         }
 
         private void InitializeData()
@@ -255,13 +269,13 @@ namespace AppSearch.MVC.Controllers
             _mainView.TreeData = [];
 
 #if DEBUG
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612637, null), true, null));
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612637, null), true, null));
-            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftFlw", "3.5.73.63", 612637, null), true, null));
-            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftMol", "3.5.73.63", 612612, null), null, null));
-            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", "3.5.73.63", 612612, null), null, null));
-            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null, null, null), false, null));
-            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null, null, null), false, null));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftMol", null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftDxp", null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q373", "PATHW", new AppModel("SoftFlw", null), true, null));
+            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftMol", null), null, null));
+            _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", null), null, null));
+            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null), false, null));
+            _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));
 #endif
 
             _envButtonClicked = false;
@@ -361,7 +375,8 @@ namespace AppSearch.MVC.Controllers
 
         private void TimerTick(object? sender, EventArgs e)
         {
-            Debug.WriteLine("Timer Tick");
+            LogHelper.WriteLine("Timer Tick", _config, LogginLevel.INFO);
+            RefreshGUI();
         }
 
         private void FillData()
@@ -432,7 +447,7 @@ namespace AppSearch.MVC.Controllers
                     FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(targetPath);
                     string envName = GetEnvName(targetPath);
                     string clientName = GetClientName(targetPath);
-                    AppModel appModel = new(GetAppName(targetPath), GetVersion(fileInfo), GetRevision(fileInfo), targetPath);
+                    AppModel appModel = new(GetAppName(targetPath), targetPath);
                     string url = GetWebServiceUrl(envName, _config.DefaulPort);
                     EnviromentModel envModel = new(envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null, url);
                     return envModel;
@@ -440,8 +455,7 @@ namespace AppSearch.MVC.Controllers
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
-                    Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
             return null;
         }
@@ -466,8 +480,7 @@ namespace AppSearch.MVC.Controllers
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
-                    Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
             return string.Empty;
         }
@@ -478,10 +491,9 @@ namespace AppSearch.MVC.Controllers
             {
                 return (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[0];
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //if (_config.EnableLogging)
-                //    Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.WARNING);
                 return Properties.Resources.LocalEnvName;
             }
         }
@@ -492,38 +504,10 @@ namespace AppSearch.MVC.Controllers
             {
                 return (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[1];
             }
-            catch (Exception)
-            {
-                //if (_config.EnableLogging)
-                //    Debug.WriteLine(ex);
-                return Properties.Resources.NoClientName;
-            }
-        }
-
-        private string GetVersion(FileVersionInfo fileInfo)
-        {
-            try
-            {
-                string version = Properties.Resources.Unknow;
-                if (fileInfo.ProductVersion != null)
-                {
-                    if (fileInfo.ProductVersion.Contains('+'))
-                    {
-                        version = fileInfo.ProductVersion[..fileInfo.ProductVersion.IndexOf('+')]; //.Substring(0, fileInfo.ProductVersion.IndexOf('+'))
-                    }
-                    else
-                    {
-                        version = fileInfo.ProductVersion;
-                    }
-                }
-
-                return version;
-            }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
-                    Debug.WriteLine(ex);
-                return Properties.Resources.Unknow;
+                LogHelper.WriteLine(ex, _config, LogginLevel.WARNING);
+                return Properties.Resources.NoClientName;
             }
         }
 
@@ -535,17 +519,9 @@ namespace AppSearch.MVC.Controllers
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
-                    Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
                 return Properties.Resources.Unknow;
             }
-        }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
-        private uint? GetRevision(FileVersionInfo fileInfo)
-        {
-            //TODO
-            return null;
         }
 
         private void RunApp(string? targetPath)
@@ -554,8 +530,15 @@ namespace AppSearch.MVC.Controllers
                 MessageBox.Show(Properties.Resources.EmptyTargetPath);
             else
             {
-                OuterAppsManaging outerAppsManaging = new(targetPath);
-                outerAppsManaging.StartApp(out _);
+                try
+                {
+                    OuterAppsManaging outerAppsManaging = new(targetPath);
+                    outerAppsManaging.StartApp(out _);
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                }
             }
         }
 
@@ -576,8 +559,7 @@ namespace AppSearch.MVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if(_config.EnableLogging == LogginLevel.ERROR)
-                        Debug.WriteLine(ex);
+                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
                 }
             }
         }

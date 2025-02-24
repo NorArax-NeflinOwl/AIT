@@ -24,50 +24,42 @@ internal class OuterAppsManaging
 
     public bool StartApp(out int? output)
     {
-        bool flag = false;
         output = null;
-        try
+        bool flag = false;
+        proc = Process.GetProcessesByName(processName).FirstOrDefault();
+        if (proc == null)
         {
-            proc = Process.GetProcessesByName(processName).FirstOrDefault();
-            if (proc == null)
+            Process.Start(pathToApp);
+            for (int i = 0; i < 20; i++)
             {
-                Process.Start(pathToApp);
-                for (int i = 0; i < 20; i++)
+                proc = Process.GetProcessesByName(processName).FirstOrDefault();
+                Thread.Sleep(1000);
+                if (proc != null)
                 {
-                    proc = Process.GetProcessesByName(processName).FirstOrDefault();
-                    Thread.Sleep(1000);
-                    if (proc != null)
+                    break;
+                }
+            }
+            if (proc != null)
+            {
+                for (int i = 0; i < 60; i++)
+                {
+                    Thread.Sleep(500);
+                    flag = (proc.MainWindowHandle.ToInt32() != 0);
+                    if (flag)
                     {
                         break;
                     }
                 }
-                if (proc != null)
-                {
-                    for (int i = 0; i < 60; i++)
-                    {
-                        Thread.Sleep(500);
-                        flag = (proc.MainWindowHandle.ToInt32() != 0);
-                        if (flag)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                flag = (proc.MainWindowHandle.ToInt32() != 0);
-            }
-            if (flag && proc?.MainWindowHandle != null)
-            {
-                output = (int)SetForegroundWindow(proc.MainWindowHandle);
-                ShowWindowAsync(proc.MainWindowHandle, 10);
             }
         }
-        catch(Exception ex)
+        else
         {
-            Debug.WriteLine(ex);
-            return false;
+            flag = (proc.MainWindowHandle.ToInt32() != 0);
+        }
+        if (flag && proc?.MainWindowHandle != null)
+        {
+            output = (int)SetForegroundWindow(proc.MainWindowHandle);
+            ShowWindowAsync(proc.MainWindowHandle, 10);
         }
         return flag;
     }

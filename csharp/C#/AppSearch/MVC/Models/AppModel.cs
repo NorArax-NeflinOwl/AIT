@@ -5,16 +5,24 @@
 #pragma warning restore CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
     {
         public string Name { get; private set; }
-        public string? Version { get; private set; }
-        public uint? Revision { get; private set; }
+        public string? FullVersion => WebServiceVersion?.FullVersion;
+        public string? Version => WebServiceVersion?.Version;
+        public uint? Revision => WebServiceVersion?.Revision;
         public string? TargetPath { get; private set; }
+        public WebServiceVersionModel? WebServiceVersion { get; private set; }
 
-        public AppModel(string name, string? version, uint? revision, string? targetPath)
+        public AppModel(string name, string? targetPath)
         {
             Name = name;
-            Version = version;
-            Revision = revision;
             TargetPath = targetPath;
+        }
+
+        public void GenerateAppVersion(ConfigurationModel config, string websiteoutPut)
+        {
+            if (!string.IsNullOrEmpty(websiteoutPut))
+            {
+                WebServiceVersion = new WebServiceVersionModel(config, websiteoutPut);
+            }
         }
 
         public override string ToString()

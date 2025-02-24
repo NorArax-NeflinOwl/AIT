@@ -207,4 +207,14 @@
   <data name="EmptyTargetPath" xml:space="preserve">
     <value>Target path is empty</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="EditConfigFileWarning" xml:space="preserve">
+    <value>BEWARE!
+Config file will be override after application close!</value>
+  </data>
+  <data name="LoggerFileName" xml:space="preserve">
+    <value>log.txt</value>
+  </data>
 </root>

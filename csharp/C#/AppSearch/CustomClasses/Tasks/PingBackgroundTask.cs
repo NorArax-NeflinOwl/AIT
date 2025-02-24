@@ -1,6 +1,6 @@
-﻿using AppSearch.MVC.Models;
+﻿using AppSearch.MVC.Helpers;
+using AppSearch.MVC.Models;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net.Http;
 
 namespace AppSearch.CustomClasses.Tasks
@@ -66,8 +66,7 @@ namespace AppSearch.CustomClasses.Tasks
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
-                    Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
             return result;
         }
@@ -92,7 +91,7 @@ namespace AppSearch.CustomClasses.Tasks
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR) Debug.WriteLine(ex);
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
             return null;
         }
