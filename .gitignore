@@ -3,19 +3,17 @@
 */target
 */.idea
 */obj
-*/.vs
+*/.vs/*
 */bin
 */packages
 *.class
+
 /java/CRD/target
 /java/GUI/target
 /java/HBM/target
 /java/WMS/target
 
-
 # VS
-/.idea
-/.vs
 
 /csharp/WPF/.vs
 /csharp/WPF/.idea
@@ -44,15 +42,20 @@
 /csharp/AIT/AIT/obj
 /csharp/AIT/AITLib/bin
 /csharp/AIT/AITLib/obj
+
 /csharp/AITConsole/bin
 /csharp/AITConsole/obj
 
+/csharp/AppSearch/.vs
+/csharp/AppSearch/bin
+/csharp/AppSearch/obj
 
 *.user
 *.suo
 *.exe
 *.pdb
 *.cache
+*.backup.json
 
 
 #UNITY
@@ -76,11 +79,3 @@
 /unity/2d/Kingdom/obj
 /unity/2d/Kingdom/.vs
 /unity/2d/Kingdom/Temp
-
-
-#AppSearch
-/csharp/AppSearch/.vs
-/csharp/AppSearch/bin
-/csharp/AppSearch/obj
-csharp/AppSearch/.vs/AppSearch/v17/DocumentLayout.backup.json
-csharp/AppSearch/.vs/AppSearch/v17/DocumentLayout.json
