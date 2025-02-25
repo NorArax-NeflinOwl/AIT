@@ -681,7 +681,7 @@ namespace AppSearch.MVC.Controllers
             }
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _mainView.FilteredData.Refresh();
+                _mainView.FilteredData?.Refresh();
             });
         }
 
