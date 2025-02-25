@@ -46,10 +46,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <ToggleButton Grid.Column="0" x:Name="aitRememberMeCheckBox"
-                    Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
-                    ToolTip="MaterialDesignSwitchDarkToggleButton"
-                    IsChecked="false" HorizontalAlignment="Right"/>
+                    <CheckBox Grid.Column="0" x:Name="aitRememberMeCheckBox"
+                              ToolTip="MaterialDesignSwitchDarkToggleButton"
+                              IsChecked="false" HorizontalAlignment="Right"
+                              VerticalAlignment="Center"/> 
                     <TextBlock x:Name="aitRememberMeTextButton" Grid.Column="1"
                                Foreground="#032b86" Text="Remember me?"
                                HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -59,7 +59,6 @@
             <Button x:Name="aitLoginButton" Grid.Row="1"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                 Margin="20,0" Background="#032b86" Height="40"
-                Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 ToolTip="Resource name: MaterialDesignRaisedLightDarkButton">
                 <TextBlock x:Name="aitLoginTextButton"
                        FontSize="18" Text="Login"/>
@@ -75,8 +74,7 @@
             </Button>
         </Grid>
         <Grid x:Name="aitProgressGrid" Background="LightGray" Visibility="Collapsed">
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                         IsIndeterminate="True" Width="70" Height="70"/>
+            <ProgressBar IsIndeterminate="True" Width="350" Height="30"/>
         </Grid>
     </Grid>
 </Window>

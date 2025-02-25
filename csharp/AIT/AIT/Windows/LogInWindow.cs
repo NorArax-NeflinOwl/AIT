@@ -10,7 +10,6 @@ using System.Linq;
 using System.Windows;
 using AITLib.Helpers;
 using System.Text;
-using System.Threading.Tasks;
 using AIT.DataBases.DBModel;
 
 namespace AIT.Windows

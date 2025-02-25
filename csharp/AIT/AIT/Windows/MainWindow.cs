@@ -11,6 +11,7 @@ using AIT.Models;
 using System.Text;
 using System.Diagnostics;
 using AIT.Pages;
+using System.Windows.Media.Imaging;
 
 namespace AIT.Windows
 {
@@ -42,6 +43,7 @@ namespace AIT.Windows
         {
             try
             {
+                LogoImage.Source = GetImageSource(Properties.Resources.AITLogoIcon);
                 var person = AitSessionManager.GetSession.Person;
                 if(AitDebugHelper.RunningInDebugMode())
                 {
@@ -327,6 +329,19 @@ namespace AIT.Windows
         {
             aitMainWindowPage.Content = m_PagesDic[AitStrings.QUICK_NOTES_EXPLORER];
             Title = aitTitleMainWindow.Text = AitStrings.QUICK_NOTES_EXPLORER;
+        }
+        private BitmapImage GetImageSource(byte[] imageObject)
+        {
+            BitmapImage bitmap = new BitmapImage();
+            using (MemoryStream stream = new MemoryStream(imageObject))
+            {
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+                bitmap.Freeze();
+            }
+            return bitmap;
         }
     }
 }

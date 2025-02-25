@@ -10,28 +10,28 @@
 
     <Grid>
         <TextBox x:Name="aitFName" HorizontalAlignment="Stretch" Height="50" Margin="10,31,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="First Name"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="First Name"
+                 FontSize="20"/>
         <TextBox x:Name="aitLName" HorizontalAlignment="Stretch" Height="50" Margin="10,82,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Last Name"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Last Name"
+                 FontSize="20"/>
         <TextBox x:Name="aitEmail" HorizontalAlignment="Stretch" Height="50" Margin="10,131,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Email"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Email"
+                 FontSize="20"/>
         <TextBox x:Name="aitLogin" HorizontalAlignment="Stretch" Height="50" Margin="10,182,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Login"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Login"
+                 FontSize="20"/>
         <PasswordBox x:Name="aitPassword" HorizontalAlignment="Stretch" Height="50" Margin="10,232,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Password"
-                Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Password"
+                 FontSize="20"/>
         <PasswordBox x:Name="aitRepeat" HorizontalAlignment="Stretch" Height="50" Margin="10,282,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Repeat password"
-                Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Repeat password"
+                 FontSize="20"/>
         <DatePicker x:Name="aitBDate" HorizontalAlignment="Stretch" Margin="10,332,9.6,0" VerticalAlignment="Top"
-                Foreground="#032b86" Height="50" materialDesign:HintAssist.Hint="Birthday date"
-                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" FontSize="20"/>
+                 Foreground="#032b86" Height="50" materialDesign:HintAssist.Hint="Birthday date"
+                 FontSize="20"/>
         <TextBox x:Name="aitPesel" HorizontalAlignment="Stretch" Height="50" Margin="10,382,9.6,0" 
-                VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Pesel"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20"/>
+                 VerticalAlignment="Top" Foreground="#032b86" materialDesign:HintAssist.Hint="Pesel"
+                 FontSize="20"/>
     </Grid>
 </Page>

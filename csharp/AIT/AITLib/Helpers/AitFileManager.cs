@@ -23,7 +23,7 @@ namespace AITLib.Helpers
 
         public static string CombinePath(params string[] subPaths)
         {
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AitStrings.LOCALCACHE_SUBPATH);
+            var path = Path.Combine(m_AppDirectoryPath, AitStrings.LOCALCACHE_SUBPATH);
             foreach (string subPath in subPaths)
             {
                 path = Path.Combine(path, subPath);
@@ -70,7 +70,7 @@ namespace AITLib.Helpers
                 fileName = fileName + extension;
                 var path = Path.Combine(m_AppDirectoryPath, subPath, fileName);
                 if (!File.Exists(path))
-                    using (File.Create(path));
+                    File.Create(path);
 
                 return path;
             }

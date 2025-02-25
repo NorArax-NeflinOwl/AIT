@@ -40,8 +40,7 @@
         <Frame x:Name="aitMainWindowPage" HorizontalAlignment="Stretch" 
                VerticalAlignment="Stretch" Margin="60,50,0,0" NavigationUIVisibility="Hidden"/>
         <Grid x:Name="aitProgressGrid" Background="LightGray" Visibility="Collapsed">
-            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                         IsIndeterminate="True" Width="70" Height="70"/>
+            <ProgressBar IsIndeterminate="True" Width="500" Height="30"/>
         </Grid>
         <Grid Height="50" VerticalAlignment="Top" Background="#FF4151FF">
             <TextBlock x:Name="aitTitleMainWindow" Foreground="White"
@@ -69,8 +68,7 @@
         <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF0B1F86">
             <StackPanel>
                 <Grid Height="120" Background="#FF1c3142">
-                    <Image Source="D:\Projects\C#\AIT\AITLib\Constants\Icons\Logo.png"
-                           VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                    <Image x:Name="LogoImage" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                     <Button x:Name="aitCloseSideMenu" Visibility="Collapsed"
                             VerticalAlignment="Top"  HorizontalAlignment="Right" 
                             Width="50" Height="50" 

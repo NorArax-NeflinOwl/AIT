@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -34,22 +35,36 @@ namespace AIT.Models
                 case DialogType.ERROR:
                     Title = "Error";
                     Image = new Image();
-                    Image.Source = new BitmapImage(new Uri(@"Assets/error.png"));
+                    Image.Source = GetImageSource(Properties.Resources.ErrorImage);//new BitmapImage(new Uri(@"Assets/error.png"));
                     OneButtonPanel = true;
                     break;
                 case DialogType.INFORMATION:
                     Title = "Information";
                     Image = new Image();
-                    Image.Source = new BitmapImage(new Uri(@"Assets/information.png")); ;
+                    Image.Source = GetImageSource(Properties.Resources.InformationImage);
                     OneButtonPanel = true;
                     break;
                 case DialogType.QUESTION:
                     Title = "Question";
                     Image = new Image();
-                    Image.Source = new BitmapImage(new Uri(@"Assets/question.png")); ;
+                    Image.Source = GetImageSource(Properties.Resources.QuestionImage);
                     OneButtonPanel = false;
                     break;
             }
+        }
+
+        private BitmapImage GetImageSource(byte[] imageObject)
+        {
+            BitmapImage bitmap = new BitmapImage();
+            using (MemoryStream stream = new MemoryStream(imageObject))
+            {
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream;
+                bitmap.EndInit();
+                bitmap.Freeze();
+            }
+            return bitmap;
         }
     }
 }

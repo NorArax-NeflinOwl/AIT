@@ -62,7 +62,7 @@ namespace AITLib.Helpers
                             var fileName = log.Title.ToString() + "-" + DateTime.Now.Date.ToString("yyyy-MM-dd-") + (random.Next()%1000).ToString() + AitStrings.LOG_EXT;
                             var filePath = Path.Combine(m_LoggerDir, fileName);
                             if (!File.Exists(filePath))
-                                using (File.Create(filePath));
+                                File.Create(filePath);
 
                             using (var stream = File.AppendText(filePath))
                             {

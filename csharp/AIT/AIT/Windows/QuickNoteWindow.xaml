@@ -18,10 +18,8 @@
         <TextBox x:Name="aitTitleNote" 
                  Background="#FF343434" 
                  Foreground="White" 
-                 materialDesign:HintAssist.Hint="Title"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="30,408,461,10" />
+                 materialDesign:HintAssist.Hint="Title" Margin="30,408,461,10" />
         <ToggleButton x:Name="aitCryptMeCheckBox"
-                      Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
                       ToolTip="MaterialDesignSwitchDarkToggleButton" 
                       IsChecked="false" 
                       FontSize="15" 
@@ -34,7 +32,6 @@
                      Background="#FF343434" 
                      Foreground="White"
                      materialDesign:HintAssist.Hint="Password" 
-                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
                      IsEnabled="False" Width="200" Margin="338,408,256,10"/>
         <Button x:Name="aitQuickNoteSaveBtn" 
                 Content="Save" 
