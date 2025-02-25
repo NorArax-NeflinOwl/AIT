@@ -7,27 +7,20 @@
         public bool? IsActive { get; private set; }
         public string EnvName { get; private set; }
         public string ClientName { get; private set; }
+        public string System { get; private set; }
         public AppModel AppModel { get; private set; }
         public string? WebServiceUrl { get; private set; }
-        public WebServiceVersionModel GcmWebServiceVersion { get; private set; }
+        public WebServiceVersionModel? GcmWebServiceVersion { get; private set; }
 
         public EnviromentModel(ConfigurationModel config, string name, string client, AppModel model, bool? isActive)
         {
             EnvName = name;
             AppModel = model;
             ClientName = client;
+            System = GetSystemFromEnvName(config);
             IsActive = isActive;
-            WebServiceUrl = GetGcmWebServiceUrl(config, false, null, name, config.DefaulPort);
+            WebServiceUrl = GetGcmWebServiceUrl(config, false, System, name, config.DefaulPort);
             model.SetWebServiceUrl(WebServiceUrl);
-        }
-
-        public EnviromentModel(string name, string client, AppModel model, bool? isActive, string? url)
-        {
-            EnvName = name;
-            AppModel = model;
-            ClientName = client;
-            IsActive = isActive;
-            WebServiceUrl = url;
         }
 
         public void UpdateActive(bool? isActive)
@@ -40,17 +33,12 @@
             WebServiceUrl = targetUri;
         }
 
-        public void GenerateGcmVersion(ConfigurationModel config, string websiteoutPut)
+        public void GenerateGcmVersion(ConfigurationModel config, string? websiteoutPut)
         {
             if (!string.IsNullOrEmpty(websiteoutPut))
             {
                 GcmWebServiceVersion = new WebServiceVersionModel(config, websiteoutPut);
             }
-        }
-
-        public void GenerateAppVersion(ConfigurationModel config, string websiteOutput)
-        {
-            AppModel.GenerateAppVersion(config, websiteOutput);
         }
 
         public override bool Equals(object? obj)
@@ -76,6 +64,15 @@
                 envNo.Equals(Properties.Resources.LocalEnvName) ? envNo 
                     : envNo.Remove(0, 1), 
                 port);
+        }
+
+        private string GetSystemFromEnvName(ConfigurationModel config)
+        {
+            if (EnvName.StartsWith('Q'))
+                return config.EnvPrefix.WindowsPrefix;
+            if (EnvName.StartsWith('L'))
+                return config.EnvPrefix.LinuxPrefix;
+            return string.Empty;
         }
     }
 }

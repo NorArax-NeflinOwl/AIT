@@ -10,11 +10,17 @@ namespace AppSearch.MVC.Helpers
 {
     public class LogHelper
     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
         private static readonly ILog logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+#pragma warning restore CS8604 // Possible null reference argument.
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         public static void Initialize(string mainDirPath)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+#pragma warning restore CS8604 // Possible null reference argument.
             GlobalContext.Properties["LogFileName"] = Path.Combine(mainDirPath, Properties.Resources.LoggerFileName);
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
         }

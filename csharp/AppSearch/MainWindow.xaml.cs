@@ -40,6 +40,7 @@ namespace AppSearch
         {
             InitializeComponent();
             _controller = new MainController(this);
+            MaxHeight = SystemParameters.WorkArea.Height;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

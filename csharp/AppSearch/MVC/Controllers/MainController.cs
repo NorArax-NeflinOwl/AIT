@@ -1,6 +1,5 @@
 ﻿using AppSearch.MVC.Helpers;
 using AppSearch.MVC.Models;
-using IWshRuntimeLibrary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +10,7 @@ using System.Windows.Controls;
 using AppSearch.MVC.Views;
 using System.Windows.Media.Animation;
 using AppSearch.CustomClasses.Tasks;
+using System.Net;
 using static AppSearch.MVC.Models.ConfigurationModel;
 
 namespace AppSearch.MVC.Controllers
@@ -55,7 +55,15 @@ namespace AppSearch.MVC.Controllers
         {
             if (_mainView.DataGrid.SelectedItem is EnviromentModel row)
             {
-                RunApp(row.AppModel.TargetPath);
+                string? path = row.AppModel.TargetPath;
+                if (path?.EndsWith(".scc") == true)
+                {
+                    var dirPath = new FileInfo(path).Directory?.FullName;
+                    var appName = FileHelper.GetExecutiveFileFromSCCFile(path);
+                    if (!string.IsNullOrEmpty(dirPath))
+                        path = Path.Combine(dirPath, appName ?? row.AppModel.Name + ".exe");
+                }
+                RunApp(path);
             }
         }
 
@@ -131,13 +139,15 @@ namespace AppSearch.MVC.Controllers
             {
                 _mainView.TreeViewGrid.Visibility = Visibility.Collapsed;
                 _mainView.ShowHideTreeViewButton.Content = Properties.Resources.ShowTreeView;
-                _mainView.Height -= _mainView.TreeViewGrid.Height;
+                if(_mainView.MinHeight == _mainView.Height)
+                    _mainView.Height -= _mainView.TreeViewGrid.Height;
             }
             else
             {
                 _mainView.TreeViewGrid.Visibility = Visibility.Visible;
                 _mainView.ShowHideTreeViewButton.Content = Properties.Resources.HideTreeView;
-                _mainView.Height += _mainView.TreeViewGrid.Height;
+                if (_mainView.MinHeight == _mainView.Height)
+                    _mainView.Height += _mainView.TreeViewGrid.Height;
             }
         }
 
@@ -286,9 +296,15 @@ namespace AppSearch.MVC.Controllers
             _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", null), null, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null), false, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));*/
-            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftBioChem", "SoftBio"));
-            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftPathDx", "SoftDxp"));
-            _config.UnwantedPartsAppNames.Add(new ExchangeName("SoftHLA", "SoftHla"));
+            var item1 = new ExchangeName("SoftBioChem", "SoftBio");
+            var item2 = new ExchangeName("SoftPathDx", "SoftDxp");
+            var item3 = new ExchangeName("SoftHLA", "SoftHla");
+            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item1.From)))
+                _config.UnwantedPartsAppNames.Add(item1);
+            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item2.From)))
+                _config.UnwantedPartsAppNames.Add(item2);
+            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item3.From)))
+                _config.UnwantedPartsAppNames.Add(item3);
 #endif
 
             _envButtonClicked = false;
@@ -348,13 +364,14 @@ namespace AppSearch.MVC.Controllers
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _mainView.FilteredData.Refresh();
                 int remainingTasks = _pingBackgroundTask.ActiveTasks;
 
                 if (remainingTasks == 0)
                 {
+                    UpdateDataVersion();
                     _spinAnimation.Stop();
                 }
+                _mainView.FilteredData.Refresh();
             });
         }
 
@@ -404,7 +421,7 @@ namespace AppSearch.MVC.Controllers
 
         private List<EnviromentModel>? GetAppList()
         {
-            var filesList = Directory.GetFiles(_config.GetAppsPath());
+            var filesList = Directory.GetFiles(_config.AppsDir);
             if (filesList == null)
                 return null;
 
@@ -418,7 +435,7 @@ namespace AppSearch.MVC.Controllers
                 }
             }
 
-            var directoriesList = GetAppListRecursive(new List<string>(), _config.GetAppsPath());
+            var directoriesList = GetAppListRecursive(new List<string>(), _config.AppsDir);
             if (directoriesList != null)
             {
                 foreach (var directory in directoriesList)
@@ -467,18 +484,16 @@ namespace AppSearch.MVC.Controllers
         {
             try
             {
-                string targetPath = filePath;
-                if (IsShortCut(filePath))
-                {
-                    targetPath = GetShortcutTarget(filePath);
-                }
-                if(IsExcecutive(targetPath) && System.IO.File.Exists(targetPath))
+                string targetPath = FileHelper.GetTargerPath(filePath);
+                if(FileHelper.IsExcecutive(targetPath))
                 {
                     FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(targetPath);
-                    string envName = GetEnvName(targetPath);
+                    string? envName = GetEnvName(targetPath);
                     string clientName = GetClientName(targetPath);
                     string appName = GetAppName(targetPath);
                     AppModel appModel = new(appName, targetPath);
+                    string? version = FileHelper.GetVersionAppFromSCCFile(targetPath);
+                    appModel.GenerateAppVersion(version);
                     appModel.SetShortName(GetShortName(appName));
                     EnviromentModel envModel = new(_config, envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null);
                     return envModel;
@@ -491,36 +506,20 @@ namespace AppSearch.MVC.Controllers
             return null;
         }
 
-        private bool IsShortCut(string filePath)
-        {
-            return Path.GetExtension(filePath).Equals(".lnk", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private bool IsExcecutive(string filePath)
-        {
-            return Path.GetExtension(filePath).Equals(".exe", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private string GetShortcutTarget(string shortcutPath)
+        private string? GetEnvName(string filePath)
         {
             try
             {
-                WshShell shell = new();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-                return shortcut.TargetPath;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
-            }
-            return string.Empty;
-        }
-
-        private string GetEnvName(string filePath)
-        {
-            try
-            {
-                return (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[0];
+                var fileInfo = new FileInfo(filePath);
+                if (fileInfo.Directory?.Parent?.Name.StartsWith('Q') == true
+                    || fileInfo.Directory?.Parent?.Name.StartsWith('L') == true)
+                {
+                    return fileInfo.Directory?.Parent?.Name;
+                }
+                else
+                {
+                    return fileInfo.Name.Split(' ')[1].Split('@')[0];
+                }
             }
             catch (Exception ex)
             {
@@ -533,8 +532,17 @@ namespace AppSearch.MVC.Controllers
         {
             try
             {
-                string clientName = (new FileInfo(filePath).Name).Split(' ')[1].Split('@')[1];
-                return clientName.Contains('.') ? clientName.Remove(clientName.IndexOf('.')) : clientName;
+                var fileInfo = new FileInfo(filePath);
+                var clientName = fileInfo.Directory?.Parent?.Parent?.Name;
+                if(!string.IsNullOrEmpty(clientName))
+                {
+                    return clientName;
+                }
+                else
+                {
+                    clientName = fileInfo.Name.Split(' ')[1].Split('@')[1];
+                    return clientName.Contains('.') ? clientName.Remove(clientName.IndexOf('.')) : clientName;
+                }
             }
             catch (Exception ex)
             {
@@ -547,9 +555,18 @@ namespace AppSearch.MVC.Controllers
         {
             try
             {
-                return filePath.Contains(' ') ? 
-                    Path.GetFileNameWithoutExtension(filePath).Split(' ')[0] ?? Properties.Resources.Unknow
-                    : Path.GetFileNameWithoutExtension(filePath) ?? Properties.Resources.Unknow;
+                var fileInfo = new FileInfo(filePath);
+                if(fileInfo.Name.Contains('_'))
+                {
+                    var appName = fileInfo.Name.Split('.')[0];
+                    return appName.Split('_')[2];
+                }
+                else
+                {
+                    return filePath.Contains(' ') ?
+                        Path.GetFileNameWithoutExtension(filePath).Split(' ')[0] ?? Properties.Resources.Unknow
+                        : Path.GetFileNameWithoutExtension(filePath) ?? Properties.Resources.Unknow;
+                }
             }
             catch (Exception ex)
             {
@@ -567,7 +584,7 @@ namespace AppSearch.MVC.Controllers
                     return appName.Replace(item.From, item.To);
                 }
             }
-            return appName;
+            return appName.Contains("32") ? appName.Replace("32", "") : appName;
         }
 
         private void FillTreeView()
@@ -652,13 +669,59 @@ namespace AppSearch.MVC.Controllers
             foreach(var item in _mainView.Data)
             {
                 var enviroment = _config.EnvList.FirstOrDefault(q => q.EnvName.Equals(item.EnvName));
-                if (enviroment != null)
+                if (enviroment != null && item.WebServiceUrl?.Equals(enviroment.Url) == false)
                 {
                     item.UpdateTargetUri(enviroment.Url);
                     item.AppModel.SetWebServiceUrl(enviroment.Url);
                 }
             }
             _mainView.OnPropertyChanged(nameof(_mainView.Data));
+        }
+
+        private void UpdateDataVersion()
+        {
+            foreach (var item in _mainView.Data)
+            {
+                if (item.IsActive == true && IsWindowsSystem(item))
+                {
+                    if(item.GcmWebServiceVersion == null)
+                    {
+                        var gcmWebserviceUrl = item.WebServiceUrl;
+                        string? content = GetWebContent(item.WebServiceUrl);
+                        item.GenerateGcmVersion(_config, content);
+                    }
+                    if(item.AppModel.WebServiceVersion == null)
+                    {
+                        string? content = GetWebContent(item.AppModel.WebServiceUrl);
+                        item.AppModel.GenerateAppVersion(_config, content);
+                    }
+                }
+            }
+        }
+
+        private bool IsWindowsSystem(EnviromentModel enviroment)
+        {
+            return enviroment.System.Equals(_config.EnvPrefix.WindowsPrefix);
+        }
+
+        private string? GetWebContent(string? websiteurl)
+        {
+            string? content = null;
+            if(!string.IsNullOrEmpty(websiteurl))
+            {
+                try
+                {
+#pragma warning disable SYSLIB0014 // Type or member is obsolete
+                    WebClient webClient = new WebClient();
+#pragma warning restore SYSLIB0014 // Type or member is obsolete
+                    content = webClient.DownloadString(websiteurl);
+                }
+                catch(Exception ex)
+                {
+                    LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                }
+            }
+            return content;
         }
 
         private void TimerTick(object? sender, EventArgs e)

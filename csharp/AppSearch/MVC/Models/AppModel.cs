@@ -7,7 +7,7 @@
         public string Name { get; private set; }
         public string? FullVersion => WebServiceVersion?.FullVersion;
         public string? Version => WebServiceVersion?.Version;
-        public uint? Revision => WebServiceVersion?.Revision;
+        public string? Revision => WebServiceVersion?.Revision.ToString();
         public string? TargetPath { get; private set; }
         public string? WebServiceUrl { get; private set; }
         public WebServiceVersionModel? WebServiceVersion { get; private set; }
@@ -24,11 +24,19 @@
             ShortName = shortName;
         }
 
-        public void GenerateAppVersion(ConfigurationModel config, string websiteoutPut)
+        public void GenerateAppVersion(ConfigurationModel config, string? websiteoutPut)
         {
             if (!string.IsNullOrEmpty(websiteoutPut))
             {
                 WebServiceVersion = new WebServiceVersionModel(config, websiteoutPut);
+            }
+        }
+
+        public void GenerateAppVersion(string? version)
+        {
+            if(!string.IsNullOrEmpty(version))
+            {
+                WebServiceVersion = new WebServiceVersionModel(version);
             }
         }
 

@@ -91,11 +91,6 @@ namespace AppSearch.MVC.Models
             AppsDir = appsDir;
             RefreshTimerInterval = refreshTimerInterval;
         }
-
-        public string GetAppsPath()
-        {
-            return Path.Combine(AppsDir, Properties.Resources.AppsDirName);
-        }
     }
 
     public enum LogginLevel

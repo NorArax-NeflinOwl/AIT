@@ -2,13 +2,19 @@
 {
     public class WebServiceVersionModel
     {
-        public string FullVersion;
-        public string Version;
-        public uint? Revision;
+        public string FullVersion { get; private set; }
+        public string Version { get; private set; }
+        public uint? Revision { get; private set; }
+
+        public WebServiceVersionModel(string version)
+        {
+            FullVersion = version;
+            Version = version;
+        }
 
         public WebServiceVersionModel(ConfigurationModel config, string websiteOutput)
         {
-            FullVersion = GetFullVersion(config,websiteOutput);
+            FullVersion = GetFullVersion(config, websiteOutput);
             Version = GetVersion(config, websiteOutput);
             Revision = GetRevision(config, websiteOutput);
         }
@@ -21,7 +27,9 @@
             else if(version.Contains(config.WebServiceInfo.AppFullVerEnd))
                 return version.Remove(version.IndexOf(config.WebServiceInfo.AppFullVerEnd));
             else
-                return version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd));
+                return version.Contains(config.WebServiceInfo.CurVerEnd) ?
+                    version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd))
+                    : string.Empty;
         }
 
         private string GetVersion(ConfigurationModel config, string input)
@@ -35,7 +43,9 @@
             else
             {
                 string version = input.Substring(input.IndexOf(config.WebServiceInfo.CurVerBegin) + config.WebServiceInfo.CurVerBegin.Length);
-                return version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd));
+                return version.Contains(config.WebServiceInfo.CurVerEnd) ?
+                    version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd))
+                    : string.Empty;
             }
         }
 
@@ -45,7 +55,9 @@
             if(input.Contains(config.WebServiceInfo.RevBegin))
             {
                 string revision = input.Substring(input.IndexOf(config.WebServiceInfo.RevBegin) + config.WebServiceInfo.RevBegin.Length);
-                string result = revision.Remove(revision.IndexOf(config.WebServiceInfo.RevEnd));
+                string result = revision.Contains(config.WebServiceInfo.RevEnd) ?
+                    revision.Remove(revision.IndexOf(config.WebServiceInfo.RevEnd))
+                    : string.Empty;
                 if (Int32.TryParse(result, out int integer))
                 {
                     rev = (uint?)integer;

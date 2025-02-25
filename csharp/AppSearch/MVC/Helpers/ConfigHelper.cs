@@ -35,10 +35,11 @@ namespace AppSearch.MVC.Helpers
                     filePath = dirPath;
                 }
 
-                if (File.Exists(filePath))
+                string targetPath = FileHelper.GetTargerPath(filePath);
+                if (!string.IsNullOrEmpty(targetPath))
                 {
                     XmlSerializer serializer = new(typeof(ConfigurationModel));
-                    using StreamReader reader = new(filePath);
+                    using StreamReader reader = new(targetPath);
                     return serializer.Deserialize(reader) as ConfigurationModel;
                 }
                 else
@@ -50,9 +51,10 @@ namespace AppSearch.MVC.Helpers
             }
             catch (Exception ex)
             {
-                var config = new ConfigurationModel(dirPath);
-                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
-                return config;
+                var defaultConfig = new ConfigurationModel(dirPath);
+                SaveConfig(defaultConfig, filePath);
+                LogHelper.WriteLine(ex, defaultConfig, LogginLevel.ERROR);
+                return defaultConfig;
             }
         }
     }
