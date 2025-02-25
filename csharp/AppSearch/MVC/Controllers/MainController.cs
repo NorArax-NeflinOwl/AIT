@@ -11,7 +11,6 @@ using AppSearch.MVC.Views;
 using System.Windows.Media.Animation;
 using AppSearch.CustomClasses.Tasks;
 using System.Net;
-using static AppSearch.MVC.Models.ConfigurationModel;
 
 namespace AppSearch.MVC.Controllers
 {
@@ -277,7 +276,7 @@ namespace AppSearch.MVC.Controllers
             }
             else
             {
-                throw new Exception("Error durring cofing reading");
+                LogHelper.WriteErrorLine(new Exception("Error durring cofing reading"));
             }
             LogHelper.Initialize(_mainDirAppPath);
         }
@@ -296,9 +295,9 @@ namespace AppSearch.MVC.Controllers
             _mainView.Data.Add(new EnviromentModel("Q424", "PATHW", new AppModel("SoftDxp", null), null, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftMol", null), false, null));
             _mainView.Data.Add(new EnviromentModel("Q368", "PATHW", new AppModel("SoftDxp", null), false, null));*/
-            var item1 = new ExchangeName("SoftBioChem", "SoftBio");
-            var item2 = new ExchangeName("SoftPathDx", "SoftDxp");
-            var item3 = new ExchangeName("SoftHLA", "SoftHla");
+            var item1 = new ConfigurationModel.ExchangeName("SoftBioChem", "SoftBio");
+            var item2 = new ConfigurationModel.ExchangeName("SoftPathDx", "SoftDxp");
+            var item3 = new ConfigurationModel.ExchangeName("SoftHLA", "SoftHla");
             if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item1.From)))
                 _config.UnwantedPartsAppNames.Add(item1);
             if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item2.From)))
@@ -491,10 +490,12 @@ namespace AppSearch.MVC.Controllers
                     string? envName = GetEnvName(targetPath);
                     string clientName = GetClientName(targetPath);
                     string appName = GetAppName(targetPath);
+
                     AppModel appModel = new(appName, targetPath);
                     string? version = FileHelper.GetVersionAppFromSCCFile(targetPath);
-                    appModel.GenerateAppVersion(version);
                     appModel.SetShortName(GetShortName(appName));
+                    appModel.GenerateAppVersion(version);
+
                     EnviromentModel envModel = new(_config, envName ?? Properties.Resources.LocalEnvName, clientName, appModel, null);
                     return envModel;
                 }
@@ -621,7 +622,10 @@ namespace AppSearch.MVC.Controllers
                 }
             }
             ExpandAllNodes(_mainView.TreeData, _mainTreeIsExpandedFlag);
-            _mainView.OnPropertyChanged(nameof(_mainView.TreeData));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _mainView.OnPropertyChanged(nameof(_mainView.TreeData));
+            });
         }
 
         private void ExpandAllNodes(IEnumerable<SimpleNodeModel> nodes, bool isExpanded)
@@ -675,7 +679,10 @@ namespace AppSearch.MVC.Controllers
                     item.AppModel.SetWebServiceUrl(enviroment.Url);
                 }
             }
-            _mainView.OnPropertyChanged(nameof(_mainView.Data));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _mainView.FilteredData.Refresh();
+            });
         }
 
         private void UpdateDataVersion()
