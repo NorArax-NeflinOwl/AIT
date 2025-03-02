@@ -7,7 +7,6 @@ namespace AppSearch.MVC.Views
 {
     public partial class AppConfigEditor : Window
     {
-        private readonly EnviromentModel _data;
         private readonly MainController _controller;
 
         private Thickness _defaultThickness;
@@ -18,19 +17,27 @@ namespace AppSearch.MVC.Views
 
         public AppConfigEditor(MainController controller, EnviromentModel data)
         {
-            _controller = controller;
-            _data = data;
             InitializeComponent();
             InitializeContent();
+            _controller = controller;
+            EnvListNames.ItemsSource = new List<EnviromentModel>() { data };
+            EnvListNames.SelectedIndex = 0;
+            EnvListNames.IsEditable = false;
+        }
+
+        public AppConfigEditor(MainController controller, List<EnviromentModel> data)
+        {
+            InitializeComponent();
+            InitializeContent();
+            _controller = controller;
+            EnvListNames.ItemsSource = data;
         }
 
         private void InitializeContent()
         {
             EditLabel.Content = Properties.Resources.EditText;
-            EnvNameEdited.Content = string.Format("{0} <{1}>", _data.EnvName, _data.AppModel.GetWebServiceName());
             PathLabel.Content = Properties.Resources.PathName;
             EditPathCheckBox.IsChecked = true;
-            PathTextBox.Text = _data.WebServiceUrl;
             HttpsLabel.Content = Properties.Resources.HttpsText;
             EnviromentSystemLabel.Content = Properties.Resources.SystemName;
             WindowsCheckBox.Content = Properties.Resources.WindowsName;
@@ -45,55 +52,65 @@ namespace AppSearch.MVC.Views
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if(EditPathCheckBox.IsChecked == true && ValidateUrl() == false)
-            {
-                PathTextBox.BorderThickness = _errorThickess;
-                PathTextBox.BorderBrush = _errorBrush;
-                MessageBox.Show("Url path is invalid", "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
-                return;
-            }
-            if(EditTypePortCheckBox.IsChecked == true)
-            {
-                string message = string.Empty;
-                if(ValidateSystem())
-                {
-                    WindowsCheckBox.BorderBrush = _errorBrush;
-                    WindowsCheckBox.BorderThickness = _errorThickess;
-                    LinuxCheckBox.BorderBrush = _errorBrush;
-                    LinuxCheckBox.BorderThickness = _errorThickess;
-                    message += "Choose the system";
-                }
-
-                if(ValidatePort() == false)
-                {
-                    PortTextBox.BorderThickness = _errorThickess;
-                    PortTextBox.BorderBrush = _errorBrush;
-                    message += "\n" + "Port is invalid";
-                }
-                MessageBox.Show(message, "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
-                return;
-            }
-
             bool updated = false;
-            if (EditPathCheckBox.IsChecked == true)
+            bool savedInConfig = false;
+            if (EnvListNames.SelectedItem is EnviromentModel data)
             {
-                updated = _controller.UpdateData(_data.EnvName, PathTextBox.Text);
+                if (EditPathCheckBox.IsChecked == true && ValidateUrl() == false)
+                {
+                    PathTextBox.BorderThickness = _errorThickess;
+                    PathTextBox.BorderBrush = _errorBrush;
+                    MessageBox.Show("Url path is invalid", "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    return;
+                }
+                if (EditTypePortCheckBox.IsChecked == true)
+                {
+                    string message = string.Empty;
+                    if (ValidateSystem())
+                    {
+                        WindowsCheckBox.BorderBrush = _errorBrush;
+                        WindowsCheckBox.BorderThickness = _errorThickess;
+                        LinuxCheckBox.BorderBrush = _errorBrush;
+                        LinuxCheckBox.BorderThickness = _errorThickess;
+                        message += "Choose the system";
+                    }
+
+                    if (ValidatePort() == false)
+                    {
+                        PortTextBox.BorderThickness = _errorThickess;
+                        PortTextBox.BorderBrush = _errorBrush;
+                        message += "\n" + "Port is invalid";
+                    }
+                    MessageBox.Show(message, "Validation", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    return;
+                }
+
+                if (EditPathCheckBox.IsChecked == true)
+                {
+                    updated = _controller.UpdateData(data.EnvName, PathTextBox.Text, out savedInConfig);
+                }
+                else if (EditTypePortCheckBox.IsChecked == true)
+                {
+                    string gcmUrl = EnviromentModel.GetGcmWebServiceUrl(_controller.Config,
+                        HttpsCheckBox.IsChecked == true,
+                        GetSystem(_controller.Config),
+                        data.EnvName,
+                        Int32.Parse(PortTextBox.Text));
+
+                    updated = _controller.UpdateData(data.EnvName, gcmUrl, out savedInConfig);
+                }
             }
-            else if (EditTypePortCheckBox.IsChecked == true)
+
+            if (updated && savedInConfig)
             {
-                string gcmUrl = EnviromentModel.GetGcmWebServiceUrl(_controller.Config, 
-                    HttpsCheckBox.IsChecked == true,
-                    GetSystem(_controller.Config),
-                    _data.EnvName, 
-                    Int32.Parse(PortTextBox.Text));
-
-                updated = _controller.UpdateData(_data.EnvName, gcmUrl);
+                _controller.SaveConfig();
+                if(EnvListNames.Items.Count > 1)
+                    MessageBox.Show("Saved", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    Close();
             }
-
-            if (updated)
-                Close();
             else
-                MessageBox.Show("Nothing Saved", "Info", MessageBoxButton.OK, MessageBoxImage.Hand);
+                MessageBox.Show("Nothing Saved", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private string? GetSystem(ConfigurationModel config)
@@ -101,11 +118,11 @@ namespace AppSearch.MVC.Views
             string? system = null;
             if(WindowsCheckBox.IsChecked == true)
             {
-                system = config.EnvPrefix.WindowsPrefix;
+                system = config.DefaultConfig.EnvPrefix.WindowsPrefix;
             }
             if (LinuxCheckBox.IsChecked == true)
             {
-                system = config.EnvPrefix.LinuxPrefix;
+                system = config.DefaultConfig.EnvPrefix.LinuxPrefix;
             }
             return system;
         }
@@ -221,6 +238,12 @@ namespace AppSearch.MVC.Views
                 LinuxCheckBox.BorderBrush = _defaultBrush;
                 LinuxCheckBox.BorderThickness = _defaultThickness;
             }
+        }
+
+        private void EnvListNames_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            PathTextBox.Text = (EnvListNames.SelectedItem as EnviromentModel)?.WebServiceUrl;
+            InitializeContent();
         }
     }
 }

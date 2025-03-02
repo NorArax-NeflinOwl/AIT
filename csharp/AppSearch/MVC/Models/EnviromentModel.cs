@@ -19,7 +19,7 @@
             ClientName = client;
             System = GetSystemFromEnvName(config);
             IsActive = isActive;
-            WebServiceUrl = GetGcmWebServiceUrl(config, false, System, name, config.DefaulPort);
+            WebServiceUrl = GetGcmWebServiceUrl(config, false, System, name, config.DefaultConfig.DefaulPort);
             model.SetWebServiceUrl(WebServiceUrl);
         }
 
@@ -52,7 +52,7 @@
 
         public override string ToString()
         {
-            return string.Format("{0} | {1}", EnvName, ClientName);
+            return EnvName;
         }
 
         public static string GetGcmWebServiceUrl(ConfigurationModel config, 
@@ -69,9 +69,9 @@
         private string GetSystemFromEnvName(ConfigurationModel config)
         {
             if (EnvName.StartsWith('Q'))
-                return config.EnvPrefix.WindowsPrefix;
+                return config.DefaultConfig.EnvPrefix.WindowsPrefix;
             if (EnvName.StartsWith('L'))
-                return config.EnvPrefix.LinuxPrefix;
+                return config.DefaultConfig.EnvPrefix.LinuxPrefix;
             return string.Empty;
         }
     }

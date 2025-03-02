@@ -1,6 +1,7 @@
 ﻿using AppSearch.MVC.Helpers;
 using AppSearch.MVC.Models;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http;
 
 namespace AppSearch.CustomClasses.Tasks
@@ -47,7 +48,7 @@ namespace AppSearch.CustomClasses.Tasks
             }
             catch (Exception ex)
             {
-                if (_config.EnableLogging == LogginLevel.ERROR)
+                if (_config.DefaultConfig.EnableLogging == LogginLevel.ERROR)
                     Console.WriteLine(ex);
             }
         }
@@ -78,7 +79,7 @@ namespace AppSearch.CustomClasses.Tasks
             try
             {
                 using var httpClient = new HttpClient();
-                httpClient.Timeout = TimeSpan.FromSeconds(_config.Timeout);
+                httpClient.Timeout = TimeSpan.FromSeconds(_config.DefaultConfig.Timeout);
 
                 token.ThrowIfCancellationRequested();
 
@@ -87,8 +88,14 @@ namespace AppSearch.CustomClasses.Tasks
             }
             catch (OperationCanceledException ex)
             {
-                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+                LogHelper.WriteLine(ex, _config, LogginLevel.WARNING);
                 return false;
+            }
+            catch (HttpRequestException ex)
+            {
+#if DEBUG
+                Debug.WriteLine(ex);
+#endif
             }
             catch (Exception ex)
             {

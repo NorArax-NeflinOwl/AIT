@@ -1,5 +1,6 @@
 ﻿using AppSearch.MVC.Helpers;
 using AppSearch.MVC.Models;
+using IWshRuntimeLibrary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,6 +12,8 @@ using AppSearch.MVC.Views;
 using System.Windows.Media.Animation;
 using AppSearch.CustomClasses.Tasks;
 using System.Net;
+using Microsoft.Win32;
+using System.Windows.Media.Imaging;
 
 namespace AppSearch.MVC.Controllers
 {
@@ -18,12 +21,15 @@ namespace AppSearch.MVC.Controllers
     {
         private readonly MainWindow _mainView = view;
         private DispatcherTimer _refreshTimer;
+        private DispatcherTimer _timer;
         private ConfigurationModel _config;
         private string _mainDirAppPath;
         private bool _envButtonClicked;
         private bool _clientsButtonClicked;
         private bool _mainTreeIsExpandedFlag;
+        private uint _timeCounter;
         private Storyboard _spinAnimation;
+        private bool _spinAnimationActive;
         private PingBackgroundTask _pingBackgroundTask;
         private AppConfigEditor _editor;
 
@@ -42,7 +48,6 @@ namespace AppSearch.MVC.Controllers
         public void SearchBoxValueChanged()
         {
             _mainView.FilteredData.Refresh();
-            FillTreeView();
         }
 
         public void FocusSearchBox()
@@ -64,6 +69,16 @@ namespace AppSearch.MVC.Controllers
                 }
                 RunApp(path);
             }
+        }
+
+        public void OpenRafiTerm()
+        {
+            RunApp(_config.UserConfig.RafiTermPath);
+        }
+
+        public void OpenSccAppUpdater()
+        {
+            RunApp(_config.UserConfig.SccUpdaterPath);
         }
 
         public void OpenUrl(OpenUrlKind kind)
@@ -105,8 +120,14 @@ namespace AppSearch.MVC.Controllers
 
         public void Verify()
         {
+            _spinAnimation.Stop();
+            _spinAnimationActive = false;
+            _pingBackgroundTask.CancelTask();
+
             _spinAnimation.Begin();
+            _spinAnimationActive = true;
             _ = _pingBackgroundTask.StartAsync();
+            _timeCounter = 0;
         }
 
         public void Refresh()
@@ -138,7 +159,7 @@ namespace AppSearch.MVC.Controllers
             {
                 _mainView.TreeViewGrid.Visibility = Visibility.Collapsed;
                 _mainView.ShowHideTreeViewButton.Content = Properties.Resources.ShowTreeView;
-                if(_mainView.MinHeight == _mainView.Height)
+                if(_mainView.MinHeight == _mainView.Height || (_mainView.Height == _mainView.MinHeight + _mainView.TreeViewGrid.Height))
                     _mainView.Height -= _mainView.TreeViewGrid.Height;
             }
             else
@@ -176,10 +197,41 @@ namespace AppSearch.MVC.Controllers
 
         public void EditUrl()
         {
-            if(_mainView.DataGrid.SelectedItem is EnviromentModel row && _editor?.Activate() != true)
+            if(_mainView.DataGrid.SelectedItem is EnviromentModel model && _editor?.Activate() != true)
             {
-                _editor = new AppConfigEditor(this, row);
+                _editor = new AppConfigEditor(this, model);
                 _editor.Show();
+            }
+        }
+
+        public void EditUrlsClick()
+        {
+            if (_editor?.Activate() != true)
+            {
+                var list = new List<EnviromentModel>();
+                foreach(EnviromentModel item in _mainView.Data)
+                {
+                    if(!list.Any(q => q.EnvName.Equals(item.EnvName)))
+                    {
+                        list.Add(item);
+                    }
+                }
+                _editor = new AppConfigEditor(this, list.OrderBy(q => q.ClientName).ToList());
+                _editor.Show();
+            }
+        }
+
+        public void AddNewApp()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = Properties.Resources.ChooseFile,
+                Filter = string.Format("{0} (*.exe;*.scc)|*.exe;*.scc", Properties.Resources.AllExecutiveFiles),
+                Multiselect = false
+            };
+            if(openFileDialog.ShowDialog() == true)
+            {
+                FileHelper.CreateShortcut(_config, openFileDialog.FileName);
             }
         }
 
@@ -203,10 +255,11 @@ namespace AppSearch.MVC.Controllers
             }
         }
 
-        public bool UpdateData(string envName, string url)
+        public bool UpdateData(string envName, string url, out bool savedInConfig)
         {
             bool changed = false;
-            foreach(var item in _mainView.DataGrid.ItemsSource)
+            savedInConfig = false;
+            foreach (var item in _mainView.DataGrid.ItemsSource)
             {
                 if(item is EnviromentModel envModel && envModel.EnvName.Equals(envName))
                 {
@@ -217,8 +270,7 @@ namespace AppSearch.MVC.Controllers
             }
             if(changed)
             {
-                bool savedInConfig = false;
-                foreach(var item in _config.EnvList)
+                foreach(var item in _config.UserConfig.EnvList)
                 {
                     if(item.EnvName.Equals(envName))
                     {
@@ -228,11 +280,12 @@ namespace AppSearch.MVC.Controllers
                 }
                 if(!savedInConfig)
                 {
-                    _config.EnvList.Add(new ConfigurationModel.EnviromentUrl
+                    _config.UserConfig.EnvList.Add(new ConfigurationModel.EnviromentUrl
                     {
                         EnvName = envName,
                         Url = url
                     });
+                    savedInConfig = true;
                 }
             }
             return changed;
@@ -242,11 +295,10 @@ namespace AppSearch.MVC.Controllers
 
         private void InitializeResources()
         {
+            _mainView.Icon = FileHelper.ByteArrayToImageSource(Properties.Resources.Icon);
             _mainView.Title = Properties.Resources.ApplicationName;
 
             _mainView.SearchLabel.Content = Properties.Resources.SearchLabel;
-            _mainView.ConfigButton.Content = Properties.Resources.ShowConfig;
-            _mainView.ConfigButton.FontSize = 15;
             _mainView.VerifyButton.Content = Properties.Resources.Verify;
             _mainView.VerifyButton.FontSize = 20;
             _mainView.EnvButtonText.Text = Properties.Resources.Enviroment;
@@ -298,12 +350,12 @@ namespace AppSearch.MVC.Controllers
             var item1 = new ConfigurationModel.ExchangeName("SoftBioChem", "SoftBio");
             var item2 = new ConfigurationModel.ExchangeName("SoftPathDx", "SoftDxp");
             var item3 = new ConfigurationModel.ExchangeName("SoftHLA", "SoftHla");
-            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item1.From)))
-                _config.UnwantedPartsAppNames.Add(item1);
-            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item2.From)))
-                _config.UnwantedPartsAppNames.Add(item2);
-            if (!_config.UnwantedPartsAppNames.Any(item => item.From.Equals(item3.From)))
-                _config.UnwantedPartsAppNames.Add(item3);
+            if (!_config.UserConfig.UnwantedPartsAppNames.Any(item => item.From.Equals(item1.From)))
+                _config.UserConfig.UnwantedPartsAppNames.Add(item1);
+            if (!_config.UserConfig.UnwantedPartsAppNames.Any(item => item.From.Equals(item2.From)))
+                _config.UserConfig.UnwantedPartsAppNames.Add(item2);
+            if (!_config.UserConfig.UnwantedPartsAppNames.Any(item => item.From.Equals(item3.From)))
+                _config.UserConfig.UnwantedPartsAppNames.Add(item3);
 #endif
 
             _envButtonClicked = false;
@@ -320,21 +372,31 @@ namespace AppSearch.MVC.Controllers
 
             _refreshTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(_config.RefreshTimerInterval)
+                Interval = TimeSpan.FromSeconds(_config.DefaultConfig.RefreshTimerInterval)
             };
-            _refreshTimer.Tick += TimerTick;
+            _refreshTimer.Tick += RefreshTimerTick;
             _refreshTimer.Start();
+
+            _timeCounter = 0;
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += TimerTick;
+            _timer.Start();
+
             _pingBackgroundTask = new PingBackgroundTask(_mainView.Data, _config);
             _pingBackgroundTask.TaskCanceled += PingBackgroundTask_TaskCanceled;
             _pingBackgroundTask.TaskCompleted += PingBackgroundTask_TaskCompleted;
 
             _spinAnimation.Begin();
+            _spinAnimationActive = true;
             _ = _pingBackgroundTask.StartAsync();
         }
 
         private void PingBackgroundTask_TaskCanceled(object sender, object arg)
         {
-            if(_config.EnableLogging == LogginLevel.INFO)
+            if(_config.DefaultConfig.EnableLogging == LogginLevel.INFO)
             {
                 MessageBox.Show(GetInfo(Properties.Resources.TaskEndedOnPing, Properties.Resources.TaskEnded,
                 nameof(BackgroundTask.TaskCanceled), arg));
@@ -342,19 +404,21 @@ namespace AppSearch.MVC.Controllers
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _mainView.FilteredData.Refresh();
                 int remainingTasks = _pingBackgroundTask.ActiveTasks;
 
                 if (remainingTasks == 0)
                 {
+                    UpdateDataVersion();
                     _spinAnimation.Stop();
+                    _spinAnimationActive = false;
                 }
+                _mainView.FilteredData.Refresh();
             });
         }
 
         private void PingBackgroundTask_TaskCompleted(object sender, object arg)
         {
-            if(_config.EnableLogging == LogginLevel.INFO)
+            if(_config.DefaultConfig.EnableLogging == LogginLevel.INFO)
             {
                 MessageBox.Show(GetInfo(Properties.Resources.TaskEndedOnPing, 
                     Properties.Resources.TaskEnded, nameof(BackgroundTask.TaskCompleted), arg), Properties.Resources.Info,
@@ -369,6 +433,7 @@ namespace AppSearch.MVC.Controllers
                 {
                     UpdateDataVersion();
                     _spinAnimation.Stop();
+                    _spinAnimationActive = false;
                 }
                 _mainView.FilteredData.Refresh();
             });
@@ -408,11 +473,13 @@ namespace AppSearch.MVC.Controllers
             var applicationList = GetAppList();
             if (applicationList != null)
             {
+                var list = new List<EnviromentModel>();
                 foreach (var app in applicationList)
                 {
-                    if (!_mainView.Data.Contains(app))
-                        _mainView.Data.Add(app);
+                    if (!list.Contains(app))
+                        list.Add(app);
                 }
+                _mainView.Data = new ObservableCollection<EnviromentModel>(list.OrderBy(item => item.EnvName));
             }
             FillTreeView();
             UpdateDataFromConfig();
@@ -420,7 +487,7 @@ namespace AppSearch.MVC.Controllers
 
         private List<EnviromentModel>? GetAppList()
         {
-            var filesList = Directory.GetFiles(_config.AppsDir);
+            var filesList = FileHelper.GetFiles(_config);
             if (filesList == null)
                 return null;
 
@@ -434,7 +501,7 @@ namespace AppSearch.MVC.Controllers
                 }
             }
 
-            var directoriesList = GetAppListRecursive(new List<string>(), _config.AppsDir);
+            var directoriesList = FileHelper.GetAppListRecursive(_config);
             if (directoriesList != null)
             {
                 foreach (var directory in directoriesList)
@@ -457,38 +524,24 @@ namespace AppSearch.MVC.Controllers
             return list;
         }
 
-        private List<string> GetAppListRecursive(List<string> list, string dirPath)
-        {
-            try
-            {
-                foreach (var subDir in Directory.EnumerateDirectories(dirPath))
-                {
-                    list.Add(subDir);
-                    GetAppListRecursive(list, subDir);
-                }
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
-            }
-
-            return list;
-        }
-
         private EnviromentModel? GetEnvModel(string filePath)
         {
             try
             {
-                string targetPath = FileHelper.GetTargerPath(filePath);
-                if(FileHelper.IsExcecutive(targetPath))
+                string targetPath = filePath;
+                if (IsShortCut(filePath))
+                {
+                    targetPath = GetShortcutTarget(filePath);
+                }
+                if(IsExcecutive(targetPath) && FileHelper.Exists(targetPath))
                 {
                     FileVersionInfo fileInfo = FileVersionInfo.GetVersionInfo(targetPath);
                     string? envName = GetEnvName(targetPath);
-                    string clientName = GetClientName(targetPath);
+
+                    string clientName = Properties.Resources.NoClientName;
+                    if (!Properties.Resources.LocalEnvName.Equals(envName))
+                        clientName = GetClientName(targetPath);
+
                     string appName = GetAppName(targetPath);
 
                     AppModel appModel = new(appName, targetPath);
@@ -505,6 +558,32 @@ namespace AppSearch.MVC.Controllers
                 LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
             }
             return null;
+        }
+
+        private bool IsShortCut(string filePath)
+        {
+            return Path.GetExtension(filePath).Equals(".lnk", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool IsExcecutive(string filePath)
+        {
+            return Path.GetExtension(filePath).Equals(".exe", StringComparison.OrdinalIgnoreCase)
+                || Path.GetExtension(filePath).Equals(".scc", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string GetShortcutTarget(string shortcutPath)
+        {
+            try
+            {
+                WshShell shell = new();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+                return shortcut.TargetPath;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
+            }
+            return string.Empty;
         }
 
         private string? GetEnvName(string filePath)
@@ -560,7 +639,8 @@ namespace AppSearch.MVC.Controllers
                 if(fileInfo.Name.Contains('_'))
                 {
                     var appName = fileInfo.Name.Split('.')[0];
-                    return appName.Split('_')[2];
+                    var nameParts = appName.Split('_');
+                    return nameParts[nameParts.Length - 1];
                 }
                 else
                 {
@@ -578,7 +658,7 @@ namespace AppSearch.MVC.Controllers
 
         private string GetShortName(string appName)
         {
-            foreach (var item in _config.UnwantedPartsAppNames)
+            foreach (var item in _config.UserConfig.UnwantedPartsAppNames)
             {
                 if (appName.Contains(item.From))
                 {
@@ -672,7 +752,7 @@ namespace AppSearch.MVC.Controllers
         {
             foreach(var item in _mainView.Data)
             {
-                var enviroment = _config.EnvList.FirstOrDefault(q => q.EnvName.Equals(item.EnvName));
+                var enviroment = _config.UserConfig.EnvList.FirstOrDefault(q => q.EnvName.Equals(item.EnvName));
                 if (enviroment != null && item.WebServiceUrl?.Equals(enviroment.Url) == false)
                 {
                     item.UpdateTargetUri(enviroment.Url);
@@ -708,7 +788,7 @@ namespace AppSearch.MVC.Controllers
 
         private bool IsWindowsSystem(EnviromentModel enviroment)
         {
-            return enviroment.System.Equals(_config.EnvPrefix.WindowsPrefix);
+            return enviroment.System.Equals(_config.DefaultConfig.EnvPrefix.WindowsPrefix);
         }
 
         private string? GetWebContent(string? websiteurl)
@@ -731,26 +811,40 @@ namespace AppSearch.MVC.Controllers
             return content;
         }
 
-        private void TimerTick(object? sender, EventArgs e)
+        private void RefreshTimerTick(object? sender, EventArgs e)
         {
             LogHelper.WriteLine("Timer Tick", _config, LogginLevel.INFO);
-            RefreshGUI();
+            Application.Current.Dispatcher.Invoke(RefreshGUI);
+        }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            _timeCounter++;
+            _mainView.Title = string.Format("{0} - {1}:{2} min Since Last Refresh", Properties.Resources.ApplicationName, _timeCounter/60, _timeCounter%60 < 10 ? string.Format("0{0}", _timeCounter % 60) : _timeCounter % 60);
         }
 
         private void RefreshGUI()
         {
-            _mainView.Data.Clear();
+            _mainView.Data = [];
             FillData();
 
+            RestartPingBackgroundTask();
+            _timeCounter = 0;
+        }
+
+        private void RestartPingBackgroundTask()
+        {
             int activeTasks = _pingBackgroundTask.ActiveTasks;
-            if (activeTasks > 0)
+            if (activeTasks > 0 && _spinAnimationActive)
             {
                 _spinAnimation.Stop();
+                _spinAnimationActive = false;
                 _pingBackgroundTask.CancelTask();
             }
             else
             {
                 _spinAnimation.Begin();
+                _spinAnimationActive = true;
                 _ = _pingBackgroundTask.StartAsync();
             }
         }
@@ -759,6 +853,9 @@ namespace AppSearch.MVC.Controllers
         {
             if (string.IsNullOrEmpty(targetPath))
                 MessageBox.Show(Properties.Resources.EmptyTargetPath, Properties.Resources.Info, 
+                    MessageBoxButton.OK, MessageBoxImage.Hand);
+            else if (!FileHelper.Exists(targetPath))
+                MessageBox.Show(string.Format(Properties.Resources.FileDoesNotExist, targetPath), Properties.Resources.Info,
                     MessageBoxButton.OK, MessageBoxImage.Hand);
             else
             {

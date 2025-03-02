@@ -16,12 +16,6 @@ internal class OuterAppsManaging
         processName = text.Remove(text.IndexOf('.'));
     }
 
-    public OuterAppsManaging(string path, string processName)
-    {
-        pathToApp = path;
-        this.processName = processName;
-    }
-
     public bool StartApp(out int? output)
     {
         output = null;

@@ -24,9 +24,10 @@ namespace AppSearch.MVC.Helpers
 
         public static ConfigurationModel? LoadConfig(string dirPath, string filePath = "")
         {
+            string appsDir = Path.Combine(dirPath, Properties.Resources.AppsDirName);
             try
             {
-                if(dirPath.EndsWith(filePath) == false || string.IsNullOrWhiteSpace(filePath))
+                if (dirPath.EndsWith(filePath) == false || string.IsNullOrWhiteSpace(filePath))
                 {
                     filePath = Path.Combine(dirPath, Properties.Resources.ConfigFileName + ".xml");
                 }
@@ -34,27 +35,29 @@ namespace AppSearch.MVC.Helpers
                 {
                     filePath = dirPath;
                 }
-
-                string targetPath = FileHelper.GetTargerPath(filePath);
-                if (!string.IsNullOrEmpty(targetPath))
+                if (FileHelper.Exists(filePath))
                 {
                     XmlSerializer serializer = new(typeof(ConfigurationModel));
-                    using StreamReader reader = new(targetPath);
-                    return serializer.Deserialize(reader) as ConfigurationModel;
+                    using StreamReader reader = new(filePath);
+                    var config = serializer.Deserialize(reader) as ConfigurationModel;
+                    if(config != null)
+                    {
+                        config.DefaultConfig.AppsDir = appsDir;
+                    }
+                    return config;
                 }
                 else
                 {
-                    var defaultConfig = new ConfigurationModel(dirPath);
+                    var defaultConfig = new ConfigurationModel(appsDir);
                     SaveConfig(defaultConfig, filePath);
                     return defaultConfig;
                 }
             }
             catch (Exception ex)
             {
-                var defaultConfig = new ConfigurationModel(dirPath);
-                SaveConfig(defaultConfig, filePath);
-                LogHelper.WriteLine(ex, defaultConfig, LogginLevel.ERROR);
-                return defaultConfig;
+                var config = new ConfigurationModel(appsDir);
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+                return config;
             }
         }
     }

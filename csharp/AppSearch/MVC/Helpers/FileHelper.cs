@@ -1,22 +1,38 @@
-﻿using IWshRuntimeLibrary;
+﻿using AppSearch.MVC.Models;
+using IWshRuntimeLibrary;
 using System.IO;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 using System.Xml;
 
 namespace AppSearch.MVC.Helpers
 {
     public class FileHelper
     {
+        public static bool Exists(string? targetPath)
+        {
+            return !string.IsNullOrEmpty(targetPath) && System.IO.File.Exists(targetPath);
+        }
+
+        public static bool DirExists(string? dirPath)
+        {
+            return !string.IsNullOrEmpty(dirPath) && System.IO.Directory.Exists(dirPath);
+        }
+
         public static void RemoveFile(string? targetPath)
         {
-            if (!string.IsNullOrEmpty(targetPath) && System.IO.File.Exists(targetPath))
+            if (Exists(targetPath))
             {
+#pragma warning disable CS8604 // Possible null reference argument.
                 System.IO.File.Delete(targetPath);
+#pragma warning restore CS8604 // Possible null reference argument.
             }
         }
 
         public static string? GetExecutiveFileFromSCCFile(string? targetPath)
         {
-            if(!string.IsNullOrEmpty(targetPath) && System.IO.File.Exists(targetPath) && IsSccFile(targetPath))
+#pragma warning disable CS8604 // Possible null reference argument.
+            if (Exists(targetPath) && IsSCCFile(targetPath))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(targetPath);
@@ -24,12 +40,14 @@ namespace AppSearch.MVC.Helpers
                 if (exefile != null && exefile.Count > 0)
                     return exefile[0]?.InnerText;
             }
+#pragma warning restore CS8604 // Possible null reference argument.
             return null;
         }
 
         public static string? GetVersionAppFromSCCFile(string? targetPath)
         {
-            if (!string.IsNullOrEmpty(targetPath) && System.IO.File.Exists(targetPath) && IsSccFile(targetPath))
+#pragma warning disable CS8604 // Possible null reference argument.
+            if (Exists(targetPath) && IsSCCFile(targetPath))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(targetPath);
@@ -37,41 +55,82 @@ namespace AppSearch.MVC.Helpers
                 if (exefile != null && exefile.Count > 0)
                     return exefile[0]?.InnerText;
             }
+#pragma warning restore CS8604 // Possible null reference argument.
             return null;
         }
 
-        public static bool IsShortCut(string filePath)
+        public static void CreateShortcut(ConfigurationModel config, string targetFilePath)
         {
-            return Path.GetExtension(filePath).Equals(".lnk", StringComparison.OrdinalIgnoreCase);
-        }
+            string shortcutPath = System.IO.Path.Combine(config.GetAppDir(), System.IO.Path.GetFileNameWithoutExtension(targetFilePath) + ".lnk");
 
-        public static bool IsExcecutive(string filePath)
-        {
-            return Path.GetExtension(filePath).Equals(".exe", StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static bool IsSccFile(string filePath)
-        {
-            return Path.GetExtension(filePath).Equals(".scc", StringComparison.OrdinalIgnoreCase);
-        }
-
-        public static string GetTargerPath(string filePath)
-        {
-            string targetPath = filePath;
-            if (IsShortCut(filePath) && System.IO.File.Exists(filePath))
-            {
-                targetPath = GetShortcutTarget(filePath);
-            }
-            return System.IO.File.Exists(targetPath) 
-                ? targetPath : string.Empty;
-        }
-
-        private static string GetShortcutTarget(string shortcutPath)
-        {
-            WshShell shell = new();
+            WshShell shell = new WshShell();
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-            return System.IO.File.Exists(shortcut.TargetPath) 
-                ? shortcut.TargetPath : string.Empty;
+            shortcut.TargetPath = targetFilePath; 
+            shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(targetFilePath); 
+            shortcut.Save(); 
+        }
+
+        public static string[]? GetFiles(ConfigurationModel config)
+        {
+            return System.IO.Directory.GetFiles(config.GetAppDir());
+        }
+
+        public static ImageSource? ByteArrayToImageSource(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0)
+                return null;
+
+            BitmapImage bitmap = new BitmapImage();
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = ms;
+                bitmap.EndInit();
+                bitmap.Freeze(); // Optymalizacja dla UI
+            }
+
+            return bitmap;
+        }
+
+        public static IEnumerable<string>? GetAppListRecursive(ConfigurationModel config)
+        {
+            try
+            {
+                return GetAppListRecursive(config, new List<string>(), config.GetAppDir());
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+            }
+            return null;
+        }
+
+        private static IEnumerable<string> GetAppListRecursive(ConfigurationModel config, List<string> list, string dirPath)
+        {
+            try
+            {
+                foreach (var subDir in System.IO.Directory.EnumerateDirectories(dirPath))
+                {
+                    list.Add(subDir);
+                    GetAppListRecursive(config, list, subDir);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+            }
+
+            return list;
+        }
+
+        private static bool IsSCCFile(string filePath)
+        {
+            return Exists(filePath) && System.IO.Path.GetExtension(filePath).Equals(".scc", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

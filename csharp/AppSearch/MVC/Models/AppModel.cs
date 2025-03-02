@@ -59,7 +59,7 @@
 
         public override string ToString()
         {
-            if (Revision != null)
+            if (!string.IsNullOrWhiteSpace(Revision))
             {
                 return string.Format("{0} | Version: {1} | Rev: {2}", Name, Version, Revision);
             }

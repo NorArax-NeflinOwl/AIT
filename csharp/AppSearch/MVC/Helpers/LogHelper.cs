@@ -25,15 +25,25 @@ namespace AppSearch.MVC.Helpers
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
         }
 
-        public static bool WriteErrorLine(object message)
+        public static bool WriteErrorLine(object error)
         {
-            logger.Error(message);
-            return true;
+            try
+            {
+                logger.Error(error);
+                return true;
+            }
+            catch(Exception ex)
+            {
+#if DEBUG
+                Debug.WriteLine(ex);
+#endif
+                return false;
+            }
         }
 
         public static bool WriteLine(object message, ConfigurationModel config, LogginLevel logginLevel)
         {
-            if(config.EnableLogging >= logginLevel)
+            if(config.DefaultConfig.EnableLogging >= logginLevel)
             {
                 return WriteLine(message, config);
             }
@@ -45,7 +55,7 @@ namespace AppSearch.MVC.Helpers
 #if DEBUG
             Debug.WriteLine(message);
 #endif
-            switch(config.EnableLogging)
+            switch(config.DefaultConfig.EnableLogging)
             {
                 case LogginLevel.SHOW:
                     if(message is Exception exception)

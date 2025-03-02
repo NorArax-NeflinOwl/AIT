@@ -15,7 +15,7 @@ namespace AppSearch
         public ICollectionView FilteredData { get; set; }
 
         private ObservableCollection<EnviromentModel> _data;
-        public ObservableCollection<EnviromentModel> Data 
+        public ObservableCollection<EnviromentModel> Data
         {
             get => _data;
             set
@@ -143,6 +143,32 @@ namespace AppSearch
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             _controller.DeleteItem();
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.SaveConfig();
+            Close();
+        }
+
+        private void AddNewApp_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.AddNewApp();
+        }
+
+        private void EditUrls_Click(object sender, RoutedEventArgs e)
+        {
+            _controller.EditUrlsClick();
+        }
+
+        private void OpenRafiTerm(object sender, RoutedEventArgs e)
+        {
+            _controller.OpenRafiTerm();
+        }
+
+        private void OpenSccAppUpdater(object sender, RoutedEventArgs e)
+        {
+            _controller.OpenSccAppUpdater();
         }
     }
 }

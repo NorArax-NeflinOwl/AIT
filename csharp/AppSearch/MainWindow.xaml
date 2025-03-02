@@ -13,128 +13,186 @@
         Background="LightGray" 
         Loaded="Window_Loaded"
         Closed="Window_Closed">
-    <Grid Margin="2" Background="Gray">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Name="SearchLabel" FontWeight="Bold"/>
-            <TextBox Grid.Column="1" Background="DarkGray" Foreground="White" 
+        <Grid>
+            <Menu Background="Gray" Foreground="White">
+                <MenuItem Header="File">
+                    <MenuItem Header="Add New App" Click="AddNewApp_Click" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Add" Width="15" Height="15"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Open" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="OpenInApp" Width="15" Height="15"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                        <MenuItem Header="RafiTerm" Click="OpenRafiTerm">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Terminal" Width="15" Height="15"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Soft Application Updated" Click="OpenSccAppUpdater">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Update" Width="15" Height="15"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Refresh" Click="RefreshButton_Click" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Refresh" Width="15" Height="15"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Close" Click="Close_Click" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Close" Width="15" Height="15"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Edit Config" Click="ConfigButton_Click" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Settings" Width="15" Height="15"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Edit Urls" Click="EditUrls_Click" Foreground="Black">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Network" Width="15" Height="15"
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <Grid Grid.Row="1" Margin="2" Background="Gray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Name="SearchLabel" FontWeight="Bold"/>
+                <TextBox Grid.Column="1" Background="DarkGray" Foreground="White" 
                      Name="SearchTextBox" TextAlignment="Right" 
                      TextChanged="SearchTextBox_TextChanged" 
                      Loaded="SearchTextBox_Loaded"/>
-        </Grid>
-        <DataGrid Grid.Row="1" Margin="5" Background="DarkGray" ItemsSource="{Binding Data}"
+            </Grid>
+            <DataGrid Grid.Row="1" Margin="5" Background="DarkGray" ItemsSource="{Binding Data}"
           AutoGenerateColumns="False" HeadersVisibility="Column" Name="DataGrid" 
                   MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Resources>
-                <ContextMenu x:Key="RowContextMenu">
-                    <MenuItem Header="Open Application" Click="OpenMenuItem_Click"/>
-                    <MenuItem Header="Open Specific" Click="OpenSpecificMenuItem_Click"/>
-                    <MenuItem Header="Open Gcm" Click="OpenGcmMenuItem_Click"/>
-                    <MenuItem Header="Open Mom" Click="OpenMomMenuItem_Click"/>
-                    <MenuItem Header="Edit Url" Click="EditMenuItem_Click"/>
-                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click"/>
-                </ContextMenu>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Environment" Binding="{Binding EnvName}" Width="*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Application" Binding="{Binding AppModel.Name}" Width="2*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Version" Binding="{Binding AppModel.Version}" Width="1.5*" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Revision no." Binding="{Binding AppModel.Revision}" Width="*" IsReadOnly="True"/>
-            </DataGrid.Columns>
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsActive, Converter={StaticResource NullToBooleanConverter}}" Value="True">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="Orange"/>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
+                <DataGrid.Resources>
+                    <ContextMenu x:Key="RowContextMenu">
+                        <MenuItem Header="Open Application" Click="OpenMenuItem_Click"/>
+                        <MenuItem Header="Open Specific" Click="OpenSpecificMenuItem_Click"/>
+                        <MenuItem Header="Open Gcm" Click="OpenGcmMenuItem_Click"/>
+                        <MenuItem Header="Open Mom" Click="OpenMomMenuItem_Click"/>
+                        <MenuItem Header="Edit Url" Click="EditMenuItem_Click"/>
+                        <MenuItem Header="Delete" Click="DeleteMenuItem_Click"/>
+                    </ContextMenu>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Environment" Binding="{Binding EnvName}" Width="*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Client" Binding="{Binding ClientName}" Width="*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Application" Binding="{Binding AppModel.Name}" Width="2*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Version" Binding="{Binding AppModel.Version}" Width="1.5*" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Revision no." Binding="{Binding AppModel.Revision}" Width="*" IsReadOnly="True"/>
+                </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsActive, Converter={StaticResource NullToBooleanConverter}}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Background" Value="Orange"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
 
-                        <DataTrigger Binding="{Binding IsActive}" Value="True">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="LightGreen"/>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
+                            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Background" Value="LightGreen"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
 
-                        <DataTrigger Binding="{Binding IsActive}" Value="False">
-                            <DataTrigger.Setters>
-                                <Setter Property="Background" Value="LightCoral"/>
-                            </DataTrigger.Setters>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-        </DataGrid>
-        <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0" Margin="10,0" Background="DarkGray" Foreground="White" 
-                    Name="ShowHideTreeViewButton" Click="ShowTreeViewButton_Click" Content="Show Tree View"/>
-            <Grid Name="TreeViewGrid" Grid.Row="1" Height="250" Visibility="Collapsed">
+                            <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                <DataTrigger.Setters>
+                                    <Setter Property="Background" Value="LightCoral"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+            <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="0.5*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Content="TreeView by:" FontWeight="Bold"/>
-                    <Button Grid.Column="1" Background="DarkGray" Foreground="White" Name="EnvTreeView" Click="EnvTreeView_Click">
-                        <TextBlock Name="EnvButtonText"/>
-                    </Button>
-                    <Button Grid.Column="2" Background="DarkGray" Foreground="White" Name="ClientTreeView" Click="ClientTreeView_Click">
-                        <TextBlock Name="ClientsButtonText"/>
-                    </Button>
-                    <Button Grid.Column="3" Background="DarkGray" Foreground="White" Name="ExpandButton" Click="ExpandButton_Click">
-                        <materialDesign:PackIcon Kind="CollapseAll" Width="20" Height="20" Name="ExpandIcon"/>
-                    </Button>
-                </Grid>
-                <TreeView Grid.Row="1" Margin="5" Background="DimGray" ItemsSource="{Binding TreeData}" 
+                <Button Grid.Row="0" Margin="10,0" Background="DarkGray" Foreground="White" 
+                    Name="ShowHideTreeViewButton" Click="ShowTreeViewButton_Click" Content="Show Tree View"/>
+                <Grid Name="TreeViewGrid" Grid.Row="1" Height="250" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="0.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="TreeView by:" FontWeight="Bold"/>
+                        <Button Grid.Column="1" Background="DarkGray" Foreground="White" Name="EnvTreeView" Click="EnvTreeView_Click">
+                            <TextBlock Name="EnvButtonText"/>
+                        </Button>
+                        <Button Grid.Column="2" Background="DarkGray" Foreground="White" Name="ClientTreeView" Click="ClientTreeView_Click">
+                            <TextBlock Name="ClientsButtonText"/>
+                        </Button>
+                        <Button Grid.Column="3" Background="DarkGray" Foreground="White" Name="ExpandButton" Click="ExpandButton_Click">
+                            <materialDesign:PackIcon Kind="CollapseAll" Width="20" Height="20" Name="ExpandIcon"/>
+                        </Button>
+                    </Grid>
+                    <TreeView Grid.Row="1" Margin="5" Background="DimGray" ItemsSource="{Binding TreeData}" 
                           MouseDoubleClick="TreeView_MouseDoubleClick">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Childs}">
-                            <TextBlock Text="{Binding NodeName}"/>
-                            <HierarchicalDataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsExpanded}" Value="True"/>
-                            </HierarchicalDataTemplate.Triggers>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="TreeViewItem">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Childs}">
+                                <TextBlock Text="{Binding NodeName}"/>
+                                <HierarchicalDataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsExpanded}" Value="True"/>
+                                </HierarchicalDataTemplate.Triggers>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </Grid>
             </Grid>
-        </Grid>
-        <Grid Grid.Row="3" Margin="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
-            <Button Name="ConfigButton" Click="ConfigButton_Click" Grid.Column="0" 
-                    Content="Show Config" FontSize="15"/>
-            <Button Grid.Column="1" Click="RefreshButton_Click" >
-                <Grid>
-                    <Button Name="RefreshButton"
+            <Grid Grid.Row="3" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Click="RefreshButton_Click" >
+                    <Grid>
+                        <Button Name="RefreshButton"
                             HorizontalAlignment="Center" VerticalAlignment="Center"
                             Background="Transparent" BorderThickness="0">
                             <Button.RenderTransform>
@@ -143,17 +201,19 @@
                             <materialDesign:PackIcon Kind="Refresh" Width="20" Height="20"/>
                             <Button.Resources>
                                 <Storyboard x:Key="SpinAnimation" RepeatBehavior="Forever">
-                                <DoubleAnimation Storyboard.TargetName="RotateIcon"
+                                    <DoubleAnimation Storyboard.TargetName="RotateIcon"
                                     Storyboard.TargetProperty="Angle"
                                     From="0" To="360"
-                                    Duration="0:0:1"/>      
-                            </Storyboard>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-            </Button>
-            <Button Name="VerifyButton" Click="VerifyButton_Click" Grid.Column="2" 
+                                    Duration="0:0:1"/>
+                                </Storyboard>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Button>
+                <Button Name="VerifyButton" Click="VerifyButton_Click" Grid.Column="1" 
                     Content="Verify" FontSize="20"/>
+            </Grid>
         </Grid>
     </Grid>
+
 </Window>

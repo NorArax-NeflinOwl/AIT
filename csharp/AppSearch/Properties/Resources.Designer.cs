@@ -61,6 +61,15 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All Executive.
+        /// </summary>
+        internal static string AllExecutiveFiles {
+            get {
+                return ResourceManager.GetString("AllExecutiveFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App Search.
         /// </summary>
         internal static string ApplicationName {
@@ -84,6 +93,15 @@ namespace AppSearch.Properties {
         internal static string CancelName {
             get {
                 return ResourceManager.GetString("CancelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose File.
+        /// </summary>
+        internal static string ChooseFile {
+            get {
+                return ResourceManager.GetString("ChooseFile", resourceCulture);
             }
         }
         
@@ -179,6 +197,16 @@ namespace AppSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File does not exist
+        ///{0}.
+        /// </summary>
+        internal static string FileDoesNotExist {
+            get {
+                return ResourceManager.GetString("FileDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hide Tree View.
         /// </summary>
         internal static string HideTreeView {
@@ -193,6 +221,16 @@ namespace AppSearch.Properties {
         internal static string HttpsText {
             get {
                 return ResourceManager.GetString("HttpsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Icon {
+            get {
+                object obj = ResourceManager.GetObject("Icon", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

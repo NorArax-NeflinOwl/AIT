@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using AppSearch.MVC.Helpers;
 
 namespace AppSearch.MVC.Models
 {
@@ -55,41 +55,68 @@ namespace AppSearch.MVC.Models
             public string RevEnd { get; set; } = _DefRevEnd;
         }
 
-        public int RefreshTimerInterval { get; set; }
-        public string AppsDir { get; set; }
-        public LogginLevel EnableLogging { get; set; }
-        public int Timeout { get; set; }
-        public int DefaulPort { get; set; }
-        public EnviromentPrefix EnvPrefix { get; set; }
-        public List<EnviromentUrl> EnvList { get; set; }
-        public WebServiceFixes WebServiceInfo { get; set; }
-        public List<ExchangeName> UnwantedPartsAppNames { get; set; }
+        public class UserConfigProperties
+        {
+            public string AppsDir { get; set; }
+            public string RafiTermPath { get; set; }
+            public string SccUpdaterPath { get; set; }
+            public List<EnviromentUrl> EnvList { get; set; }
+            public List<ExchangeName> UnwantedPartsAppNames { get; set; }
+            public UserConfigProperties()
+            {
+                EnvList = [];
+                UnwantedPartsAppNames = [];
+            }
+        }
+
+        public class ConfigProperties
+        {
+            public int Timeout { get; set; }
+            public int DefaulPort { get; set; }
+            public int RefreshTimerInterval { get; set; }
+            public string AppsDir { get; set; }
+            public LogginLevel EnableLogging { get; set; }
+            public EnviromentPrefix EnvPrefix { get; set; }
+            public WebServiceFixes WebServiceInfo { get; set; }
+
+            public ConfigProperties()
+            {
+                Timeout = 500;
+                DefaulPort = 7700;
+                RefreshTimerInterval = 60;
+
+                EnableLogging = LogginLevel.ERROR;
+                EnvPrefix = new()
+                {
+                    WindowsPrefix = Properties.Resources.WindowsUrlPrefix,
+                    LinuxPrefix = Properties.Resources.LinuxUrlPrefix
+                };
+                WebServiceInfo = new WebServiceFixes();
+            }
+        }
+
+        public UserConfigProperties UserConfig { get; set; }
+        public ConfigProperties DefaultConfig { get; set; }
 
         public ConfigurationModel()
         {
-            RefreshTimerInterval = 60;
-            EnableLogging = LogginLevel.ERROR;
-            Timeout = 500;
-            DefaulPort = 7700;
-            EnvPrefix = new()
-            {
-                WindowsPrefix = Properties.Resources.WindowsUrlPrefix,
-                LinuxPrefix = Properties.Resources.LinuxUrlPrefix
-            };
-            EnvList = [];
-            WebServiceInfo = new WebServiceFixes();
-            UnwantedPartsAppNames = new List<ExchangeName>();
+            UserConfig = new UserConfigProperties();
+            DefaultConfig = new ConfigProperties();
         }
 
         public ConfigurationModel(string appsDir) : this()
         {
-            AppsDir = appsDir;
+            UserConfig = new UserConfigProperties();
+            DefaultConfig = new ConfigProperties();
+            DefaultConfig.AppsDir = appsDir;
         }
 
-        public ConfigurationModel(string appsDir, int refreshTimerInterval)
+        public string GetAppDir()
         {
-            AppsDir = appsDir;
-            RefreshTimerInterval = refreshTimerInterval;
+            if (FileHelper.DirExists(UserConfig.AppsDir))
+                return UserConfig.AppsDir;
+            else
+                return DefaultConfig.AppsDir;
         }
     }
 

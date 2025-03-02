@@ -21,30 +21,30 @@
 
         private string GetFullVersion(ConfigurationModel config, string input)
         {
-            string version = input.Substring(input.IndexOf(config.WebServiceInfo.FullVerBegin) + config.WebServiceInfo.FullVerBegin.Length);
-            if(version.Contains(config.WebServiceInfo.FullVerEnd))
-                return version.Remove(version.IndexOf(config.WebServiceInfo.FullVerEnd));
-            else if(version.Contains(config.WebServiceInfo.AppFullVerEnd))
-                return version.Remove(version.IndexOf(config.WebServiceInfo.AppFullVerEnd));
+            string version = input.Substring(input.IndexOf(config.DefaultConfig.WebServiceInfo.FullVerBegin) + config.DefaultConfig.WebServiceInfo.FullVerBegin.Length);
+            if(version.Contains(config.DefaultConfig.WebServiceInfo.FullVerEnd))
+                return version.Remove(version.IndexOf(config.DefaultConfig.WebServiceInfo.FullVerEnd));
+            else if(version.Contains(config.DefaultConfig.WebServiceInfo.AppFullVerEnd))
+                return version.Remove(version.IndexOf(config.DefaultConfig.WebServiceInfo.AppFullVerEnd));
             else
-                return version.Contains(config.WebServiceInfo.CurVerEnd) ?
-                    version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd))
+                return version.Contains(config.DefaultConfig.WebServiceInfo.CurVerEnd) ?
+                    version.Remove(version.IndexOf(config.DefaultConfig.WebServiceInfo.CurVerEnd))
                     : string.Empty;
         }
 
         private string GetVersion(ConfigurationModel config, string input)
         {
-            if (input.Contains(config.WebServiceInfo.HFstamp))
+            if (input.Contains(config.DefaultConfig.WebServiceInfo.HFstamp))
             {
-                string text9 = input.Substring(input.IndexOf(config.WebServiceInfo.FullVerBegin) + config.WebServiceInfo.FullVerBegin.Length);
-                string text8 = text9.Remove(text9.IndexOf(config.WebServiceInfo.HFstamp));
+                string text9 = input.Substring(input.IndexOf(config.DefaultConfig.WebServiceInfo.FullVerBegin) + config.DefaultConfig.WebServiceInfo.FullVerBegin.Length);
+                string text8 = text9.Remove(text9.IndexOf(config.DefaultConfig.WebServiceInfo.HFstamp));
                 return (text8.Contains('-') ? text8.Remove(text8.IndexOf('-')) : text8);
             }
             else
             {
-                string version = input.Substring(input.IndexOf(config.WebServiceInfo.CurVerBegin) + config.WebServiceInfo.CurVerBegin.Length);
-                return version.Contains(config.WebServiceInfo.CurVerEnd) ?
-                    version.Remove(version.IndexOf(config.WebServiceInfo.CurVerEnd))
+                string version = input.Substring(input.IndexOf(config.DefaultConfig.WebServiceInfo.CurVerBegin) + config.DefaultConfig.WebServiceInfo.CurVerBegin.Length);
+                return version.Contains(config.DefaultConfig.WebServiceInfo.CurVerEnd) ?
+                    version.Remove(version.IndexOf(config.DefaultConfig.WebServiceInfo.CurVerEnd))
                     : string.Empty;
             }
         }
@@ -52,11 +52,11 @@
         private uint? GetRevision(ConfigurationModel config, string input)
         {
             uint? rev = null;
-            if(input.Contains(config.WebServiceInfo.RevBegin))
+            if(input.Contains(config.DefaultConfig.WebServiceInfo.RevBegin))
             {
-                string revision = input.Substring(input.IndexOf(config.WebServiceInfo.RevBegin) + config.WebServiceInfo.RevBegin.Length);
-                string result = revision.Contains(config.WebServiceInfo.RevEnd) ?
-                    revision.Remove(revision.IndexOf(config.WebServiceInfo.RevEnd))
+                string revision = input.Substring(input.IndexOf(config.DefaultConfig.WebServiceInfo.RevBegin) + config.DefaultConfig.WebServiceInfo.RevBegin.Length);
+                string result = revision.Contains(config.DefaultConfig.WebServiceInfo.RevEnd) ?
+                    revision.Remove(revision.IndexOf(config.DefaultConfig.WebServiceInfo.RevEnd))
                     : string.Empty;
                 if (Int32.TryParse(result, out int integer))
                 {
