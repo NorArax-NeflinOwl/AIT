@@ -24,9 +24,9 @@ namespace WPF
         {
             var date = new DateTime(2020, 6, 20);
 
-            string path = string.Empty;
+            string path = @"A:\GIT\AIT\csharp\WPF\Databases";
 #if DEBUG
-            var dirPath = @"A:\GIT\AIT\csharp\WPF\Databases";
+            /*var dirPath = @"A:\GIT\AIT\csharp\WPF\Databases";
             var openFileDialog = new Microsoft.Win32.OpenFileDialog() { DefaultExt = ".db" };
             if (!Directory.Exists(dirPath))
             {
@@ -37,10 +37,10 @@ namespace WPF
             if (result == true)
             {
                 dirPath = openFileDialog.FileName;
-            }
+            }*/
 #endif
 
-            using (new DBContext(dirPath))
+            using (new DBContext(path))
             {
                 Thread.Sleep(10);
             }

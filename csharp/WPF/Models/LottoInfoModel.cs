@@ -21,9 +21,10 @@ namespace WPF.Models
                     if (parts.Count != 3)
                         throw new IndexOutOfRangeException();
 
+                    int idLength = parts[0].Trim().Length;
                     var model = new LottoInfoModel
                     {
-                        ID = parts[0],
+                        ID = parts[0].Trim().Remove(idLength - 1, 1),
                         Date = DateTime.ParseExact(parts[1], "dd.MM.yyyy", CultureInfo.InvariantCulture),
                         WiningNumbers = parts[2]
                     };

@@ -98,6 +98,10 @@ public class PokerTable {
         cardsOnTable.clear();
 
         allSet.getCardSet().addAll(result.getCardSet());
+
+        GeneralCard[] arr = allSet.getCardSet().toArray(new GeneralCard[0]);
+        Randomizer.shuffle(arr);
+        allSet = new PokerSetsCard(arr);
     }
 
     public boolean keepPlayingAvailable() {

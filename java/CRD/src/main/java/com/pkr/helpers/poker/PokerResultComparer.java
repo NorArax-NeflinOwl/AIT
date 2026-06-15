@@ -19,7 +19,6 @@ public class PokerResultComparer {
         return result;
     }
 
-    @SuppressWarnings("unlikely-arg-type")
     private static PokerSetResult calculateResult(ISetsCard set) {
         PokerSetResult result = null;
         int order = 0;
@@ -34,7 +33,8 @@ public class PokerResultComparer {
 
         for (int i = 0; i < set.getCardSet().size(); i++) {
             GeneralCard card = set.getCardSet().get(i);
-            if(card.getColor().equals(set.getCardSet().getFirst())) {
+            CardColorLevel firstColor = set.getCardSet().get(0).getColor();
+            if(card.getColor().equals(firstColor)) {
                 flush = true;
             }
             duplicates[card.getRangindex()]++;

@@ -190,7 +190,6 @@ INSERT INTO sys_permitiontypes (pts_id, pts_key, pts_description) VALUES ('AIT-P
 INSERT INTO ait_accounts (acc_id, acc_login, acc_permition) VALUES ('AIT-ACC-0000000', 'admin', (SELECT pts_key FROM sys_permitiontypes WHERE pts_id = 'AIT-PTS-0000000'));
 UPDATE ait_accounts SET acc_email = 'ait.wms.nano@gmail.com' WHERE acc_id = 'AIT-ACC-0000000';
 UPDATE ait_accounts SET acc_active = '1' WHERE acc_id = 'AIT-ACC-0000000';
-UPDATE ait_accounts SET acc_password = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918' WHERE acc_id = 'AIT-ACC-0000000';
 --SELECT * FROM ait_accounts;
 
 INSERT INTO ait_files (fls_id, fls_accid, fls_name, fls_type) VALUES ('AIT-FLS-0000000', 'AIT-ACC-0000000', 'admin', 'note');

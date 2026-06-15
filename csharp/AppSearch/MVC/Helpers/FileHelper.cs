@@ -67,7 +67,22 @@ namespace AppSearch.MVC.Helpers
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
             shortcut.TargetPath = targetFilePath; 
             shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(targetFilePath); 
-            shortcut.Save(); 
+            shortcut.Save();
+        }
+
+        public static string GetShortcutTarget(ConfigurationModel config, string shortcutPath)
+        {
+            try
+            {
+                WshShell shell = new();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
+                return shortcut.TargetPath;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLine(ex, config, LogginLevel.ERROR);
+            }
+            return string.Empty;
         }
 
         public static string[]? GetFiles(ConfigurationModel config)

@@ -1,6 +1,5 @@
 ﻿using AppSearch.MVC.Helpers;
 using AppSearch.MVC.Models;
-using IWshRuntimeLibrary;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -13,7 +12,6 @@ using System.Windows.Media.Animation;
 using AppSearch.CustomClasses.Tasks;
 using System.Net;
 using Microsoft.Win32;
-using System.Windows.Media.Imaging;
 
 namespace AppSearch.MVC.Controllers
 {
@@ -531,7 +529,7 @@ namespace AppSearch.MVC.Controllers
                 string targetPath = filePath;
                 if (IsShortCut(filePath))
                 {
-                    targetPath = GetShortcutTarget(filePath);
+                    targetPath = FileHelper.GetShortcutTarget(filePath);
                 }
                 if(IsExcecutive(targetPath) && FileHelper.Exists(targetPath))
                 {
@@ -569,21 +567,6 @@ namespace AppSearch.MVC.Controllers
         {
             return Path.GetExtension(filePath).Equals(".exe", StringComparison.OrdinalIgnoreCase)
                 || Path.GetExtension(filePath).Equals(".scc", StringComparison.OrdinalIgnoreCase);
-        }
-
-        private string GetShortcutTarget(string shortcutPath)
-        {
-            try
-            {
-                WshShell shell = new();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutPath);
-                return shortcut.TargetPath;
-            }
-            catch (Exception ex)
-            {
-                LogHelper.WriteLine(ex, _config, LogginLevel.ERROR);
-            }
-            return string.Empty;
         }
 
         private string? GetEnvName(string filePath)
